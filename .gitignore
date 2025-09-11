@@ -428,3 +428,9 @@ FodyWeavers.xsd
 *.msp
 /.vs
 /.vs
+/x64
+/ReversibleDash
+/ReversibleDash
+/ReversibleDash
+Log.txt
+/.vs/ReversibleDash
