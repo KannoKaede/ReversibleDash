@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "main.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -8,10 +9,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
+	Sgoi();
 	SetDrawScreen(DX_SCREEN_BACK);
 	while (ProcessMessage() == 0 && CheckHitKeyAll() == 0)
 	{
 		ClearDrawScreen();
+		if (screenType == TITLE)
+		{
+			Sgoi();
+		}
 		ScreenFlip();
 	}
 
