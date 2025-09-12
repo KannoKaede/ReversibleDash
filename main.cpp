@@ -7,11 +7,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-	SetMouseDispFlag(TRUE);
-	LoadGraphScreen(220, 250, "Resource/仮ボタン.png", TRUE);
-	DrawString(220, 250, "Hello C World!", GetColor(255, 255, 255));
-	LoadGraphScreen(220, 320, "Resource/仮ボタン.png", TRUE);
-	LoadGraphScreen(220, 390, "Resource/仮ボタン.png", TRUE);
+
+	SetDrawScreen(DX_SCREEN_BACK);
+	while (ProcessMessage() == 0 && CheckHitKeyAll() == 0)
+	{
+		ClearDrawScreen();
+		ScreenFlip();
+	}
 
 	WaitKey();				// キー入力待ち
 
