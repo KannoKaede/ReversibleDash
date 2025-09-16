@@ -63,7 +63,7 @@ void ScreenUISwithing()
 		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
 		break;
 	case INGAME:
-		printfDx("現在の画面：INGAME\n");
+		// インゲームのUIを用意したらここに配置
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -129,10 +129,12 @@ int count;	// ボタン移動の待機時間用カウンタ
 /// <summary> ボタンの選択位置を変更するメソッド </summary>
 void ButtonChanged() {
 	int x = 0, y = 0;
-	if (CheckHitKey(KEY_INPUT_UP))y = -1;
-	if (CheckHitKey(KEY_INPUT_DOWN))y = 1;
-	if (CheckHitKey(KEY_INPUT_LEFT))x = -1;
-	if (CheckHitKey(KEY_INPUT_RIGHT))x = 1;
+	if (!isFading) {
+		if (CheckHitKey(KEY_INPUT_UP))y = -1;
+		if (CheckHitKey(KEY_INPUT_DOWN))y = 1;
+		if (CheckHitKey(KEY_INPUT_LEFT))x = -1;
+		if (CheckHitKey(KEY_INPUT_RIGHT))x = 1;
+	}
 
 	// ボタンの選択位置を変更：指定フレーム経つまで移動不可
 	if (x != 0 || y != 0) {
@@ -158,9 +160,7 @@ void ButtonChanged() {
 			buttonMap[currentScreenType][y][x] = buttonMap[currentScreenType][y][x] == 0 ? 0 : 1;
 		}
 	}
-	if (!isFading) {
 		buttonMap[currentScreenType][buttonPosY][buttonPosX] = 2;
-	}
 }
 
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
@@ -236,3 +236,4 @@ void OnClickSwitchUI() {
 		return;
 	}
 }
+// ボタンが押された時の処理関数にまとめる引数でリセットするボタンとフェード処理を入れるか
