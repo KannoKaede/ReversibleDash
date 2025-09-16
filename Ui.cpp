@@ -5,47 +5,62 @@
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
-	int  brack = GetColor(0, 0, 0);
+	int  backScreen = GetColor(230, 230, 230);
+	int brack = GetColor(0, 0, 0);
 	int gray = GetColor(200, 200, 200);
 	int green = GetColor(0, 255, 128);
 	switch (currentScreenType)
 	{
 	case TITLE:
-		printfDx("現在の画面：TITLE\n");
+		DrawStringToHandle(30, 70, "ReversibleDash", brack, bigFontHandle);
 		DrawBox(180, 210, 460, 270, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(230, 230, "GAME START", brack, normalFontHandle);
 		DrawBox(180, 290, 460, 350, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(210, 310, "STAGE SELECT", brack, normalFontHandle);
 		DrawBox(180, 370, 460, 430, buttonMap[TITLE][2][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(240, 390, "GAME QUIT", brack, normalFontHandle);
+		DrawStringToHandle(500, 450, "Ver_0.0.00.00", brack, smallFontHandle);
 		break;
 	case STAGESELECT:
-		printfDx("現在の画面：STAGESELECT\n");
-		DrawBox(90, 150, 230, 220, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
-		DrawBox(250, 150, 390, 220, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
-		DrawBox(410, 150, 550, 220, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
-		DrawBox(90, 260, 230, 330, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
-		DrawBox(250, 260, 390, 330, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
-		DrawBox(410, 260, 550, 330, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
-		DrawBox(90, 370, 230, 440, buttonMap[STAGESELECT][2][0] == 2 ? green : gray, TRUE);
-		DrawBox(250, 370, 390, 440, buttonMap[STAGESELECT][2][1] == 2 ? green : gray, TRUE);
-		DrawBox(410, 370, 550, 440, buttonMap[STAGESELECT][2][2] == 2 ? green : gray, TRUE);
-		DrawBox(570, 380, 620, 430, buttonMap[STAGESELECT][2][3] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(30, 70, "ReversibleDash", brack, bigFontHandle);
+		DrawBox(90, 190, 230, 260, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(130, 265, "STAGE1", brack, smallFontHandle);
+		DrawBox(250, 190, 390, 260, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(290, 265, "STAGE2", brack, smallFontHandle);
+		DrawBox(410, 190, 550, 260, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(450, 265, "STAGE3", brack, smallFontHandle);
+		DrawBox(90, 330, 230, 400, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(130, 405, "STAGE4", brack, smallFontHandle);
+		DrawBox(250, 330, 390, 400, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(290, 405, "STAGE5", brack, smallFontHandle);
+		DrawBox(410, 330, 550, 400, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(450, 405, "STAGE6", brack, smallFontHandle);
+		DrawBox(570, 350, 620, 400, buttonMap[STAGESELECT][1][3] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(574, 370, "BACK", brack, smallFontHandle);
 		break;
 	case PAUSE:
-		printfDx("現在の画面：PAUSE\n");
 		DrawBox(130, 100, 510, 370, brack, TRUE);
+		DrawStringToHandle(210, 150, "PAUSE", brack, bigFontHandle);
 		DrawBox(170, 290, 300, 350, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(178, 310, "RESUME", brack, normalFontHandle);
 		DrawBox(340, 290, 470, 350, buttonMap[PAUSE][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(358, 310, "TITLE", brack, normalFontHandle);
 		break;
 	case GAMEOVER:
-		printfDx("現在の画面：GAMEOVER\n");
 		DrawBox(80, 70, 580, 400, brack, TRUE);
+		DrawStringToHandle(150, 120, "GAMEOVER", brack, bigFontHandle);
 		DrawBox(120, 320, 300, 370, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(165, 335, "RETRY", brack, normalFontHandle);
 		DrawBox(340, 320, 520, 370, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
 		break;
 	case STAGECLEAR:
-		printfDx("現在の画面：STAGECLEAR\n");
 		DrawBox(80, 70, 580, 400, brack, TRUE);
+		DrawStringToHandle(110, 120, "STAGECLEAR", brack, bigFontHandle);
 		DrawBox(120, 320, 300, 370, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(118, 335, "NEXT STAGE", brack, normalFontHandle);
 		DrawBox(340, 320, 520, 370, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
 		break;
 	case INGAME:
 		printfDx("現在の画面：INGAME\n");
@@ -160,7 +175,7 @@ void OnClickSwitchUI() {
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
 			nextScreenType = STAGESELECT;
 			fadeState = FADEOUT;
-			buttonMap[TITLE][1][0] == 1;
+			buttonMap[TITLE][1][0] = 1;
 		}
 		if (buttonMap[TITLE][2][0] == 2) {	// タイトル：ゲームを終了
 			isGameQuit = true;
@@ -175,7 +190,7 @@ void OnClickSwitchUI() {
 				}
 			}
 		}
-		if (buttonMap[STAGESELECT][2][3] == 2) {	// ステージセレクトタイトルに戻る
+		if (buttonMap[STAGESELECT][1][3] == 2) {	// ステージセレクトタイトルに戻る
 			nextScreenType = TITLE;
 			fadeState = FADEOUT;
 			buttonMap[STAGESELECT][2][3] = 1;

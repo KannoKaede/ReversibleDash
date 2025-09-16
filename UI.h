@@ -77,8 +77,8 @@ __declspec(selectany) int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_
 	},
 	{	// STAGESELECT
 		{1,1,1,0},
-		{1,1,1,0},
 		{1,1,1,1},
+		{0,0,0,0},
 		{0,0,0,0}
 	},
 	{	// PAUSE
@@ -115,3 +115,9 @@ void ButtonChanged();
 
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void OnClickSwitchUI();
+
+/*フォント関連--------------------------------------------------------------------------------------------------------------------*/
+
+__declspec(selectany) int bigFontHandle;
+__declspec(selectany) int normalFontHandle;
+__declspec(selectany) int smallFontHandle;
