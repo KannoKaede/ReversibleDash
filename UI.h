@@ -1,10 +1,10 @@
-#pragma once
-// UI�̐���Ɋւ���ϐ��A�֐����܂Ƃ߂��w�b�_
+﻿#pragma once
+// UIの制御に関する変数、関数をまとめたヘッダ
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/*UI�`��֘A--------------------------------------------------------------------------------------------------------------------*/
+/*UI描画関連--------------------------------------------------------------------------------------------------------------------*/
 
-/// <summary> ��ʂ̎�ނ��`���� </summary>
+/// <summary> 画面の種類を定義する </summary>
 enum SCREEN_TYPE
 {
 	TITLE,
@@ -12,62 +12,62 @@ enum SCREEN_TYPE
 	PAUSE,
 	GAMEOVER,
 	STAGECLEAR,
-	SCREEN_BUTTON_NUM, // �{�^���������ʂ̐�
+	SCREEN_BUTTON_NUM, // ボタンがある画面の数
 	INGAME
 };
 
-/// <summary> ���݂̉�ʂ̏�� </summary>
+/// <summary> 現在の画面の状態 </summary>
 __declspec(selectany) SCREEN_TYPE currentScreenType = TITLE;
 
-/// <summary> ���̉�ʂ̏�� </summary>
+/// <summary> 次の画面の状態 </summary>
 __declspec(selectany) SCREEN_TYPE nextScreenType = TITLE;
 
-/// <summary> ��ʂ̏�ԂɑΉ�����UI��\�����郁�\�b�h </summary>
+/// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing();
 
-/*�t�F�[�h�����֘A--------------------------------------------------------------------------------------------------------------------*/
+/*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
 
-/// <summary> ���݃t�F�[�h���� </summary>
+/// <summary> 現在フェード中か </summary>
 __declspec(selectany) bool isFading = true;
 
-/// <summary> �t�F�[�h���x </summary>
+/// <summary> フェード速度 </summary>
 const int FADE_SPEED = 6;
 
-/// <summary> ���݂̃t�F�[�h�̏�ԁF0=�����@255=�� </summary>
+/// <summary> 現在のフェードの状態：0=透明　255=黒 </summary>
 __declspec(selectany) int alphaValue = 255;
 
-/// <summary> �t�F�[�h�̑ҋ@�J�n�^�C�~���O��ۑ� </summary>
+/// <summary> フェードの待機開始タイミングを保存 </summary>
 __declspec(selectany) int fadeStartCount = 0;
 
-/// <summary> �t�F�[�h�̑ҋ@���� </summary>
+/// <summary> フェードの待機時間 </summary>
 const int FADE_WAIT_TIME = 500;
 
-/// <summary> �t�F�[�h�̏�Ԃ��` </summary>
+/// <summary> フェードの状態を定義 </summary>
 enum FADE_STATE {
 	FADEOUT,
 	FADEIN,
 	FADEWAIT
 };
 
-/// <summary> ���݂̃t�F�[�h�̏�� </summary>
+/// <summary> 現在のフェードの状態 </summary>
 __declspec(selectany) FADE_STATE fadeState = FADEOUT;
 
-/// <summary> �t�F�[�h���o�̐�����s�����\�b�h�F�t�F�[�h���o����Flag�𗧂Ăđ��̏����𐧌� </summary>
+/// <summary> フェード演出の制御を行うメソッド：フェード演出中はFlagを立てて他の処理を制御 </summary>
 void ScreenFadeControl();
 
-/// <summary> �t�F�[�h�������s�����\�b�h </summary>
-/// <param name="fadeSpeed"> �t�F�[�h�����̑��x </param>
+/// <summary> フェード処理を行うメソッド </summary>
+/// <param name="fadeSpeed"> フェード処理の速度 </param>
 void ScreenFade(int fadeSpeed);
 
-/*�{�^���֘A--------------------------------------------------------------------------------------------------------------------*/
+/*ボタン関連--------------------------------------------------------------------------------------------------------------------*/
 
-/// <summary> �{�^���}�b�v�̍ő吔�F�� </summary>
+/// <summary> ボタンマップの最大数：横 </summary>
 const int BUTTON_NUM_X = 4;
 
-/// <summary> �{�^����z�u����}�b�v�̍ő吔�F�c </summary>
+/// <summary> ボタンを配置するマップの最大数：縦 </summary>
 const int BUTTON_NUM_Y = 4;
 
-/// <summary> �{�^�����z�u����Ă���}�b�v�F0 = �{�^���Ȃ��E1 = �{�^������E2 = �{�^���I�� </summary>
+/// <summary> ボタンが配置されているマップ：0 = ボタンなし・1 = ボタンあり・2 = ボタン選択中 </summary>
 __declspec(selectany) int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{	// TITLE
 		{1,0,0,0},
@@ -101,17 +101,17 @@ __declspec(selectany) int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_
 	}
 };
 
-/// <summary> ���ݑI������Ă���{�^���̍��W�F�� </summary>
+/// <summary> 現在選択されているボタンの座標：横 </summary>
 __declspec(selectany) int buttonPosX = 0;
 
-/// <summary> ���ݑI������Ă���{�^���̍��W�F�c </summary>
+/// <summary> 現在選択されているボタンの座標：縦 </summary>
 __declspec(selectany) int buttonPosY = 0;
 
-/// <summary> �{�^�����ړ����Ă��玟�Ɉړ��ł���܂ł̑ҋ@���� </summary>
+/// <summary> ボタンが移動してから次に移動できるまでの待機時間 </summary>
 const int WAIT_BUTTON_MOVE = 20;
 
-/// <summary> �{�^���̑I���ʒu��ύX���郁�\�b�h </summary>
+/// <summary> ボタンの選択位置を変更するメソッド </summary>
 void ButtonChanged();
 
-/// <summary> �{�^���������ꂽ�Ƃ��̏������s�����\�b�h </summary>
+/// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void OnClickSwitchUI();

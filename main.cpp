@@ -1,22 +1,22 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Main.h"
 #include "UI.h"
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ WinMain ã‹ã‚‰å§‹ã¾ã‚Šã¾ã™
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	if (DxLib_Init() == -1)		// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
+	if (DxLib_Init() == -1)		// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–å‡¦ç†
 	{
-		return -1;			// ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+		return -1;			// ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ç›´ã¡ã«çµ‚äº†
 	}
-	SetBackgroundColor(255, 255, 255);	// ”wŒiF‚ğ”’‚É
-	SetDrawScreen(DX_SCREEN_BACK);	// •`‰ææ‚ğ— ‰æ–Ê‚Éw’è
-	ScreenUISwithing();	// UI‚ğ•`‰æ
-	int a = LoadGraph("Resource/‰¼ƒ{ƒ^ƒ“.png");
+	SetBackgroundColor(255, 255, 255);	// èƒŒæ™¯è‰²ã‚’ç™½ã«
+	SetDrawScreen(DX_SCREEN_BACK);	// æç”»å…ˆã‚’è£ç”»é¢ã«æŒ‡å®š
+	ScreenUISwithing();	// UIã‚’æç”»
+	int a = LoadGraph("Resource/ä»®ãƒœã‚¿ãƒ³.png");
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
-		//ƒeƒXƒg—p‰æ–Ê‚Ìó‘ÔØ‚è‘Ö‚¦ˆ—
+		//ãƒ†ã‚¹ãƒˆç”¨ç”»é¢ã®çŠ¶æ…‹åˆ‡ã‚Šæ›¿ãˆå‡¦ç†
 		if (CheckHitKey(KEY_INPUT_1) && currentScreenType == INGAME) {
 			currentScreenType = GAMEOVER;
 		}
@@ -25,22 +25,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		if (currentScreenType != INGAME) {	// ƒ{ƒ^ƒ“‘€ì
+		if (currentScreenType != INGAME) {	// ãƒœã‚¿ãƒ³æ“ä½œ
 			ButtonChanged();
 		}
-		printfDx("‘I‘ğ‚³‚ê‚Ä‚¢‚éƒ{ƒ^ƒ“F[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
-		printfDx("ƒXƒe[ƒW”Ô†G%d\n", stageNumber);
-		OnClickSwitchUI();  // ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
-		ScreenUISwithing();	//	UI‚ğ•`‰æ
-		ScreenFadeControl();	// ƒtƒF[ƒh‰‰o
+		printfDx("é¸æŠã•ã‚Œã¦ã„ã‚‹ãƒœã‚¿ãƒ³ï¼š[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
+		printfDx("ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ï¼›%d\n", stageNumber);
+		OnClickSwitchUI();  // ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã¨ãã®å‡¦ç†
+		ScreenUISwithing();	//	UIã‚’æç”»
+		ScreenFadeControl();	// ãƒ•ã‚§ãƒ¼ãƒ‰æ¼”å‡º
 		ScreenFlip();
-		clsDx();	// printfDx—p‰æ–ÊƒNƒŠƒA
-		WaitTimer(16); // –ñ60FPS
+		clsDx();	// printfDxç”¨ç”»é¢ã‚¯ãƒªã‚¢
+		WaitTimer(16); // ç´„60FPS
 	}
 
-	WaitKey();				// ƒL[“ü—Í‘Ò‚¿
+	WaitKey();				// ã‚­ãƒ¼å…¥åŠ›å¾…ã¡
 
-	DxLib_End();				// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+	DxLib_End();				// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
 
-	return 0;				// ƒ\ƒtƒg‚ÌI—¹ 
+	return 0;				// ã‚½ãƒ•ãƒˆã®çµ‚äº† 
 }

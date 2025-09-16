@@ -1,11 +1,11 @@
-#pragma once
-// ƒQ[ƒ€‚Ì§Œä‚ÉŠÖ‚·‚é•Ï”AŠÖ”‚ğ‚Ü‚Æ‚ß‚½ƒwƒbƒ_
+ï»¿#pragma once
+// ã‚²ãƒ¼ãƒ ã®åˆ¶å¾¡ã«é–¢ã™ã‚‹å¤‰æ•°ã€é–¢æ•°ã‚’ã¾ã¨ã‚ãŸãƒ˜ãƒƒãƒ€
 
 
 
 
 
-/// <summary> ƒQ[ƒ€(exe)‚ğI—¹‚·‚é‚©‚Ìƒtƒ‰ƒO </summary>
+/// <summary> ã‚²ãƒ¼ãƒ (exe)ã‚’çµ‚äº†ã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚° </summary>
 __declspec(selectany) bool isGameQuit;
 
 __declspec(selectany) int stageNumber;

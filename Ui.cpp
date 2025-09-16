@@ -1,8 +1,8 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "main.h"
 #include "UI.h"
 
-/// <summary> ‰æ–Ê‚Ìó‘Ô‚É‘Î‰‚µ‚½UI‚ğ•\¦‚·‚éƒƒ\ƒbƒh </summary>
+/// <summary> ç”»é¢ã®çŠ¶æ…‹ã«å¯¾å¿œã—ãŸUIã‚’è¡¨ç¤ºã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 void ScreenUISwithing()
 {
 	int  brack = GetColor(0, 0, 0);
@@ -56,11 +56,11 @@ void ScreenUISwithing()
 	}
 }
 
-/// <summary> ƒtƒF[ƒh‰‰o‚Ì§Œä‚ğs‚¤ƒƒ\ƒbƒhFƒtƒF[ƒh‰‰o’†‚ÍFlag‚ğ—§‚Ä‚Ä‘¼‚Ìˆ—‚ğ§Œä </summary>
+/// <summary> ãƒ•ã‚§ãƒ¼ãƒ‰æ¼”å‡ºã®åˆ¶å¾¡ã‚’è¡Œã†ãƒ¡ã‚½ãƒƒãƒ‰ï¼šãƒ•ã‚§ãƒ¼ãƒ‰æ¼”å‡ºä¸­ã¯Flagã‚’ç«‹ã¦ã¦ä»–ã®å‡¦ç†ã‚’åˆ¶å¾¡ </summary>
 void ScreenFadeControl() {
 	switch (fadeState)
 	{
-	case FADEOUT:		// ‰æ–Ê‚ğˆÃ“]Fˆ—ŠJn‚Éƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	case FADEOUT:		// ç”»é¢ã‚’æš—è»¢ï¼šå‡¦ç†é–‹å§‹æ™‚ã«ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 		if (!isFading) {
 			isFading = true;
 		}
@@ -69,23 +69,23 @@ void ScreenFadeControl() {
 		}
 		ScreenFade(FADE_SPEED);
 		break;
-	case FADEIN:	// ‰æ–Ê‚ğ–¾“]Fˆ—I—¹‚Éƒtƒ‰ƒO‚ğÜ‚é
+	case FADEIN:	// ç”»é¢ã‚’æ˜è»¢ï¼šå‡¦ç†çµ‚äº†æ™‚ã«ãƒ•ãƒ©ã‚°ã‚’æŠ˜ã‚‹
 		if (alphaValue == 0) {
 			isFading = false;
 		}
 		ScreenFade(-FADE_SPEED);
 		break;
-	case FADEWAIT:		// w’èŠÔ‘Ò‹@F‘Ò‹@’†‚ÉUI‚ÌØ‚è‘Ö‚¦‚ğs‚¤
+	case FADEWAIT:		// æŒ‡å®šæ™‚é–“å¾…æ©Ÿï¼šå¾…æ©Ÿä¸­ã«UIã®åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†
 		if (fadeStartCount == 0) {
 			fadeStartCount = GetNowCount();
-			currentScreenType = nextScreenType;	// •Ï”‚Ì’†g‚ğ•Ï‚¦‚ÄUI‚ğØ‚è‘Ö‚¦
+			currentScreenType = nextScreenType;	// å¤‰æ•°ã®ä¸­èº«ã‚’å¤‰ãˆã¦UIã‚’åˆ‡ã‚Šæ›¿ãˆ
 		}
 		ScreenFade(0);
 		if ((fadeStartCount + FADE_WAIT_TIME) <= GetNowCount()) {
 			fadeState = FADEIN;
 			fadeStartCount = 0;
 
-			// ƒ{ƒ^ƒ“‚Ì‘I‘ğˆÊ’u‚ğƒŠƒZƒbƒg
+			// ãƒœã‚¿ãƒ³ã®é¸æŠä½ç½®ã‚’ãƒªã‚»ãƒƒãƒˆ
 			buttonPosY = 0;
 			buttonPosX = 0;
 		}
@@ -93,11 +93,11 @@ void ScreenFadeControl() {
 	}
 }
 
-/// <summary> ƒtƒF[ƒhˆ—‚ğs‚¤ƒƒ\ƒbƒh </summary>
-/// <param name="fadeSpeed">ƒtƒF[ƒh‘¬“x</param>
+/// <summary> ãƒ•ã‚§ãƒ¼ãƒ‰å‡¦ç†ã‚’è¡Œã†ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+/// <param name="fadeSpeed">ãƒ•ã‚§ãƒ¼ãƒ‰é€Ÿåº¦</param>
 void ScreenFade(int fadeSpeed)
 {
-	// SetDrawBlendModeİ’è‚µ’¼‚·‚±‚Æ‚ÅƒtƒF[ƒh‰æ–Ê‚Ì‚İ‚Ì“§–¾“x‚ğ•ÏX‚·‚é
+	// SetDrawBlendModeè¨­å®šã—ç›´ã™ã“ã¨ã§ãƒ•ã‚§ãƒ¼ãƒ‰ç”»é¢ã®ã¿ã®é€æ˜åº¦ã‚’å¤‰æ›´ã™ã‚‹
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
 	alphaValue += fadeSpeed;
 	if (alphaValue < 0) alphaValue = 0;
@@ -106,8 +106,8 @@ void ScreenFade(int fadeSpeed)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-int count;	// ƒ{ƒ^ƒ“ˆÚ“®‚Ì‘Ò‹@ŠÔ—pƒJƒEƒ“ƒ^
-/// <summary> ƒ{ƒ^ƒ“‚Ì‘I‘ğˆÊ’u‚ğ•ÏX‚·‚éƒƒ\ƒbƒh </summary>
+int count;	// ãƒœã‚¿ãƒ³ç§»å‹•ã®å¾…æ©Ÿæ™‚é–“ç”¨ã‚«ã‚¦ãƒ³ã‚¿
+/// <summary> ãƒœã‚¿ãƒ³ã®é¸æŠä½ç½®ã‚’å¤‰æ›´ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 void ButtonChanged() {
 	int x = 0, y = 0;
 	if (CheckHitKey(KEY_INPUT_UP))y = -1;
@@ -115,7 +115,7 @@ void ButtonChanged() {
 	if (CheckHitKey(KEY_INPUT_LEFT))x = -1;
 	if (CheckHitKey(KEY_INPUT_RIGHT))x = 1;
 
-	// ƒ{ƒ^ƒ“‚Ì‘I‘ğˆÊ’u‚ğ•ÏXFw’èƒtƒŒ[ƒ€Œo‚Â‚Ü‚ÅˆÚ“®•s‰Â
+	// ãƒœã‚¿ãƒ³ã®é¸æŠä½ç½®ã‚’å¤‰æ›´ï¼šæŒ‡å®šãƒ•ãƒ¬ãƒ¼ãƒ çµŒã¤ã¾ã§ç§»å‹•ä¸å¯
 	if (x != 0 || y != 0) {
 		count++;
 		if (count % WAIT_BUTTON_MOVE == 1) {
@@ -127,13 +127,13 @@ void ButtonChanged() {
 		count = 0;
 	}
 
-	// ˆÚ“®æ‚Éƒ{ƒ^ƒ“‚ª–³‚©‚Á‚½‚çˆÚ“®ƒŠƒZƒbƒg‚·‚é
+	// ç§»å‹•å…ˆã«ãƒœã‚¿ãƒ³ãŒç„¡ã‹ã£ãŸã‚‰ç§»å‹•ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 	if (buttonMap[currentScreenType][buttonPosY][buttonPosX] == 0) {
 		buttonPosX -= x;
 		buttonPosY -= y;
 	}
 
-	// ƒ{ƒ^ƒ“‚Ìó‘Ô‚ğXVÅ‰‚Éƒ{ƒ^ƒ“‚ğ‚·‚×‚Ä”ñ‘I‘ğó‘Ô‚É‚µ‚Ä‚©‚çA‘I‘ğ’†‚Ìƒ{ƒ^ƒ“‚¾‚¯‘I‘ğó‘Ô‚É‚·‚é
+	// ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã‚’æ›´æ–°æœ€åˆã«ãƒœã‚¿ãƒ³ã‚’ã™ã¹ã¦éé¸æŠçŠ¶æ…‹ã«ã—ã¦ã‹ã‚‰ã€é¸æŠä¸­ã®ãƒœã‚¿ãƒ³ã ã‘é¸æŠçŠ¶æ…‹ã«ã™ã‚‹
 	for (int y = 0; y < BUTTON_NUM_Y; y++) {
 		for (int x = 0; x < BUTTON_NUM_X; x++) {
 			buttonMap[currentScreenType][y][x] = buttonMap[currentScreenType][y][x] == 0 ? 0 : 1;
@@ -144,64 +144,64 @@ void ButtonChanged() {
 	}
 }
 
-/// <summary> ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—‚ğs‚¤ƒƒ\ƒbƒh </summary>
+/// <summary> ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã¨ãã®å‡¦ç†ã‚’è¡Œã†ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 void OnClickSwitchUI() {
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
-		if (buttonMap[TITLE][0][0] == 2) {	// ƒ^ƒCƒgƒ‹FƒQ[ƒ€ŠJn
+		if (buttonMap[TITLE][0][0] == 2) {	// ã‚¿ã‚¤ãƒˆãƒ«ï¼šã‚²ãƒ¼ãƒ é–‹å§‹
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
 			buttonMap[TITLE][0][0] = 1;
 			stageNumber = 1;
 		}
-		if (buttonMap[TITLE][1][0] == 2) {	// ƒ^ƒCƒgƒ‹FƒXƒe[ƒWƒZƒŒƒNƒg‚É‘JˆÚ
+		if (buttonMap[TITLE][1][0] == 2) {	// ã‚¿ã‚¤ãƒˆãƒ«ï¼šã‚¹ãƒ†ãƒ¼ã‚¸ã‚»ãƒ¬ã‚¯ãƒˆã«é·ç§»
 			nextScreenType = STAGESELECT;
 			fadeState = FADEOUT;
 			buttonMap[TITLE][1][0] == 1;
 		}
-		if (buttonMap[TITLE][2][0] == 2) {	// ƒ^ƒCƒgƒ‹FƒQ[ƒ€‚ğI—¹
+		if (buttonMap[TITLE][2][0] == 2) {	// ã‚¿ã‚¤ãƒˆãƒ«ï¼šã‚²ãƒ¼ãƒ ã‚’çµ‚äº†
 			isGameQuit = true;
 			return;
 		}
 		for (int y = 0; y < BUTTON_NUM_Y - 1; y++) {
 			for (int x = 0; x < BUTTON_NUM_X - 1; x++) {
-				if (buttonMap[STAGESELECT][y][x] == 2) {	// ƒXƒe[ƒWƒZƒŒƒNƒgFƒXƒe[ƒW‘I‘ğƒ{ƒ^ƒ“(‚±‚ê‚Å•Ï”—pˆÓ‚·‚ê‚Î‘I‚ñ‚¾ƒXƒe[ƒW‚ğ’²‚×‚ç‚ê‚é‚Í‚¸j
+				if (buttonMap[STAGESELECT][y][x] == 2) {	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚»ãƒ¬ã‚¯ãƒˆï¼šã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠãƒœã‚¿ãƒ³(ã“ã‚Œã§å¤‰æ•°ç”¨æ„ã™ã‚Œã°é¸ã‚“ã ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’èª¿ã¹ã‚‰ã‚Œã‚‹ã¯ãšï¼‰
 					nextScreenType = INGAME;
 					fadeState = FADEOUT;
 					stageNumber = y * 3 + x + 1;
 				}
 			}
 		}
-		if (buttonMap[STAGESELECT][2][3] == 2) {	// ƒXƒe[ƒWƒZƒŒƒNƒgƒ^ƒCƒgƒ‹‚É–ß‚é
+		if (buttonMap[STAGESELECT][2][3] == 2) {	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚»ãƒ¬ã‚¯ãƒˆã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹
 			nextScreenType = TITLE;
 			fadeState = FADEOUT;
 			buttonMap[STAGESELECT][2][3] = 1;
 		}
-		if (buttonMap[PAUSE][0][0] == 2) {	// ƒ|[ƒYFƒQ[ƒ€ÄŠJ
+		if (buttonMap[PAUSE][0][0] == 2) {	// ãƒãƒ¼ã‚ºï¼šã‚²ãƒ¼ãƒ å†é–‹
 			nextScreenType = INGAME;
 			currentScreenType = nextScreenType;
 			buttonMap[PAUSE][0][0] = 1;
 		}
-		if (buttonMap[PAUSE][0][1] == 2) {	// ƒ|[ƒYFƒ^ƒCƒgƒ‹‚É–ß‚é
+		if (buttonMap[PAUSE][0][1] == 2) {	// ãƒãƒ¼ã‚ºï¼šã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹
 			nextScreenType = TITLE;
 			fadeState = FADEOUT;
 			buttonMap[PAUSE][0][1] = 1;
 		}
-		if (buttonMap[GAMEOVER][0][0] == 2) {	// ƒQ[ƒ€ƒI[ƒo[FƒQ[ƒ€ÄŠJ
+		if (buttonMap[GAMEOVER][0][0] == 2) {	// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ï¼šã‚²ãƒ¼ãƒ å†é–‹
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
 			buttonMap[GAMEOVER][0][0] = 1;
 		}
-		if (buttonMap[GAMEOVER][0][1] == 2) {	// ƒQ[ƒ€ƒI[ƒo[Fƒ^ƒCƒgƒ‹‚É–ß‚é
+		if (buttonMap[GAMEOVER][0][1] == 2) {	// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ï¼šã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹
 			nextScreenType = TITLE;
 			fadeState = FADEOUT;
 			buttonMap[GAMEOVER][0][1] = 1;
 		}
-		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ƒXƒe[ƒWƒNƒŠƒAFƒQ[ƒ€ÄŠJ
+		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚¯ãƒªã‚¢ï¼šã‚²ãƒ¼ãƒ å†é–‹
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
 			buttonMap[STAGECLEAR][0][0] = 1;
 		}
-		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ƒXƒe[ƒWƒNƒŠƒAFƒ^ƒCƒgƒ‹‚É–ß‚é
+		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚¯ãƒªã‚¢ï¼šã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹
 			nextScreenType = TITLE;
 			fadeState = FADEOUT;
 			buttonMap[STAGECLEAR][0][1] = 1;
