@@ -139,6 +139,9 @@
     <ClCompile Include="Ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\仮ボタン.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

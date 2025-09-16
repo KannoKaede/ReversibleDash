@@ -11,13 +11,13 @@ void ScreenUISwithing()
 	switch (currentScreenType)
 	{
 	case TITLE:
-		printfDx("現在の画面：TITLE\n");
+		printfDx("TITLE\n");
 		DrawBox(180, 210, 460, 270, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
 		DrawBox(180, 290, 460, 350, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
 		DrawBox(180, 370, 460, 430, buttonMap[TITLE][2][0] == 2 ? green : gray, TRUE);
 		break;
 	case STAGESELECT:
-		printfDx("現在の画面：STAGESELECT\n");
+		printfDx("STAGESELECT\n");
 		DrawBox(90, 150, 230, 220, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
 		DrawBox(250, 150, 390, 220, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
 		DrawBox(410, 150, 550, 220, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
@@ -30,25 +30,25 @@ void ScreenUISwithing()
 		DrawBox(570, 380, 620, 430, buttonMap[STAGESELECT][2][3] == 2 ? green : gray, TRUE);
 		break;
 	case PAUSE:
-		printfDx("現在の画面：PAUSE\n");
+		printfDx("PAUSE\n");
 		DrawBox(130, 100, 510, 370, brack, TRUE);
 		DrawBox(170, 290, 300, 350, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
 		DrawBox(340, 290, 470, 350, buttonMap[PAUSE][0][1] == 2 ? green : gray, TRUE);
 		break;
 	case GAMEOVER:
-		printfDx("現在の画面：GAMEOVER\n");
+		printfDx("GAMEOVER\n");
 		DrawBox(80, 70, 580, 400, brack, TRUE);
 		DrawBox(120, 320, 300, 370, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
 		DrawBox(340, 320, 520, 370, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
 		break;
 	case STAGECLEAR:
-		printfDx("現在の画面：STAGECLEAR\n");
+		printfDx("STAGECLEAR\n");
 		DrawBox(80, 70, 580, 400, brack, TRUE);
 		DrawBox(120, 320, 300, 370, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
 		DrawBox(340, 320, 520, 370, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
 		break;
 	case INGAME:
-		printfDx("現在の画面：INGAME\n");
+		printfDx("INGAME\n");
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -88,10 +88,6 @@ void ScreenFadeControl() {
 			// ボタンの選択位置をリセット
 			buttonPosY = 0;
 			buttonPosX = 0;
-			// タイトルでステージナンバーをリセット
-			if (currentScreenType == TITLE) {
-				stageNumber = 0;
-			}
 		}
 		break;
 	}

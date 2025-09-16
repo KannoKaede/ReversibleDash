@@ -9,13 +9,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
-	// フォントデータの作成
-	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
-	int fontHandle = CreateFontToHandle("N4カクーカンV2", 20, 3, DX_FONTTYPE_ANTIALIASING);
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	ScreenUISwithing();	// UIを描画
+	int a = LoadGraph("Resource/仮ボタン.png");
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
@@ -28,26 +25,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 
-		if (currentScreenType != INGAME) {	// ボタンの選択切り替え
+		if (currentScreenType != INGAME) {	// ボタン操作
 			ButtonChanged();
 		}
-
-		// デバッグ用 -------------------------------------------------------------------------------
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号；%d\n", stageNumber);
-		DrawStringToHandle(100, 100, "abcあいうアイウ", GetColor(0, 0, 0), fontHandle);
-		// ------------------------------------------------------------------------------------------
 		OnClickSwitchUI();  // ボタンが押されたときの処理
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 		ScreenFlip();
-
-		clsDx();	// デバッグ用文字を消す
+		clsDx();	// printfDx用画面クリア
 		WaitTimer(16); // 約60FPS
 	}
-	// フォントデータを削除
-	DeleteFontToHandle(fontHandle);
-	RemoveFontResourceExA("", FR_PRIVATE, NULL);
+
+	WaitKey();				// キー入力待ち
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 
