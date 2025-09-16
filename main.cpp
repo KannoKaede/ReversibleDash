@@ -12,7 +12,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// フォントデータの作成
 	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
-	int fontHandle = CreateFontToHandle("N4カクーカンV2", 20, 3, DX_FONTTYPE_ANTIALIASING);
+	bigFontHandle = CreateFontToHandle("N4カクーカンV2", 50, 5, DX_FONTTYPE_ANTIALIASING);
+	normalFontHandle = CreateFontToHandle("N4カクーカンV2", 21, 3, DX_FONTTYPE_ANTIALIASING);
+	smallFontHandle = CreateFontToHandle("N4カクーカンV2", 12, 1, DX_FONTTYPE_ANTIALIASING);
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	ScreenUISwithing();	// UIを描画
@@ -35,7 +37,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// デバッグ用 -------------------------------------------------------------------------------
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号；%d\n", stageNumber);
-		DrawStringToHandle(100, 100, "abcあいうアイウ", GetColor(0, 0, 0), fontHandle);
 		// ------------------------------------------------------------------------------------------
 		OnClickSwitchUI();  // ボタンが押されたときの処理
 		ScreenUISwithing();	//	UIを描画
@@ -46,7 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		WaitTimer(16); // 約60FPS
 	}
 	// フォントデータを削除
-	DeleteFontToHandle(fontHandle);
+	DeleteFontToHandle(normalFontHandle);
+	DeleteFontToHandle(bigFontHandle);
+	DeleteFontToHandle(smallFontHandle);
 	RemoveFontResourceExA("", FR_PRIVATE, NULL);
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
