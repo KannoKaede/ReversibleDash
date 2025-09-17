@@ -1,16 +1,19 @@
-#pragma once
+ï»¿#pragma once
 
-/// <summary> ƒXƒRƒA‚ğ•Û‘¶‚·‚é </summary>
-__declspec(selectany) int score;
-/// <summary> ƒnƒCƒXƒRƒA‚ğ•Û‘¶‚·‚é </summary>
-__declspec(selectany) int highScore;
-/// <summary>/// ƒCƒ“ƒQ[ƒ€•\¦—p‚ÌƒXƒRƒA/// </summary>
-__declspec(selectany) int inGameVewScore;
-/// <summary> ƒXƒRƒA‰ÁZ—Ê </summary>
+#ifndef INCLUDED_Score_h
+#define INCLUDED_Score_h
+/// <summary> ã‚¹ã‚³ã‚¢ã‚’ä¿å­˜ã™ã‚‹ </summary>
+extern int score;
+/// <summary> ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’ä¿å­˜ã™ã‚‹ </summary>
+extern int highScore;
+/// <summary>/// ã‚¤ãƒ³ã‚²ãƒ¼ãƒ è¡¨ç¤ºç”¨ã®ã‚¹ã‚³ã‚¢/// </summary>
+extern int inGameVewScore;
+/// <summary> ã‚¹ã‚³ã‚¢åŠ ç®—é‡ </summary>
 const int SCORE_ADDED_POINT = 10;
 
-/// <summary> ƒCƒ“ƒQ[ƒ€‚ÅƒXƒRƒA‚ğ•\¦‚·‚éŠÖ” </summary>
+/// <summary> ã‚¤ãƒ³ã‚²ãƒ¼ãƒ ã§ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤ºã™ã‚‹é–¢æ•° </summary>
 void InGameScoreView();
 
-/// <summary> ƒXƒRƒA‚ğŒvZ‚·‚éŠÖ” </summary>
-void ScoreCalculation();	// ƒCƒ“ƒQ[ƒ€‚ğÀ‘•‚µ‚½‚çˆø”‚ğÀ‘•‚·‚é
+/// <summary> ã‚¹ã‚³ã‚¢ã‚’è¨ˆç®—ã™ã‚‹é–¢æ•° </summary>
+void ScoreCalculation();	// ã‚¤ãƒ³ã‚²ãƒ¼ãƒ ã‚’å®Ÿè£…ã—ãŸã‚‰å¼•æ•°ã‚’å®Ÿè£…ã™ã‚‹
+#endif
