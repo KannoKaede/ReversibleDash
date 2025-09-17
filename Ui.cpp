@@ -111,7 +111,7 @@ void ScreenUISwithing()
 		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
-		DrawFormatStringToHandle(5, 465, brack, smallFontHandle, "SCORE:%06d",inGameVewScore);
+		DrawFormatStringToHandle(5, 465, brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -202,25 +202,27 @@ void ButtonChanged() {
 		buttonPosY -= y;
 	}
 
-	// ボタンの状態を更新最初にボタンをすべて非選択状態にしてから、選択中のボタンだけ選択状態にする
-	for (int y = 0; y < BUTTON_NUM_Y; y++) {
-		for (int x = 0; x < BUTTON_NUM_X; x++) {
-			buttonMap[currentScreenType][y][x] = buttonMap[currentScreenType][y][x] == 0 ? 0 : 1;
+	// ボタンの状態を更新。最初にボタンをすべて非選択状態にしてから、選択中のボタンだけ選択状態にする
+	for (int z = 0; z < SCREEN_BUTTON_NUM; z++) {
+		for (int y = 0; y < BUTTON_NUM_Y; y++) {
+			for (int x = 0; x < BUTTON_NUM_X; x++) {
+				buttonMap[z][y][x] = buttonMap[z][y][x] == 0 ? 0 : 1;
+			}
 		}
+		buttonMap[currentScreenType][buttonPosY][buttonPosX] = 2;
 	}
-	buttonMap[currentScreenType][buttonPosY][buttonPosX] = 2;
 }
 
 int buttonClickCount;	// ボタン押下の待機時間用カウンタ
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void CheckButtonPressed() {
-	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType != INGAME) {
+	if (CheckHitKey(KEY_INPUT_SPACE)&& currentScreenType != INGAME) {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
-			ButtonPressedProcessing(INGAME, TITLE, 0, 0, true);
+			ButtonPressedProcessing(INGAME, true);
 			stageNumber = 1;
 		}
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
-			ButtonPressedProcessing(STAGESELECT, TITLE, 1, 0, false);
+			ButtonPressedProcessing(STAGESELECT, false);
 		}
 		if (buttonMap[TITLE][2][0] == 2) {	// タイトル：ゲームを終了
 			isGameQuit = true;
@@ -229,36 +231,37 @@ void CheckButtonPressed() {
 		for (int y = 0; y < BUTTON_NUM_Y - 1; y++) {
 			for (int x = 0; x < BUTTON_NUM_X - 1; x++) {
 				if (buttonMap[STAGESELECT][y][x] == 2) {	// ステージセレクト：ステージ選択ボタン(これで変数用意すれば選んだステージを調べられるはず）
-					ButtonPressedProcessing(INGAME, STAGESELECT, y, x, true);
+					ButtonPressedProcessing(INGAME, true);
 					stageNumber = y * 3 + x + 1;
 				}
 			}
 		}
 		if (buttonMap[STAGESELECT][1][3] == 2) {	// ステージセレクトタイトルに戻る
-			ButtonPressedProcessing(TITLE, STAGESELECT, 1, 3, false);
+			ButtonPressedProcessing(TITLE, false);
 		}
 		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
-			ButtonPressedProcessing(INGAME, PAUSE, 0, 0, false);
+			ButtonPressedProcessing(INGAME, false);
 		}
 		if (buttonMap[PAUSE][0][1] == 2) {	// ポーズ：タイトルに戻る
-			ButtonPressedProcessing(TITLE, PAUSE, 0, 1, true);
+			ButtonPressedProcessing(TITLE, true);
 		}
 		if (buttonMap[GAMEOVER][0][0] == 2) {	// ゲームオーバー：ゲーム再開
-			ButtonPressedProcessing(INGAME, GAMEOVER, 0, 0, true);
+			ButtonPressedProcessing(INGAME, true);
 		}
 		if (buttonMap[GAMEOVER][0][1] == 2) {	// ゲームオーバー：タイトルに戻る
-			ButtonPressedProcessing(TITLE, GAMEOVER, 0, 1, true);
+			ButtonPressedProcessing(TITLE, true);
 		}
 		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ステージクリア：ゲーム再開
-			ButtonPressedProcessing(INGAME, STAGECLEAR, 0, 0, true);
+			ButtonPressedProcessing(INGAME, true);
+			stageNumber++;
 		}
 		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
-			ButtonPressedProcessing(TITLE, STAGECLEAR, 0, 1, true);
+			ButtonPressedProcessing(TITLE, true);
 		}
 	}
 	else if (CheckHitKey(KEY_INPUT_ESCAPE)) {
 		if (currentScreenType == INGAME) {
-			ButtonPressedProcessing(PAUSE, INGAME, 0, 0, false);
+			ButtonPressedProcessing(PAUSE, false);
 		}
 	}
 	else {
@@ -276,7 +279,7 @@ void CheckButtonPressed() {
 /// <param name="y"> ボタンの座標Y</param>
 /// <param name="x"> ボタンの座標X</param>
 /// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
-void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, int y, int x, bool isFade) {
+void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade) {
 	buttonClickCount++;
 	if (buttonClickCount % 100 == 1) {
 		nextScreenType = nextScreen;
@@ -286,8 +289,7 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, i
 		else {
 			buttonPosY = 0;
 			buttonPosX = 0;
-			currentScreenType = nextScreenType;
+			currentScreenType = nextScreen;
 		}
-		buttonMap[buttonScreen][y][x] = 1;
 	}
 }

@@ -16,7 +16,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
+	ChangeWindowMode(TRUE);
+	SetGraphMode(1920, 1080, 32);
 	// フォントデータの作成
 	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
 	bigFontHandle = CreateFontToHandle("N4カクーカンV2", 50, 5, DX_FONTTYPE_ANTIALIASING);
@@ -45,8 +46,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScoreCalculation();
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号；%d\n", stageNumber);
-		printfDx("SCORE:%06d\n", score);
-		printfDx("HIGHSCORE:%06d\n", highScore[stageNumber]);
 		if (currentScreenType == TITLE)
 			score = 0;
 		// ------------------------------------------------------------------------------------------
