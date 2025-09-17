@@ -43,6 +43,7 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 		{0,0,0,0}
 	}
 };
+int font;
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
@@ -53,8 +54,8 @@ void ScreenUISwithing()
 	switch (currentScreenType)
 	{
 	case TITLE:
-		DrawStringToHandle(30, 70, "ReversibleDash", brack, bigFontHandle);
-		DrawBox(180, 210, 460, 270, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.18, screenHeight * 0.14, "ReversibleDash", brack, font);
+		DrawBox(screenWidth * 0.32, screenHeight * 0.4, screenWidth * 0.68, screenHeight * 0.53, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(230, 230, "GAME START", brack, normalFontHandle);
 		DrawBox(180, 290, 460, 350, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(210, 310, "STAGE SELECT", brack, normalFontHandle);
@@ -169,7 +170,7 @@ void ScreenFade(int fadeSpeed)
 	alphaValue += fadeSpeed;
 	if (alphaValue < 0) alphaValue = 0;
 	if (alphaValue > 255) alphaValue = 255;
-	DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), TRUE);
+	DrawBox(0, 0, screenWidth, screenHeight, GetColor(0, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -216,7 +217,7 @@ void ButtonChanged() {
 int buttonClickCount;	// ボタン押下の待機時間用カウンタ
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void CheckButtonPressed() {
-	if (CheckHitKey(KEY_INPUT_SPACE)&& currentScreenType != INGAME) {
+	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType != INGAME) {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber = 1;
