@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Main.h"
 #include "UI.h"
+#include "Score.h"
 
 SCREEN_TYPE currentScreenType;
 SCREEN_TYPE nextScreenType;
@@ -79,7 +80,7 @@ void ScreenUISwithing()
 		DrawStringToHandle(574, 370, "BACK", brack, smallFontHandle);
 		break;
 	case PAUSE:
-		DrawBox(130, 100, 510, 370, brack, TRUE);
+		DrawBox(130, 100, 510, 370, backScreen, TRUE);
 		DrawStringToHandle(210, 150, "PAUSE", brack, bigFontHandle);
 		DrawBox(170, 290, 300, 350, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(178, 310, "RESUME", brack, normalFontHandle);
@@ -87,23 +88,30 @@ void ScreenUISwithing()
 		DrawStringToHandle(358, 310, "TITLE", brack, normalFontHandle);
 		break;
 	case GAMEOVER:
-		DrawBox(80, 70, 580, 400, brack, TRUE);
+		DrawBox(80, 70, 580, 400, backScreen, TRUE);
 		DrawStringToHandle(150, 120, "GAMEOVER", brack, bigFontHandle);
 		DrawBox(120, 320, 300, 370, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(165, 335, "RETRY", brack, normalFontHandle);
 		DrawBox(340, 320, 520, 370, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
+		DrawStringToHandle(165, 210, "SCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(155, 250, brack, normalFontHandle, "%06d", score);
 		break;
 	case STAGECLEAR:
-		DrawBox(80, 70, 580, 400, brack, TRUE);
+		DrawBox(80, 70, 580, 400, backScreen, TRUE);
 		DrawStringToHandle(110, 120, "STAGECLEAR", brack, bigFontHandle);
 		DrawBox(120, 320, 300, 370, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(118, 335, "NEXT STAGE", brack, normalFontHandle);
 		DrawBox(340, 320, 520, 370, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
 		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
+		DrawStringToHandle(165, 210, "SCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(155, 250, brack, normalFontHandle, "%06d", score);
+		DrawStringToHandle(345, 210, "HIGHSCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(370, 250, brack, normalFontHandle, "%06d", highScore[stageNumber]);
 		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
+		DrawFormatStringToHandle(5, 465, brack, smallFontHandle, "SCORE:%06d",inGameVewScore);
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -206,7 +214,7 @@ void ButtonChanged() {
 int buttonClickCount;	// ボタン押下の待機時間用カウンタ
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void CheckButtonPressed() {
-	if (CheckHitKey(KEY_INPUT_SPACE)) {
+	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType != INGAME) {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
 			ButtonPressedProcessing(INGAME, TITLE, 0, 0, true);
 			stageNumber = 1;

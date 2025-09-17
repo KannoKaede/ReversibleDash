@@ -45,8 +45,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScoreCalculation();
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号；%d\n", stageNumber);
+		printfDx("SCORE:%06d\n", score);
+		printfDx("HIGHSCORE:%06d\n", highScore[stageNumber]);
+		if (currentScreenType == TITLE)
+			score = 0;
 		// ------------------------------------------------------------------------------------------
 		CheckButtonPressed();  // ボタンが押されたときの処理
+		if (currentScreenType == STAGECLEAR) {
+			HighScoreCheck();
+		}
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 		ScreenFlip();

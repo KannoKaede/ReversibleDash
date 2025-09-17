@@ -4,30 +4,37 @@
 #include "Score.h"
 
 int score;
-int highScore;
+int highScore[MAX_STAGE_NUM];
 int inGameVewScore;
 //ここら辺は仮で置いておくインゲームを作り出したら消す
 float 距離測定ライン = 5;
 float 距離 = 2;
 float 移動速度 = 4;
+
+/// <summary> スコアを計算する関数 </summary>
 void ScoreCalculation() {
 	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType == INGAME) {
-		score += ((距離測定ライン * 10) - ((int)距離 * 10)) * (int)移動速度;
-		score += 3;
+		score += (((int)距離測定ライン * 10) - ((int)距離 * 10)) * (int)移動速度;
 	}
 	InGameScoreView();
 }
 
+/// <summary> インゲームでスコアを表示する関数 </summary>
 void InGameScoreView() {
-	printfDx("SCORE:%06d\n", inGameVewScore);
-
-	if (inGameVewScore >= score) {
+	if (inGameVewScore > score) {
 		inGameVewScore = score;
 		return;
 	}
 
+	// 実スコアと表示用スコアの差が一定より小さかったらその値を加算する。それ以外は一定の値を加算し続ける
 	int differenceScore = score - inGameVewScore;
 	int addedPoint = (differenceScore < SCORE_ADDED_POINT) ? differenceScore : SCORE_ADDED_POINT;
 	inGameVewScore += addedPoint;
+}
 
+void HighScoreCheck() {
+	if (highScore[stageNumber] < score) {
+		highScore[stageNumber] = score;
+		printfDx("uoooo");
+	}
 }

@@ -10,4 +10,5 @@
 extern bool isGameQuit;
 
 extern int stageNumber;
+const int MAX_STAGE_NUM = 7;
 #endif
