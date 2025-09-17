@@ -11,4 +11,9 @@ extern bool isGameQuit;
 
 extern int stageNumber;
 const int MAX_STAGE_NUM = 7;
+//extern const int SCREEN_WIDTH;
+//extern const int SCREEN_HEIGHT;
+extern int screenWidth;
+extern int screenHeight;
+extern int font;
 #endif
