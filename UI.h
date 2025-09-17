@@ -1,7 +1,8 @@
 ﻿#pragma once
 // UIの制御に関する変数、関数をまとめたヘッダ
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+#ifndef INCLUDED_UI_h
+#define INCLUDED_UI_h
 /*UI描画関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> 画面の種類を定義する </summary>
@@ -17,10 +18,10 @@ enum SCREEN_TYPE
 };
 
 /// <summary> 現在の画面の状態 </summary>
-__declspec(selectany) SCREEN_TYPE currentScreenType = TITLE;
+extern SCREEN_TYPE currentScreenType;
 
 /// <summary> 次の画面の状態 </summary>
-__declspec(selectany) SCREEN_TYPE nextScreenType = TITLE;
+extern SCREEN_TYPE nextScreenType;
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing();
@@ -28,16 +29,16 @@ void ScreenUISwithing();
 /*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> 現在フェード中か </summary>
-__declspec(selectany) bool isFading = true;
+extern bool isFading;
 
 /// <summary> フェード速度 </summary>
 const int FADE_SPEED = 6;
 
 /// <summary> 現在のフェードの状態：0=透明　255=黒 </summary>
-__declspec(selectany) int alphaValue = 255;
+extern int alphaValue;
 
 /// <summary> フェードの待機開始タイミングを保存 </summary>
-__declspec(selectany) int fadeStartCount = 0;
+extern int fadeStartCount;
 
 /// <summary> フェードの待機時間 </summary>
 const int FADE_WAIT_TIME = 500;
@@ -50,7 +51,7 @@ enum FADE_STATE {
 };
 
 /// <summary> 現在のフェードの状態 </summary>
-__declspec(selectany) FADE_STATE fadeState = FADEOUT;
+extern FADE_STATE fadeState;
 
 /// <summary> フェード演出の制御を行うメソッド：フェード演出中はFlagを立てて他の処理を制御 </summary>
 void ScreenFadeControl();
@@ -68,44 +69,13 @@ const int BUTTON_NUM_X = 4;
 const int BUTTON_NUM_Y = 4;
 
 /// <summary> ボタンが配置されているマップ：0 = ボタンなし・1 = ボタンあり・2 = ボタン選択中 </summary>
-__declspec(selectany) int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
-	{	// TITLE
-		{1,0,0,0},
-		{1,0,0,0},
-		{1,0,0,0},
-		{0,0,0,0}
-	},
-	{	// STAGESELECT
-		{1,1,1,0},
-		{1,1,1,1},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// PAUSE
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// GAMEOVER
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// STAGECLEAR
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	}
-};
+extern int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X];
 
 /// <summary> 現在選択されているボタンの座標：横 </summary>
-__declspec(selectany) int buttonPosX = 0;
+extern int buttonPosX;
 
 /// <summary> 現在選択されているボタンの座標：縦 </summary>
-__declspec(selectany) int buttonPosY = 0;
+extern int buttonPosY;
 
 /// <summary> ボタンが移動してから次に移動できるまでの待機時間 </summary>
 const int WAIT_BUTTON_MOVE = 20;
@@ -128,8 +98,9 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, i
 
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
-__declspec(selectany) int bigFontHandle;
+extern int bigFontHandle;
 
-__declspec(selectany) int normalFontHandle;
+extern int normalFontHandle;
 
-__declspec(selectany) int smallFontHandle;
+extern int smallFontHandle;
+#endif

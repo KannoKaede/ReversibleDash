@@ -3,6 +3,12 @@
 #include "UI.h"
 #include "Score.h"
 
+
+bool isGameQuit;
+int stageNumber;
+int bigFontHandle;
+int normalFontHandle;
+int smallFontHandle;
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {

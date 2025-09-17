@@ -1,14 +1,18 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
 
-float ‹——£‘ª’èƒ‰ƒCƒ“ = 5;
-float ‹——£ = 2;
-float ˆÚ“®‘¬“x = 4;
+int score;
+int highScore;
+int inGameVewScore;
+//ã“ã“ã‚‰è¾ºã¯ä»®ã§ç½®ã„ã¦ãŠãã‚¤ãƒ³ã‚²ãƒ¼ãƒ ã‚’ä½œã‚Šå‡ºã—ãŸã‚‰æ¶ˆã™
+float è·é›¢æ¸¬å®šãƒ©ã‚¤ãƒ³ = 5;
+float è·é›¢ = 2;
+float ç§»å‹•é€Ÿåº¦ = 4;
 void ScoreCalculation() {
 	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType == INGAME) {
-		score += ((‹——£‘ª’èƒ‰ƒCƒ“ * 10) - (‹——£ * 10)) * ˆÚ“®‘¬“x;
+		score += ((è·é›¢æ¸¬å®šãƒ©ã‚¤ãƒ³ * 10) - ((int)è·é›¢ * 10)) * (int)ç§»å‹•é€Ÿåº¦;
 		score += 3;
 	}
 	InGameScoreView();

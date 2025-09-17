@@ -4,8 +4,10 @@
 
 
 
-
+#ifndef INCLUDED_Main_h
+#define INCLUDED_Main_h
 /// <summary> ゲーム(exe)を終了するかのフラグ </summary>
-__declspec(selectany) bool isGameQuit;
+extern bool isGameQuit;
 
-__declspec(selectany) int stageNumber;
+extern int stageNumber;
+#endif

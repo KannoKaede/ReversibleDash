@@ -2,6 +2,46 @@
 #include "Main.h"
 #include "UI.h"
 
+SCREEN_TYPE currentScreenType;
+SCREEN_TYPE nextScreenType;
+bool isFading = true;
+int alphaValue = 255;
+int fadeStartCount;
+FADE_STATE fadeState;
+int buttonPosX = 0;
+int buttonPosY = 0;
+int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
+	{	// TITLE
+		{1,0,0,0},
+		{1,0,0,0},
+		{1,0,0,0},
+		{0,0,0,0}
+	},
+	{	// STAGESELECT
+		{1,1,1,0},
+		{1,1,1,1},
+		{0,0,0,0},
+		{0,0,0,0}
+	},
+	{	// PAUSE
+		{1,1,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0}
+	},
+	{	// GAMEOVER
+		{1,1,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0}
+	},
+	{	// STAGECLEAR
+		{1,1,0,0},
+		{0,0,0,0},
+		{0,0,0,0},
+		{0,0,0,0}
+	}
+};
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
