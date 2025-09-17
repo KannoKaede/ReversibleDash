@@ -35,6 +35,5 @@ void InGameScoreView() {
 void HighScoreCheck() {
 	if (highScore[stageNumber] < score) {
 		highScore[stageNumber] = score;
-		printfDx("uoooo");
 	}
 }

@@ -94,7 +94,7 @@ void CheckButtonPressed();
 /// <param name="y"> ボタンの座標Y</param>
 /// <param name="x"> ボタンの座標X</param>
 /// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
-void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, int y, int x, bool isFade);
+void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade);
 
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
