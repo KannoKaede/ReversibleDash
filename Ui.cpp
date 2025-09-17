@@ -1,5 +1,5 @@
 ﻿#include "DxLib.h"
-#include "main.h"
+#include "Main.h"
 #include "UI.h"
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
@@ -125,7 +125,7 @@ void ScreenFade(int fadeSpeed)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-int count;	// ボタン移動の待機時間用カウンタ
+int buttonMoveCount;	// ボタン移動の待機時間用カウンタ
 /// <summary> ボタンの選択位置を変更するメソッド </summary>
 void ButtonChanged() {
 	int x = 0, y = 0;
@@ -138,14 +138,14 @@ void ButtonChanged() {
 
 	// ボタンの選択位置を変更：指定フレーム経つまで移動不可
 	if (x != 0 || y != 0) {
-		count++;
-		if (count % WAIT_BUTTON_MOVE == 1) {
+		buttonMoveCount++;
+		if (buttonMoveCount % WAIT_BUTTON_MOVE == 1) {
 			buttonPosX += x;
 			buttonPosY += y;
 		}
 	}
 	else {
-		count = 0;
+		buttonMoveCount = 0;
 	}
 
 	// 移動先にボタンが無かったら移動リセットする
@@ -163,19 +163,16 @@ void ButtonChanged() {
 	buttonMap[currentScreenType][buttonPosY][buttonPosX] = 2;
 }
 
+int buttonClickCount;	// ボタン押下の待機時間用カウンタ
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
-void OnClickSwitchUI() {
+void CheckButtonPressed() {
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
-			nextScreenType = INGAME;
-			fadeState = FADEOUT;
-			buttonMap[TITLE][0][0] = 1;
+			ButtonPressedProcessing(INGAME, TITLE, 0, 0, true);
 			stageNumber = 1;
 		}
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
-			nextScreenType = STAGESELECT;
-			fadeState = FADEOUT;
-			buttonMap[TITLE][1][0] = 1;
+			ButtonPressedProcessing(STAGESELECT, TITLE, 1, 0, false);
 		}
 		if (buttonMap[TITLE][2][0] == 2) {	// タイトル：ゲームを終了
 			isGameQuit = true;
@@ -184,56 +181,65 @@ void OnClickSwitchUI() {
 		for (int y = 0; y < BUTTON_NUM_Y - 1; y++) {
 			for (int x = 0; x < BUTTON_NUM_X - 1; x++) {
 				if (buttonMap[STAGESELECT][y][x] == 2) {	// ステージセレクト：ステージ選択ボタン(これで変数用意すれば選んだステージを調べられるはず）
-					nextScreenType = INGAME;
-					fadeState = FADEOUT;
+					ButtonPressedProcessing(INGAME, STAGESELECT, y, x, true);
 					stageNumber = y * 3 + x + 1;
 				}
 			}
 		}
 		if (buttonMap[STAGESELECT][1][3] == 2) {	// ステージセレクトタイトルに戻る
-			nextScreenType = TITLE;
-			fadeState = FADEOUT;
-			buttonMap[STAGESELECT][2][3] = 1;
+			ButtonPressedProcessing(TITLE, STAGESELECT, 1, 3, false);
 		}
 		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
-			nextScreenType = INGAME;
-			currentScreenType = nextScreenType;
-			buttonMap[PAUSE][0][0] = 1;
+			ButtonPressedProcessing(INGAME, PAUSE, 0, 0, false);
 		}
 		if (buttonMap[PAUSE][0][1] == 2) {	// ポーズ：タイトルに戻る
-			nextScreenType = TITLE;
-			fadeState = FADEOUT;
-			buttonMap[PAUSE][0][1] = 1;
+			ButtonPressedProcessing(TITLE, PAUSE, 0, 1, true);
 		}
 		if (buttonMap[GAMEOVER][0][0] == 2) {	// ゲームオーバー：ゲーム再開
-			nextScreenType = INGAME;
-			fadeState = FADEOUT;
-			buttonMap[GAMEOVER][0][0] = 1;
+			ButtonPressedProcessing(INGAME, GAMEOVER, 0, 0, true);
 		}
 		if (buttonMap[GAMEOVER][0][1] == 2) {	// ゲームオーバー：タイトルに戻る
-			nextScreenType = TITLE;
-			fadeState = FADEOUT;
-			buttonMap[GAMEOVER][0][1] = 1;
+			ButtonPressedProcessing(TITLE, GAMEOVER, 0, 1, true);
 		}
 		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ステージクリア：ゲーム再開
-			nextScreenType = INGAME;
-			fadeState = FADEOUT;
-			buttonMap[STAGECLEAR][0][0] = 1;
+			ButtonPressedProcessing(INGAME, STAGECLEAR, 0, 0, true);
 		}
 		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
-			nextScreenType = TITLE;
-			fadeState = FADEOUT;
-			buttonMap[STAGECLEAR][0][1] = 1;
+			ButtonPressedProcessing(TITLE, STAGECLEAR, 0, 1, true);
 		}
 	}
 	else if (CheckHitKey(KEY_INPUT_ESCAPE)) {
 		if (currentScreenType == INGAME) {
-			nextScreenType = PAUSE;
-			currentScreenType = nextScreenType;
+			ButtonPressedProcessing(PAUSE, INGAME, 0, 0, false);
 		}
 	}
 	else {
+		buttonClickCount = 0;
 		return;
+
 	}
 }
-// ボタンが押された時の処理関数にまとめる引数でリセットするボタンとフェード処理を入れるか
+
+/// <summary>
+/// ボタンが押された際の共通処理
+/// </summary>
+/// <param name="nextScreen"> 次の画面</param>
+/// <param name="buttonScreen"> ボタンを押した画面</param>
+/// <param name="y"> ボタンの座標Y</param>
+/// <param name="x"> ボタンの座標X</param>
+/// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
+void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, int y, int x, bool isFade) {
+	buttonClickCount++;
+	if (buttonClickCount % 100 == 1) {
+		nextScreenType = nextScreen;
+		if (isFade) {
+			fadeState = FADEOUT;
+		}
+		else {
+			buttonPosY = 0;
+			buttonPosX = 0;
+			currentScreenType = nextScreenType;
+		}
+		buttonMap[buttonScreen][y][x] = 1;
+	}
+}

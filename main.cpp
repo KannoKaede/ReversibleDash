@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "Main.h"
 #include "UI.h"
+#include "Score.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -35,10 +36,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		// デバッグ用 -------------------------------------------------------------------------------
+		ScoreCalculation();
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号；%d\n", stageNumber);
 		// ------------------------------------------------------------------------------------------
-		OnClickSwitchUI();  // ボタンが押されたときの処理
+		CheckButtonPressed();  // ボタンが押されたときの処理
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 		ScreenFlip();
