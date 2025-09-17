@@ -114,10 +114,22 @@ const int WAIT_BUTTON_MOVE = 20;
 void ButtonChanged();
 
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
-void OnClickSwitchUI();
+void CheckButtonPressed();
+
+/// <summary>
+/// ボタンが押された際の共通処理
+/// </summary>
+/// <param name="nextScreen"> 次の画面</param>
+/// <param name="buttonScreen"> ボタンを押した画面</param>
+/// <param name="y"> ボタンの座標Y</param>
+/// <param name="x"> ボタンの座標X</param>
+/// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
+void ButtonPressedProcessing(SCREEN_TYPE nextScreen, SCREEN_TYPE buttonScreen, int y, int x, bool isFade);
 
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
 __declspec(selectany) int bigFontHandle;
+
 __declspec(selectany) int normalFontHandle;
+
 __declspec(selectany) int smallFontHandle;
