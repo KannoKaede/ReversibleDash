@@ -103,4 +103,5 @@ extern int bigFontHandle;
 extern int normalFontHandle;
 
 extern int smallFontHandle;
+void fontSetting();
 #endif

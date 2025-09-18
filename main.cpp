@@ -6,9 +6,6 @@
 
 bool isGameQuit;
 int stageNumber;
-int bigFontHandle;
-int normalFontHandle;
-int smallFontHandle;
 int screenWidth;
 int screenHeight;
 // プログラムは WinMain から始まります
@@ -25,10 +22,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screenWidth, screenHeight, 32);
 	// フォントデータの作成
-	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
-	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth/18, 5, DX_FONTTYPE_ANTIALIASING);
-	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
-	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+	fontSetting();
+
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	ScreenUISwithing();	// UIを描画
