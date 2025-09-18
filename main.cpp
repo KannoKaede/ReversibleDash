@@ -19,7 +19,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
-	font = LoadFontDataToHandle("gameFont.dft", 0);
 	//ウィンドウモードに設定し画面の解像度に応じて画面サイズを変更
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -28,8 +27,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// フォントデータの作成
 	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
 	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth/18, 5, DX_FONTTYPE_ANTIALIASING);
-	normalFontHandle = CreateFontToHandle("N4カクーカンV2", 21, 3, DX_FONTTYPE_ANTIALIASING);
-	smallFontHandle = CreateFontToHandle("N4カクーカンV2", 12, 1, DX_FONTTYPE_ANTIALIASING);
+	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
+	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	ScreenUISwithing();	// UIを描画
@@ -51,11 +50,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// デバッグ用 -------------------------------------------------------------------------------
 		ScoreCalculation();
+		printfDx("画面サイズ：%d:%d\n", screenWidth, screenHeight);
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
-		printfDx("ステージ番号；%d\n", stageNumber);
+		printfDx("ステージ番号：%d\n", stageNumber);
 		if (currentScreenType == TITLE)
 			score = 0;
-		printfDx("%d:%d", screenWidth, screenHeight);
 		// ------------------------------------------------------------------------------------------
 		CheckButtonPressed();  // ボタンが押されたときの処理
 		if (currentScreenType == STAGECLEAR) {
