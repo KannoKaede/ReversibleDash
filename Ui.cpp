@@ -42,8 +42,17 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 		{0,0,0,0},
 		{0,0,0,0}
 	}
-};
-int font;
+}; 
+int bigFontHandle;
+int normalFontHandle;
+int smallFontHandle;
+
+void fontSetting() {
+	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
+	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
+	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
+	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+}
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
