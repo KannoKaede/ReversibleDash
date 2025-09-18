@@ -2,7 +2,7 @@
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
-
+#include "InGame.h"
 
 bool isGameQuit;
 int stageNumber;
@@ -37,11 +37,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (CheckHitKey(KEY_INPUT_2) && currentScreenType == INGAME) {
 			currentScreenType = STAGECLEAR;
 		}
-
-
-		if (currentScreenType != INGAME) {	// ボタンの選択切り替え
-			ButtonChanged();
+		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
+			DrawStartCountDown();
 		}
+
+
+			if (currentScreenType != INGAME) {	// ボタンの選択切り替え
+				ButtonChanged();
+			}
 
 		// デバッグ用 -------------------------------------------------------------------------------
 		ScoreCalculation();
@@ -60,6 +63,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScreenFlip();
 
 		clsDx();	// デバッグ用文字を消す
+		if (screenWidth != GetSystemMetrics(SM_CXSCREEN) || screenHeight != GetSystemMetrics(SM_CYSCREEN)) {
+			SetGraphMode(screenWidth, screenHeight, 32);
+			screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			screenHeight = GetSystemMetrics(SM_CYSCREEN);
+			bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
+			normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
+			smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+		}
 		WaitTimer(16); // 約60FPS
 	}
 	// フォントデータを削除

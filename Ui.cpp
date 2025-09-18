@@ -2,6 +2,7 @@
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
+#include "InGame.h"
 
 SCREEN_TYPE currentScreenType;
 SCREEN_TYPE nextScreenType;
@@ -42,10 +43,12 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 		{0,0,0,0},
 		{0,0,0,0}
 	}
-}; 
+};
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
+std::string previousText = "";
+std::string drawText = "READY...";
 
 void fontSetting() {
 	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
@@ -53,11 +56,14 @@ void fontSetting() {
 	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
 	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
 }
+
+
+
+int brack = GetColor(0, 0, 0);
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
 	int  backScreen = GetColor(230, 230, 230);
-	int brack = GetColor(0, 0, 0);
 	int gray = GetColor(200, 200, 200);
 	int green = GetColor(0, 255, 128);
 	switch (currentScreenType)
@@ -111,7 +117,7 @@ void ScreenUISwithing()
 		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.6, "TITLE", brack, normalFontHandle);
 		break;
 	case GAMEOVER:
-		DrawBox(screenWidth * 0.23, screenHeight*0.18, screenWidth * 0.77, screenHeight*0.82, backScreen, TRUE);
+		DrawBox(screenWidth * 0.23, screenHeight * 0.18, screenWidth * 0.77, screenHeight * 0.82, backScreen, TRUE);
 		DrawStringToHandle(screenWidth * 0.3, screenHeight * 0.25, "GAMEOVER", brack, bigFontHandle);
 		DrawStringToHandle(screenWidth * 0.305, screenHeight * 0.43, "SCORE", brack, normalFontHandle);
 		DrawFormatStringToHandle(screenWidth * 0.29, screenHeight * 0.515, brack, normalFontHandle, "%06d", score);
@@ -243,6 +249,8 @@ void CheckButtonPressed() {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber = 1;
+			isGameStop = true;
+			isStartCountDown = true;
 		}
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
 			ButtonPressedProcessing(STAGESELECT, false);
@@ -256,6 +264,8 @@ void CheckButtonPressed() {
 				if (buttonMap[STAGESELECT][y][x] == 2) {	// ステージセレクト：ステージ選択ボタン(これで変数用意すれば選んだステージを調べられるはず）
 					ButtonPressedProcessing(INGAME, true);
 					stageNumber = y * 3 + x + 1;
+					isGameStop = true;
+					isStartCountDown = true;
 				}
 			}
 		}
@@ -264,12 +274,15 @@ void CheckButtonPressed() {
 		}
 		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
 			ButtonPressedProcessing(INGAME, false);
+			isStartCountDown = true;
 		}
 		if (buttonMap[PAUSE][0][1] == 2) {	// ポーズ：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
 		}
 		if (buttonMap[GAMEOVER][0][0] == 2) {	// ゲームオーバー：ゲーム再開
 			ButtonPressedProcessing(INGAME, true);
+			isStartCountDown = true;
+			isGameStop = true;
 		}
 		if (buttonMap[GAMEOVER][0][1] == 2) {	// ゲームオーバー：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
@@ -277,6 +290,8 @@ void CheckButtonPressed() {
 		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ステージクリア：ゲーム再開
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber++;
+			isGameStop = true;
+			isStartCountDown = true;
 		}
 		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
@@ -285,6 +300,7 @@ void CheckButtonPressed() {
 	else if (CheckHitKey(KEY_INPUT_ESCAPE)) {
 		if (currentScreenType == INGAME) {
 			ButtonPressedProcessing(PAUSE, false);
+			isGameStop = true;
 		}
 	}
 	else {
@@ -314,5 +330,13 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade) {
 			buttonPosX = 0;
 			currentScreenType = nextScreen;
 		}
+	}
+}
+void DrawStartCountDown() {
+	if (previousText != drawText) {
+		previousText = drawText;
+	}
+	else {
+		DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, const_cast<char*>(drawText.c_str()), brack, bigFontHandle);
 	}
 }
