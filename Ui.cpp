@@ -54,65 +54,78 @@ void ScreenUISwithing()
 	switch (currentScreenType)
 	{
 	case TITLE:
-		DrawStringToHandle(screenWidth * 0.18, screenHeight * 0.14, "ReversibleDash", brack, font);
+		DrawStringToHandle(screenWidth * 0.18, screenHeight * 0.16, "ReversibleDash", brack, bigFontHandle);
 		DrawBox(screenWidth * 0.32, screenHeight * 0.4, screenWidth * 0.68, screenHeight * 0.53, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(230, 230, "GAME START", brack, normalFontHandle);
-		DrawBox(180, 290, 460, 350, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(210, 310, "STAGE SELECT", brack, normalFontHandle);
-		DrawBox(180, 370, 460, 430, buttonMap[TITLE][2][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(240, 390, "GAME QUIT", brack, normalFontHandle);
-		DrawStringToHandle(500, 450, "Ver_0.0.00.00", brack, smallFontHandle);
+		DrawStringToHandle(screenWidth * 0.36, screenHeight * 0.435, "GAME START", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.32, screenHeight * 0.6, screenWidth * 0.68, screenHeight * 0.73, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.33, screenHeight * 0.635, "STAGE SELECT", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.32, screenHeight * 0.8, screenWidth * 0.68, screenHeight * 0.93, buttonMap[TITLE][2][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.38, screenHeight * 0.835, "GAME QUIT", brack, normalFontHandle);
+		DrawStringToHandle(screenWidth * 0.8, screenHeight * 0.95, "Ver_0.0.00.00", brack, smallFontHandle);
+
 		break;
 	case STAGESELECT:
-		DrawStringToHandle(30, 70, "ReversibleDash", brack, bigFontHandle);
-		DrawBox(90, 190, 230, 260, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(130, 265, "STAGE1", brack, smallFontHandle);
-		DrawBox(250, 190, 390, 260, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(290, 265, "STAGE2", brack, smallFontHandle);
-		DrawBox(410, 190, 550, 260, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(450, 265, "STAGE3", brack, smallFontHandle);
-		DrawBox(90, 330, 230, 400, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(130, 405, "STAGE4", brack, smallFontHandle);
-		DrawBox(250, 330, 390, 400, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(290, 405, "STAGE5", brack, smallFontHandle);
-		DrawBox(410, 330, 550, 400, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(450, 405, "STAGE6", brack, smallFontHandle);
-		DrawBox(570, 350, 620, 400, buttonMap[STAGESELECT][1][3] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(574, 370, "BACK", brack, smallFontHandle);
+		DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, "STAGESELECT", brack, bigFontHandle);
+		DrawBox(screenWidth * 0.19, screenHeight * 0.32, screenWidth * 0.37, screenHeight * 0.5, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.28, screenHeight * 0.5, screenWidth * 0.37, screenHeight * 0.535, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.28, screenHeight * 0.49, screenWidth * 0.28, screenHeight * 0.535, screenWidth * 0.26, screenHeight * 0.49, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.28, screenHeight * 0.5, "STAGE1", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.41, screenHeight * 0.32, screenWidth * 0.59, screenHeight * 0.5, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.5, screenHeight * 0.5, screenWidth * 0.59, screenHeight * 0.535, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.5, screenHeight * 0.49, screenWidth * 0.5, screenHeight * 0.535, screenWidth * 0.48, screenHeight * 0.49, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.5, "STAGE2", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.63, screenHeight * 0.32, screenWidth * 0.81, screenHeight * 0.5, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.72, screenHeight * 0.5, screenWidth * 0.81, screenHeight * 0.535, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.72, screenHeight * 0.49, screenWidth * 0.72, screenHeight * 0.535, screenWidth * 0.7, screenHeight * 0.49, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.72, screenHeight * 0.5, "STAGE3", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.19, screenHeight * 0.65, screenWidth * 0.37, screenHeight * 0.83, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.28, screenHeight * 0.83, screenWidth * 0.37, screenHeight * 0.865, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.28, screenHeight * 0.82, screenWidth * 0.28, screenHeight * 0.865, screenWidth * 0.26, screenHeight * 0.82, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.28, screenHeight * 0.83, "STAGE4", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.41, screenHeight * 0.65, screenWidth * 0.59, screenHeight * 0.83, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.5, screenHeight * 0.83, screenWidth * 0.59, screenHeight * 0.865, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.5, screenHeight * 0.82, screenWidth * 0.5, screenHeight * 0.865, screenWidth * 0.48, screenHeight * 0.82, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.83, "STAGE5", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.63, screenHeight * 0.65, screenWidth * 0.81, screenHeight * 0.83, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
+		DrawBox(screenWidth * 0.72, screenHeight * 0.83, screenWidth * 0.81, screenHeight * 0.865, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
+		DrawTriangleAA(screenWidth * 0.72, screenHeight * 0.82, screenWidth * 0.72, screenHeight * 0.865, screenWidth * 0.7, screenHeight * 0.82, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.72, screenHeight * 0.83, "STAGE6", brack, smallFontHandle);
+		DrawBox(screenWidth * 0.84, screenHeight * 0.75, screenWidth * 0.93, screenHeight * 0.83, buttonMap[STAGESELECT][1][3] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.857, screenHeight * 0.775, "BACK", brack, smallFontHandle);
 		break;
 	case PAUSE:
-		DrawBox(130, 100, 510, 370, backScreen, TRUE);
-		DrawStringToHandle(210, 150, "PAUSE", brack, bigFontHandle);
-		DrawBox(170, 290, 300, 350, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(178, 310, "RESUME", brack, normalFontHandle);
-		DrawBox(340, 290, 470, 350, buttonMap[PAUSE][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(358, 310, "TITLE", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.25, screenHeight * 0.25, screenWidth * 0.75, screenHeight * 0.75, backScreen, TRUE);
+		DrawStringToHandle(screenWidth * 0.37, screenHeight * 0.32, "PAUSE", brack, bigFontHandle);
+		DrawBox(screenWidth * 0.275, screenHeight * 0.58, screenWidth * 0.475, screenHeight * 0.68, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.287, screenHeight * 0.6, "RESUME", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.525, screenHeight * 0.58, screenWidth * 0.725, screenHeight * 0.68, buttonMap[PAUSE][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.6, "TITLE", brack, normalFontHandle);
 		break;
 	case GAMEOVER:
-		DrawBox(80, 70, 580, 400, backScreen, TRUE);
-		DrawStringToHandle(150, 120, "GAMEOVER", brack, bigFontHandle);
-		DrawBox(120, 320, 300, 370, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(165, 335, "RETRY", brack, normalFontHandle);
-		DrawBox(340, 320, 520, 370, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
-		DrawStringToHandle(165, 210, "SCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(155, 250, brack, normalFontHandle, "%06d", score);
+		DrawBox(screenWidth * 0.23, screenHeight*0.18, screenWidth * 0.77, screenHeight*0.82, backScreen, TRUE);
+		DrawStringToHandle(screenWidth * 0.3, screenHeight * 0.25, "GAMEOVER", brack, bigFontHandle);
+		DrawStringToHandle(screenWidth * 0.305, screenHeight * 0.43, "SCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(screenWidth * 0.29, screenHeight * 0.515, brack, normalFontHandle, "%06d", score);
+		DrawBox(screenWidth * 0.275, screenHeight * 0.65, screenWidth * 0.475, screenHeight * 0.74, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.302, screenHeight * 0.665, "RETRY", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.525, screenHeight * 0.65, screenWidth * 0.725, screenHeight * 0.74, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.665, "TITLE", brack, normalFontHandle);
 		break;
 	case STAGECLEAR:
-		DrawBox(80, 70, 580, 400, backScreen, TRUE);
-		DrawStringToHandle(110, 120, "STAGECLEAR", brack, bigFontHandle);
-		DrawBox(120, 320, 300, 370, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(118, 335, "NEXT STAGE", brack, normalFontHandle);
-		DrawBox(340, 320, 520, 370, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(383, 335, "TITLE", brack, normalFontHandle);
-		DrawStringToHandle(165, 210, "SCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(155, 250, brack, normalFontHandle, "%06d", score);
-		DrawStringToHandle(345, 210, "HIGHSCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(370, 250, brack, normalFontHandle, "%06d", highScore[stageNumber]);
+		DrawBox(screenWidth * 0.23, screenHeight * 0.18, screenWidth * 0.77, screenHeight * 0.82, backScreen, TRUE);
+		DrawStringToHandle(screenWidth * 0.25, screenHeight * 0.25, "STAGECLEAR", brack, bigFontHandle);
+		DrawStringToHandle(screenWidth * 0.305, screenHeight * 0.43, "SCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(screenWidth * 0.29, screenHeight * 0.515, brack, normalFontHandle, "%06d", score);
+		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.43, "HIGHSCORE", brack, normalFontHandle);
+		DrawFormatStringToHandle(screenWidth * 0.54, screenHeight * 0.515, brack, normalFontHandle, "%06d", highScore[stageNumber]);
+		DrawBox(screenWidth * 0.275, screenHeight * 0.65, screenWidth * 0.475, screenHeight * 0.74, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.32, screenHeight * 0.665, "NEXT", brack, normalFontHandle);
+		DrawBox(screenWidth * 0.525, screenHeight * 0.65, screenWidth * 0.725, screenHeight * 0.74, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
+		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.665, "TITLE", brack, normalFontHandle);
 		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
-		DrawFormatStringToHandle(5, 465, brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(screenWidth * 0.01, screenHeight * 0.95, brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
