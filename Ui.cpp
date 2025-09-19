@@ -12,6 +12,9 @@ int fadeStartCount;
 FADE_STATE fadeState;
 int buttonPosX = 0;
 int buttonPosY = 0;
+int  backScreen;
+int gray;
+int green;
 int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{	// TITLE
 		{1,0,0,0},
@@ -44,6 +47,8 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 		{0,0,0,0}
 	}
 };
+
+int brack;
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
@@ -58,89 +63,116 @@ void fontSetting() {
 }
 
 
+int DrawPositionX(int x) {
+	return screenWidth * x / 100;
+}
+int DrawPositionY(int y) {
+	return screenHeight * y / 100;
+}
 
-int brack = GetColor(0, 0, 0);
+/// <summary> ボタン用の図形を描画 </summary>
+/// <param name="loopY">何回ループするかfor外側</param>
+/// <param name="loopX">何回ループするかfor内側</param>
+/// <param name="topLeft">描画する図形の左上の座標</param>
+/// <param name="lengthX">図形の横幅</param>
+/// <param name="lengthY">図形の縦幅</param>
+/// <param name="plusX">二個目の図形の位置を横にずらす値</param>
+/// <param name="plusY">二個目の図形の位置を縦にずらす値</param>
+/// <param name="screen">画面の種類</param>
+/// <param name="isSquare">四角形か三角形を描画するかのフラグ:true=四角形</param>
+void SquareTest(int loopY, int loopX, VECTOR topLeft, int lengthX, int lengthY, int plusX, int plusY, SCREEN_TYPE screen, bool isSquare) {
+	int posX = topLeft.x;
+	int posY = topLeft.y - plusY;
+	for (int y = 0; y < loopY; y++) {	// 描画する座標を変更しながら図形を描画(形が等しく位置も等間隔にしか置けない）
+		posX = topLeft.x;
+		posY += plusY;
+		for (int x = 0; x < loopX; x++) {
+			if (isSquare) {
+				DrawBox(DrawPositionX(posX), DrawPositionY(posY), DrawPositionX(posX + lengthX), DrawPositionY(posY + lengthY), buttonMap[screen][y][x] == 2 ? green : gray, TRUE);
+			}
+			else {
+				DrawTriangleAA(DrawPositionX(posX), DrawPositionY(posY), DrawPositionX(posX + lengthX), DrawPositionY(posY), DrawPositionX(posX + lengthX), DrawPositionY(posY + lengthY), buttonMap[screen][y][x] == 2 ? green : gray, TRUE);
+			}
+			posX += plusX;
+		}
+	}
+}
+
+/// <summary> 指定の枠の中央に文字を描画する </summary>
+/// <param name="drawText"> 描画する文字列 </param>
+/// <param name="boxLeftPos"> 指定の枠の左座標 </param>
+/// <param name="boxRightPos"> 指定の枠の右座標 </param>
+/// <param name="drawPosY"> 描画する際の縦座標 </param>
+/// <param name="font"> 使用するフォント </param>
+/// <param name="isNum"> 数字を使用するか：true = 数字を使用 </param>
+/// <param name="num"> 使用する数字 </param>
+void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawPosY,int font,bool isNum,int num) {
+	// 指定の範囲から文字が中央に表示される座標を計算する
+	int drawPosX = ((boxRightPos - boxLeftPos) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(drawText.c_str()))) / 2+boxLeftPos;
+	if (isNum) {
+		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%06d",num);
+	}
+	else {
+		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%s", const_cast<char*>(drawText.c_str()));
+	}
+}
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
-	int  backScreen = GetColor(230, 230, 230);
-	int gray = GetColor(200, 200, 200);
-	int green = GetColor(0, 255, 128);
+
 	switch (currentScreenType)
 	{
 	case TITLE:
-		DrawStringToHandle(screenWidth * 0.18, screenHeight * 0.16, "ReversibleDash", brack, bigFontHandle);
-		DrawBox(screenWidth * 0.32, screenHeight * 0.4, screenWidth * 0.68, screenHeight * 0.53, buttonMap[TITLE][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.36, screenHeight * 0.435, "GAME START", brack, normalFontHandle);
-		DrawBox(screenWidth * 0.32, screenHeight * 0.6, screenWidth * 0.68, screenHeight * 0.73, buttonMap[TITLE][1][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.33, screenHeight * 0.635, "STAGE SELECT", brack, normalFontHandle);
-		DrawBox(screenWidth * 0.32, screenHeight * 0.8, screenWidth * 0.68, screenHeight * 0.93, buttonMap[TITLE][2][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.38, screenHeight * 0.835, "GAME QUIT", brack, normalFontHandle);
-		DrawStringToHandle(screenWidth * 0.8, screenHeight * 0.95, "Ver_0.0.00.00", brack, smallFontHandle);
+		SquareTest(3, 1, VGet(32, 40, 0), 36, 13, 0, 20, TITLE, true);
+		StringTest("ReversibleDash", 0, screenWidth, 16,bigFontHandle,false,0);
+		StringTest("GAME START", DrawPositionX(32), DrawPositionX(68), 43, normalFontHandle, false, 0);
+		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
+		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
+		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", brack, smallFontHandle);
 
 		break;
 	case STAGESELECT:
-		DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, "STAGESELECT", brack, bigFontHandle);
-		DrawBox(screenWidth * 0.19, screenHeight * 0.32, screenWidth * 0.37, screenHeight * 0.5, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.28, screenHeight * 0.5, screenWidth * 0.37, screenHeight * 0.535, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.28, screenHeight * 0.49, screenWidth * 0.28, screenHeight * 0.535, screenWidth * 0.26, screenHeight * 0.49, buttonMap[STAGESELECT][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.28, screenHeight * 0.5, "STAGE1", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.41, screenHeight * 0.32, screenWidth * 0.59, screenHeight * 0.5, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.5, screenHeight * 0.5, screenWidth * 0.59, screenHeight * 0.535, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.5, screenHeight * 0.49, screenWidth * 0.5, screenHeight * 0.535, screenWidth * 0.48, screenHeight * 0.49, buttonMap[STAGESELECT][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.5, "STAGE2", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.63, screenHeight * 0.32, screenWidth * 0.81, screenHeight * 0.5, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.72, screenHeight * 0.5, screenWidth * 0.81, screenHeight * 0.535, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.72, screenHeight * 0.49, screenWidth * 0.72, screenHeight * 0.535, screenWidth * 0.7, screenHeight * 0.49, buttonMap[STAGESELECT][0][2] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.72, screenHeight * 0.5, "STAGE3", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.19, screenHeight * 0.65, screenWidth * 0.37, screenHeight * 0.83, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.28, screenHeight * 0.83, screenWidth * 0.37, screenHeight * 0.865, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.28, screenHeight * 0.82, screenWidth * 0.28, screenHeight * 0.865, screenWidth * 0.26, screenHeight * 0.82, buttonMap[STAGESELECT][1][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.28, screenHeight * 0.83, "STAGE4", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.41, screenHeight * 0.65, screenWidth * 0.59, screenHeight * 0.83, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.5, screenHeight * 0.83, screenWidth * 0.59, screenHeight * 0.865, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.5, screenHeight * 0.82, screenWidth * 0.5, screenHeight * 0.865, screenWidth * 0.48, screenHeight * 0.82, buttonMap[STAGESELECT][1][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.83, "STAGE5", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.63, screenHeight * 0.65, screenWidth * 0.81, screenHeight * 0.83, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
-		DrawBox(screenWidth * 0.72, screenHeight * 0.83, screenWidth * 0.81, screenHeight * 0.865, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
-		DrawTriangleAA(screenWidth * 0.72, screenHeight * 0.82, screenWidth * 0.72, screenHeight * 0.865, screenWidth * 0.7, screenHeight * 0.82, buttonMap[STAGESELECT][1][2] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.72, screenHeight * 0.83, "STAGE6", brack, smallFontHandle);
-		DrawBox(screenWidth * 0.84, screenHeight * 0.75, screenWidth * 0.93, screenHeight * 0.83, buttonMap[STAGESELECT][1][3] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.857, screenHeight * 0.775, "BACK", brack, smallFontHandle);
+		SquareTest(2, 3, VGet(19, 32, 0), 18, 18, 22, 33, STAGESELECT, true);
+		SquareTest(2, 3, VGet(28, 50, 0), 9, 3, 22, 33, STAGESELECT, true);
+		SquareTest(2, 3, VGet(26, 49, 0), 2, 4, 22, 33, STAGESELECT, false);
+		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle,false,0);
+		StringTest("STAGE1", DrawPositionX(28), DrawPositionX(37), 50, smallFontHandle, false, 0);
+		StringTest("STAGE2", DrawPositionX(50), DrawPositionX(59), 50, smallFontHandle, false, 0);
+		StringTest("STAGE3", DrawPositionX(72), DrawPositionX(81), 50, smallFontHandle, false, 0);
+		StringTest("STAGE4", DrawPositionX(28), DrawPositionX(37), 83, smallFontHandle, false, 0);
+		StringTest("STAGE5", DrawPositionX(50), DrawPositionX(59), 83, smallFontHandle, false, 0);
+		StringTest("STAGE6", DrawPositionX(72), DrawPositionX(81), 83, smallFontHandle, false, 0);
 		break;
 	case PAUSE:
 		DrawBox(screenWidth * 0.25, screenHeight * 0.25, screenWidth * 0.75, screenHeight * 0.75, backScreen, TRUE);
-		DrawStringToHandle(screenWidth * 0.37, screenHeight * 0.32, "PAUSE", brack, bigFontHandle);
-		DrawBox(screenWidth * 0.275, screenHeight * 0.58, screenWidth * 0.475, screenHeight * 0.68, buttonMap[PAUSE][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.287, screenHeight * 0.6, "RESUME", brack, normalFontHandle);
-		DrawBox(screenWidth * 0.525, screenHeight * 0.58, screenWidth * 0.725, screenHeight * 0.68, buttonMap[PAUSE][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.6, "TITLE", brack, normalFontHandle);
+		SquareTest(1, 2, VGet(27, 58, 0), 20, 10, 26, 0, PAUSE, true);
+		StringTest("PAUSE", 0, screenWidth, 32, bigFontHandle, false, 0);
+		StringTest("RESUME", DrawPositionX(27), DrawPositionX(47), 60, normalFontHandle, false, 0);
+		StringTest("TITLE", DrawPositionX(53), DrawPositionX(73), 60, normalFontHandle, false, 0);
 		break;
 	case GAMEOVER:
-		DrawBox(screenWidth * 0.23, screenHeight * 0.18, screenWidth * 0.77, screenHeight * 0.82, backScreen, TRUE);
-		DrawStringToHandle(screenWidth * 0.3, screenHeight * 0.25, "GAMEOVER", brack, bigFontHandle);
-		DrawStringToHandle(screenWidth * 0.305, screenHeight * 0.43, "SCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(screenWidth * 0.29, screenHeight * 0.515, brack, normalFontHandle, "%06d", score);
-		DrawBox(screenWidth * 0.275, screenHeight * 0.65, screenWidth * 0.475, screenHeight * 0.74, buttonMap[GAMEOVER][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.302, screenHeight * 0.665, "RETRY", brack, normalFontHandle);
-		DrawBox(screenWidth * 0.525, screenHeight * 0.65, screenWidth * 0.725, screenHeight * 0.74, buttonMap[GAMEOVER][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.665, "TITLE", brack, normalFontHandle);
+		DrawBox(DrawPositionX(23), DrawPositionY(18), DrawPositionX(77), DrawPositionY(82), backScreen, TRUE);
+		SquareTest(1, 2, VGet(27, 65, 0), 20, 10, 26, 0, GAMEOVER, true);
+		StringTest("GAMEOVER", 0, screenWidth, 25, bigFontHandle, false, 0);
+		StringTest("SCORE", DrawPositionX(27), DrawPositionX(47), 43, normalFontHandle, false, 0);
+		StringTest("000000", DrawPositionX(27), DrawPositionX(47), 51, normalFontHandle, true, score);
+		StringTest("RETRY", DrawPositionX(27), DrawPositionX(47), 67, normalFontHandle, false, 0);
+		StringTest("TITLE", DrawPositionX(53), DrawPositionX(73), 67, normalFontHandle, false, 0);
 		break;
 	case STAGECLEAR:
-		DrawBox(screenWidth * 0.23, screenHeight * 0.18, screenWidth * 0.77, screenHeight * 0.82, backScreen, TRUE);
-		DrawStringToHandle(screenWidth * 0.25, screenHeight * 0.25, "STAGECLEAR", brack, bigFontHandle);
-		DrawStringToHandle(screenWidth * 0.305, screenHeight * 0.43, "SCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(screenWidth * 0.29, screenHeight * 0.515, brack, normalFontHandle, "%06d", score);
-		DrawStringToHandle(screenWidth * 0.5, screenHeight * 0.43, "HIGHSCORE", brack, normalFontHandle);
-		DrawFormatStringToHandle(screenWidth * 0.54, screenHeight * 0.515, brack, normalFontHandle, "%06d", highScore[stageNumber]);
-		DrawBox(screenWidth * 0.275, screenHeight * 0.65, screenWidth * 0.475, screenHeight * 0.74, buttonMap[STAGECLEAR][0][0] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.32, screenHeight * 0.665, "NEXT", brack, normalFontHandle);
-		DrawBox(screenWidth * 0.525, screenHeight * 0.65, screenWidth * 0.725, screenHeight * 0.74, buttonMap[STAGECLEAR][0][1] == 2 ? green : gray, TRUE);
-		DrawStringToHandle(screenWidth * 0.555, screenHeight * 0.665, "TITLE", brack, normalFontHandle);
+		DrawBox(DrawPositionX(23), DrawPositionY(18), DrawPositionX(77), DrawPositionY(82), backScreen, TRUE);
+		SquareTest(1, 2, VGet(27, 65, 0), 20, 10, 26, 0, STAGECLEAR, true);
+		StringTest("STAGE CLEAR", 0, screenWidth, 25, bigFontHandle, false, 0);
+		StringTest("SCORE", DrawPositionX(27), DrawPositionX(47), 43, normalFontHandle, false, 0);
+		StringTest("000000", DrawPositionX(27), DrawPositionX(47), 51, normalFontHandle, true, score);
+		StringTest("HIGHSCORE", DrawPositionX(53), DrawPositionX(73), 43, normalFontHandle, false, 0);
+		StringTest("000000", DrawPositionX(53), DrawPositionX(73), 51, normalFontHandle, true, highScore[stageNumber]);
+		StringTest("NEXT", DrawPositionX(27), DrawPositionX(47), 67, normalFontHandle, false, 0);
+		StringTest("TITLE", DrawPositionX(53), DrawPositionX(73), 67, normalFontHandle, false, 0);
 		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
-		DrawFormatStringToHandle(screenWidth * 0.01, screenHeight * 0.95, brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(DrawPositionX(1), DrawPositionY(95), brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -201,7 +233,7 @@ void ScreenFade(int fadeSpeed)
 	alphaValue += fadeSpeed;
 	if (alphaValue < 0) alphaValue = 0;
 	if (alphaValue > 255) alphaValue = 255;
-	DrawBox(0, 0, screenWidth, screenHeight, GetColor(0, 0, 0), TRUE);
+	DrawBox(0, 0, screenWidth, screenHeight, brack, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -344,6 +376,7 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade) {
 
 int count;
 int fadeSpeed = 3;
+/// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown() {
 	if (previousText != drawText) {
 		previousText = drawText;
@@ -356,20 +389,20 @@ void DrawStartCountDown() {
 	if (alphaValue <= 0) {
 		alphaValue = 0;
 		fadeSpeed = FADE_SPEED;
-		if (drawText != START_COUNTDOWN_2) {
+		if (drawText != START_COUNTDOWN_2) {	// α値が0になったタイミングでテキストの状態を確認
 			drawText = START_COUNTDOWN_2;
 		}
-		else {
+		else {	// 最後のテキストだった場合スタートカウントダウンを終了する
 			isStartCountDown = false;
 			isGameStop = false;
 		}
 	}
-	if (alphaValue >= 255) {
+	if (alphaValue >= 255) {	// 文字がくっきり見えるようになったら一定時間待機した後フェードアウト速度を描画している文字に応じて変更
 		alphaValue = 255;
 		WaitTimer(300);
 		fadeSpeed = drawText == START_COUNTDOWN_2 ? -FADE_SPEED * 2.5 : -FADE_SPEED / 1.5;
 	}
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, const_cast<char*>(drawText.c_str()), brack, bigFontHandle);
+	StringTest(const_cast<char*>(drawText.c_str()), 0, screenWidth, 45, bigFontHandle, false, 0);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

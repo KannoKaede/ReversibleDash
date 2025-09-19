@@ -62,7 +62,48 @@ void ScreenFadeControl();
 /// <param name="fadeSpeed"> フェード処理の速度 </param>
 void ScreenFade(int fadeSpeed);
 
+/// <summary> 画面比率に合わせた計算 
+/// <param name="x"> 100%で表した座標の比率 </param>
+/// <returns> 画面解像度に応じた値</returns>
+int DrawPositionX(int x);
+
+/// <summary> 画面比率に合わせた計算 
+/// <param name="x"> 100%で表した座標の比率 </param>
+/// <returns> 画面解像度に応じた値</returns>
+int DrawPositionY(int y);
+
+/// <summary> ボタン用の図形を描画 </summary>
+/// <param name="loopY">何回ループするかfor外側</param>
+/// <param name="loopX">何回ループするかfor内側</param>
+/// <param name="topLeft">描画する図形の左上の座標</param>
+/// <param name="lengthX">図形の横幅</param>
+/// <param name="lengthY">図形の縦幅</param>
+/// <param name="plusX">二個目の図形の位置を横にずらす値</param>
+/// <param name="plusY">二個目の図形の位置を縦にずらす値</param>
+/// <param name="screen">画面の種類</param>
+/// <param name="isSquare">四角形か三角形を描画するかのフラグ:true=四角形</param>
+void SquareTest(int loopY, int loopX, VECTOR topLeft, int lengthX, int lengthY, int plusX, int plusY, SCREEN_TYPE screen, bool isSquare);
+
+/// <summary> 指定の枠の中央に文字を描画する </summary>
+/// <param name="drawText"> 描画する文字列 </param>
+/// <param name="boxLeftPos"> 指定の枠の左座標 </param>
+/// <param name="boxRightPos"> 指定の枠の右座標 </param>
+/// <param name="drawPosY"> 描画する際の縦座標 </param>
+/// <param name="font"> 使用するフォント </param>
+/// <param name="isNum"> 数字を使用するか：true = 数字を使用 </param>
+/// <param name="num"> 使用する数字 </param>
+void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawPosY, int font, bool isNum, int num);
+
 /*ボタン関連--------------------------------------------------------------------------------------------------------------------*/
+
+/// <summary> 背景枠の色 </summary>
+extern int  backScreen = GetColor(230, 230, 230);
+
+/// <summary> ボタン選択状態の色 </summary>
+extern int gray = GetColor(200, 200, 200);
+
+/// <summary> ボタン非選択状態の色 </summary>
+extern int green = GetColor(0, 255, 128);
 
 /// <summary> ボタンマップの最大数：横 </summary>
 const int BUTTON_NUM_X = 4;
@@ -100,17 +141,34 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade);
 
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
+/// <summary> フォントの色 </summary>
+int brack = GetColor(0, 0, 0);
+
+/// <summary> フォントサイズ大 </summary>
 extern int bigFontHandle;
 
+/// <summary> フォントサイズ中 </summary>
 extern int normalFontHandle;
 
+/// <summary> フォントサイズ小 </summary>
 extern int smallFontHandle;
+/// <summary> フォントのロードを行う関数 </summary>
 void fontSetting();
 
 /*常時描画しないUI関連--------------------------------------------------------------------------------------------------------------------*/
+
+/// <summary> 描画文字が変更されたか確認する </summary>
+
 extern std::string previousText;
+/// <summary> 描画する文字 </summary>
+
 extern std::string drawText;
+/// <summary> スタートカウントダウンの文字の中身：最初 </summary>
+
 const std::string START_COUNTDOWN_1 = "READY...";
+/// <summary> スタートカウントダウンの文字の中身：最後 </summary>
+
 const std::string START_COUNTDOWN_2 = "GO!";
+/// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown();
 #endif
