@@ -12,9 +12,9 @@ int fadeStartCount;
 FADE_STATE fadeState;
 int buttonPosX = 0;
 int buttonPosY = 0;
-int  backScreen;
-int gray;
-int green;
+int backScreen = GetColor(230, 230, 230);
+int gray = GetColor(200, 200, 200);
+int green = GetColor(0, 255, 128);
 int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{	// TITLE
 		{1,0,0,0},
@@ -48,7 +48,7 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	}
 };
 
-int brack;
+int brack = GetColor(0, 0, 0);
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;

@@ -24,6 +24,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// フォントデータの作成
 	fontSetting();
 
+
+
+	int spaceShipModel = MV1LoadModel("Resource/SpaceShip.mv1");
+
+
+	SetUseLighting(TRUE);
+	SetLightDirection(VGet(1.0f, -1.0f, 1.0f));  // 実際に適用
+
+
+	SetCameraNearFar(0.1f, 999);
+	VECTOR camPos = VGet(0.0f, 0, -100); // カメラの位置
+	VECTOR camTarget = VGet(0.0f, 0, 30);    // 注視点
+
+	VECTOR spaceShipPos = VGet(0, 0, 20);
+	MV1SetPosition(spaceShipModel, spaceShipPos);
+
+
+
+
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	ScreenUISwithing();	// UIを描画
@@ -32,6 +51,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 		//テスト用画面の状態切り替え処理
 
+		SetLightPosition(VGet(0,0,0));
+		SetCameraPositionAndTarget_UpVecY(camPos, camTarget);
+
 		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
 			DrawStartCountDown();
 		}
@@ -39,6 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
+		MV1DrawModel(spaceShipModel);
 		// デバッグ用 -------------------------------------------------------------------------------
 		ScoreCalculation();
 		if (CheckHitKey(KEY_INPUT_1) && currentScreenType == INGAME) {
