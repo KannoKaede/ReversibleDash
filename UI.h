@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 // UIの制御に関する変数、関数をまとめたヘッダ
 
 #ifndef INCLUDED_UI_h
@@ -23,7 +24,7 @@ extern SCREEN_TYPE currentScreenType;
 /// <summary> 次の画面の状態 </summary>
 extern SCREEN_TYPE nextScreenType;
 
-/// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
+/// <summary> 画面の状態に対応したUIを毎フレーム表示するメソッド </summary>
 void ScreenUISwithing();
 
 /*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
@@ -47,7 +48,8 @@ const int FADE_WAIT_TIME = 500;
 enum FADE_STATE {
 	FADEOUT,
 	FADEIN,
-	FADEWAIT
+	FADEWAIT,
+	NONE
 };
 
 /// <summary> 現在のフェードの状態 </summary>
@@ -104,4 +106,11 @@ extern int normalFontHandle;
 
 extern int smallFontHandle;
 void fontSetting();
+
+/*常時描画しないUI関連--------------------------------------------------------------------------------------------------------------------*/
+extern std::string previousText;
+extern std::string drawText;
+const std::string START_COUNTDOWN_1 = "READY...";
+const std::string START_COUNTDOWN_2 = "GO!";
+void DrawStartCountDown();
 #endif

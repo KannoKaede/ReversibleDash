@@ -2,7 +2,7 @@
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
-
+#include "InGame.h"
 
 bool isGameQuit;
 int stageNumber;
@@ -31,20 +31,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ClearDrawScreen();
 		//テスト用画面の状態切り替え処理
+
+		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
+			DrawStartCountDown();
+		}
+
+
+
+
+		// デバッグ用 -------------------------------------------------------------------------------
+		ScoreCalculation();
 		if (CheckHitKey(KEY_INPUT_1) && currentScreenType == INGAME) {
 			currentScreenType = GAMEOVER;
 		}
 		if (CheckHitKey(KEY_INPUT_2) && currentScreenType == INGAME) {
 			currentScreenType = STAGECLEAR;
 		}
-
-
-		if (currentScreenType != INGAME) {	// ボタンの選択切り替え
-			ButtonChanged();
-		}
-
-		// デバッグ用 -------------------------------------------------------------------------------
-		ScoreCalculation();
 		printfDx("画面サイズ：%d:%d\n", screenWidth, screenHeight);
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号：%d\n", stageNumber);
@@ -55,11 +57,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (currentScreenType == STAGECLEAR) {
 			HighScoreCheck();
 		}
+		ButtonChanged();
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 		ScreenFlip();
 
 		clsDx();	// デバッグ用文字を消す
+		if (screenWidth != GetSystemMetrics(SM_CXSCREEN) || screenHeight != GetSystemMetrics(SM_CYSCREEN)) {
+			SetGraphMode(screenWidth, screenHeight, 32);
+			screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			screenHeight = GetSystemMetrics(SM_CYSCREEN);
+			bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
+			normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
+			smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+		}
 		WaitTimer(16); // 約60FPS
 	}
 	// フォントデータを削除
