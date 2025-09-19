@@ -97,13 +97,13 @@ void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawP
 /*ボタン関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> 背景枠の色 </summary>
-extern int  backScreen = GetColor(230, 230, 230);
+extern int  backScreen;
 
 /// <summary> ボタン選択状態の色 </summary>
-extern int gray = GetColor(200, 200, 200);
+extern int gray;
 
 /// <summary> ボタン非選択状態の色 </summary>
-extern int green = GetColor(0, 255, 128);
+extern int green;
 
 /// <summary> ボタンマップの最大数：横 </summary>
 const int BUTTON_NUM_X = 4;
@@ -142,7 +142,7 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade);
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> フォントの色 </summary>
-int brack = GetColor(0, 0, 0);
+extern int brack;
 
 /// <summary> フォントサイズ大 </summary>
 extern int bigFontHandle;
