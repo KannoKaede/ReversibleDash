@@ -48,7 +48,8 @@ const int FADE_WAIT_TIME = 500;
 enum FADE_STATE {
 	FADEOUT,
 	FADEIN,
-	FADEWAIT
+	FADEWAIT,
+	NONE
 };
 
 /// <summary> 現在のフェードの状態 </summary>
@@ -109,5 +110,7 @@ void fontSetting();
 /*常時描画しないUI関連--------------------------------------------------------------------------------------------------------------------*/
 extern std::string previousText;
 extern std::string drawText;
+const std::string START_COUNTDOWN_1 = "READY...";
+const std::string START_COUNTDOWN_2 = "GO!";
 void DrawStartCountDown();
 #endif

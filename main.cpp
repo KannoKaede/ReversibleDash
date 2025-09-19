@@ -31,23 +31,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ClearDrawScreen();
 		//テスト用画面の状態切り替え処理
+
+		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
+			DrawStartCountDown();
+		}
+
+
+
+
+		// デバッグ用 -------------------------------------------------------------------------------
+		ScoreCalculation();
 		if (CheckHitKey(KEY_INPUT_1) && currentScreenType == INGAME) {
 			currentScreenType = GAMEOVER;
 		}
 		if (CheckHitKey(KEY_INPUT_2) && currentScreenType == INGAME) {
 			currentScreenType = STAGECLEAR;
 		}
-		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
-			DrawStartCountDown();
-		}
-
-
-			if (currentScreenType != INGAME) {	// ボタンの選択切り替え
-				ButtonChanged();
-			}
-
-		// デバッグ用 -------------------------------------------------------------------------------
-		ScoreCalculation();
 		printfDx("画面サイズ：%d:%d\n", screenWidth, screenHeight);
 		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
 		printfDx("ステージ番号：%d\n", stageNumber);
@@ -58,6 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (currentScreenType == STAGECLEAR) {
 			HighScoreCheck();
 		}
+		ButtonChanged();
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 		ScreenFlip();

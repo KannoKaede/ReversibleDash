@@ -47,8 +47,8 @@ int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
-std::string previousText = "";
-std::string drawText = "READY...";
+std::string previousText;
+std::string drawText = START_COUNTDOWN_1;
 
 void fontSetting() {
 	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
@@ -164,6 +164,7 @@ void ScreenFadeControl() {
 	case FADEIN:	// 画面を明転：処理終了時にフラグを折る
 		if (alphaValue == 0) {
 			isFading = false;
+			fadeState = NONE;
 		}
 		ScreenFade(-FADE_SPEED);
 		break;
@@ -186,6 +187,8 @@ void ScreenFadeControl() {
 			}
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -207,10 +210,10 @@ int buttonMoveCount;	// ボタン移動の待機時間用カウンタ
 void ButtonChanged() {
 	int x = 0, y = 0;
 	if (!isFading) {
-		if (CheckHitKey(KEY_INPUT_UP))y = -1;
-		if (CheckHitKey(KEY_INPUT_DOWN))y = 1;
-		if (CheckHitKey(KEY_INPUT_LEFT))x = -1;
-		if (CheckHitKey(KEY_INPUT_RIGHT))x = 1;
+		if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))y = -1;
+		if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))y = 1;
+		if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))x = -1;
+		if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))x = 1;
 	}
 
 	// ボタンの選択位置を変更：指定フレーム経つまで移動不可
@@ -245,12 +248,13 @@ void ButtonChanged() {
 int buttonClickCount;	// ボタン押下の待機時間用カウンタ
 /// <summary> ボタンが押されたときの処理を行うメソッド </summary>
 void CheckButtonPressed() {
-	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType != INGAME) {
+	if (CheckHitKey(KEY_INPUT_SPACE) || CheckHitKey(KEY_INPUT_RETURN)) {
 		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber = 1;
 			isGameStop = true;
 			isStartCountDown = true;
+			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
 			ButtonPressedProcessing(STAGESELECT, false);
@@ -266,6 +270,7 @@ void CheckButtonPressed() {
 					stageNumber = y * 3 + x + 1;
 					isGameStop = true;
 					isStartCountDown = true;
+					drawText = START_COUNTDOWN_1;
 				}
 			}
 		}
@@ -275,6 +280,8 @@ void CheckButtonPressed() {
 		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
 			ButtonPressedProcessing(INGAME, false);
 			isStartCountDown = true;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[PAUSE][0][1] == 2) {	// ポーズ：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
@@ -283,6 +290,7 @@ void CheckButtonPressed() {
 			ButtonPressedProcessing(INGAME, true);
 			isStartCountDown = true;
 			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[GAMEOVER][0][1] == 2) {	// ゲームオーバー：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
@@ -292,12 +300,13 @@ void CheckButtonPressed() {
 			stageNumber++;
 			isGameStop = true;
 			isStartCountDown = true;
+			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
 		}
 	}
-	else if (CheckHitKey(KEY_INPUT_ESCAPE)) {
+	else if (CheckHitKey(KEY_INPUT_ESCAPE) && !isStartCountDown) {
 		if (currentScreenType == INGAME) {
 			ButtonPressedProcessing(PAUSE, false);
 			isGameStop = true;
@@ -332,11 +341,35 @@ void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade) {
 		}
 	}
 }
+
+int count;
+int fadeSpeed = 3;
 void DrawStartCountDown() {
 	if (previousText != drawText) {
 		previousText = drawText;
+		count = 0;
 	}
-	else {
-		DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, const_cast<char*>(drawText.c_str()), brack, bigFontHandle);
+	if (++count <= 40) {
+		return;
 	}
+	alphaValue += fadeSpeed;
+	if (alphaValue <= 0) {
+		alphaValue = 0;
+		fadeSpeed = FADE_SPEED;
+		if (drawText != START_COUNTDOWN_2) {
+			drawText = START_COUNTDOWN_2;
+		}
+		else {
+			isStartCountDown = false;
+			isGameStop = false;
+		}
+	}
+	if (alphaValue >= 255) {
+		alphaValue = 255;
+		WaitTimer(300);
+		fadeSpeed = drawText == START_COUNTDOWN_2 ? -FADE_SPEED * 2.5 : -FADE_SPEED / 1.5;
+	}
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
+	DrawStringToHandle(screenWidth * 0.24, screenHeight * 0.16, const_cast<char*>(drawText.c_str()), brack, bigFontHandle);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
