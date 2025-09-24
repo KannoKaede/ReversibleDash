@@ -3,6 +3,7 @@
 #include "UI.h"
 #include "Score.h"
 #include "InGame.h"
+#include "Player.h"
 
 bool isGameQuit;
 int stageNumber;
@@ -15,85 +16,88 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
 	//ウィンドウモードに設定し画面の解像度に応じて画面サイズを変更
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screenWidth, screenHeight, 32);
+
 	// フォントデータの作成
 	fontSetting();
-
-
-
-	int spaceShipModel = MV1LoadModel("Resource/SpaceShip.mv1");
-
-
-	SetUseLighting(TRUE);
-	SetLightDirection(VGet(1.0f, -1.0f, 1.0f));  // 実際に適用
-
-
-	SetCameraNearFar(0.1f, 999);
-	VECTOR camPos = VGet(0.0f, 0, -100); // カメラの位置
-	VECTOR camTarget = VGet(0.0f, 0, 30);    // 注視点
-
-	VECTOR spaceShipPos = VGet(0, 0, 20);
-	MV1SetPosition(spaceShipModel, spaceShipPos);
-
-
+	Player  player(VGet(0, 0, 20), VGet(0, 80, 0), FIRST_SPEED);
+	Camera camera(VGet(player.GetPosition().x + 60.0f, 70.0f, -100.0f), VGet(player.GetPosition().x + 60.0f, 70.0f, 0.0f));
+	Light light(VGet(player.GetPosition().x + 60.0f, 70.0f, -100.0f));
 
 
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
-	ScreenUISwithing();	// UIを描画
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
-		//テスト用画面の状態切り替え処理
-
-		SetLightPosition(VGet(0,0,0));
-		SetCameraPositionAndTarget_UpVecY(camPos, camTarget);
-
-		if (currentScreenType == INGAME && !isFading && isStartCountDown) {
-			DrawStartCountDown();
-		}
-
-
-
-
-		MV1DrawModel(spaceShipModel);
-		// デバッグ用 -------------------------------------------------------------------------------
-		ScoreCalculation();
-		if (CheckHitKey(KEY_INPUT_1) && currentScreenType == INGAME) {
-			currentScreenType = GAMEOVER;
-		}
-		if (CheckHitKey(KEY_INPUT_2) && currentScreenType == INGAME) {
-			currentScreenType = STAGECLEAR;
-		}
-		printfDx("画面サイズ：%d:%d\n", screenWidth, screenHeight);
-		printfDx("選択されているボタン：[%d][%d][%d]\n", currentScreenType, buttonPosY, buttonPosX);
-		printfDx("ステージ番号：%d\n", stageNumber);
-		if (currentScreenType == TITLE)
-			score = 0;
-		// ------------------------------------------------------------------------------------------
-		CheckButtonPressed();  // ボタンが押されたときの処理
-		if (currentScreenType == STAGECLEAR) {
+		printfDx("%f\n%f\n%f", player.GetPosition().x, player.GetPosition().y, player.GetPosition().z);
+		MV1SetPosition(player.modelHandle, player.GetPosition());
+		DrawSphere3D(VGet(20.0f, 00.0f, 20.0f), 80.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
+		SetCameraPositionAndTarget_UpVecY(camera.GetPosition(), camera.GetTarget());
+		SetLightPosition(light.GetPosition());
+		MV1DrawModel(player.modelHandle);
+		printfDx("%d", stageNumber);
+		switch (currentScreenType)
+		{
+		case TITLE:
+			ButtonChanged();
+			score = 0;	// 仮で置いている
+			break;
+		case STAGESELECT:
+			ButtonChanged();
+			break;
+		case PAUSE:
+			ButtonChanged();
+			break;
+		case GAMEOVER:
+			ButtonChanged();
+			break;
+		case STAGECLEAR:
+			ButtonChanged();
 			HighScoreCheck();
+			break;
+		case INGAME:
+			ButtonChanged();
+			if (!isGameStop) {
+				player.ChangeSpeed();
+				if (CheckHitKey(KEY_INPUT_1)) { currentScreenType = GAMEOVER; }	// 仮で置いている
+				printfDx("%f", goalPosition[stageNumber]);
+				if (player.GetPosition().x > goalPosition[stageNumber] + 200) { currentScreenType = STAGECLEAR; buttonPosX = 0; buttonPosY = 0; }	// 画面端に行くとクリアにしている：マジックナンバーで適当にやってるので後で変更
+				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いている
+				if (player.GetChangeSpeedCount() < 5) {
+					camera.Move(player.GetPosition().x);
+					light.Move(player.GetPosition().x);
+				}
+				player.Move();
+				player.Jump();
+			}
+			else {
+				if (!isFading) DrawStartCountDown();
+			}
+			break;
+		default:
+			break;
 		}
-		ButtonChanged();
+
+		if (fadeState == FADEWAIT) {
+			player.SetPosition(VGet(0, 0, 20));
+			player.SetSpeed(FIRST_SPEED);
+			player.SetChangeSpeedCount(1);
+			camera.Move(player.GetPosition().x);
+			light.Move(player.GetPosition().x);
+		}
+
+		CheckButtonPressed();  // ボタンが押されたときの処理
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
+
 		ScreenFlip();
 
 		clsDx();	// デバッグ用文字を消す
-		if (screenWidth != GetSystemMetrics(SM_CXSCREEN) || screenHeight != GetSystemMetrics(SM_CYSCREEN)) {
-			SetGraphMode(screenWidth, screenHeight, 32);
-			screenWidth = GetSystemMetrics(SM_CXSCREEN);
-			screenHeight = GetSystemMetrics(SM_CYSCREEN);
-			bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
-			normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
-			smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
-		}
 		WaitTimer(16); // 約60FPS
 	}
 	// フォントデータを削除
@@ -102,7 +106,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DeleteFontToHandle(smallFontHandle);
 	RemoveFontResourceExA("", FR_PRIVATE, NULL);
 
-	DxLib_End();				// ＤＸライブラリ使用の終了処理
-
-	return 0;				// ソフトの終了 
+	DxLib_End();
+	return 0;
 }

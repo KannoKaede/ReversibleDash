@@ -1,2 +1,5 @@
-D:\ReversibleDash\ReversibleDash\Main.cpp;D:\ReversibleDash\ReversibleDash\ReversibleDash\x64\Debug\Main.obj
-D:\ReversibleDash\ReversibleDash\Ui.cpp;D:\ReversibleDash\ReversibleDash\ReversibleDash\x64\Debug\Ui.obj
+D:\ReversibleDash\InGame.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\InGame.obj
+D:\ReversibleDash\Main.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Main.obj
+D:\ReversibleDash\Player.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Player.obj
+D:\ReversibleDash\Score.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Score.obj
+D:\ReversibleDash\Ui.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Ui.obj

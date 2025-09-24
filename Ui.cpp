@@ -56,7 +56,7 @@ std::string previousText;
 std::string drawText = START_COUNTDOWN_1;
 
 void fontSetting() {
-	AddFontResourceExA("KaqookanV2.ttf", FR_PRIVATE, NULL);
+	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
 	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
 	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
 	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
@@ -106,11 +106,11 @@ void SquareTest(int loopY, int loopX, VECTOR topLeft, int lengthX, int lengthY, 
 /// <param name="font"> 使用するフォント </param>
 /// <param name="isNum"> 数字を使用するか：true = 数字を使用 </param>
 /// <param name="num"> 使用する数字 </param>
-void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawPosY,int font,bool isNum,int num) {
+void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawPosY, int font, bool isNum, int num) {
 	// 指定の範囲から文字が中央に表示される座標を計算する
-	int drawPosX = ((boxRightPos - boxLeftPos) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(drawText.c_str()))) / 2+boxLeftPos;
+	int drawPosX = ((boxRightPos - boxLeftPos) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(drawText.c_str()))) / 2 + boxLeftPos;
 	if (isNum) {
-		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%06d",num);
+		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%06d", num);
 	}
 	else {
 		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%s", const_cast<char*>(drawText.c_str()));
@@ -124,7 +124,7 @@ void ScreenUISwithing()
 	{
 	case TITLE:
 		SquareTest(3, 1, VGet(32, 40, 0), 36, 13, 0, 20, TITLE, true);
-		StringTest("ReversibleDash", 0, screenWidth, 16,bigFontHandle,false,0);
+		StringTest("ReversibleDash", 0, screenWidth, 16, bigFontHandle, false, 0);
 		StringTest("GAME START", DrawPositionX(32), DrawPositionX(68), 43, normalFontHandle, false, 0);
 		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
 		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
@@ -135,7 +135,7 @@ void ScreenUISwithing()
 		SquareTest(2, 3, VGet(19, 32, 0), 18, 18, 22, 33, STAGESELECT, true);
 		SquareTest(2, 3, VGet(28, 50, 0), 9, 3, 22, 33, STAGESELECT, true);
 		SquareTest(2, 3, VGet(26, 49, 0), 2, 4, 22, 33, STAGESELECT, false);
-		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle,false,0);
+		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle, false, 0);
 		StringTest("STAGE1", DrawPositionX(28), DrawPositionX(37), 50, smallFontHandle, false, 0);
 		StringTest("STAGE2", DrawPositionX(50), DrawPositionX(59), 50, smallFontHandle, false, 0);
 		StringTest("STAGE3", DrawPositionX(72), DrawPositionX(81), 50, smallFontHandle, false, 0);
@@ -285,7 +285,6 @@ void CheckButtonPressed() {
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber = 1;
 			isGameStop = true;
-			isStartCountDown = true;
 			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
@@ -301,7 +300,6 @@ void CheckButtonPressed() {
 					ButtonPressedProcessing(INGAME, true);
 					stageNumber = y * 3 + x + 1;
 					isGameStop = true;
-					isStartCountDown = true;
 					drawText = START_COUNTDOWN_1;
 				}
 			}
@@ -311,7 +309,6 @@ void CheckButtonPressed() {
 		}
 		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
 			ButtonPressedProcessing(INGAME, false);
-			isStartCountDown = true;
 			isGameStop = true;
 			drawText = START_COUNTDOWN_1;
 		}
@@ -320,7 +317,6 @@ void CheckButtonPressed() {
 		}
 		if (buttonMap[GAMEOVER][0][0] == 2) {	// ゲームオーバー：ゲーム再開
 			ButtonPressedProcessing(INGAME, true);
-			isStartCountDown = true;
 			isGameStop = true;
 			drawText = START_COUNTDOWN_1;
 		}
@@ -331,14 +327,14 @@ void CheckButtonPressed() {
 			ButtonPressedProcessing(INGAME, true);
 			stageNumber++;
 			isGameStop = true;
-			isStartCountDown = true;
 			drawText = START_COUNTDOWN_1;
 		}
 		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
 			ButtonPressedProcessing(TITLE, true);
 		}
+
 	}
-	else if (CheckHitKey(KEY_INPUT_ESCAPE) && !isStartCountDown) {
+	if (CheckHitKey(KEY_INPUT_ESCAPE) && !isGameStop) {
 		if (currentScreenType == INGAME) {
 			ButtonPressedProcessing(PAUSE, false);
 			isGameStop = true;
@@ -393,7 +389,6 @@ void DrawStartCountDown() {
 			drawText = START_COUNTDOWN_2;
 		}
 		else {	// 最後のテキストだった場合スタートカウントダウンを終了する
-			isStartCountDown = false;
 			isGameStop = false;
 		}
 	}
