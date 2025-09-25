@@ -19,6 +19,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+
+	int ModelHandle = MV1LoadModel("Resource/F-14Test.mv1");
+	SetCameraNearFar(0, 1000);
+	SetUseLighting(TRUE);
+	SetLightDirection(VGet(0, 0, 1));
+
 	//ウィンドウモードに設定し画面の解像度に応じて画面サイズを変更
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -27,22 +33,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// フォントデータの作成
 	fontSetting();
-	Player  player(VGet(0, 0, 20), VGet(0, 80, 0), FIRST_SPEED);
-	Camera camera(VGet(player.GetPosition().x + 60.0f, 70.0f, -100.0f), VGet(player.GetPosition().x + 60.0f, 70.0f, 0.0f));
-	Light light(VGet(player.GetPosition().x + 60.0f, 70.0f, -100.0f));
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ClearDrawScreen();
+		SetCameraPositionAndTarget_UpVecY(VGet(50, 0, 50), VGet(0, 0, 0));
 		ButtonMovement();	//  ボタンの移動
 		ButtonPressed();	// ボタンが押されたときの処理
-		MV1SetPosition(player.modelHandle, player.GetPosition());
-		DrawSphere3D(VGet(20.0f, 00.0f, 20.0f), 80.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
-		SetCameraPositionAndTarget_UpVecY(camera.GetPosition(), camera.GetTarget());
-		SetLightPosition(light.GetPosition());
-		MV1DrawModel(player.modelHandle);
+		//DrawSphere3D(VGet(0, 0, 0), 80.0f, 32, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
+		printfDx("%d\n", ModelHandle);
+		VECTOR test = MV1GetPosition(ModelHandle);
+		printfDx("%f\n%f\n%f", test.x, test.y, test.z);
+		MV1SetPosition(ModelHandle, VGet(0, 0, 0));
+		int i = MV1DrawModel(ModelHandle);
+		printfDx("%d", i);
 		switch (currentScreenType)
 		{
 		case TITLE:
@@ -59,17 +65,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			break;
 		case INGAME:
 			if (!isGameStop) {
-				player.ChangeSpeed();
 				if (CheckHitKey(KEY_INPUT_1)) { currentScreenType = GAMEOVER; }	// 仮で置いている
 				printfDx("%f", goalPosition[stageNumber]);
-				if (player.GetPosition().x > goalPosition[stageNumber] + 200) { currentScreenType = STAGECLEAR; }	// 画面端に行くとクリアにしている：マジックナンバーで適当にやってるので後で変更
-				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いている
-				if (player.GetChangeSpeedCount() < 5) {
-					camera.Move(player.GetPosition().x);
-					light.Move(player.GetPosition().x);
-				}
-				player.Move();
-				player.Jump();
+				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
 			}
 			else {
 				if (!isFading) DrawStartCountDown();
@@ -78,15 +76,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		default:
 			break;
 		}
-
-		if (fadeState == FADEWAIT) {
-			player.SetPosition(VGet(0, 0, 20));
-			player.SetSpeed(FIRST_SPEED);
-			player.SetChangeSpeedCount(1);
-			camera.Move(player.GetPosition().x);
-			light.Move(player.GetPosition().x);
-		}
-
 		//CheckButtonPressed();  // ボタンが押されたときの処理
 		ScreenUISwithing();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
@@ -96,6 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		clsDx();	// デバッグ用文字を消す
 		WaitTimer(16); // 約60FPS
 	}
+	MV1DeleteModel(ModelHandle);
 	// フォントデータを削除
 	DeleteFontToHandle(normalFontHandle);
 	DeleteFontToHandle(bigFontHandle);

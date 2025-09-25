@@ -1,5 +1,8 @@
 #include "Button.h"
 #include "Input.h"
+#include "DxLib.h"
+#include "InGame.h"
+
 
 std::vector<Button*> buttonArray;
 
@@ -28,7 +31,7 @@ void Button::SetButtonColor(int changeColor) {
 }
 
 int Button::GetDrawPos(int screenSize, float pos, int length) {
-	return screenSize * ((int)pos + length / 2) / 100;
+	return screenSize * ((int)pos + length) / 100;
 }
 
 Button::BUTTON_TYPE Button::GetButtonType() {
@@ -87,7 +90,12 @@ void ButtonMovement() {
 }
 
 void ButtonPressed() {
-	if (CheckHitKeyDown(KEY_INPUT_SPACE)) {
+	if (currentScreenType == INGAME) {
+		buttonMovePos = VGet(0, 0, 0);
+		buttonPos = VGet(0, 0, 0);
+		return;
+	}
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isFading) {
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())
 		{
@@ -95,19 +103,27 @@ void ButtonPressed() {
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
 			stageNumber = 1;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::RESUME:
 			nextScreenType = INGAME;
 			fadeState = SCREENSETUP;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::RETRY:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::NEXTSTAGE:
+			stageNumber++;
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
-			stageNumber++;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::OPENSTAGESELECT:
 			nextScreenType = STAGESELECT;
@@ -123,31 +139,43 @@ void ButtonPressed() {
 		case Button::SELECTSTAGE1:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 1;
 			break;
 		case Button::SELECTSTAGE2:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 2;
 			break;
 		case Button::SELECTSTAGE3:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 3;
 			break;
 		case Button::SELECTSTAGE4:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 4;
 			break;
 		case Button::SELECTSTAGE5:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 5;
 			break;
 		case Button::SELECTSTAGE6:
 			nextScreenType = INGAME;
 			fadeState = FADEOUT;
+			isGameStop = true;
+			drawText = START_COUNTDOWN_1;
 			stageNumber = 6;
 			break;
 		case Button::GAMEEXIT:
