@@ -3,6 +3,8 @@
 #include "UI.h"
 #include "Score.h"
 #include "InGame.h"
+#include "Button.h"
+#include "Input.h"
 
 SCREEN_TYPE currentScreenType;
 SCREEN_TYPE nextScreenType;
@@ -15,38 +17,6 @@ int buttonPosY = 0;
 int backScreen = GetColor(230, 230, 230);
 int gray = GetColor(200, 200, 200);
 int green = GetColor(0, 255, 128);
-int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X] = {
-	{	// TITLE
-		{1,0,0,0},
-		{1,0,0,0},
-		{1,0,0,0},
-		{0,0,0,0}
-	},
-	{	// STAGESELECT
-		{1,1,1,0},
-		{1,1,1,1},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// PAUSE
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// GAMEOVER
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	},
-	{	// STAGECLEAR
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	}
-};
 
 int brack = GetColor(0, 0, 0);
 int bigFontHandle;
@@ -116,19 +86,27 @@ void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawP
 		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%s", const_cast<char*>(drawText.c_str()));
 	}
 }
+
+Button titleButton(TITLE, 0, 0, VGet(34, 40, 0), 36, 14, Button::GAMESTART, "GAME START", normalFontHandle);
+Button stageSelectButton(TITLE, 1, 0, VGet(34, 60, 0), 36, 14, Button::OPENSTAGESELECT, "STAGE SELECT", normalFontHandle);
+Button quitButton(TITLE, 2, 0, VGet(34, 80, 0), 36, 14, Button::GAMEQUIT, "GAME QUIT", normalFontHandle);
+
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
 {
-
 	switch (currentScreenType)
 	{
 	case TITLE:
+
 		SquareTest(3, 1, VGet(32, 40, 0), 36, 13, 0, 20, TITLE, true);
 		StringTest("ReversibleDash", 0, screenWidth, 16, bigFontHandle, false, 0);
 		StringTest("GAME START", DrawPositionX(32), DrawPositionX(68), 43, normalFontHandle, false, 0);
 		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
 		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
 		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", brack, smallFontHandle);
+		titleButton.Draw();
+		stageSelectButton.Draw();
+		quitButton.Draw();
 
 		break;
 	case STAGESELECT:
@@ -200,6 +178,12 @@ void ScreenFadeControl() {
 		}
 		ScreenFade(-FADE_SPEED);
 		break;
+	case SCREENSETUP:	// 画面の切り替え：変数の中身を変えるだけ
+		buttonMovePos = VGet(0, 0, 0);
+		buttonPos = VGet(0, 0, 0);
+		currentScreenType = nextScreenType;
+		fadeState = NONE;
+		break;
 	case FADEWAIT:		// 指定時間待機：待機中にUIの切り替えを行う
 		if (fadeStartCount == 0) {
 			fadeStartCount = GetNowCount();
@@ -211,8 +195,8 @@ void ScreenFadeControl() {
 			fadeStartCount = 0;
 
 			// ボタンの選択位置をリセット
-			buttonPosY = 0;
-			buttonPosX = 0;
+			buttonMovePos = VGet(0, 0, 0);
+			buttonPos = VGet(0, 0, 0);
 			// タイトルでステージナンバーをリセット
 			if (currentScreenType == TITLE) {
 				stageNumber = 0;
@@ -235,139 +219,6 @@ void ScreenFade(int fadeSpeed)
 	if (alphaValue > 255) alphaValue = 255;
 	DrawBox(0, 0, screenWidth, screenHeight, brack, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-}
-
-int buttonMoveCount;	// ボタン移動の待機時間用カウンタ
-/// <summary> ボタンの選択位置を変更するメソッド </summary>
-void ButtonChanged() {
-	int x = 0, y = 0;
-	if (!isFading) {
-		if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W))y = -1;
-		if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S))y = 1;
-		if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A))x = -1;
-		if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D))x = 1;
-	}
-
-	// ボタンの選択位置を変更：指定フレーム経つまで移動不可
-	if (x != 0 || y != 0) {
-		buttonMoveCount++;
-		if (buttonMoveCount % WAIT_BUTTON_MOVE == 1) {
-			buttonPosX += x;
-			buttonPosY += y;
-		}
-	}
-	else {
-		buttonMoveCount = 0;
-	}
-
-	// 移動先にボタンが無かったら移動リセットする
-	if (buttonMap[currentScreenType][buttonPosY][buttonPosX] == 0) {
-		buttonPosX -= x;
-		buttonPosY -= y;
-	}
-
-	// ボタンの状態を更新。最初にボタンをすべて非選択状態にしてから、選択中のボタンだけ選択状態にする
-	for (int z = 0; z < SCREEN_BUTTON_NUM; z++) {
-		for (int y = 0; y < BUTTON_NUM_Y; y++) {
-			for (int x = 0; x < BUTTON_NUM_X; x++) {
-				buttonMap[z][y][x] = buttonMap[z][y][x] == 0 ? 0 : 1;
-			}
-		}
-		buttonMap[currentScreenType][buttonPosY][buttonPosX] = 2;
-	}
-}
-
-int buttonClickCount;	// ボタン押下の待機時間用カウンタ
-/// <summary> ボタンが押されたときの処理を行うメソッド </summary>
-void CheckButtonPressed() {
-	if (CheckHitKey(KEY_INPUT_SPACE) || CheckHitKey(KEY_INPUT_RETURN)) {
-		if (buttonMap[TITLE][0][0] == 2) {	// タイトル：ゲーム開始
-			ButtonPressedProcessing(INGAME, true);
-			stageNumber = 1;
-			isGameStop = true;
-			drawText = START_COUNTDOWN_1;
-		}
-		if (buttonMap[TITLE][1][0] == 2) {	// タイトル：ステージセレクトに遷移
-			ButtonPressedProcessing(STAGESELECT, false);
-		}
-		if (buttonMap[TITLE][2][0] == 2) {	// タイトル：ゲームを終了
-			isGameQuit = true;
-			return;
-		}
-		for (int y = 0; y < BUTTON_NUM_Y - 1; y++) {
-			for (int x = 0; x < BUTTON_NUM_X - 1; x++) {
-				if (buttonMap[STAGESELECT][y][x] == 2) {	// ステージセレクト：ステージ選択ボタン(これで変数用意すれば選んだステージを調べられるはず）
-					ButtonPressedProcessing(INGAME, true);
-					stageNumber = y * 3 + x + 1;
-					isGameStop = true;
-					drawText = START_COUNTDOWN_1;
-				}
-			}
-		}
-		if (buttonMap[STAGESELECT][1][3] == 2) {	// ステージセレクトタイトルに戻る
-			ButtonPressedProcessing(TITLE, false);
-		}
-		if (buttonMap[PAUSE][0][0] == 2) {	// ポーズ：ゲーム再開
-			ButtonPressedProcessing(INGAME, false);
-			isGameStop = true;
-			drawText = START_COUNTDOWN_1;
-		}
-		if (buttonMap[PAUSE][0][1] == 2) {	// ポーズ：タイトルに戻る
-			ButtonPressedProcessing(TITLE, true);
-		}
-		if (buttonMap[GAMEOVER][0][0] == 2) {	// ゲームオーバー：ゲーム再開
-			ButtonPressedProcessing(INGAME, true);
-			isGameStop = true;
-			drawText = START_COUNTDOWN_1;
-		}
-		if (buttonMap[GAMEOVER][0][1] == 2) {	// ゲームオーバー：タイトルに戻る
-			ButtonPressedProcessing(TITLE, true);
-		}
-		if (buttonMap[STAGECLEAR][0][0] == 2) {	// ステージクリア：ゲーム再開
-			ButtonPressedProcessing(INGAME, true);
-			stageNumber++;
-			isGameStop = true;
-			drawText = START_COUNTDOWN_1;
-		}
-		if (buttonMap[STAGECLEAR][0][1] == 2) {	// ステージクリア：タイトルに戻る
-			ButtonPressedProcessing(TITLE, true);
-		}
-
-	}
-	if (CheckHitKey(KEY_INPUT_ESCAPE) && !isGameStop) {
-		if (currentScreenType == INGAME) {
-			ButtonPressedProcessing(PAUSE, false);
-			isGameStop = true;
-		}
-	}
-	else {
-		buttonClickCount = 0;
-		return;
-
-	}
-}
-
-/// <summary>
-/// ボタンが押された際の共通処理
-/// </summary>
-/// <param name="nextScreen"> 次の画面</param>
-/// <param name="buttonScreen"> ボタンを押した画面</param>
-/// <param name="y"> ボタンの座標Y</param>
-/// <param name="x"> ボタンの座標X</param>
-/// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
-void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade) {
-	buttonClickCount++;
-	if (buttonClickCount % 100 == 1) {
-		nextScreenType = nextScreen;
-		if (isFade) {
-			fadeState = FADEOUT;
-		}
-		else {
-			buttonPosY = 0;
-			buttonPosX = 0;
-			currentScreenType = nextScreen;
-		}
-	}
 }
 
 int count;

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include "DxLib.h"
 // UIの制御に関する変数、関数をまとめたヘッダ
 
 #ifndef INCLUDED_UI_h
@@ -48,6 +49,7 @@ const int FADE_WAIT_TIME = 500;
 enum FADE_STATE {
 	FADEOUT,
 	FADEIN,
+	SCREENSETUP,
 	FADEWAIT,
 	NONE
 };
@@ -105,39 +107,6 @@ extern int gray;
 /// <summary> ボタン非選択状態の色 </summary>
 extern int green;
 
-/// <summary> ボタンマップの最大数：横 </summary>
-const int BUTTON_NUM_X = 4;
-
-/// <summary> ボタンを配置するマップの最大数：縦 </summary>
-const int BUTTON_NUM_Y = 4;
-
-/// <summary> ボタンが配置されているマップ：0 = ボタンなし・1 = ボタンあり・2 = ボタン選択中 </summary>
-extern int buttonMap[SCREEN_BUTTON_NUM][BUTTON_NUM_Y][BUTTON_NUM_X];
-
-/// <summary> 現在選択されているボタンの座標：横 </summary>
-extern int buttonPosX;
-
-/// <summary> 現在選択されているボタンの座標：縦 </summary>
-extern int buttonPosY;
-
-/// <summary> ボタンが移動してから次に移動できるまでの待機時間 </summary>
-const int WAIT_BUTTON_MOVE = 20;
-
-/// <summary> ボタンの選択位置を変更するメソッド </summary>
-void ButtonChanged();
-
-/// <summary> ボタンが押されたときの処理を行うメソッド </summary>
-void CheckButtonPressed();
-
-/// <summary>
-/// ボタンが押された際の共通処理
-/// </summary>
-/// <param name="nextScreen"> 次の画面</param>
-/// <param name="buttonScreen"> ボタンを押した画面</param>
-/// <param name="y"> ボタンの座標Y</param>
-/// <param name="x"> ボタンの座標X</param>
-/// <param name="isFade"> true = フェード処理を行う false = 即座に切り替える</param>
-void ButtonPressedProcessing(SCREEN_TYPE nextScreen, bool isFade);
 
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
