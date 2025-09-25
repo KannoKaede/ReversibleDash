@@ -87,9 +87,22 @@ void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawP
 	}
 }
 
-Button titleButton(TITLE, 0, 0, VGet(34, 40, 0), 36, 14, Button::GAMESTART, "GAME START", normalFontHandle);
-Button stageSelectButton(TITLE, 1, 0, VGet(34, 60, 0), 36, 14, Button::OPENSTAGESELECT, "STAGE SELECT", normalFontHandle);
-Button quitButton(TITLE, 2, 0, VGet(34, 80, 0), 36, 14, Button::GAMEQUIT, "GAME QUIT", normalFontHandle);
+Button titleButton(TITLE, 0, 0, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", normalFontHandle);
+Button openStageSelectButton(TITLE, 1, 0, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", normalFontHandle);
+Button quitButton(TITLE, 2, 0, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", normalFontHandle);
+Button stageSelect1(STAGESELECT, 0, 0, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", smallFontHandle);
+Button stageSelect2(STAGESELECT, 0, 1, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", smallFontHandle);
+Button stageSelect3(STAGESELECT, 0, 2, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", smallFontHandle);
+Button stageSelect4(STAGESELECT, 1, 0, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", smallFontHandle);
+Button stageSelect5(STAGESELECT, 1, 1, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", smallFontHandle);
+Button stageSelect6(STAGESELECT, 1, 2, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", smallFontHandle);
+Button returnTitle(STAGESELECT, 1, 3, VGet(88, 76, 0), 5, 5, Button::RETURNTITLE, "BACK", smallFontHandle);
+Button resumeGame(PAUSE, 0, 0, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", normalFontHandle);
+Button pauseGameExit(PAUSE, 0, 1, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", normalFontHandle);
+Button retryGame(GAMEOVER, 0, 0, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", normalFontHandle);
+Button gameOverGameExit(GAMEOVER, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", normalFontHandle);
+Button nextGame(STAGECLEAR, 0, 0, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", normalFontHandle);
+Button clearGameExit(STAGECLEAR, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", normalFontHandle);
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwithing()
@@ -98,19 +111,25 @@ void ScreenUISwithing()
 	{
 	case TITLE:
 
-		SquareTest(3, 1, VGet(32, 40, 0), 36, 13, 0, 20, TITLE, true);
+		titleButton.Draw();
+		openStageSelectButton.Draw();
+		quitButton.Draw();
 		StringTest("ReversibleDash", 0, screenWidth, 16, bigFontHandle, false, 0);
 		StringTest("GAME START", DrawPositionX(32), DrawPositionX(68), 43, normalFontHandle, false, 0);
 		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
 		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
 		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", brack, smallFontHandle);
-		titleButton.Draw();
-		stageSelectButton.Draw();
-		quitButton.Draw();
+		
 
 		break;
 	case STAGESELECT:
-		SquareTest(2, 3, VGet(19, 32, 0), 18, 18, 22, 33, STAGESELECT, true);
+		stageSelect1.Draw();
+		stageSelect2.Draw();
+		stageSelect3.Draw();
+		stageSelect4.Draw();
+		stageSelect5.Draw();
+		stageSelect6.Draw();
+		returnTitle.Draw();
 		SquareTest(2, 3, VGet(28, 50, 0), 9, 3, 22, 33, STAGESELECT, true);
 		SquareTest(2, 3, VGet(26, 49, 0), 2, 4, 22, 33, STAGESELECT, false);
 		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle, false, 0);
@@ -120,17 +139,21 @@ void ScreenUISwithing()
 		StringTest("STAGE4", DrawPositionX(28), DrawPositionX(37), 83, smallFontHandle, false, 0);
 		StringTest("STAGE5", DrawPositionX(50), DrawPositionX(59), 83, smallFontHandle, false, 0);
 		StringTest("STAGE6", DrawPositionX(72), DrawPositionX(81), 83, smallFontHandle, false, 0);
+
+		
 		break;
 	case PAUSE:
-		DrawBox(screenWidth * 0.25, screenHeight * 0.25, screenWidth * 0.75, screenHeight * 0.75, backScreen, TRUE);
-		SquareTest(1, 2, VGet(27, 58, 0), 20, 10, 26, 0, PAUSE, true);
+		DrawBox(DrawPositionX(25), DrawPositionY(25), DrawPositionX(75), DrawPositionY(75), backScreen, TRUE);
+		resumeGame.Draw();
+		pauseGameExit.Draw();
 		StringTest("PAUSE", 0, screenWidth, 32, bigFontHandle, false, 0);
 		StringTest("RESUME", DrawPositionX(27), DrawPositionX(47), 60, normalFontHandle, false, 0);
 		StringTest("TITLE", DrawPositionX(53), DrawPositionX(73), 60, normalFontHandle, false, 0);
 		break;
 	case GAMEOVER:
 		DrawBox(DrawPositionX(23), DrawPositionY(18), DrawPositionX(77), DrawPositionY(82), backScreen, TRUE);
-		SquareTest(1, 2, VGet(27, 65, 0), 20, 10, 26, 0, GAMEOVER, true);
+		gameOverGameExit.Draw();
+		retryGame.Draw();
 		StringTest("GAMEOVER", 0, screenWidth, 25, bigFontHandle, false, 0);
 		StringTest("SCORE", DrawPositionX(27), DrawPositionX(47), 43, normalFontHandle, false, 0);
 		StringTest("000000", DrawPositionX(27), DrawPositionX(47), 51, normalFontHandle, true, score);
@@ -139,7 +162,8 @@ void ScreenUISwithing()
 		break;
 	case STAGECLEAR:
 		DrawBox(DrawPositionX(23), DrawPositionY(18), DrawPositionX(77), DrawPositionY(82), backScreen, TRUE);
-		SquareTest(1, 2, VGet(27, 65, 0), 20, 10, 26, 0, STAGECLEAR, true);
+		nextGame.Draw();
+		clearGameExit.Draw();
 		StringTest("STAGE CLEAR", 0, screenWidth, 25, bigFontHandle, false, 0);
 		StringTest("SCORE", DrawPositionX(27), DrawPositionX(47), 43, normalFontHandle, false, 0);
 		StringTest("000000", DrawPositionX(27), DrawPositionX(47), 51, normalFontHandle, true, score);

@@ -4,8 +4,19 @@
 #include "InGame.h"
 #include "Main.h"
 
+int modelHandle;
+
+
+
+//void Player::StartUp(){
+//    modelHandle = MV1LoadModel("Resource/PlayerModel.mv1");
+//    MV1SetScale(modelHandle, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
+//    MV1SetPosition(modelHandle, position);
+//    MV1SetRotationXYZ(modelHandle, direction);
+//}
 void Player::Move() {
     position.x += moveSpeed;
+    MV1DrawModel(modelHandle);
 }
 
 
