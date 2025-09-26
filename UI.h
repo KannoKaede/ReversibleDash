@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include "DxLib.h"
-// UIの制御に関する変数、関数をまとめたヘッダ
+// 変数が多すぎるのでリファクタリングする
 
 #ifndef INCLUDED_UI_h
 #define INCLUDED_UI_h
@@ -26,7 +26,7 @@ extern SCREEN_TYPE currentScreenType;
 extern SCREEN_TYPE nextScreenType;
 
 /// <summary> 画面の状態に対応したUIを毎フレーム表示するメソッド </summary>
-void ScreenUISwithing();
+void ScreenUISwitching();
 
 /*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
 
@@ -111,7 +111,7 @@ extern int green;
 /*フォント関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> フォントの色 </summary>
-extern int brack;
+extern int black;
 
 /// <summary> フォントサイズ大 </summary>
 extern int bigFontHandle;

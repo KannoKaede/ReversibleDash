@@ -4,68 +4,92 @@
 #include "InGame.h"
 #include "Main.h"
 
-int modelHandle;
 
-
-
-//void Player::StartUp(){
-//    modelHandle = MV1LoadModel("Resource/PlayerModel.mv1");
-//    MV1SetScale(modelHandle, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
-//    MV1SetPosition(modelHandle, position);
-//    MV1SetRotationXYZ(modelHandle, direction);
-//}
+Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
+	position = startPos;
+	direction = startDirection;
+	moveSpeed = startSpeed;
+	changeSpeedCount = 1;
+}
+void Player::StartUp() {
+	modelHandle = MV1LoadModel("Resource/PlayerModel.mv1");
+	MV1SetPosition(modelHandle, position);
+	MV1SetRotationXYZ(modelHandle, direction);
+}
 void Player::Move() {
-    position.x += moveSpeed;
-    MV1DrawModel(modelHandle);
+	position.x += moveSpeed;
+	MV1SetPosition(modelHandle, position);
+	float speedUpPos = goalPosition[stageNumber] / 4;
 }
 
-
 void Player::ChangeSpeed() {
-    float speedUpPos = goalPosition[stageNumber] / 4;
-    if (position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
-        moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
-        changeSpeedCount++;
-    }
-    else {
-        return;
-    }
+	float speedUpPos = goalPosition[stageNumber] / 4;
+	if (position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
+		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
+		changeSpeedCount++;
+	}
+	else {
+		return;
+	}
 }
 
 void Player::Jump() {
-    static int jumpHoldFrame = 0;          // ジャンプボタンを押しているフレーム数
-    const int shortJumpFrame = 15;          // 短押し → 中ジャンプのしきい値
-    const int midJumpFrame = 30;         // 長押し → 高ジャンプのしきい値
+	static int jumpHoldFrame = 0; 
+	const int shortJumpFrame = 15;
+	const int midJumpFrame = 30;
 
-    // 地面にいるときだけジャンプ開始
-    if (position.y == 0 && jumpPower == 0) {
-        if (CheckHitKey(KEY_INPUT_SPACE)) {
-            jumpPower = 3.5f;   // 最低ジャンプ力（従来の約半分）
-            jumpHoldFrame = 0;
-        }
-    }
+	if (position.y == 0 && jumpPower == 0) {
+		if (CheckHitKey(KEY_INPUT_SPACE)) {
+			jumpPower = 3.5f;
+			jumpHoldFrame = 0;
+		}
+	}
 
-    // ジャンプ中処理（上昇中のみ可変にする）
-    if (jumpPower > 0 || position.y > 0) {
-        if (jumpPower > 0 && CheckHitKey(KEY_INPUT_SPACE)) {
-            jumpHoldFrame++;
+	if (jumpPower > 0 || position.y > 0) {
+		if (jumpPower > 0 && CheckHitKey(KEY_INPUT_SPACE)) {
+			jumpHoldFrame++;
 
-            if (jumpHoldFrame == shortJumpFrame) {
-                jumpPower += 2.0f;   // 中ジャンプ補強（小さめ）
-            }
-            else if (jumpHoldFrame == midJumpFrame) {
-                jumpPower += 1.5f;   // 高ジャンプ補強（さらに小さめ）
-            }
-        }
+			if (jumpHoldFrame == shortJumpFrame) {
+				jumpPower += 2.0f;
+			}
+			else if (jumpHoldFrame == midJumpFrame) {
+				jumpPower += 1.5f;
+			}
+		}
 
-        // 位置更新
-        position.y += jumpPower;
-        jumpPower -= 0.2f;   // 重力で減速
+		position.y += jumpPower;
+		jumpPower -= 0.2f;
 
-        // 着地判定
-        if (position.y < 0) {
-            position.y = 0;
-            jumpPower = 0;
-            jumpHoldFrame = 0;
-        }
-    }
+		if (position.y < 0) {
+			position.y = 0;
+			jumpPower = 0;
+			jumpHoldFrame = 0;
+		}
+	}
+}
+
+void Player::Initialization() {
+	position = VGet(0, 0, 0);
+	moveSpeed = FIRST_SPEED;
+	changeSpeedCount = 1;
+}
+
+int Player::GetModelHandle() {
+	return modelHandle;
+}
+
+VECTOR Player::GetPosition() {
+	return position;
+}
+
+void Player::SetPosition(VECTOR pos) {
+	position = pos;
+}
+
+float Player::GetSpeed() {
+	return moveSpeed;
+}
+
+int Player::GetChangeSpeedCount() {
+	return changeSpeedCount;
 }

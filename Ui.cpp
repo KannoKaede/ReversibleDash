@@ -5,7 +5,7 @@
 #include "InGame.h"
 #include "Button.h"
 #include "Input.h"
-
+// 全体的にリファクタリングする
 SCREEN_TYPE currentScreenType;
 SCREEN_TYPE nextScreenType;
 bool isFading = true;
@@ -18,7 +18,7 @@ int backScreen = GetColor(230, 230, 230);
 int gray = GetColor(200, 200, 200);
 int green = GetColor(0, 255, 128);
 
-int brack = GetColor(0, 0, 0);
+int black = GetColor(0, 0, 0);
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
@@ -80,10 +80,10 @@ void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawP
 	// 指定の範囲から文字が中央に表示される座標を計算する
 	int drawPosX = ((boxRightPos - boxLeftPos) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(drawText.c_str()))) / 2 + boxLeftPos;
 	if (isNum) {
-		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%06d", num);
+		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), black, font, "%06d", num);
 	}
 	else {
-		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), brack, font, "%s", const_cast<char*>(drawText.c_str()));
+		DrawFormatStringToHandle(drawPosX, DrawPositionY(drawPosY), black, font, "%s", const_cast<char*>(drawText.c_str()));
 	}
 }
 
@@ -105,7 +105,7 @@ Button nextGame(STAGECLEAR, 0, 0, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NE
 Button clearGameExit(STAGECLEAR, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", normalFontHandle);
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
-void ScreenUISwithing()
+void ScreenUISwitching()
 {
 	switch (currentScreenType)
 	{
@@ -118,7 +118,7 @@ void ScreenUISwithing()
 		StringTest("GAME START", DrawPositionX(32), DrawPositionX(68), 43, normalFontHandle, false, 0);
 		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
 		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
-		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", brack, smallFontHandle);
+		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", black, smallFontHandle);
 		
 
 		break;
@@ -174,7 +174,7 @@ void ScreenUISwithing()
 		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
-		DrawFormatStringToHandle(DrawPositionX(1), DrawPositionY(95), brack, smallFontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(DrawPositionX(1), DrawPositionY(95), black, smallFontHandle, "SCORE:%06d", inGameVewScore);
 		break;
 	default:
 		printfDx("ERROR: ScreenUISwithing%d\n", currentScreenType);
@@ -241,7 +241,7 @@ void ScreenFade(int fadeSpeed)
 	alphaValue += fadeSpeed;
 	if (alphaValue < 0) alphaValue = 0;
 	if (alphaValue > 255) alphaValue = 255;
-	DrawBox(0, 0, screenWidth, screenHeight, brack, TRUE);
+	DrawBox(0, 0, screenWidth, screenHeight, black, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
