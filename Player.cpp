@@ -1,8 +1,6 @@
 #include "Player.h"
-#include "DxLib.h"
-#include "UI.h"
 #include "InGame.h"
-#include "Main.h"
+#include "Input.h"
 
 
 Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
@@ -33,38 +31,41 @@ void Player::ChangeSpeed() {
 	}
 }
 
-void Player::Jump() {
-	static int jumpHoldFrame = 0; 
-	const int shortJumpFrame = 15;
-	const int midJumpFrame = 30;
 
-	if (position.y == 0 && jumpPower == 0) {
-		if (CheckHitKey(KEY_INPUT_SPACE)) {
-			jumpPower = 3.5f;
-			jumpHoldFrame = 0;
+float jumpPower;	// 実際のジャンプ力を入れる変数
+bool isJumping;	// 現在ジャンプ中か判定		地面に付いたらtrue
+int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
+bool isFall;	// 落下中かの判定
+PLAYER_GROUND playerGround = BOTTOM;	// どちらの地面を走っているか
+void Player::Jump() {
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isJumping) {	//ジャンプ中には入れない
+		pressedMomentTime = GetNowCount();
+		jumpPower = playerGround == BOTTOM ? MIN_JUMP_POWER : -MIN_JUMP_POWER;
+		isJumping = true;
+	}
+	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
+		if (pressedMomentTime + SECOND_JUMP_TIMING <= GetNowCount()&&!isFall) {
+			isFall = true;
+			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
+			MV1SetRotationXYZ(modelHandle, playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0): VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
+				
 		}
 	}
-
-	if (jumpPower > 0 || position.y > 0) {
-		if (jumpPower > 0 && CheckHitKey(KEY_INPUT_SPACE)) {
-			jumpHoldFrame++;
-
-			if (jumpHoldFrame == shortJumpFrame) {
-				jumpPower += 2.0f;
-			}
-			else if (jumpHoldFrame == midJumpFrame) {
-				jumpPower += 1.5f;
-			}
-		}
-
+	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ジャンプの値を初期化する
+		pressedMomentTime = 0;
+		isFall = true;
+	}
+	if (isJumping) {
 		position.y += jumpPower;
-		jumpPower -= 0.2f;
-
-		if (position.y < 0) {
-			position.y = 0;
-			jumpPower = 0;
-			jumpHoldFrame = 0;
-		}
+		if (isFall)
+			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
+	}
+	if (position.y < 0|| position.y>680) {
+		pressedMomentTime = 0;
+		isJumping = false;
+		isFall = false;
+		jumpPower = 0;
+		position.y = playerGround == BOTTOM ? 0 : 680;
 	}
 }
 

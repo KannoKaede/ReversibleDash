@@ -1,6 +1,5 @@
 #pragma once
 #include "DxLib.h"
-#include "UI.h"
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
@@ -45,12 +44,23 @@ public:
 	/// <returns> changeSpeedCount </returns>
 	int GetChangeSpeedCount();
 private:
-	int modelHandle;	// プレイヤーモデル
+	int modelHandle = 0;	// プレイヤーモデル
 	VECTOR position;	// プレイヤーの位置
 	VECTOR direction;	// プレイヤーの向き
 	float moveSpeed;	// プレイヤーの移動速度を格納
 	int changeSpeedCount;	// 移動速度の変更回数を格納するカウンタ
-	float jumpPower = 0;	// ジャンプ力
-
 };
+
+extern float jumpPower;	// 実際のジャンプ力を入れる変数
+extern bool isFall;
+const float MIN_JUMP_POWER = 15;	// 最低ジャンプ力
+const int  SECOND_JUMP_TIMING= 250;	// 二番目のジャンプ力に変更するタイミング
+const int THIRD_JUMP_TIMING = 500;	// 三番目のジャンプ力に変更するタイミング
+extern bool isJumping;	// 現在ジャンプ中か判定
+const float GRAVITY = 0.7f;	// 重力
+enum PLAYER_GROUND {
+	TOP,
+	BOTTOM
+};
+extern PLAYER_GROUND playerGround;	// 上下どちらにいるのか
 #endif
