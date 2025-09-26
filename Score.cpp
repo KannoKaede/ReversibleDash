@@ -2,7 +2,8 @@
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
-
+#include "InGame.h"
+// 全体像が完成したらリファクタリングする（ハイスコアはセーブデータに保存するように変更）
 int score;
 int highScore[MAX_STAGE_NUM];
 int inGameVewScore;

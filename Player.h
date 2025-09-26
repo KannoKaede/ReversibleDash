@@ -4,38 +4,53 @@
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
-const float FIRST_SPEED = 0.5f;
+const float FIRST_SPEED = 1;
 class Player {
 public:
 
-	int modelHandle;
-	const float MODEL_SCALE = 0.2f;
-	Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
-		position = startPos;
-		direction = startDirection;
-		moveSpeed = startSpeed;
-		changeSpeedCount = 1;
+	Player(VECTOR startPos, VECTOR startDirection, float startSpeed);
 
-		modelHandle = MV1LoadModel("Resource/PlayerModel.mv1");
-		MV1SetScale(modelHandle, VGet(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE));
-		MV1SetPosition(modelHandle, position);
-		MV1SetRotationXYZ(modelHandle, direction);
-	}
+	/// <summary> プレイヤーの初期設定メソッド </summary>
+	void StartUp();
+
+	/// <summary> プレイヤーの移動メソッド </summary>
 	void Move();
-	void Jump();
+
+	/// <summary> プレイヤーの移動速度変更メソッド </summary>
 	void ChangeSpeed();
-	VECTOR GetPosition() { return position; }
-	void SetPosition(VECTOR pos) { position = pos; }
-	float GetSpeed() { return moveSpeed; }
-	void SetSpeed(float speed) { moveSpeed = speed; }
-	int GetChangeSpeedCount() { return changeSpeedCount; }
-	void SetChangeSpeedCount(int count) { changeSpeedCount = count; }
+
+	/// <summary> プレイヤーのジャンプ処理メソッド </summary>
+	void Jump();
+
+	/// <summary> プレイヤーのリセットメソッド </summary>
+	void Initialization();
+
+	/// <summary> modelHandleを返すメソッド </summary>
+	/// <returns> modelHandle </returns>
+	int GetModelHandle();
+
+	/// <summary> positionを返すメソッド </summary>
+	/// <returns> position </returns>
+	VECTOR GetPosition();
+
+	/// <summary> positionをセットするメソッド </summary>
+	/// <param name="pos"> セットする座標 </param>
+	void SetPosition(VECTOR pos);
+
+	/// <summary> moveSpeedを返すメソッド </summary>
+	/// <returns> moveSpeed </returns>
+	float GetSpeed();
+
+	/// <summary> changeSpeedCountを返すメソッド </summary>
+	/// <returns> changeSpeedCount </returns>
+	int GetChangeSpeedCount();
 private:
+	int modelHandle;	// プレイヤーモデル
 	VECTOR position;	// プレイヤーの位置
 	VECTOR direction;	// プレイヤーの向き
 	float moveSpeed;	// プレイヤーの移動速度を格納
 	int changeSpeedCount;	// 移動速度の変更回数を格納するカウンタ
-	float jumpPower = 0;
+	float jumpPower = 0;	// ジャンプ力
 
 };
 #endif
