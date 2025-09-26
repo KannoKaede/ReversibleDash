@@ -18,6 +18,7 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
 	//ウィンドウモードに設定し画面の解像度に応じて画面サイズを変更
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -37,11 +38,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
+
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
-		ButtonPressed();	// ボタンが押されたときの処理
-		printfDx("%f：%f", player.GetPosition().x,goalPosition[stageNumber]);
-		printfDx("%f", player.GetSpeed());
+		if (currentScreenType != INGAME) {
+			ButtonPressed();	// ボタンが押されたときの処理
+		}
+		/*printfDx("%f：%f", player.GetPosition().x,goalPosition[stageNumber]);
+		printfDx("%f", player.GetSpeed());*/
 		switch (currentScreenType)
 		{
 		case TITLE:
@@ -57,11 +61,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			HighScoreCheck();
 			break;
 		case INGAME:
-			// カメラ、ライト、プレイヤーの描画
-			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
-			SetLightPosition(light.GetLightPos());
-			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
-			MV1DrawModel(player.GetModelHandle());
+
 			if (!isGameStop) {
 				player.Move();
 				player.ChangeSpeed();
@@ -80,6 +80,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			else {
 				if (!isFading) DrawStartCountDown();
 			}
+			// カメラ、ライト、プレイヤーの描画
+			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
+			SetLightPosition(light.GetLightPos());
+			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
+			MV1DrawModel(player.GetModelHandle());
 			break;
 		default:
 			break;
