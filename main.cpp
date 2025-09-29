@@ -41,11 +41,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
-		if (currentScreenType != INGAME) {
-			ButtonPressed();	// ボタンが押されたときの処理
-		}
-		/*printfDx("%f：%f", player.GetPosition().x,goalPosition[stageNumber]);
-		printfDx("%f", player.GetSpeed());*/
+		ButtonPressed();	// ボタンが押されたときの処理
+
 		switch (currentScreenType)
 		{
 		case TITLE:
@@ -72,7 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 				if (CheckHitKey(KEY_INPUT_1)) { currentScreenType = GAMEOVER; }	// 仮で置いている
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
-				if (player.GetPosition().x >= goalPosition[stageNumber]+1000) {
+				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {
 					nextScreenType = STAGECLEAR;
 					fadeState = SCREENSETUP;
 				}
@@ -85,6 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			SetLightPosition(light.GetLightPos());
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
+			DrawStage(stageNumber, player);
 			break;
 		default:
 			break;
