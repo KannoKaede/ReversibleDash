@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "InGame.h"
 #include "Input.h"
 
@@ -32,26 +32,26 @@ void Player::ChangeSpeed() {
 }
 
 
-float jumpPower;	// ÀÛ‚ÌƒWƒƒƒ“ƒv—Í‚ğ“ü‚ê‚é•Ï”
-bool isJumping;	// Œ»İƒWƒƒƒ“ƒv’†‚©”»’è		’n–Ê‚É•t‚¢‚½‚çtrue
-int pressedMomentTime;	// Space‚ğ‰Ÿ‚µ‚½uŠÔ‚ÌŠÔ‚ğæ“¾
-bool isFall;	// —‰º’†‚©‚Ì”»’è
-PLAYER_GROUND playerGround = BOTTOM;	// ‚Ç‚¿‚ç‚Ì’n–Ê‚ğ‘–‚Á‚Ä‚¢‚é‚©
+float jumpPower;	// å®Ÿéš›ã®ã‚¸ãƒ£ãƒ³ãƒ—åŠ›ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
+bool isJumping;	// ç¾åœ¨ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ã‹åˆ¤å®š		åœ°é¢ã«ä»˜ã„ãŸã‚‰true
+int pressedMomentTime;	// Spaceã‚’æŠ¼ã—ãŸç¬é–“ã®æ™‚é–“ã‚’å–å¾—
+bool isFall;	// è½ä¸‹ä¸­ã‹ã®åˆ¤å®š
+PLAYER_GROUND playerGround = BOTTOM;	// ã©ã¡ã‚‰ã®åœ°é¢ã‚’èµ°ã£ã¦ã„ã‚‹ã‹
 void Player::Jump() {
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isJumping) {	//ƒWƒƒƒ“ƒv’†‚É‚Í“ü‚ê‚È‚¢
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isJumping) {	//ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ã«ã¯å…¥ã‚Œãªã„
 		pressedMomentTime = GetNowCount();
-		jumpPower = playerGround == BOTTOM ? MIN_JUMP_POWER : -MIN_JUMP_POWER;
+		jumpPower = playerGround == BOTTOM ? JUMP_POWER : -JUMP_POWER;
 		isJumping = true;
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
-		if (pressedMomentTime + SECOND_JUMP_TIMING <= GetNowCount()&&!isFall) {
+		if (pressedMomentTime + CANT_JUMP_TIMING <= GetNowCount()&&!isFall) {
 			isFall = true;
 			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
 			MV1SetRotationXYZ(modelHandle, playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0): VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
 				
 		}
 	}
-	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ƒWƒƒƒ“ƒv‚Ì’l‚ğ‰Šú‰»‚·‚é
+	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ã‚¸ãƒ£ãƒ³ãƒ—ã®å€¤ã‚’åˆæœŸåŒ–ã™ã‚‹
 		pressedMomentTime = 0;
 		isFall = true;
 	}
@@ -73,6 +73,8 @@ void Player::Initialization() {
 	position = VGet(0, 0, 0);
 	moveSpeed = FIRST_SPEED;
 	changeSpeedCount = 1;
+	playerGround = BOTTOM;
+	MV1SetRotationXYZ(modelHandle, direction);
 }
 
 int Player::GetModelHandle() {
