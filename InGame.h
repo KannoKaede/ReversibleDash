@@ -1,23 +1,34 @@
-#pragma once
-#include "main.h"
+ï»¿#pragma once
+#include "Main.h"
 #include "Player.h"
+#include <vector>
 #ifndef INCLUDED_InGame_h
 #define INCLUDED_InGame_h
 
 extern bool isGameStop;
-extern int stageNumber;     // Œ»İ‚ÌƒXƒe[ƒW”Ô†
-const int MAX_STAGE_NUM = 7;    //ƒXƒe[ƒW‚ÌÅ‘å”F”z—ñ‚Åg—p‚·‚é‚½‚ßƒXƒe[ƒW”{‚P
-const float goalPosition[MAX_STAGE_NUM] = { 0,500,100,100,100,100,100 };
+extern int stageNumber;     // ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
+const int MAX_STAGE_NUM = 7;    //ã‚¹ãƒ†ãƒ¼ã‚¸ã®æœ€å¤§æ•°ï¼šé…åˆ—ã§ä½¿ç”¨ã™ã‚‹ãŸã‚ã‚¹ãƒ†ãƒ¼ã‚¸æ•°ï¼‹ï¼‘
+const float goalPosition[MAX_STAGE_NUM] = { 0,500,100,100,100,100,100 };	// ã‚´ãƒ¼ãƒ«åº§æ¨™
+extern int mapDataArray[MAX_STAGE_NUM][2][256];		// ãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿
+const int CORN_COLOR_TEST = GetColor(255, 0, 0);	// ä»®ã®å††éŒã®è‰²
+const float CORN_RADIUS = 40;	// å††éŒã®åŠå¾„
+const float CORN_HEIGHT = 70;	// å††éŒã®é«˜ã•
+extern float ConePosX;
+const VECTOR TOP_DRAW_POS = VGet(-360, 700, 40);
+const VECTOR BOTTOM_DRAW_POS = VGet(-360, -20, 40);
+
+
 
 void DrawStage(int stageNum, Player player);
 
-/// <summary> ƒvƒŒƒCƒ„[‚Æ‰~Œ^‚ÌáŠQ•¨‚ÌÕ“Ë”»’è </summary>
-/// <param name="coneApex">‰~‚Ì’¸“_À•W</param>
-/// <param name="coneHeight">‰~‚Ì‚‚³</param>
-/// <param name="coneRadius">‰~‚Ì’ê–Ê”¼Œa</param>
-/// <param name="playerPos">ƒvƒŒƒCƒ„[À•W</param>
-/// <param name="playerHeight">ƒvƒŒƒCƒ„[‚Ì‚‚³</param>
-/// <param name="playerRadius">ƒvƒŒƒCƒ„[‚Ì”¼Œa</param>
-/// <returns>Õ“Ë”»’è</returns>
-bool GetIsCollision(const VECTOR& coneApex, float coneHeight, float coneRadius, const VECTOR& playerPos, float playerHeight, float playerRadius);
+void DrawCone(VECTOR bottomCenterPos, float height);
+
+/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨å††éŒå‹ã®éšœå®³ç‰©ã®è¡çªåˆ¤å®š </summary>
+/// <param name="coneApex">å††éŒã®é ‚ç‚¹åº§æ¨™</param>
+/// <param name="coneHeight">å††éŒã®é«˜ã•</param>
+/// <param name="playerPos">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™</param>
+/// <param name="playerHeight">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é«˜ã•</param>
+/// <param name="playerRadius">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åŠå¾„</param>
+/// <returns>è¡çªåˆ¤å®š</returns>
+bool GetIsCollision(const VECTOR& coneApex, float coneHeight, const VECTOR& playerPos, float playerHeight, float playerRadius);
 #endif
