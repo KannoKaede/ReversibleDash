@@ -82,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			SetLightPosition(light.GetLightPos());
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
-			DrawStage(stageNumber);
+			DrawStage(stageNumber, player);
 			break;
 		default:
 			break;
