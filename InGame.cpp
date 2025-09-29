@@ -4,11 +4,11 @@
 #include "UI.h"
 bool isGameStop;	// ゲームが止まっているか
 int stageNumber;	// ステージ番号
-int mapDataArray[MAX_STAGE_NUM][2][256] = {	// マップデータ：奇数=円錐の描画する回数 偶数= 何も描画しないする回数
+int mapDataArray[MAX_STAGE_NUM][2][256] = {	// マップデータ：奇数=円錐の描画する回数 偶数= 何も描画しないする回数：リファクタリングこのやり方だと一種類しか描画できない
 	{{} ,{}},	// ステージ0は無いので何もない
 	{	// ステージ1
-		{1,10,2,5},
-		{3,0,2,0}
+		{1,43,9,1,10,1,5,1,10,1},
+		{12,1,5,1,5,1,10,1,5,1,5,32,10,1}
 	},
 	{// ステージ2
 		{},
@@ -34,17 +34,17 @@ int mapDataArray[MAX_STAGE_NUM][2][256] = {	// マップデータ：奇数=円�
 float drawConePosX;
 void DrawStage(int stageNum, Player player) {	// リファクタリング：一個しか描画できないのでα版が終わったら書き直す
 	for (int y = 0; y < 2; y++) {
-		drawConePosX = 0;
-		for (int x = 0; x < sizeof(mapDataArray[stageNumber][y]); x++) {
+		drawConePosX = 0;	// 初期描画座標Xを初期化する
+		for (int x = 0; x < 30; x++) {	// 30を配列の要素数分回せるようにリファクタリング
 			if (mapDataArray[stageNumber][y][x] != 0) {
 				if (x % 2 == 0) {	// 描画しない
 						drawConePosX += CORN_RADIUS * 2 * mapDataArray[stageNumber][y][x];	// 円錐の直系分座標をずらす
 				}
 				else {	// 円錐描画
 					for (int j = 0; j < mapDataArray[stageNumber][y][x]; j++) {
-						VECTOR drawPos = VAdd(y == 0 ? TOP_DRAW_POS : BOTTOM_DRAW_POS, VGet(drawConePosX, 0, 0));
+						VECTOR drawPos = VAdd(y == 0 ? TOP_DRAW_POS : BOTTOM_DRAW_POS, VGet(drawConePosX, 0, 0));	// 描画する座標を指定の値ずらす
 						DrawCone(drawPos, y == 0 ? -CORN_HEIGHT : CORN_HEIGHT);
-						if (GetIsCollision(VAdd(drawPos,VGet(0,CORN_HEIGHT,0)), 90, player.GetPosition(), 15, 7)) {
+						if (GetIsCollision(VAdd(drawPos,VGet(0,CORN_HEIGHT,0)), 90, player.GetPosition(), 15, 7)) {	// 衝突判定を行う
 							nextScreenType = GAMEOVER;
 							fadeState = SCREENSETUP;
 						}

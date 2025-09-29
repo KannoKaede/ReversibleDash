@@ -46,7 +46,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		switch (currentScreenType)
 		{
 		case TITLE:
-			score = 0;	// 仮で置いている
 			break;
 		case STAGESELECT:
 			break;
@@ -67,9 +66,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					light.Move(player.GetSpeed());
 					camera.Move(player.GetSpeed());
 				}
-				if (CheckHitKey(KEY_INPUT_1)) { currentScreenType = GAMEOVER; }	// 仮で置いている
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
-				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {
+				InGameScoreView();
+				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {	// マジックナンバーにするのはやめる（リファクタリング）
 					nextScreenType = STAGECLEAR;
 					fadeState = SCREENSETUP;
 				}
@@ -91,6 +90,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			player.Initialization();
 			camera.Initialization();
 			light.Initialization();
+			if (fadeState == FADEWAIT) {	//仮で置いておく
+				score = 0;
+				inGameVewScore = 0;
+			}
 		}
 		ScreenUISwitching();	//	UIを描画
 		ScreenFadeControl();	// フェード演出

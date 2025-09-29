@@ -1,66 +1,65 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
-const float FIRST_SPEED = 1;
+const float FIRST_SPEED = 4;
 class Player {
 public:
 
 	Player(VECTOR startPos, VECTOR startDirection, float startSpeed);
 
-	/// <summary> ƒvƒŒƒCƒ„[‚Ì‰Šúİ’èƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸè¨­å®šãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void StartUp();
 
-	/// <summary> ƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void Move();
 
-	/// <summary> ƒvƒŒƒCƒ„[‚ÌˆÚ“®‘¬“x•ÏXƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é€Ÿåº¦å¤‰æ›´ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void ChangeSpeed();
 
-	/// <summary> ƒvƒŒƒCƒ„[‚ÌƒWƒƒƒ“ƒvˆ—ƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void Jump();
 
-	/// <summary> ƒvƒŒƒCƒ„[‚ÌƒŠƒZƒbƒgƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒªã‚»ãƒƒãƒˆãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void Initialization();
 
-	/// <summary> modelHandle‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> modelHandleã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> modelHandle </returns>
 	int GetModelHandle();
 
-	/// <summary> position‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> positionã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> position </returns>
 	VECTOR GetPosition();
 
-	/// <summary> position‚ğƒZƒbƒg‚·‚éƒƒ\ƒbƒh </summary>
-	/// <param name="pos"> ƒZƒbƒg‚·‚éÀ•W </param>
+	/// <summary> positionã‚’ã‚»ãƒƒãƒˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+	/// <param name="pos"> ã‚»ãƒƒãƒˆã™ã‚‹åº§æ¨™ </param>
 	void SetPosition(VECTOR pos);
 
-	/// <summary> moveSpeed‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> moveSpeedã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> moveSpeed </returns>
 	float GetSpeed();
 
-	/// <summary> changeSpeedCount‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> changeSpeedCountã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> changeSpeedCount </returns>
 	int GetChangeSpeedCount();
 private:
-	int modelHandle = 0;	// ƒvƒŒƒCƒ„[ƒ‚ƒfƒ‹
-	VECTOR position;	// ƒvƒŒƒCƒ„[‚ÌˆÊ’u
-	VECTOR direction;	// ƒvƒŒƒCƒ„[‚ÌŒü‚«
-	float moveSpeed;	// ƒvƒŒƒCƒ„[‚ÌˆÚ“®‘¬“x‚ğŠi”[
-	int changeSpeedCount;	// ˆÚ“®‘¬“x‚Ì•ÏX‰ñ”‚ğŠi”[‚·‚éƒJƒEƒ“ƒ^
+	int modelHandle = 0;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ¢ãƒ‡ãƒ«
+	VECTOR position;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®
+	VECTOR direction;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ã
+	float moveSpeed;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•é€Ÿåº¦ã‚’æ ¼ç´
+	int changeSpeedCount;	// ç§»å‹•é€Ÿåº¦ã®å¤‰æ›´å›æ•°ã‚’æ ¼ç´ã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿
 };
 
-extern float jumpPower;	// ÀÛ‚ÌƒWƒƒƒ“ƒv—Í‚ğ“ü‚ê‚é•Ï”
+extern float jumpPower;	// å®Ÿéš›ã®ã‚¸ãƒ£ãƒ³ãƒ—åŠ›ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
 extern bool isFall;
-const float MIN_JUMP_POWER = 15;	// Å’áƒWƒƒƒ“ƒv—Í
-const int  SECOND_JUMP_TIMING= 250;	// “ñ”Ô–Ú‚ÌƒWƒƒƒ“ƒv—Í‚É•ÏX‚·‚éƒ^ƒCƒ~ƒ“ƒO
-const int THIRD_JUMP_TIMING = 500;	// O”Ô–Ú‚ÌƒWƒƒƒ“ƒv—Í‚É•ÏX‚·‚éƒ^ƒCƒ~ƒ“ƒO
-extern bool isJumping;	// Œ»İƒWƒƒƒ“ƒv’†‚©”»’è
-const float GRAVITY = 0.7f;	// d—Í
+const float JUMP_POWER = 10;	// æœ€ä½ã‚¸ãƒ£ãƒ³ãƒ—åŠ›
+const int  CANT_JUMP_TIMING= 350;	// é•·æŠ¼ã—ã‚¸ãƒ£ãƒ³ãƒ—ãŒå‡ºæ¥ã‚‹æ™‚é–“
+extern bool isJumping;	// ç¾åœ¨ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ã‹åˆ¤å®š
+const float GRAVITY = 0.7f;	// é‡åŠ›
 enum PLAYER_GROUND {
 	TOP,
 	BOTTOM
 };
-extern PLAYER_GROUND playerGround;	// ã‰º‚Ç‚¿‚ç‚É‚¢‚é‚Ì‚©
+extern PLAYER_GROUND playerGround;	// ä¸Šä¸‹ã©ã¡ã‚‰ã«ã„ã‚‹ã®ã‹
 #endif
