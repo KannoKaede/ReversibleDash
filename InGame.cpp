@@ -38,13 +38,13 @@ void DrawStage(int stageNum, Player player) {	// リファクタリング：一�
 		for (int x = 0; x < 30; x++) {	// 30を配列の要素数分回せるようにリファクタリング
 			if (mapDataArray[stageNumber][y][x] != 0) {
 				if (x % 2 == 0) {	// 描画しない
-						drawConePosX += CORN_RADIUS * 2 * mapDataArray[stageNumber][y][x];	// 円錐の直系分座標をずらす
+					drawConePosX += CORN_RADIUS * 2 * mapDataArray[stageNumber][y][x];	// 円錐の直系分座標をずらす
 				}
 				else {	// 円錐描画
 					for (int j = 0; j < mapDataArray[stageNumber][y][x]; j++) {
 						VECTOR drawPos = VAdd(y == 0 ? TOP_DRAW_POS : BOTTOM_DRAW_POS, VGet(drawConePosX, 0, 0));	// 描画する座標を指定の値ずらす
 						DrawCone(drawPos, y == 0 ? -CORN_HEIGHT : CORN_HEIGHT);
-						if (GetIsCollision(VAdd(drawPos,VGet(0,CORN_HEIGHT,0)), 90, player.GetPosition(), 15, 7)) {	// 衝突判定を行う
+						if (GetIsCollision(drawPos, y == 0 ? -CORN_HEIGHT : CORN_HEIGHT, player.GetPosition(), 15, 7)) {	// 衝突判定を行う
 							nextScreenType = GAMEOVER;
 							fadeState = SCREENSETUP;
 						}
@@ -62,23 +62,29 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 }
 
 
-bool GetIsCollision(const VECTOR& coneApex, float coneHeight, const VECTOR& playerPos, float playerHeight, float playerRadius)
+bool GetIsCollision(const VECTOR& coneBottom, float coneHeight, const VECTOR& playerPos, float playerHeight, float playerRadius)
 {
-	VECTOR coneBottomCenter = VGet(coneApex.x, coneApex.y - coneHeight, coneApex.z);    // 円錐の底面中心座標を取得　リファクタリング：変数for文で呼び出すのでその座標を引数で渡す
-
-	// プレイヤーの上下座標を取得
-	float playerTopPos = playerPos.y + playerHeight / 2.0f;
-	float playerBottomPos = playerPos.y - playerHeight / 2.0f;
+	float coneApexY = coneBottom.y + coneHeight;	// 引数を頂点から底面座標に変更するために頂点座標yを取得VECTORでもいい
+	float playerTopY = playerPos.y + playerHeight * 0.5f;	// プレイヤーの頂点の高さ
+	float playerBottomY = playerPos.y - playerHeight * 0.5f;	// プレイヤーの底面の高さ
+	float coneMaxY = fmaxf(coneApexY, coneBottom.y);	// 円錐の低い方の座標を取得
+	float coneMinY = fminf(coneApexY, coneBottom.y);	// 円錐の高い方の座標を取得
+	bool isUpward = coneMinY == coneBottom.y;	// 円錐の向きを判定：上 = true/下 = false
+	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS)return false;	// 円錐の半径よりも外側にいたらfalse
+	if (coneMinY > playerTopY || coneMaxY < playerBottomY)return false;	// 円錐の高さの範囲外にいたらfalse
 
 	// 円錐内での高さに応じた有効半径を算出
-	float heightRatio = (coneApex.y - playerPos.y) / coneHeight;
-	float coneCurrentRadius = CORN_RADIUS * (1.0f - heightRatio);
-
-	// 高さが範囲外ならfalseを返す
-	if (coneApex.y < playerPos.y || coneApex.y - coneHeight > playerPos.y)return false;
+	float heightRatio{};
+	if (isUpward) {
+		heightRatio = (coneMaxY - playerTopY) / coneHeight;
+	}
+	else {
+		heightRatio = (coneMinY - playerBottomY) / coneHeight;
+	}
+	float coneCurrentRadius = CORN_RADIUS * heightRatio;
 
 	// x方向の距離を計算
-	float dx = playerPos.x - coneBottomCenter.x;
+	float dx = playerPos.x - coneBottom.x;
 	float distX = fabsf(dx);
 
 	// 衝突したか返す
