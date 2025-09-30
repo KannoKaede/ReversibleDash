@@ -77,11 +77,11 @@ void Player::Initialization() {
 	MV1SetRotationXYZ(modelHandle, direction);
 }
 
-int Player::GetModelHandle() {
+int Player::GetModelHandle() const{
 	return modelHandle;
 }
 
-VECTOR Player::GetPosition() {
+VECTOR Player::GetPosition()const {
 	return position;
 }
 
@@ -89,10 +89,10 @@ void Player::SetPosition(VECTOR pos) {
 	position = pos;
 }
 
-float Player::GetSpeed() {
+float Player::GetSpeed()const {
 	return moveSpeed;
 }
 
-int Player::GetChangeSpeedCount() {
+int Player::GetChangeSpeedCount()const {
 	return changeSpeedCount;
 }
