@@ -48,23 +48,23 @@ public:
 	/// <param name="pos"> ボタンの中心座標 </param>
 	/// <param name="length"> ボタンの長さ </param>
 	/// <returns> 描画座標 </returns>
-	int GetDrawPos(int screenSize, float pos, int length);
+	int GetDrawPos(int screenSize, float pos, int length)const;
 
 	/// <summary> buttonTypeを返すメソッド </summary>
 	/// <returns> buttonType </returns>
-	BUTTON_TYPE GetButtonType();
+	BUTTON_TYPE GetButtonType()const;
 
 	/// <summary> belongScreenを返すメソッド </summary>
 	/// <returns> belongScreen </returns>
-	SCREEN_TYPE GetBelongScreen();
+	SCREEN_TYPE GetBelongScreen()const;
 
 	/// <summary> columNumを返すメソッド </summary>
 	/// <returns> columNum </returns>
-	int GetColumNum();
+	int GetColumNum()const;
 
 	/// <summary> rowNumを返すメソッド </summary>
 	/// <returns> rowNum </returns>
-	int GetRowNum();
+	int GetRowNum()const;
 
 private:
 	BUTTON_TYPE buttonType;   // ボタンの種類

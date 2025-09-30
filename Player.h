@@ -26,11 +26,11 @@ public:
 
 	/// <summary> modelHandleを返すメソッド </summary>
 	/// <returns> modelHandle </returns>
-	int GetModelHandle();
+	int GetModelHandle()const;
 
 	/// <summary> positionを返すメソッド </summary>
 	/// <returns> position </returns>
-	VECTOR GetPosition();
+	VECTOR GetPosition()const;
 
 	/// <summary> positionをセットするメソッド </summary>
 	/// <param name="pos"> セットする座標 </param>
@@ -38,11 +38,11 @@ public:
 
 	/// <summary> moveSpeedを返すメソッド </summary>
 	/// <returns> moveSpeed </returns>
-	float GetSpeed();
+	float GetSpeed()const;
 
 	/// <summary> changeSpeedCountを返すメソッド </summary>
 	/// <returns> changeSpeedCount </returns>
-	int GetChangeSpeedCount();
+	int GetChangeSpeedCount()const;
 private:
 	int modelHandle = 0;	// プレイヤーモデル
 	VECTOR position;	// プレイヤーの位置

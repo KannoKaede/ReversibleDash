@@ -62,7 +62,7 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 }
 
 
-bool GetIsCollision(const VECTOR& coneBottom, float coneHeight, const VECTOR& playerPos, float playerHeight, float playerRadius)
+bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)
 {
 	float coneApexY = coneBottom.y + coneHeight;	// 引数を頂点から底面座標に変更するために頂点座標yを取得VECTORでもいい
 	float playerTopY = playerPos.y + playerHeight * 0.5f;	// プレイヤーの頂点の高さ

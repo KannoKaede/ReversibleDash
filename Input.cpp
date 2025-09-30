@@ -10,9 +10,9 @@ void CheckAllKeyState() {
 	GetHitKeyStateAll(keyBuf);
 }
 
-bool CheckHitKeyDown(int keyCode) {
+bool CheckHitKeyDown(const int keyCode) {
 	return keyBuf_old[keyCode] == 0 && keyBuf[keyCode] == 1;
 }
-bool CheckHitKeyUp(int keyCode) {
+bool CheckHitKeyUp(const int keyCode) {
 	return keyBuf_old[keyCode] == 1 && keyBuf[keyCode] == 0;
 }

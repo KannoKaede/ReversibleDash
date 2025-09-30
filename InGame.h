@@ -35,5 +35,5 @@ void DrawCone(VECTOR bottomCenterPos, float height);
 /// <param name="playerHeight">プレイヤーの高さ</param>
 /// <param name="playerRadius">プレイヤーの半径</param>
 /// <returns>衝突判定</returns>
-bool GetIsCollision(const VECTOR& coneApex, float coneHeight, const VECTOR& playerPos, float playerHeight, float playerRadius);
+bool GetIsCollision(const VECTOR& coneApex, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius);
 #endif

@@ -30,23 +30,23 @@ void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;
 }
 
-int Button::GetDrawPos(int screenSize, float pos, int length) {
+int Button::GetDrawPos(int screenSize, float pos, int length)const {
 	return screenSize * ((int)pos + length) / 100;
 }
 
-Button::BUTTON_TYPE Button::GetButtonType() {
+Button::BUTTON_TYPE Button::GetButtonType()const {
 	return buttonType;
 }
 
-SCREEN_TYPE Button::GetBelongScreen() {
+SCREEN_TYPE Button::GetBelongScreen()const {
 	return belongScreen;
 }
 
-int Button::GetColumNum() {
+int Button::GetColumNum() const {
 	return columnNum;
 }
 
-int Button::GetRowNum() {
+int Button::GetRowNum() const {
 	return rowNum;
 }
 
@@ -97,7 +97,7 @@ void ButtonPressed() {
 	}
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isFading) {
 		Button* selected = SelectGetButtonArray();
-		switch (selected->GetButtonType())
+		switch (selected->GetButtonType())	// ボタンごとに処理を分岐：リファクタリングまとめられるところはまとめる
 		{
 		case Button::GAMESTART:
 			nextScreenType = INGAME;
@@ -188,12 +188,6 @@ void ButtonPressed() {
 		}
 	}
 }
-//SELECTSTAGE,   // ステージ選択
-//RESUME,	// ゲーム再開
-//GAMEEXIT,	// インゲーム終了
-//RETRY,	// リトライ
-//NEXTSTAGE,	// 次のステージへ
-//RETURNTITLE,	// タイトルへ戻る
 
 Button* SelectGetButtonArray() {
 	for (int i = 0; i < buttonArray.size(); i++) {

@@ -12,9 +12,9 @@ void CheckAllKeyState();
 
 /// <summary> 指定のキーが押された瞬間だけtrueを返すメソッド </summary>
 /// <param name="keyCode"> 入力状態を調べたいキー </param>
-bool CheckHitKeyDown(int keyCode);
+bool CheckHitKeyDown(const int keyCode);
 
 /// <summary> 指定のキーが離された瞬間だけtrueを返すメソッド </summary>
 /// <param name="keyCode"> 入力状態を調べたいキー </param>
-bool CheckHitKeyUp(int keyCode);
+bool CheckHitKeyUp(const int keyCode);
 #endif
