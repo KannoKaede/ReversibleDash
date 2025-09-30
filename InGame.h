@@ -16,6 +16,15 @@ const float CORN_HEIGHT = 70;	// 円錐の高さ
 extern float ConePosX;	// 円錐を描画する際のX座標
 const VECTOR TOP_DRAW_POS = VGet(-360, 680, 0);	// 上の円錐の底面座標
 const VECTOR BOTTOM_DRAW_POS = VGet(-360, 0, 0);	// 下の円数の底面座標
+enum class OBJECTTYPE {
+	NONE,
+	SMALLCONE,
+	BIGCONE
+};
+struct MAPDATA {
+	OBJECTTYPE objectType;	// 配置する障害物の種類
+	int putNum;	// 配置する数
+};
 
 
 /// <summary> ステージを描画するメソッド </summary>

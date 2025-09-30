@@ -38,7 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
-
+		DrawLine(0, 720, 2560, 720, GetColor(0, 0, 0));
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
 		ButtonPressed();	// ボタンが押されたときの処理
