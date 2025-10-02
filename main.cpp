@@ -28,6 +28,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+	ChangeLightTypeDir(VGet(-1.0f, 0.0f, 0.0f));
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
 	player.StartUp();
 	camera.StartUp();
 	light.StartUp();
@@ -38,7 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
-
+		DrawLine(0, 720, 2560, 720, GetColor(0, 0, 0));
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
 		ButtonPressed();	// ボタンが押されたときの処理
@@ -66,6 +69,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					light.Move(player.GetSpeed());
 					camera.Move(player.GetSpeed());
 				}
+				if (CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; }
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
 				InGameScoreView();
 				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {	// マジックナンバーにするのはやめる（リファクタリング）
@@ -82,6 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
 			DrawStage(stageNumber, player);
+			DrawProgressRateBar(player, 20, 80,50);
 			break;
 		default:
 			break;

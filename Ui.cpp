@@ -39,6 +39,12 @@ int DrawPositionX(int x) {
 int DrawPositionY(int y) {
 	return screenHeight * y / 100;
 }
+float DrawPositionXF(float x) {
+	return screenWidth * x / 100;
+}
+float DrawPositionYF(float y) {
+	return screenHeight * y / 100;
+}
 
 /// <summary> ボタン用の図形を描画 </summary>
 /// <param name="loopY">何回ループするかfor外側</param>
@@ -119,7 +125,7 @@ void ScreenUISwitching()
 		StringTest("STAGE SELECT", DrawPositionX(32), DrawPositionX(68), 63, normalFontHandle, false, 0);
 		StringTest("GAME QUIT", DrawPositionX(32), DrawPositionX(68), 83, normalFontHandle, false, 0);
 		DrawStringToHandle(DrawPositionX(80), DrawPositionY(95), "Ver_0.0.00.00", black, smallFontHandle);
-		
+
 
 		break;
 	case STAGESELECT:
@@ -139,8 +145,6 @@ void ScreenUISwitching()
 		StringTest("STAGE4", DrawPositionX(28), DrawPositionX(37), 83, smallFontHandle, false, 0);
 		StringTest("STAGE5", DrawPositionX(50), DrawPositionX(59), 83, smallFontHandle, false, 0);
 		StringTest("STAGE6", DrawPositionX(72), DrawPositionX(81), 83, smallFontHandle, false, 0);
-
-		
 		break;
 	case PAUSE:
 		DrawBox(DrawPositionX(25), DrawPositionY(25), DrawPositionX(75), DrawPositionY(75), backScreen, TRUE);
@@ -275,4 +279,15 @@ void DrawStartCountDown() {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
 	StringTest(const_cast<char*>(drawText.c_str()), 0, screenWidth, 45, bigFontHandle, false, 0);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+void DrawProgressRateBar(const Player& player,int startPos,int endPos,int heightPos) {	// 画面の下をUI表示ゾーンにするためリファクタリングする(動きもかくかくなので何とかする
+	int x = player.GetPosition().x / goalPosition[stageNumber] * 100;
+	DrawBox(DrawPositionX(startPos), DrawPositionY(heightPos-1), DrawPositionX(endPos), DrawPositionY(heightPos+1), GetColor(200, 200, 200), TRUE);
+	float w =0.6f * x;
+	DrawCircleAA(DrawPositionX(startPos), DrawPositionY(heightPos), DrawPositionX(1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
+	DrawCircleAA(DrawPositionX(endPos), DrawPositionY(heightPos), DrawPositionX(1), 64, GetColor(200, 200, 200), TRUE);	// 終了地点
+	DrawBox(DrawPositionX(startPos), DrawPositionY(heightPos-1), DrawPositionXF(20 + w), DrawPositionY(heightPos+1), GetColor(0, 200, 0), TRUE);
+	DrawCircleAA(DrawPositionXF(startPos +w), DrawPositionY(heightPos), DrawPositionX(1), 64, GetColor(0, 200, 0), TRUE);	// プレイヤー座標
+
+	printfDx("%f", w);
 }
