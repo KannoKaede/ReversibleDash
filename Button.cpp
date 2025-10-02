@@ -69,8 +69,8 @@ void ButtonMovement() {
 	if (CheckHitKeyDown(KEY_INPUT_LEFT)) buttonMovePos.x += -1;
 	if (CheckHitKeyDown(KEY_INPUT_RIGHT)) buttonMovePos.x += 1;
 
-	ClampNum(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
-	ClampNum(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
+	buttonMovePos.x = ClampNum(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
+	buttonMovePos.y = ClampNum(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
 	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {
 		buttonMovePos = buttonPos;

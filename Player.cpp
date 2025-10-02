@@ -1,7 +1,7 @@
 ﻿#include "Player.h"
 #include "InGame.h"
 #include "Input.h"
-
+#include "main.h"
 
 Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
 	position = startPos;
@@ -44,11 +44,11 @@ void Player::Jump() {
 		isJumping = true;
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
-		if (pressedMomentTime + CANT_JUMP_TIMING <= GetNowCount()&&!isFall) {
+		if (pressedMomentTime + CANT_JUMP_TIMING <= GetNowCount() && !isFall) {
 			isFall = true;
 			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
-			MV1SetRotationXYZ(modelHandle, playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0): VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
-				
+			MV1SetRotationXYZ(modelHandle, playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
+
 		}
 	}
 	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ジャンプの値を初期化する
@@ -60,7 +60,7 @@ void Player::Jump() {
 		if (isFall)
 			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
 	}
-	if (position.y < 0|| position.y>680) {
+	if (position.y < 0 || position.y>680) {
 		pressedMomentTime = 0;
 		isJumping = false;
 		isFall = false;
@@ -72,12 +72,13 @@ void Player::Jump() {
 void Player::Initialization() {
 	position = VGet(0, 0, 0);
 	moveSpeed = FIRST_SPEED;
+	jumpPower = 0;
 	changeSpeedCount = 1;
 	playerGround = BOTTOM;
 	MV1SetRotationXYZ(modelHandle, direction);
 }
 
-int Player::GetModelHandle() const{
+int Player::GetModelHandle() const {
 	return modelHandle;
 }
 

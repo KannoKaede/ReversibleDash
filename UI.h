@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include "DxLib.h"
+#include "Player.h"
 // 変数が多すぎるのでリファクタリングする
 
 #ifndef INCLUDED_UI_h
@@ -140,4 +141,6 @@ const std::string START_COUNTDOWN_1 = "READY...";
 const std::string START_COUNTDOWN_2 = "GO!";
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown();
+
+void DrawProgressRateBar(const Player& player,int startPos,int endPos,int heightPos);
 #endif
