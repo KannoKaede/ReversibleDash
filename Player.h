@@ -10,7 +10,7 @@ public:
 	Player(VECTOR startPos, VECTOR startDirection, float startSpeed);
 
 	/// <summary> プレイヤーの初期設定メソッド </summary>
-	void StartUp();
+	void SetUp();
 
 	/// <summary> プレイヤーの移動メソッド </summary>
 	void Move();

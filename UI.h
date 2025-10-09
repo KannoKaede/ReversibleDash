@@ -114,16 +114,7 @@ extern int green;
 /// <summary> フォントの色 </summary>
 extern int black;
 
-/// <summary> フォントサイズ大 </summary>
-extern int bigFontHandle;
 
-/// <summary> フォントサイズ中 </summary>
-extern int normalFontHandle;
-
-/// <summary> フォントサイズ小 </summary>
-extern int smallFontHandle;
-/// <summary> フォントのロードを行う関数 </summary>
-void fontSetting();
 
 /*常時描画しないUI関連--------------------------------------------------------------------------------------------------------------------*/
 

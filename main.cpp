@@ -11,6 +11,9 @@
 bool isGameQuit;
 int screenWidth;
 int screenHeight;
+int bigFontHandle;
+int normalFontHandle;
+int smallFontHandle;
 Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
 Light light(START_LIGHT_POS);
@@ -18,49 +21,27 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-
-	//ウィンドウモードに設定し画面の解像度に応じて画面サイズを変更
-	screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	screenHeight = GetSystemMetrics(SM_CYSCREEN);
-	ChangeWindowMode(TRUE);
-	SetGraphMode(screenWidth, screenHeight, 32);
-	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
-	{
-		return -1;			// エラーが起きたら直ちに終了
+	if (DxLib_Init() == -1) {	// エラー処理
+		return -1;
 	}
-	ChangeLightTypeDir(VGet(-1.0f, 0.0f, 0.0f));
-	SetUseZBuffer3D(TRUE);
-	SetWriteZBuffer3D(TRUE);
-	player.StartUp();
-	camera.StartUp();
-	light.StartUp();
-	// フォントデータの作成
-	fontSetting();
-	SetBackgroundColor(255, 255, 255);	// 背景色を白に
+	// 初期設定
+	GameSetUp();
+	player.SetUp();
+	camera.SetUp();
+	light.SetUp();
+
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
 		ClearDrawScreen();
-		DrawLine(0, 720, 2560, 720, GetColor(0, 0, 0));
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
 		ButtonPressed();	// ボタンが押されたときの処理
 
-		switch (currentScreenType)
-		{
-		case TITLE:
-			break;
-		case STAGESELECT:
-			break;
-		case PAUSE:
-			break;
-		case GAMEOVER:
-			break;
-		case STAGECLEAR:
+		if (currentScreenType == STAGECLEAR) {
 			HighScoreCheck();
-			break;
-		case INGAME:
-
+		}
+		if (currentScreenType == INGAME) {
 			if (!isGameStop) {
 				player.Move();
 				player.ChangeSpeed();
@@ -86,10 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
 			DrawStage(stageNumber, player);
-			DrawProgressRateBar(player, 20, 80,50);
-			break;
-		default:
-			break;
+			DrawProgressRateBar(player, 20, 80, 50);
 		}
 		if (fadeState == FADEWAIT || fadeState == SCREENSETUP) {
 			player.Initialization();
@@ -100,6 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				inGameVewScore = 0;
 			}
 		}
+		/*DrawUI();
+		DrawModal()*/
 		ScreenUISwitching();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 
@@ -116,4 +96,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	DxLib_End();
 	return 0;
+}
+
+void GameSetUp() {
+	// 画面の解像度に応じて画面サイズを変更
+	screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	ChangeWindowMode(TRUE);
+	SetGraphMode(screenWidth, screenHeight, 32);
+
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+
+
+	SetBackgroundColor(255, 255, 255);	// 背景色を白に
+
+	// フォントのをロードして、サイズ等を設定
+	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
+	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
+	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
+	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+
+	// NULLチェック
+	if (screenWidth == 0 || screenHeight == 0) {
+		printfDx("Error:NULL 画面サイズの取得失敗\n");
+	}
+	if (bigFontHandle == -1 || normalFontHandle == -1 || smallFontHandle == -1) {
+		printfDx("Error:NULL フォントの取得失敗\n");
+	}
 }

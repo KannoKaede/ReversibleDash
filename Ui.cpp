@@ -19,18 +19,9 @@ int gray = GetColor(200, 200, 200);
 int green = GetColor(0, 255, 128);
 
 int black = GetColor(0, 0, 0);
-int bigFontHandle;
-int normalFontHandle;
-int smallFontHandle;
 std::string previousText;
 std::string drawText = START_COUNTDOWN_1;
 
-void fontSetting() {
-	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
-	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
-	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
-}
 
 
 int DrawPositionX(int x) {

@@ -5,7 +5,7 @@ Camera::Camera(VECTOR pos, VECTOR look) {
 	lookPos = look;
 }
 
-void Camera::StartUp() {
+void Camera::SetUp() {
 	SetCameraNearFar(0, 100);
 }
 
@@ -30,7 +30,7 @@ Light::Light(VECTOR pos) {
 	lightPos = pos;
 }
 
-void Light::StartUp() {
+void Light::SetUp() {
 	SetUseLighting(TRUE);
 	SetLightDirection(VGet(0, 0, 1));
 }
