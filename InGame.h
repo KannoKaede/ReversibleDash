@@ -20,11 +20,10 @@ const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴ
 extern MAPDATA mapDataArray[MAX_STAGE_NUM][2][50];		// マップデータ
 const int CORN_COLOR_TEST = GetColor(255, 0, 0);	// 仮の円錐の色
 const float CORN_RADIUS = 40;	// 円錐の半径
-const float CORN_HEIGHT = 70;	// 円錐の高さ
+const float CORN_HEIGHT = 40 * sqrt(3);	// 円錐の高さ
 extern float ConePosX;	// 円錐を描画する際のX座標
 const VECTOR TOP_DRAW_POS = VGet(-360, 680, 0);	// 上の円錐の底面座標
 const VECTOR BOTTOM_DRAW_POS = VGet(-360, 0, 0);	// 下の円数の底面座標
-
 
 
 /// <summary> ステージを描画するメソッド </summary>
@@ -46,6 +45,21 @@ void DrawCone(VECTOR bottomCenterPos, float height);
 /// <returns>衝突判定</returns>
 bool GetIsCollision(const VECTOR& coneApex, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius);
 
+/// <summary>
+/// プレイヤーの中央座標と円錐の底面中央座標の距離を計算するメソッド
+/// </summary>
+/// <param name="p"> プレイヤーの中央座標 </param>
+/// <param name="c"> 円錐底面中央座標 </param>
+/// <returns> プレイヤーと円錐の距離 </returns>
+float Distance(const VECTOR& p, const VECTOR& c);
 
-float Distance(const VECTOR& a, const VECTOR& b);
+/// <summary> プレイヤー中央と円錐底面を結ぶ線の中でプレイヤー内の長さを計算するメソッド </summary>
+/// <param name="ortPA"> 架空の直角三角形のうちプレイヤー側の角度を計算 </param>
+/// <returns> プレイヤー内の有効な距離 </returns>
+float PlayerDistance(float ortPA);
+
+/// <summary> プレイヤー中央と円錐底面を結ぶ線の中で円錐内の長さを計算するメソッド </summary>
+/// <param name="ortCA"> 架空の直角三角形のうち円錐側の角度を計算 </param>
+/// <returns> 円錐内の有効な距離 </returns>
+float ConeDistance(float height, float ortCA);
 #endif

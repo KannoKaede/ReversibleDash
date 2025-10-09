@@ -9,7 +9,7 @@ Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
 	moveSpeed = startSpeed;
 	changeSpeedCount = 1;
 }
-void Player::StartUp() {
+void Player::SetUp() {
 	modelHandle = MV1LoadModel("Resource/PlayerModel.mv1");
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, direction);

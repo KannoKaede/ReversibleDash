@@ -39,12 +39,12 @@ MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {	// マップデータ：奇数=�
 };
 float drawConePosX;
 void DrawStage(int stageNum, Player player) {	// リファクタリング：一個しか描画できないのでα版が終わったら書き直す
-	//VECTOR drawPos = VAdd( BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
-	//	DrawCone(drawPos, CORN_HEIGHT);
-	//	if (GetIsCollision(drawPos,  CORN_HEIGHT, player.GetPosition(), 150, 50)) {	// 衝突判定を行う
-	//		nextScreenType = GAMEOVER;
-	//		fadeState = SCREENSETUP;
-	//	}
+	VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
+	DrawCone(drawPos, CORN_HEIGHT);
+	if (GetIsCollision(drawPos, CORN_HEIGHT, player.GetPosition(), 150, 50)) {	// 衝突判定を行う
+		nextScreenType = GAMEOVER;
+		fadeState = SCREENSETUP;
+	}
 	for (int y = 0; y < 2; y++) {
 		drawConePosX = 0;	// 初期描画座標Xを初期化する
 		for (int x = 0; x < 50; x++) {	// 30を配列の要素数分回せるようにリファクタリング
@@ -83,48 +83,32 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 	DrawCone3D(topCenterPos, bottomCenterPos, CORN_RADIUS, 64, CORN_COLOR_TEST, CORN_COLOR_TEST, TRUE);
 }
 
-
-
 bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)	// リファクタリング　現在は底面でしか計算が行われていない
 {
-	//VECTOR playerCenterPos = VAdd(playerPos, VGet(0, playerHeight / 2, playerPos.z));	// プレイヤー中央座標
-	//float distance = Distance(playerCenterPos, coneBottom);	// 二点間の距離を計算
-	//DrawLine3D(playerCenterPos, coneBottom, GetColor(0, 0, 255));	//	debag
-	//float x = atan2(playerCenterPos.x - coneBottom.x, playerCenterPos.y - coneBottom.y) ;	// 二点の角度を計算
-	//DrawTriangle3D(playerCenterPos, coneBottom, playerPos, GetColor(0, 0, 255), TRUE);	// debug
-	//VECTOR dir = VSub(playerCenterPos, coneBottom); // 方向ベクトル
-	//float theta = atan2f(dir.y, dir.x); // XY平面上の角度（ラジアン）
-	//printfDx("%f", theta);
-
-	//return false;
-		float coneApexY = coneBottom.y + coneHeight;	// 引数を頂点から底面座標に変更するために頂点座標yを取得VECTORでもいい
-		float playerHeadPos = playerPos.y + playerHeight;	// プレイヤーの頂点の高さ
-		float coneMaxY = fmaxf(coneApexY, coneBottom.y);	// 円錐の低い方の座標を取得
-		float coneMinY = fminf(coneApexY, coneBottom.y);	// 円錐の高い方の座標を取得
-		bool isUpward = coneMinY == coneBottom.y;	// 円錐の向きを判定：上 = true/下 = false
-
-		if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS)return false;	// 円錐の半径よりも外側にいたらfalse
-		if (coneMinY > playerPos.y || coneMaxY < playerPos.y)return false;	// 円錐の高さの範囲外にいたらfalse
-
-		
-	// 円錐内での高さに応じた有効半径を算出
-	float heightRatio{};
-	if (isUpward) {
-		heightRatio = (coneMaxY - playerPos.y) / coneHeight;
-	}
-	else {
-		heightRatio = (coneMinY - playerPos.y) / coneHeight;
-	}
-	float coneCurrentRadius = CORN_RADIUS * heightRatio;
-
-	// x方向の距離を計算
-	float dx = playerPos.x - coneBottom.x;
-	float distX = fabsf(dx);
-
-	// 衝突したか返す
-	return (distX <= coneCurrentRadius + playerRadius);
+	VECTOR playerCenterPos = VAdd(playerPos, VGet(0, playerHeight / 2, playerPos.z));	// プレイヤー中央座標
+	float distance = Distance(playerCenterPos, coneBottom);	// 二点間の距離を計算
+	DrawLine3D(playerCenterPos, coneBottom, GetColor(0, 255, 0));	// プレイヤー中央と円錐底面を結ぶ線を描画
+	float bottomPosXXY_playerPosY = Distance(coneBottom, VGet(coneBottom.x, playerCenterPos.y, playerCenterPos.z));	// 二点をが垂直に交わる座標と円錐の底面座標の距離
+	float ortPlayerAngle = (bottomPosXXY_playerPosY / distance) * 180 / DX_PI_F;	// 架空の直角三角形のうちプレイヤー側の角度を計算
+	float ortConeAngle = 180 - 90 - ortPlayerAngle;	// 架空の直角三角形のうち円錐側の角度を計算
+	float coneLength = ConeDistance(coneHeight, ortConeAngle);
+	float playerLength = PlayerDistance(ortPlayerAngle);
+	return distance < coneLength + playerLength;
 }
 
-float Distance(const VECTOR& a, const VECTOR& b) {
-	return sqrtf((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+float Distance(const VECTOR& p, const VECTOR& c) {
+	return sqrtf((p.x - c.x) * (p.x - c.x) + (p.y - c.y) * (p.y - c.y) + (p.z - c.z) * (p.z - c.z));
 }
+
+float PlayerDistance(float ortPA) {
+	float playerBottomDirection = 180 - 90 - ortPA;	// プレイヤー中央から円錐底面に向かう線と側面の角度
+	return 50 / (playerBottomDirection / 180 * DX_PI_F);
+}
+
+float ConeDistance(float height, float ortCA) {
+	float coneDownDirection = 90 - ortCA;	// プレイヤー中央から円錐底面に向かう線と底辺の角度
+	float coneTopDirection = 180 - 60 - coneDownDirection;	// プレイヤー中央から円錐底面に向かう辺と円錐の外側の辺の角度：現在は正三角形なので60度
+	float seigenA = CORN_RADIUS / (coneTopDirection / 180 * DX_PI_F);
+	return seigenA * 60 / 180 * DX_PI_F;
+}
+

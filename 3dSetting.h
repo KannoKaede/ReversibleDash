@@ -13,7 +13,7 @@ public:
 	Camera(VECTOR pos, VECTOR look);
 
 	/// <summary> カメラの初期設定メソッド </summary>
-	void StartUp();
+	void SetUp();
 
 	/// <summary> カメラの移動メソッド </summary>
 	/// <param name="moveAmount"> 移動量 </param>
@@ -42,7 +42,7 @@ public:
 	Light(VECTOR pos);
 
 	/// <summary> ライトの初期設定メソッド </summary>
-	void StartUp();
+	void SetUp();
 
 	/// <summary> ライトの移動メソッド </summary>
 	/// <param name="moveAmount"> 移動量 </param>
