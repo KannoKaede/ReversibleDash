@@ -39,12 +39,12 @@ MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {	// マップデータ：奇数=�
 };
 float drawConePosX;
 void DrawStage(int stageNum, Player player) {	// リファクタリング：一個しか描画できないのでα版が終わったら書き直す
-	VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
-	DrawCone(drawPos, CORN_HEIGHT);
-	if (GetIsCollision(drawPos, CORN_HEIGHT, player.GetPosition(), 150, 50)) {	// 衝突判定を行う
-		nextScreenType = GAMEOVER;
-		fadeState = SCREENSETUP;
-	}
+	//VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
+	//DrawCone(drawPos, CORN_HEIGHT);
+	//if (GetIsCollision(drawPos, CORN_HEIGHT, player.GetPosition(), 150, 50)) {	// 衝突判定を行う
+	//	nextScreenType = GAMEOVER;
+	//	fadeState = SCREENSETUP;
+	//}
 	for (int y = 0; y < 2; y++) {
 		drawConePosX = 0;	// 初期描画座標Xを初期化する
 		for (int x = 0; x < 50; x++) {	// 30を配列の要素数分回せるようにリファクタリング
@@ -57,7 +57,7 @@ void DrawStage(int stageNum, Player player) {	// リファクタリング：一�
 						VECTOR drawPos = VAdd(y == 0 ? TOP_DRAW_POS : BOTTOM_DRAW_POS, VGet(drawConePosX, 0, 0));	// 描画する座標を指定の値ずらす
 						if (mapDataArray[stageNumber][y][x].objectType == OBJECTTYPE::SMALLCONE) {
 							DrawCone(drawPos, y == 0 ? -CORN_HEIGHT : CORN_HEIGHT);
-							if (GetIsCollision(drawPos, y == 0 ? -CORN_HEIGHT : CORN_HEIGHT, player.GetPosition(), y == 0 ? -150 : 150, 8)) {	// 衝突判定を行う
+							if (GetIsCollision(drawPos, y == 0.0f ? -CORN_HEIGHT : CORN_HEIGHT, player.GetPosition(), y == 0 ? -150.0f : 150.0f, 8.0f)) {	// 衝突判定を行う
 								nextScreenType = GAMEOVER;
 								fadeState = SCREENSETUP;
 							}
@@ -65,7 +65,7 @@ void DrawStage(int stageNum, Player player) {	// リファクタリング：一�
 						}
 						if (mapDataArray[stageNumber][y][x].objectType == OBJECTTYPE::BIGCONE) {
 							DrawCone(drawPos, y == 0 ? -CORN_HEIGHT * 4 : CORN_HEIGHT * 4);
-							if (GetIsCollision(drawPos, y == 0 ? -CORN_HEIGHT * 4 : CORN_HEIGHT * 4, player.GetPosition(), y == 0 ? -150 : 150, 8)) {	// 衝突判定を行う
+							if (GetIsCollision(drawPos, y == 0.0f ? -CORN_HEIGHT * 4 : CORN_HEIGHT * 4, player.GetPosition(), y == 0 ? -150.0f : 150.0f, 8.0f)) {	// 衝突判定を行う
 								nextScreenType = GAMEOVER;
 								fadeState = SCREENSETUP;
 							}
