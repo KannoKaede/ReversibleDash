@@ -14,6 +14,10 @@ int screenHeight;
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
+int bigFontSize;
+int normalFontSize;
+int smallFontSize;
+
 Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
 Light light(START_LIGHT_POS);
@@ -113,9 +117,12 @@ void GameSetUp() {
 
 	// フォントのをロードして、サイズ等を設定
 	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	bigFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 18, 5, DX_FONTTYPE_ANTIALIASING);
-	normalFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 30, 3, DX_FONTTYPE_ANTIALIASING);
-	smallFontHandle = CreateFontToHandle("N4カクーカンV2", screenWidth / 60, 1, DX_FONTTYPE_ANTIALIASING);
+	 bigFontSize= screenWidth / 18;
+	 normalFontSize= screenWidth / 30;
+	 smallFontSize= screenWidth / 60;
+	bigFontHandle = CreateFontToHandle("N4カクーカンV2", bigFontSize, 5, DX_FONTTYPE_ANTIALIASING);
+	normalFontHandle = CreateFontToHandle("N4カクーカンV2", normalFontSize, 3, DX_FONTTYPE_ANTIALIASING);
+	smallFontHandle = CreateFontToHandle("N4カクーカンV2", smallFontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// NULLチェック
 	if (screenWidth == 0 || screenHeight == 0) {
@@ -124,4 +131,8 @@ void GameSetUp() {
 	if (bigFontHandle == -1 || normalFontHandle == -1 || smallFontHandle == -1) {
 		printfDx("Error:NULL フォントの取得失敗\n");
 	}
+}
+
+float ScreenDrawPos(int screenSize, float drawPosPercent) {
+	return screenSize * drawPosPercent / 100;
 }

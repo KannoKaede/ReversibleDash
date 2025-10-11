@@ -3,7 +3,6 @@
 #include "DxLib.h"
 #include "InGame.h"
 
-
 std::vector<Button*> buttonArray;
 
 Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font) {
@@ -25,6 +24,11 @@ void Button::Draw() {
 		GetDrawPos(screenWidth, centerPos.x, widthLength),
 		GetDrawPos(screenHeight, centerPos.y, -heightLength),
 		buttonColor, TRUE);
+	DrawTextCenter(GetDrawPos(screenWidth, centerPos.x, -widthLength),
+		GetDrawPos(screenHeight, centerPos.y, -heightLength),
+		GetDrawPos(screenWidth, centerPos.x, widthLength),
+		GetDrawPos(screenHeight, centerPos.y, heightLength),
+		drawText,fontType);
 }
 void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;

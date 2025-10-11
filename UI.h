@@ -65,16 +65,6 @@ void ScreenFadeControl();
 /// <param name="fadeSpeed"> フェード処理の速度 </param>
 void ScreenFade(int fadeSpeed);
 
-/// <summary> 画面比率に合わせた計算 
-/// <param name="x"> 100%で表した座標の比率 </param>
-/// <returns> 画面解像度に応じた値</returns>
-int DrawPositionX(int x);
-
-/// <summary> 画面比率に合わせた計算 
-/// <param name="x"> 100%で表した座標の比率 </param>
-/// <returns> 画面解像度に応じた値</returns>
-int DrawPositionY(int y);
-
 /// <summary> ボタン用の図形を描画 </summary>
 /// <param name="loopY">何回ループするかfor外側</param>
 /// <param name="loopX">何回ループするかfor内側</param>
@@ -133,5 +123,7 @@ const std::string START_COUNTDOWN_2 = "GO!";
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown();
 
-void DrawProgressRateBar(const Player& player,int startPos,int endPos,int heightPos);
+void DrawProgressRateBar(const Player& player, int startPos, int endPos, int heightPos);
+
+void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType);
 #endif
