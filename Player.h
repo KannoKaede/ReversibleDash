@@ -3,7 +3,13 @@
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
-const float FIRST_SPEED = 4;
+#define BOTTOM_GROUND		40				// 下側の地面の座標
+#define TOP_GROUND			680				// 上側の地面の座標
+#define FIRST_SPEED			4				// スタート時の速度
+#define GRAVITY				0.7f			// 重力
+#define JUMP_LOCK_TIME		300				// ジャンプ長押しが出来る時間
+#define JUMP_POWER			10				// ジャンプ力
+const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 0);
 class Player {
 public:
 
@@ -53,10 +59,7 @@ private:
 
 extern float jumpPower;	// 実際のジャンプ力を入れる変数
 extern bool isFall;
-const float JUMP_POWER = 10;	// 最低ジャンプ力
-const int  CANT_JUMP_TIMING= 350;	// 長押しジャンプが出来る時間
 extern bool isJumping;	// 現在ジャンプ中か判定
-const float GRAVITY = 0.7f;	// 重力
 enum PLAYER_GROUND {
 	TOP,
 	BOTTOM

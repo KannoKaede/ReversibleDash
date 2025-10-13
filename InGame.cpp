@@ -91,7 +91,7 @@ bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECT
 	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS + playerRadius)return false;
 	VECTOR playerCenterPos = VAdd(playerPos, VGet(0, playerHeight / 2, playerPos.z));	// プレイヤー中央座標
 	float distance = Distance(playerCenterPos, coneBottom);	// 二点間の距離を計算
-	DrawLine3D(playerCenterPos, coneBottom, GetColor(0, 255, 0));	// プレイヤー中央と円錐底面を結ぶ線を描画
+	//DrawLine3D(playerCenterPos, coneBottom, GetColor(0, 255, 0));	// プレイヤー中央と円錐底面を結ぶ線を描画
 	float bottomPosXXY_playerPosY = Distance(coneBottom, VGet(coneBottom.x, playerCenterPos.y, playerCenterPos.z));	// 二点をが垂直に交わる座標と円錐の底面座標の距離
 	float ortPlayerAngle = (bottomPosXXY_playerPosY / distance) * 180 / DX_PI_F;	// 架空の直角三角形のうちプレイヤー側の角度を計算
 	float ortConeAngle = 180 - 90 - ortPlayerAngle;	// 架空の直角三角形のうち円錐側の角度を計算
