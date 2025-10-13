@@ -83,8 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				inGameVewScore = 0;
 			}
 		}
-		/*DrawUI();
-		DrawModal()*/
+		DrawLine(0, ScreenDrawPos(screenHeight, 94.4f), screenWidth,ScreenDrawPos(screenHeight,94.4f), black, TRUE);	// テスト インゲームのUIボックスの大きさ
 		ScreenUISwitching();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 

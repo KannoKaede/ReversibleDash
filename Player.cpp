@@ -44,7 +44,7 @@ void Player::Jump() {
 		isJumping = true;
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
-		if (pressedMomentTime + CANT_JUMP_TIMING <= GetNowCount() && !isFall) {
+		if (pressedMomentTime + JUMP_LOCK_TIME <= GetNowCount() && !isFall) {
 			isFall = true;
 			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
 			MV1SetRotationXYZ(modelHandle, playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
@@ -60,17 +60,17 @@ void Player::Jump() {
 		if (isFall)
 			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
 	}
-	if (position.y < 0 || position.y>680) {
+	if (position.y < BOTTOM_GROUND || position.y>TOP_GROUND) {
 		pressedMomentTime = 0;
 		isJumping = false;
 		isFall = false;
 		jumpPower = 0;
-		position.y = playerGround == BOTTOM ? 0 : 680.0f;
+		position.y = playerGround == BOTTOM ? BOTTOM_GROUND : 680;
 	}
 }
 
 void Player::Initialization() {
-	position = VGet(0, 0, 0);
+	position = START_PLAYER_POS;
 	moveSpeed = FIRST_SPEED;
 	jumpPower = 0;
 	changeSpeedCount = 1;
