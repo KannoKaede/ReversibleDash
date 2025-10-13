@@ -60,6 +60,7 @@ void DrawStage(int stageNum, Player player) {	// リファクタリング：一�
 							if (GetIsCollision(drawPos, y == 0.0f ? -CORN_HEIGHT : CORN_HEIGHT, player.GetPosition(), y == 0 ? -150.0f : 150.0f, 8.0f)) {	// 衝突判定を行う
 								nextScreenType = GAMEOVER;
 								fadeState = SCREENSETUP;
+								isGameStop = true;
 							}
 							drawConePosX += CORN_RADIUS * 2;
 						}
@@ -68,6 +69,7 @@ void DrawStage(int stageNum, Player player) {	// リファクタリング：一�
 							if (GetIsCollision(drawPos, y == 0.0f ? -CORN_HEIGHT * 4 : CORN_HEIGHT * 4, player.GetPosition(), y == 0 ? -150.0f : 150.0f, 8.0f)) {	// 衝突判定を行う
 								nextScreenType = GAMEOVER;
 								fadeState = SCREENSETUP;
+								isGameStop = true;
 							}
 							drawConePosX += CORN_RADIUS * 2;
 						}
@@ -85,6 +87,8 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 
 bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)	// リファクタリング　現在は底面でしか計算が行われていない
 {
+	if (currentScreenType != INGAME)return false;
+	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS + playerRadius)return false;
 	VECTOR playerCenterPos = VAdd(playerPos, VGet(0, playerHeight / 2, playerPos.z));	// プレイヤー中央座標
 	float distance = Distance(playerCenterPos, coneBottom);	// 二点間の距離を計算
 	DrawLine3D(playerCenterPos, coneBottom, GetColor(0, 255, 0));	// プレイヤー中央と円錐底面を結ぶ線を描画

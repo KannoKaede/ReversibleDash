@@ -123,7 +123,15 @@ const std::string START_COUNTDOWN_2 = "GO!";
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown();
 
-void DrawProgressRateBar(const Player& player, int startPos, int endPos, int heightPos);
 
+void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos);
+
+/// <summary> テキストを中央に描画するメソッド </summary>
+/// <param name="left"> 左端の座標 </param>
+/// <param name="top"> 上端の座標 </param>
+/// <param name="right"> 右端の座標 </param>
+/// <param name="bottom"> 下端の座標 </param>
+/// <param name="text"> 描画するテキスト </param>
+/// <param name="fontType"> どの使用するか </param>
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType);
 #endif

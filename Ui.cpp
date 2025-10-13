@@ -106,8 +106,6 @@ void ScreenUISwitching()
 		quitButton.Draw();
 		StringTest("ReversibleDash", 0, screenWidth, 16, bigFontHandle, false, 0);
 		DrawStringToHandle((int)ScreenDrawPos(screenWidth, 80), (int)ScreenDrawPos(screenWidth, 95), "Ver_0.0.00.00", black, smallFontHandle);
-
-
 		break;
 	case STAGESELECT:
 		stageSelect1.Draw();
@@ -120,6 +118,7 @@ void ScreenUISwitching()
 		SquareTest(2, 3, VGet(28, 50, 0), 9, 3, 22, 33, STAGESELECT, true);
 		SquareTest(2, 3, VGet(26, 49, 0), 2, 4, 22, 33, STAGESELECT, false);
 		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle, false, 0);
+		// この座標の位置に実際のテキストを置きたい
 		//StringTest("STAGE1", (int)ScreenDrawPos(screenWidth, 28), (int)ScreenDrawPos(screenWidth, 37), 50, smallFontHandle, false, 0);
 		//StringTest("STAGE2", (int)ScreenDrawPos(screenWidth, 50), (int)ScreenDrawPos(screenWidth, 59), 50, smallFontHandle, false, 0);
 		//StringTest("STAGE3", (int)ScreenDrawPos(screenWidth, 72), (int)ScreenDrawPos(screenWidth, 81), 50, smallFontHandle, false, 0);
@@ -128,32 +127,35 @@ void ScreenUISwitching()
 		//StringTest("STAGE6", (int)ScreenDrawPos(screenWidth, 72), (int)ScreenDrawPos(screenWidth, 81), 83, smallFontHandle, false, 0);
 		break;
 	case PAUSE:
-		DrawBox((int)ScreenDrawPos(screenWidth, 25), (int)ScreenDrawPos(screenHeight, 25), (int)ScreenDrawPos(screenWidth, 75), (int)ScreenDrawPos(screenHeight, 75), backScreen, TRUE);
-		resumeGame.Draw();
-		pauseGameExit.Draw();
-		StringTest("PAUSE", 0, screenWidth, 32, bigFontHandle, false, 0);
-		break;
 	case GAMEOVER:
-		DrawBox((int)ScreenDrawPos(screenWidth, 23), (int)ScreenDrawPos(screenHeight, 18), (int)ScreenDrawPos(screenWidth, 77), (int)ScreenDrawPos(screenHeight, 82), backScreen, TRUE);
-		gameOverGameExit.Draw();
-		retryGame.Draw();
-		StringTest("GAMEOVER", 0, screenWidth, 25, bigFontHandle, false, 0);
-		StringTest("SCORE", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 43, normalFontHandle, false, 0);
-		StringTest("000000", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 51, normalFontHandle, true, score);
-		break;
 	case STAGECLEAR:
-		DrawBox((int)ScreenDrawPos(screenWidth, 23), (int)ScreenDrawPos(screenHeight, 18), (int)ScreenDrawPos(screenWidth, 77), (int)ScreenDrawPos(screenHeight, 82), backScreen, TRUE);
-		nextGame.Draw();
-		clearGameExit.Draw();
-		StringTest("STAGE CLEAR", 0, screenWidth, 25, bigFontHandle, false, 0);
-		StringTest("SCORE", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 43, normalFontHandle, false, 0);
-		StringTest("000000", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 51, normalFontHandle, true, score);
-		StringTest("HIGHSCORE", (int)ScreenDrawPos(screenWidth, 53), (int)ScreenDrawPos(screenWidth, 73), 43, normalFontHandle, false, 0);
-		StringTest("000000", (int)ScreenDrawPos(screenWidth, 53), (int)ScreenDrawPos(screenWidth, 73), 51, normalFontHandle, true, highScore[stageNumber]);
-		break;
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
 		DrawFormatStringToHandle((int)ScreenDrawPos(screenWidth, 1), (int)ScreenDrawPos(screenHeight, 95), black, smallFontHandle, "SCORE:%06d", inGameVewScore);
+		if (currentScreenType == PAUSE) {
+			DrawBox((int)ScreenDrawPos(screenWidth, 25), (int)ScreenDrawPos(screenHeight, 25), (int)ScreenDrawPos(screenWidth, 75), (int)ScreenDrawPos(screenHeight, 75), backScreen, TRUE);
+			resumeGame.Draw();
+			pauseGameExit.Draw();
+			StringTest("PAUSE", 0, screenWidth, 32, bigFontHandle, false, 0);
+		}
+		if (currentScreenType == GAMEOVER) {
+			DrawBox((int)ScreenDrawPos(screenWidth, 23), (int)ScreenDrawPos(screenHeight, 18), (int)ScreenDrawPos(screenWidth, 77), (int)ScreenDrawPos(screenHeight, 82), backScreen, TRUE);
+			gameOverGameExit.Draw();
+			retryGame.Draw();
+			StringTest("GAMEOVER", 0, screenWidth, 25, bigFontHandle, false, 0);
+			StringTest("SCORE", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 43, normalFontHandle, false, 0);
+			StringTest("000000", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 51, normalFontHandle, true, score);
+		}
+		if(currentScreenType == STAGECLEAR){
+			DrawBox((int)ScreenDrawPos(screenWidth, 23), (int)ScreenDrawPos(screenHeight, 18), (int)ScreenDrawPos(screenWidth, 77), (int)ScreenDrawPos(screenHeight, 82), backScreen, TRUE);
+			nextGame.Draw();
+			clearGameExit.Draw();
+			StringTest("STAGE CLEAR", 0, screenWidth, 25, bigFontHandle, false, 0);
+			StringTest("SCORE", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 43, normalFontHandle, false, 0);
+			StringTest("000000", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 51, normalFontHandle, true, score);
+			StringTest("HIGHSCORE", (int)ScreenDrawPos(screenWidth, 53), (int)ScreenDrawPos(screenWidth, 73), 43, normalFontHandle, false, 0);
+			StringTest("000000", (int)ScreenDrawPos(screenWidth, 53), (int)ScreenDrawPos(screenWidth, 73), 51, normalFontHandle, true, highScore[stageNumber]);
+		}
 		break;
 	default:
 		break;
@@ -254,20 +256,20 @@ void DrawStartCountDown() {
 	StringTest(const_cast<char*>(drawText.c_str()), 0, screenWidth, 45, bigFontHandle, false, 0);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
-void DrawProgressRateBar(const Player& player, int startPos, int endPos, int heightPos) {	// 画面の下をUI表示ゾーンにするためリファクタリングする(動きもかくかくなので何とかする
-	int x = player.GetPosition().x / goalPosition[stageNumber] * 100;
+void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {	// 画面の下をUI表示ゾーンにするためリファクタリングする(動きもかくかくなので何とかする
+	float x =ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
+	float w = (endPos - startPos) * x;
 	DrawBox((int)ScreenDrawPos(screenWidth, startPos), (int)ScreenDrawPos(screenHeight, heightPos - 1), (int)ScreenDrawPos(screenWidth, endPos), (int)ScreenDrawPos(screenHeight, heightPos + 1), GetColor(200, 200, 200), TRUE);
-	float w = 0.6f * x;
 	DrawCircleAA(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
 	DrawCircleAA(ScreenDrawPos(screenWidth, endPos), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(200, 200, 200), TRUE);	// 終了地点
-	DrawBox(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos - 1), ScreenDrawPos(screenWidth, 20 + w), ScreenDrawPos(screenHeight, heightPos + 1), GetColor(0, 200, 0), TRUE);
+	DrawBox(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos - 1), ScreenDrawPos(screenWidth, startPos+ w), ScreenDrawPos(screenHeight, heightPos + 1), GetColor(0, 200, 0), TRUE);
 	DrawCircleAA(ScreenDrawPos(screenWidth, startPos + w), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(0, 200, 0), TRUE);	// プレイヤー座標
 }
 
 
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
 	int font = {}, fontSize = {};
-	switch (fontType)
+	switch (fontType)	// フォントなどの値を変える　リファクタリングしてくれ
 	{
 	case 1:
 		font = bigFontHandle;
@@ -283,6 +285,6 @@ void DrawTextCenter(float left, float top, float right, float bottom, std::strin
 		break;
 	}
 	float drawPosX = ((right - left) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(text.c_str()))) / 2 + left;	// 左右中央を計算
-	float drawPosY = (((bottom - top) - fontSize )/ 2 + top);
+	float drawPosY = (((bottom - top) - fontSize )/ 2 + top);	// 上下中央を計算
 	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), black, font);
 }
