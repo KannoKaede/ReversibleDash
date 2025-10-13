@@ -45,7 +45,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (currentScreenType == STAGECLEAR) {
 			HighScoreCheck();
 		}
-		if (currentScreenType == INGAME) {
+		if (currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == STAGECLEAR) {
 			if (!isGameStop) {
 				player.Move();
 				player.ChangeSpeed();
@@ -54,12 +54,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					light.Move(player.GetSpeed());
 					camera.Move(player.GetSpeed());
 				}
-				if (CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; }
+				if (CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; isGameStop = true; }
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
 				InGameScoreView();
 				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {	// マジックナンバーにするのはやめる（リファクタリング）
 					nextScreenType = STAGECLEAR;
 					fadeState = SCREENSETUP;
+					isGameStop = true;
 				}
 			}
 			else {
@@ -71,9 +72,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
 			DrawStage(stageNumber, player);
-			DrawProgressRateBar(player, 20, 80, 50);
+			DrawProgressRateBar(player, 50, 97, 96.5f);
 		}
-		if (fadeState == FADEWAIT || fadeState == SCREENSETUP) {
+		if (fadeState == FADEWAIT) {
 			player.Initialization();
 			camera.Initialization();
 			light.Initialization();
@@ -117,9 +118,9 @@ void GameSetUp() {
 
 	// フォントのをロードして、サイズ等を設定
 	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	 bigFontSize= screenWidth / 18;
-	 normalFontSize= screenWidth / 30;
-	 smallFontSize= screenWidth / 60;
+	bigFontSize = screenWidth / 18;
+	normalFontSize = screenWidth / 30;
+	smallFontSize = screenWidth / 60;
 	bigFontHandle = CreateFontToHandle("N4カクーカンV2", bigFontSize, 5, DX_FONTTYPE_ANTIALIASING);
 	normalFontHandle = CreateFontToHandle("N4カクーカンV2", normalFontSize, 3, DX_FONTTYPE_ANTIALIASING);
 	smallFontHandle = CreateFontToHandle("N4カクーカンV2", smallFontSize, 1, DX_FONTTYPE_ANTIALIASING);
