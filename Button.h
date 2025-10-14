@@ -5,6 +5,10 @@
 #ifndef Button_h
 #define Button_h
 
+#define FONT_TYPE_1 1
+#define FONT_TYPE_2 2
+#define FONT_TYPE_3 3
+
 class Button {
 public:
 	enum BUTTON_TYPE {
@@ -42,13 +46,6 @@ public:
 	/// <summary> ボタンの色の変更メソッド </summary>
 	/// <param name="changeColor"> 変更する色 </param>
 	void SetButtonColor(int changeColor);
-
-	/// <summary> ボタンの描画座標を返すメソッド </summary>
-	/// <param name="screenSize"> 画面のサイズ </param>
-	/// <param name="pos"> ボタンの中心座標 </param>
-	/// <param name="length"> ボタンの長さ </param>
-	/// <returns> 描画座標 </returns>
-	int GetDrawPos(int screenSize, float pos, int length)const;
 
 	/// <summary> buttonTypeを返すメソッド </summary>
 	/// <returns> buttonType </returns>

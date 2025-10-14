@@ -17,25 +17,21 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 	fontType = font;
 	buttonArray.push_back(this);
 }
-
 void Button::Draw() {
-	DrawBox(GetDrawPos(screenWidth, centerPos.x, -widthLength),
-		GetDrawPos(screenHeight, centerPos.y, heightLength),
-		GetDrawPos(screenWidth, centerPos.x, widthLength),
-		GetDrawPos(screenHeight, centerPos.y, -heightLength),
+
+	DrawBox((int)ScreenDrawPos(screenWidth, centerPos.x - widthLength),
+		(int)ScreenDrawPos(screenHeight, centerPos.y + heightLength),
+		(int)ScreenDrawPos(screenWidth, centerPos.x + widthLength),
+		(int)ScreenDrawPos(screenHeight, centerPos.y - heightLength),
 		buttonColor, TRUE);
-	DrawTextCenter(GetDrawPos(screenWidth, centerPos.x, -widthLength),
-		GetDrawPos(screenHeight, centerPos.y, -heightLength),
-		GetDrawPos(screenWidth, centerPos.x, widthLength),
-		GetDrawPos(screenHeight, centerPos.y, heightLength),
-		drawText,fontType);
+	DrawTextCenter(ScreenDrawPos(screenWidth, centerPos.x - widthLength),
+		ScreenDrawPos(screenHeight, centerPos.y - heightLength),
+		ScreenDrawPos(screenWidth, centerPos.x + widthLength),
+		ScreenDrawPos(screenHeight, centerPos.y + heightLength),
+		drawText, fontType);
 }
 void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;
-}
-
-int Button::GetDrawPos(int screenSize, float pos, int length)const {
-	return screenSize * ((int)pos + length) / 100;
 }
 
 Button::BUTTON_TYPE Button::GetButtonType()const {

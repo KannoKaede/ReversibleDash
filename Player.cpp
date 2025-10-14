@@ -65,7 +65,7 @@ void Player::Jump() {
 		isJumping = false;
 		isFall = false;
 		jumpPower = 0;
-		position.y = playerGround == BOTTOM ? BOTTOM_GROUND : 680;
+		position.y = playerGround == BOTTOM ? BOTTOM_GROUND : 680.0f;
 	}
 }
 

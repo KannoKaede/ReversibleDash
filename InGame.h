@@ -20,7 +20,7 @@ const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴ
 extern MAPDATA mapDataArray[MAX_STAGE_NUM][2][50];		// マップデータ
 const int CORN_COLOR_TEST = GetColor(255, 0, 0);	// 仮の円錐の色
 const float CORN_RADIUS = 40;	// 円錐の半径
-const float CORN_HEIGHT = 40 * sqrt(3);	// 円錐の高さ
+const float CORN_HEIGHT = 70;	// 円錐の高さ
 extern float ConePosX;	// 円錐を描画する際のX座標
 const VECTOR TOP_DRAW_POS = VGet(-360, TOP_GROUND, 0);	// 上の円錐の底面座標
 const VECTOR BOTTOM_DRAW_POS = VGet(-360, BOTTOM_GROUND, 0);	// 下の円数の底面座標

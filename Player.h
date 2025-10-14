@@ -3,12 +3,12 @@
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
-#define BOTTOM_GROUND		40				// 下側の地面の座標
-#define TOP_GROUND			680				// 上側の地面の座標
+#define BOTTOM_GROUND		40.0f				// 下側の地面の座標
+#define TOP_GROUND			680.0f				// 上側の地面の座標
 #define FIRST_SPEED			4				// スタート時の速度
 #define GRAVITY				0.7f			// 重力
 #define JUMP_LOCK_TIME		300				// ジャンプ長押しが出来る時間
-#define JUMP_POWER			10				// ジャンプ力
+#define JUMP_POWER			10.0f				// ジャンプ力
 const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 0);
 class Player {
 public:

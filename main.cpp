@@ -64,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 			else {
-				if (!isFading) DrawStartCountDown();
+				if (!isFading&&currentScreenType == INGAME) DrawStartCountDown();
 			}
 			// カメラ、ライト、プレイヤーの描画
 			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
@@ -83,8 +83,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				inGameVewScore = 0;
 			}
 		}
-		DrawLine(0, ScreenDrawPos(screenHeight, 94.4f), screenWidth,ScreenDrawPos(screenHeight,94.4f), black, TRUE);	// テスト インゲームのUIボックスの大きさ
-		ScreenUISwitching();	//	UIを描画
+		DrawLine(0, (int)ScreenDrawPos(screenHeight, 94.4f), screenWidth,(int)ScreenDrawPos(screenHeight,94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
+		DrawUI();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 
 		ScreenFlip();
