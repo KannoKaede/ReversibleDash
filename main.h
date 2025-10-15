@@ -1,4 +1,8 @@
 ﻿#pragma once
+#include"DxLib.h"
+#include"Input.h"
+#include<vector>
+#include<string>
 
 #ifndef INCLUDED_Main_h
 #define INCLUDED_Main_h
@@ -15,9 +19,11 @@ extern int smallFontSize;
 /// <summary> ゲームの最初に必要な情報を取得、設定する </summary>
 void GameSetUp();
 
-/// <summary> 描画座標を返すメソッド </summary>
-/// <param name="screenSize"> 基準にする画面サイズ</param>
-/// <param name="drawPosPercent"> 描画したい場所（％）</param>
-/// <returns> 描画座標 </returns>
-float ScreenDrawPos(int screenSize, float drawPosPercent);
+float ClampNum(float num, float min, float max);
+
+float ScreenDrawPosF(int screenSize, float drawPosPercent);
+
+int ScreenDrawPosI(int screenSize, float drawPosPercent);
+int TextDrawCenterPosX(float left, float right, std::string text, int font);
+int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text, int font);
 #endif
