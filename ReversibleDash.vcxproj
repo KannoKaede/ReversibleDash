@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3dSetting.cpp" />
+    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="InGame.cpp" />
     <ClCompile Include="Input.cpp" />

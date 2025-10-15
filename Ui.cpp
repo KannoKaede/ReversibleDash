@@ -77,22 +77,22 @@ void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawP
 	}
 }
 
-Button titleButton(TITLE, 0, 0, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2);
-Button openStageSelectButton(TITLE, 1, 0, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2);
-Button quitButton(TITLE, 2, 0, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_TYPE_2);
-Button stageSelect1(STAGESELECT, 0, 0, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_TYPE_3);
-Button stageSelect2(STAGESELECT, 0, 1, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_TYPE_3);
-Button stageSelect3(STAGESELECT, 0, 2, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_TYPE_3);
-Button stageSelect4(STAGESELECT, 1, 0, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_TYPE_3);
-Button stageSelect5(STAGESELECT, 1, 1, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_TYPE_3);
-Button stageSelect6(STAGESELECT, 1, 2, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_TYPE_3);
-Button returnTitle(STAGESELECT, 1, 3, VGet(88, 76, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_TYPE_3);
-Button resumeGame(PAUSE, 0, 0, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_TYPE_2);
-Button pauseGameExit(PAUSE, 0, 1, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2);
-Button retryGame(GAMEOVER, 0, 0, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_TYPE_2);
-Button gameOverGameExit(GAMEOVER, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2);
-Button nextGame(STAGECLEAR, 0, 0, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2);
-Button clearGameExit(STAGECLEAR, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2);
+Button titleButton(TITLE, 0, 0, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2, true);
+Button openStageSelectButton(TITLE, 1, 0, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2, true);
+Button quitButton(TITLE, 2, 0, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_TYPE_2, true);
+Button stageSelect1(STAGESELECT, 0, 0, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_TYPE_3, false);
+Button stageSelect2(STAGESELECT, 0, 1, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_TYPE_3, false);
+Button stageSelect3(STAGESELECT, 0, 2, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_TYPE_3, false);
+Button stageSelect4(STAGESELECT, 1, 0, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_TYPE_3, false);
+Button stageSelect5(STAGESELECT, 1, 1, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_TYPE_3, false);
+Button stageSelect6(STAGESELECT, 1, 2, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_TYPE_3, false);
+Button returnTitle(STAGESELECT, 1, 3, VGet(88, 76, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_TYPE_3, true);
+Button resumeGame(PAUSE, 0, 0, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_TYPE_2, true);
+Button pauseGameExit(PAUSE, 0, 1, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button retryGame(GAMEOVER, 0, 0, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_TYPE_2, true);
+Button gameOverGameExit(GAMEOVER, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button nextGame(STAGECLEAR, 0, 0, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2, true);
+Button clearGameExit(STAGECLEAR, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void ScreenUISwitching()
@@ -115,8 +115,7 @@ void ScreenUISwitching()
 		stageSelect5.Draw();
 		stageSelect6.Draw();
 		returnTitle.Draw();
-		SquareTest(2, 3, VGet(28, 50, 0), 9, 3, 22, 33, STAGESELECT, true);
-		SquareTest(2, 3, VGet(26, 49, 0), 2, 4, 22, 33, STAGESELECT, false);
+		
 		StringTest("STAGESELECT", 0, screenWidth, 16, bigFontHandle, false, 0);
 		// この座標の位置に実際のテキストを置きたい
 		//StringTest("STAGE1", (int)ScreenDrawPos(screenWidth, 28), (int)ScreenDrawPos(screenWidth, 37), 50, smallFontHandle, false, 0);
@@ -146,7 +145,7 @@ void ScreenUISwitching()
 			StringTest("SCORE", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 43, normalFontHandle, false, 0);
 			StringTest("000000", (int)ScreenDrawPos(screenWidth, 27), (int)ScreenDrawPos(screenWidth, 47), 51, normalFontHandle, true, score);
 		}
-		if(currentScreenType == STAGECLEAR){
+		if (currentScreenType == STAGECLEAR) {
 			DrawBox((int)ScreenDrawPos(screenWidth, 23), (int)ScreenDrawPos(screenHeight, 18), (int)ScreenDrawPos(screenWidth, 77), (int)ScreenDrawPos(screenHeight, 82), backScreen, TRUE);
 			nextGame.Draw();
 			clearGameExit.Draw();
@@ -257,12 +256,12 @@ void DrawStartCountDown() {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {	// 画面の下をUI表示ゾーンにするためリファクタリングする(動きもかくかくなので何とかする
-	float x =ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
+	float x = ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
 	float w = (endPos - startPos) * x;
 	DrawBox((int)ScreenDrawPos(screenWidth, startPos), (int)ScreenDrawPos(screenHeight, heightPos - 1), (int)ScreenDrawPos(screenWidth, endPos), (int)ScreenDrawPos(screenHeight, heightPos + 1), GetColor(200, 200, 200), TRUE);
 	DrawCircleAA(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
 	DrawCircleAA(ScreenDrawPos(screenWidth, endPos), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(200, 200, 200), TRUE);	// 終了地点
-	DrawBox(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos - 1), ScreenDrawPos(screenWidth, startPos+ w), ScreenDrawPos(screenHeight, heightPos + 1), GetColor(0, 200, 0), TRUE);
+	DrawBox(ScreenDrawPos(screenWidth, startPos), ScreenDrawPos(screenHeight, heightPos - 1), ScreenDrawPos(screenWidth, startPos + w), ScreenDrawPos(screenHeight, heightPos + 1), GetColor(0, 200, 0), TRUE);
 	DrawCircleAA(ScreenDrawPos(screenWidth, startPos + w), ScreenDrawPos(screenHeight, heightPos), ScreenDrawPos(screenWidth, 1), 64, GetColor(0, 200, 0), TRUE);	// プレイヤー座標
 }
 
@@ -285,6 +284,6 @@ void DrawTextCenter(float left, float top, float right, float bottom, std::strin
 		break;
 	}
 	float drawPosX = ((right - left) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(text.c_str()))) / 2 + left;	// 左右中央を計算
-	float drawPosY = (((bottom - top) - fontSize )/ 2 + top);	// 上下中央を計算
+	float drawPosY = (((bottom - top) - fontSize) / 2 + top);	// 上下中央を計算
 	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), black, font);
 }

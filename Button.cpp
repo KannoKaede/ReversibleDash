@@ -1,11 +1,10 @@
 #include "Button.h"
-#include "Input.h"
-#include "DxLib.h"
 #include "InGame.h"
+
 
 std::vector<Button*> buttonArray;
 
-Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font) {
+Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font,bool isCenterPos) {
 	belongScreen = screen;
 	columnNum = y;
 	rowNum = x;
@@ -15,20 +14,17 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 	buttonType = button;
 	drawText = text;
 	fontType = font;
+	isCenter = isCenterPos;
 	buttonArray.push_back(this);
 }
 
 void Button::Draw() {
-	DrawBox(GetDrawPos(screenWidth, centerPos.x, -widthLength),
-		GetDrawPos(screenHeight, centerPos.y, heightLength),
-		GetDrawPos(screenWidth, centerPos.x, widthLength),
-		GetDrawPos(screenHeight, centerPos.y, -heightLength),
-		buttonColor, TRUE);
-	DrawTextCenter(GetDrawPos(screenWidth, centerPos.x, -widthLength),
-		GetDrawPos(screenHeight, centerPos.y, -heightLength),
-		GetDrawPos(screenWidth, centerPos.x, widthLength),
-		GetDrawPos(screenHeight, centerPos.y, heightLength),
-		drawText,fontType);
+	DrawBox(GetDrawPos(screenWidth, centerPos.x, -widthLength),GetDrawPos(screenHeight, centerPos.y, heightLength),
+		GetDrawPos(screenWidth, centerPos.x, widthLength),GetDrawPos(screenHeight, centerPos.y, -heightLength),buttonColor, TRUE);
+	DrawBox(GetDrawPos(screenWidth, centerPos.x, -widthLength), GetDrawPos(screenHeight, centerPos.y, heightLength),
+		GetDrawPos(screenWidth, centerPos.x, widthLength), GetDrawPos(screenHeight, centerPos.y, -heightLength), buttonColor, TRUE);
+	DrawTextCenter(GetDrawPos(screenWidth, centerPos.x, -widthLength),GetDrawPos(screenHeight, centerPos.y, -heightLength),
+		GetDrawPos(screenWidth, centerPos.x, widthLength),GetDrawPos(screenHeight, centerPos.y, heightLength),drawText,fontType);
 }
 void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;
@@ -204,8 +200,3 @@ Button* SelectGetButtonArray() {
 	return nullptr;
 }
 
-float ClampNum(float num, float min, float max) {
-	if (num < min) return min;
-	else if (num > max) return max;
-	else return num;
-}
