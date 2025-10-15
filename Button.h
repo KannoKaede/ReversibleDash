@@ -1,7 +1,6 @@
 #pragma once
 #include "UI.h"		// 画面の状態を取得用
-#include <vector>
-#include "main.h"	// 画面サイズ取得用
+#include "Main.h"	// 画面サイズ取得用
 #ifndef Button_h
 #define Button_h
 
@@ -34,7 +33,7 @@ public:
 	/// <param name="button"> 押された際の処理 </param>
 	/// <param name="text"> ボタンに表示する文字列 </param>
 	/// <param name="font"> 使用するフォント </param>
-	Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font);
+	Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font,bool isCenterPos);
 
 	/// <summary> ボタンの描画メソッド </summary>
 	void Draw();
@@ -77,6 +76,7 @@ private:
 	std::string drawText;   // ボタンに表示する文字列
 	int fontType;   // 使用するフォント
 	int buttonColor = 0;   // ボタンの色
+	bool isCenter;	// テキストをボタン中央に描画するか
 };
 
 /// <summary> どのボタンを選択しているかを返すメソッド </summary>
@@ -88,12 +88,6 @@ void ButtonMovement();
 /// <summary> ボタンの押下処理を行うメソッド </summary>
 void ButtonPressed();
 
-/// <summary> 数値を指定の範囲内に収めるメソッド：リファクタリング、ベースヘッダなどに移動する </summary>
-/// <param name="num"> 収めたい数値 </param>
-/// <param name="min"> 最小値 </param>
-/// <param name="max"> 最大値 </param>
-/// <returns> 指定の数字に収めた値 </returns>
-float ClampNum(float num, float min, float max);
 
 extern std::vector<Button*> buttonArray;    // ボタンの配列
 extern VECTOR buttonMovePos;    // ボタンの移動座標
