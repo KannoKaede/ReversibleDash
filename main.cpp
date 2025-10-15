@@ -83,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				inGameVewScore = 0;
 			}
 		}
-		DrawLine(0, ScreenDrawPos(screenHeight, 94.4f), screenWidth,ScreenDrawPos(screenHeight,94.4f), black, TRUE);	// テスト インゲームのUIボックスの大きさ
+		DrawLine(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth,ScreenDrawPosI(screenHeight,94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
 		ScreenUISwitching();	//	UIを描画
 		ScreenFadeControl();	// フェード演出
 
@@ -131,8 +131,4 @@ void GameSetUp() {
 	if (bigFontHandle == -1 || normalFontHandle == -1 || smallFontHandle == -1) {
 		printfDx("Error:NULL フォントの取得失敗\n");
 	}
-}
-
-float ScreenDrawPos(int screenSize, float drawPosPercent) {
-	return screenSize * drawPosPercent / 100;
 }
