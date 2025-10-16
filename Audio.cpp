@@ -11,6 +11,7 @@ void AudioSetUp() {
 	buttonBeepSE = LoadSoundMem("Resource/ビープ音1.mp3");
 	buttonSelectSE = LoadSoundMem("Resource/決定ボタンを押す23.mp3");
 	bgm = LoadSoundMem("Resource/Bgm.mp3");
+	ChangeVolumeSoundMem(70, bgm);
 }
 
 void PlaySE(int seHandle) {
