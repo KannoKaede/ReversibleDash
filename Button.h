@@ -4,6 +4,7 @@
 #ifndef Button_h
 #define Button_h
 
+#define STARTBUTTON_POS VGet(1,1,0)
 class Button {
 public:
 	enum BUTTON_TYPE {
@@ -92,8 +93,8 @@ void ButtonPressed();
 extern std::vector<Button*> buttonArray;    // ボタンの配列
 extern VECTOR buttonMovePos;    // ボタンの移動座標
 extern VECTOR buttonPos;    // ボタンの選択位置
-const int BUTTON_NUM_X = 4; // 横のボタン数
-const int BUTTON_NUM_Y = 4; // 縦のボタン数
+const int BUTTON_NUM_X = 6; // 横のボタン数
+const int BUTTON_NUM_Y = 5; // 縦のボタン数
 const int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
 extern int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X];    // ボタンの配置マップ
 const int BUTTON_SELECT_COLOR = GetColor(0, 255, 128);  // 選択中のボタンの色

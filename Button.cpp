@@ -58,15 +58,15 @@ int Button::GetRowNum() const {
 
 
 
-VECTOR buttonMovePos;
-VECTOR buttonPos;
+VECTOR buttonMovePos= STARTBUTTON_POS;
+VECTOR buttonPos= STARTBUTTON_POS;
 
 int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
-	{ {1,0,0,0}, {1,0,0,0}, {1,0,0,0}, {0,0,0,0} }, // TITLE
-	{ {1,1,1,0}, {1,1,1,1}, {0,0,0,0}, {0,0,0,0} }, // STAGESELECT
-	{ {1,1,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0} }, // PAUSE
-	{ {1,1,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0} }, // GAMEOVER
-	{ {1,1,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0} }  // STAGECLEAR
+	{ {0,0,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,0,0,0,0,0} }, // TITLE
+	{ {0,0,0,0,0,0}, {0,1,1,1,0,0}, {0,1,1,1,1,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // STAGESELECT
+	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // PAUSE
+	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // GAMEOVER
+	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }  // STAGECLEAR
 };
 
 void ButtonMovement() {
@@ -79,11 +79,13 @@ void ButtonMovement() {
 	buttonMovePos.y = ClampNum(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
 	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {
+		PlaySE(buttonBeepSE);
 		buttonMovePos = buttonPos;
 	}
-	else {
+		if (buttonPos.x != buttonMovePos.x|| buttonPos.y != buttonMovePos.y) {
+			PlaySE(buttonMoveSE);
+		}
 		buttonPos = buttonMovePos;
-	}
 
 	for (int i = 0; i < buttonArray.size(); i++) {
 		buttonArray[i]->SetButtonColor(BUTTON_NORMAL_COLOR);
@@ -102,6 +104,7 @@ void ButtonPressed() {
 		return;
 	}
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isFading) {
+		PlaySE(buttonSelectSE);
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐：リファクタリングまとめられるところはまとめる
 		{

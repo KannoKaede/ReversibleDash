@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"DxLib.h"
+#include "Audio.h"
 #include"Input.h"
 #include<vector>
 #include<string>

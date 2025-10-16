@@ -3,36 +3,60 @@
   "WorkspaceRootPath": "D:\\ReversibleDash\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Audio.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Audio.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\InGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:InGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Ui.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Ui.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\InGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:InGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Input.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Score.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Score.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Base.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Base.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\InGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:InGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,95 +66,167 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Player.cpp",
-              "DocumentMoniker": "D:\\ReversibleDash\\Player.cpp",
-              "RelativeDocumentMoniker": "Player.cpp",
-              "ToolTip": "D:\\ReversibleDash\\Player.cpp",
-              "RelativeToolTip": "Player.cpp",
-              "ViewState": "AgIAABAAAAAAAAAAAAAcwDwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-24T00:24:18.722Z",
+              "DocumentIndex": 5,
+              "Title": "Button.h",
+              "DocumentMoniker": "D:\\ReversibleDash\\Button.h",
+              "RelativeDocumentMoniker": "Button.h",
+              "ToolTip": "D:\\ReversibleDash\\Button.h",
+              "RelativeToolTip": "Button.h",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAAYAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-16T03:38:23.416Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Audio.h",
+              "DocumentMoniker": "D:\\ReversibleDash\\Audio.h",
+              "RelativeDocumentMoniker": "Audio.h",
+              "ToolTip": "D:\\ReversibleDash\\Audio.h",
+              "RelativeToolTip": "Audio.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-16T03:25:01.369Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Player.h",
-              "DocumentMoniker": "D:\\ReversibleDash\\Player.h",
-              "RelativeDocumentMoniker": "Player.h",
-              "ToolTip": "D:\\ReversibleDash\\Player.h",
-              "RelativeToolTip": "Player.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-24T00:24:08.181Z",
+              "Title": "Audio.cpp",
+              "DocumentMoniker": "D:\\ReversibleDash\\Audio.cpp",
+              "RelativeDocumentMoniker": "Audio.cpp",
+              "ToolTip": "D:\\ReversibleDash\\Audio.cpp",
+              "RelativeToolTip": "Audio.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-16T03:24:49.661Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
+              "Title": "Score.h",
+              "DocumentMoniker": "D:\\ReversibleDash\\Score.h",
+              "RelativeDocumentMoniker": "Score.h",
+              "ToolTip": "D:\\ReversibleDash\\Score.h",
+              "RelativeToolTip": "Score.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-16T03:02:59.816Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "Score.cpp",
               "DocumentMoniker": "D:\\ReversibleDash\\Score.cpp",
               "RelativeDocumentMoniker": "Score.cpp",
               "ToolTip": "D:\\ReversibleDash\\Score.cpp",
               "RelativeToolTip": "Score.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-19T00:26:57.9Z"
+              "WhenOpened": "2025-10-16T03:02:51.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "InGame.cpp",
+              "DocumentMoniker": "D:\\ReversibleDash\\InGame.cpp",
+              "RelativeDocumentMoniker": "InGame.cpp",
+              "ToolTip": "D:\\ReversibleDash\\InGame.cpp",
+              "RelativeToolTip": "InGame.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-16T01:37:12.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Input.cpp",
+              "DocumentMoniker": "D:\\ReversibleDash\\Input.cpp",
+              "RelativeDocumentMoniker": "Input.cpp",
+              "ToolTip": "D:\\ReversibleDash\\Input.cpp",
+              "RelativeToolTip": "Input.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-16T01:37:12.268Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Button.cpp",
+              "DocumentMoniker": "D:\\ReversibleDash\\Button.cpp",
+              "RelativeDocumentMoniker": "Button.cpp",
+              "ToolTip": "D:\\ReversibleDash\\Button.cpp",
+              "RelativeToolTip": "Button.cpp",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-16T00:34:15.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "InGame.h",
               "DocumentMoniker": "D:\\ReversibleDash\\InGame.h",
               "RelativeDocumentMoniker": "InGame.h",
               "ToolTip": "D:\\ReversibleDash\\InGame.h",
               "RelativeToolTip": "InGame.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-18T05:05:30.595Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-18T05:05:30.595Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
+              "Title": "Base.cpp",
+              "DocumentMoniker": "D:\\ReversibleDash\\Base.cpp",
+              "RelativeDocumentMoniker": "Base.cpp",
+              "ToolTip": "D:\\ReversibleDash\\Base.cpp",
+              "RelativeToolTip": "Base.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-16T00:43:11.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "UI.h",
               "DocumentMoniker": "D:\\ReversibleDash\\UI.h",
               "RelativeDocumentMoniker": "UI.h",
               "ToolTip": "D:\\ReversibleDash\\UI.h",
               "RelativeToolTip": "UI.h",
-              "ViewState": "AgIAAHoAAAAAAAAAAADwv5AAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAMAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-09-16T03:42:41.752Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Ui.cpp",
               "DocumentMoniker": "D:\\ReversibleDash\\Ui.cpp",
               "RelativeDocumentMoniker": "Ui.cpp",
               "ToolTip": "D:\\ReversibleDash\\Ui.cpp",
               "RelativeToolTip": "Ui.cpp",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAAAJAAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAawIEAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-16T02:25:42.743Z"
+              "WhenOpened": "2025-09-16T02:25:42.743Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "Main.h",
               "DocumentMoniker": "D:\\ReversibleDash\\main.h",
               "RelativeDocumentMoniker": "main.h",
               "ToolTip": "D:\\ReversibleDash\\main.h",
               "RelativeToolTip": "main.h",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAcwDUAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-16T00:35:42.571Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T00:35:42.571Z"
             },
             {
               "$type": "Document",
@@ -140,7 +236,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "D:\\ReversibleDash\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAawCgAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-04T01:31:38.862Z",
               "EditorCaption": ""
