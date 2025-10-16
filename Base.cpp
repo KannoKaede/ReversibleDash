@@ -20,3 +20,11 @@ int TextDrawCenterPosX(float left, float right, std::string text, int font) {
 int TextDrawCenterPosY(float top, float bottom,int fontSize, std::string text, int font) {
 	return (int)(((bottom - top) - fontSize) / 2 + top);
 }
+
+int lastTime = GetNowCount();
+void WaitFrameRate() {
+	int nowTime = GetNowCount();
+	int elapsed = nowTime - lastTime;
+	if (elapsed < FRAME_TIME) WaitTimer(FRAME_TIME - elapsed);
+	lastTime = GetNowCount();  // Œv‘ªŠî€‚ðXV
+}
