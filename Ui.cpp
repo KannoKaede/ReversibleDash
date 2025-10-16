@@ -17,22 +17,22 @@ FADE_STATE fadeState;
 std::string previousText;
 std::string drawText = "";
 
-Button titleButton(TITLE, 0, 0, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2, true);
-Button openStageSelectButton(TITLE, 1, 0, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2, true);
-Button quitButton(TITLE, 2, 0, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_TYPE_2, true);
-Button stageSelect1(STAGESELECT, 0, 0, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_TYPE_3, false);
-Button stageSelect2(STAGESELECT, 0, 1, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_TYPE_3, false);
-Button stageSelect3(STAGESELECT, 0, 2, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_TYPE_3, false);
-Button stageSelect4(STAGESELECT, 1, 0, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_TYPE_3, false);
-Button stageSelect5(STAGESELECT, 1, 1, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_TYPE_3, false);
-Button stageSelect6(STAGESELECT, 1, 2, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_TYPE_3, false);
-Button returnTitle(STAGESELECT, 1, 3, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_TYPE_3, true);
-Button resumeGame(PAUSE, 0, 0, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_TYPE_2, true);
-Button pauseGameExit(PAUSE, 0, 1, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
-Button retryGame(GAMEOVER, 0, 0, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_TYPE_2, true);
-Button gameOverGameExit(GAMEOVER, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
-Button nextGame(STAGECLEAR, 0, 0, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2, true);
-Button clearGameExit(STAGECLEAR, 0, 1, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2, true);
+Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2, true);
+Button quitButton(TITLE, 3, 1, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_TYPE_2, true);
+Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_TYPE_3, false);
+Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_TYPE_3, false);
+Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_TYPE_3, false);
+Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_TYPE_3, false);
+Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_TYPE_3, false);
+Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_TYPE_3, false);
+Button returnTitle(STAGESELECT, 2, 4, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_TYPE_3, true);
+Button resumeGame(PAUSE, 1, 1, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_TYPE_2, true);
+Button pauseGameExit(PAUSE, 1, 2, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button retryGame(GAMEOVER, 1, 1, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_TYPE_2, true);
+Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button nextGame(STAGECLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2, true);
+Button clearGameExit(STAGECLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI()
@@ -94,8 +94,8 @@ void DrawUI()
 }
 
 void SystemReset() {
-	buttonMovePos = VGet(0, 0, 0);
-	buttonPos = VGet(0, 0, 0);
+	buttonMovePos = STARTBUTTON_POS;
+	buttonPos = STARTBUTTON_POS;
 	currentScreenType = nextScreenType;
 	if (fadeStartCount != 0)fadeStartCount = 0;
 }

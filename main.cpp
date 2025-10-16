@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	// 初期設定
 	GameSetUp();
+	AudioSetUp();
 	player.SetUp();
 	camera.SetUp();
 	light.SetUp();
@@ -37,11 +38,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
+		PlayBGM(bgm);
 		ClearDrawScreen();
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
 		ButtonPressed();	// ボタンが押されたときの処理
-
 		if (currentScreenType == STAGECLEAR) {
 			HighScoreCheck();
 		}
@@ -82,6 +83,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				score = 0;
 				inGameVewScore = 0;
 			}
+		}
+		else {
+			PlayBGM(bgm);
 		}
 		DrawLine(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, ScreenDrawPosI(screenHeight, 94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawUI();	//	UIを描画
