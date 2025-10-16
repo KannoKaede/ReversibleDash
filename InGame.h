@@ -4,6 +4,8 @@
 #include <vector>
 #ifndef INCLUDED_InGame_h
 #define INCLUDED_InGame_h
+
+#define CLEARCANGE_POS 1200
 enum class OBJECTTYPE {
 	NONE,
 	SMALLCONE,

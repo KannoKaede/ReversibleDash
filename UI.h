@@ -2,16 +2,24 @@
 #include <string>
 #include "DxLib.h"
 #include "Player.h"
-// 変数が多すぎるのでリファクタリングする
 
 #ifndef INCLUDED_UI_h
 #define INCLUDED_UI_h
+
+#define FONT_TYPE_1 1	// デカフォント
+#define FONT_TYPE_2 2	// ふつフォント
+#define FONT_TYPE_3 3	// チビフォント
 
 #define COLOR_WHITEGRAY GetColor(230, 230, 230)
 #define COLOR_GRAY GetColor(200, 200, 200)
 #define COLOR_GREEN GetColor(0, 255, 128)
 #define COLOR_BLACK GetColor(0, 0, 0)
 
+#define FADE_SPEED 6	// フェード速度
+#define FADE_WAIT_TIME 500	// フェードの待機時間
+
+#define START_COUNTDOWN_1  "READY..."	// スタートカウントダウンの文字の中身：最初
+#define START_COUNTDOWN_2 "GO!"	// スタートカウントダウンの文字の中身：最後
 /// <summary> 画面の種類を定義する </summary>
 enum SCREEN_TYPE
 {
@@ -20,7 +28,6 @@ enum SCREEN_TYPE
 	PAUSE,
 	GAMEOVER,
 	STAGECLEAR,
-	SCREEN_BUTTON_NUM, // ボタンがある画面の数
 	INGAME
 };
 
@@ -31,24 +38,18 @@ extern SCREEN_TYPE currentScreenType;
 extern SCREEN_TYPE nextScreenType;
 
 /// <summary> 画面の状態に対応したUIを毎フレーム表示するメソッド </summary>
-void ScreenUISwitching();
+void DrawUI();
 
 /*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> 現在フェード中か </summary>
 extern bool isFading;
 
-/// <summary> フェード速度 </summary>
-const int FADE_SPEED = 6;
-
 /// <summary> 現在のフェードの状態：0=透明　255=黒 </summary>
 extern int alphaValue;
 
 /// <summary> フェードの待機開始タイミングを保存 </summary>
 extern int fadeStartCount;
-
-/// <summary> フェードの待機時間 </summary>
-const int FADE_WAIT_TIME = 500;
 
 /// <summary> フェードの状態を定義 </summary>
 enum FADE_STATE {
@@ -63,55 +64,24 @@ enum FADE_STATE {
 extern FADE_STATE fadeState;
 
 /// <summary> フェード演出の制御を行うメソッド：フェード演出中はFlagを立てて他の処理を制御 </summary>
-void ScreenFadeControl();
+bool ScreenFadeControl();
 
 /// <summary> フェード処理を行うメソッド </summary>
 /// <param name="fadeSpeed"> フェード処理の速度 </param>
 void ScreenFade(int fadeSpeed);
 
-/// <summary> 指定の枠の中央に文字を描画する </summary>
-/// <param name="drawText"> 描画する文字列 </param>
-/// <param name="boxLeftPos"> 指定の枠の左座標 </param>
-/// <param name="boxRightPos"> 指定の枠の右座標 </param>
-/// <param name="drawPosY"> 描画する際の縦座標 </param>
-/// <param name="font"> 使用するフォント </param>
-/// <param name="isNum"> 数字を使用するか：true = 数字を使用 </param>
-/// <param name="num"> 使用する数字 </param>
-void StringTest(std::string drawText, int boxLeftPos, int boxRightPos, int drawPosY, int font, bool isNum, int num);
-
-/*ボタン関連--------------------------------------------------------------------------------------------------------------------*/
-
-/// <summary> 背景枠の色 </summary>
-extern int  backScreen;
-
-/// <summary> ボタン選択状態の色 </summary>
-extern int gray;
-
-/// <summary> ボタン非選択状態の色 </summary>
-extern int green;
-
-
-/*フォント関連--------------------------------------------------------------------------------------------------------------------*/
-
-/// <summary> フォントの色 </summary>
-extern int black;
-
+/// <summary> 都度リセットする必要があるものをリセットするメソッド </summary>
+void SystemReset();
 
 
 /*常時描画しないUI関連--------------------------------------------------------------------------------------------------------------------*/
 
 /// <summary> 描画文字が変更されたか確認する </summary>
-
 extern std::string previousText;
+
 /// <summary> 描画する文字 </summary>
-
 extern std::string drawText;
-/// <summary> スタートカウントダウンの文字の中身：最初 </summary>
 
-const std::string START_COUNTDOWN_1 = "READY...";
-/// <summary> スタートカウントダウンの文字の中身：最後 </summary>
-
-const std::string START_COUNTDOWN_2 = "GO!";
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown();
 
@@ -124,6 +94,23 @@ void DrawProgressRateBar(const Player& player, float startPos, float endPos, flo
 /// <param name="right"> 右端の座標 </param>
 /// <param name="bottom"> 下端の座標 </param>
 /// <param name="text"> 描画するテキスト </param>
-/// <param name="fontType"> どの使用するか </param>
+/// <param name="fontType"> どのフォントを使用するか </param>
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType);
+
+/// <summary> テキストを描画するメソッド：rightをleftの値より小さくしたらleftの位置で描画する。大きい場合は指定の枠の左右中央に描画 </summary>
+/// <param name="leftPct"> 左端の座標（％） </param>
+/// <param name="rightPct"> 右端の座標（％） </param>
+/// <param name="heightPct"> Y軸の描画座標（％） </param>
+/// <param name="text"> 描画するテキスト </param>
+/// <param name="font"> 使用するフォント </param>
+void DrawTextString(float leftPct, float rightPct, float heightPct, std::string text, int font);
+
+/// <summary> テキストを描画するメソッド：rightをleftの値より小さくしたらleftの位置で描画する。大きい場合は指定の枠の左右中央に描画 </summary>
+/// <param name="leftPct"> 左端の座標（％） </param>
+/// <param name="rightPct"> 右端の座標（％） </param>
+/// <param name="heightPct"> Y軸の描画座標（％） </param>
+/// <param name="text"> 描画するテキスト </param>
+/// <param name="font"> 使用するフォント </param>
+/// /// <param name="font"> 使用するフォント </param>
+void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font,int num);
 #endif
