@@ -6,7 +6,7 @@
 #include <cmath>
 bool isGameStop;	// ゲームが止まっているか
 int stageNumber;	// ステージ番号
-MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {	// マップデータ：奇数=円錐の描画する回数 偶数= 何も描画しないする回数：リファクタリングこのやり方だと一種類しか描画できない
+MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {
    {{} ,{}},	// ステージ0は無いので何もない
    //{	// ステージ1
    //	{1,43,9,1,10,1,5,1,10,1},
@@ -38,7 +38,7 @@ MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {	// マップデータ：奇数=�
    }
 };
 float drawConePosX;
-void DrawStage(int stageNum, Player player) {	// リファクタリング：一個しか描画できないのでα版が終わったら書き直す
+void DrawStage(int stageNum, Player player) {
 	//VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
 	//DrawCone(drawPos, CORN_HEIGHT);
 	//if (GetIsCollision(drawPos, CORN_HEIGHT, player.GetPosition(), 150, 50)) {	// 衝突判定を行う
@@ -85,7 +85,7 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 	DrawCone3D(topCenterPos, bottomCenterPos, CORN_RADIUS, 64, CORN_COLOR_TEST, CORN_COLOR_TEST, TRUE);
 }
 
-bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)	// リファクタリング　現在は底面でしか計算が行われていない
+bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)
 {
 	if (currentScreenType != INGAME)return false;
 	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS + playerRadius)return false;

@@ -57,14 +57,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; isGameStop = true; }
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
 				InGameScoreView();
-				if (player.GetPosition().x >= goalPosition[stageNumber] + 1000) {	// マジックナンバーにするのはやめる（リファクタリング）
+				if (player.GetPosition().x >= goalPosition[stageNumber] + CLEARCANGE_POS) {
 					nextScreenType = STAGECLEAR;
 					fadeState = SCREENSETUP;
 					isGameStop = true;
 				}
 			}
 			else {
-				if (!isFading) DrawStartCountDown();
+				if (currentScreenType == INGAME && !isFading) DrawStartCountDown();
 			}
 			// カメラ、ライト、プレイヤーの描画
 			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
@@ -83,9 +83,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				inGameVewScore = 0;
 			}
 		}
-		DrawLine(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth,ScreenDrawPosI(screenHeight,94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
-		ScreenUISwitching();	//	UIを描画
-		ScreenFadeControl();	// フェード演出
+		DrawLine(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, ScreenDrawPosI(screenHeight, 94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
+		DrawUI();	//	UIを描画
+		isFading = ScreenFadeControl();	// フェード演出
 
 		ScreenFlip();
 
