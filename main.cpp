@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "3dSetting.h"
 #include "Input.h"
+
 // メインの制御を文（特にwhile内）をリファクタリングする
 bool isGameQuit;
 int screenWidth;
@@ -25,6 +26,7 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	SetEnableXAudioFlag(TRUE);
 	if (DxLib_Init() == -1) {	// エラー処理
 		return -1;
 	}
@@ -33,12 +35,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	AudioSetUp();
 	player.SetUp();
 	camera.SetUp();
-	light.SetUp();
+	light.SetUp(); 
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0 && !isGameQuit)
 	{
-		PlayBGM(bgm);
 		ClearDrawScreen();
 		CheckAllKeyState();	// 全キーの状態をチェック
 		ButtonMovement();	//  ボタンの移動
@@ -85,7 +86,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 		}
 		else {
-			PlayBGM(bgm);
+			if (CheckHitKeyDown(KEY_INPUT_1))
+				PlayBGM(bgm);
+			if (CheckHitKeyDown(KEY_INPUT_2))
+				PlayBGM(bgm1);
 		}
 		DrawLine(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, ScreenDrawPosI(screenHeight, 94.4f), COLOR_BLACK, TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawUI();	//	UIを描画
@@ -94,7 +98,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScreenFlip();
 
 		clsDx();	// デバッグ用文字を消す
-		WaitTimer(16); // 約60FPS
+		WaitFrameRate();
 	}
 	// フォントデータを削除
 	DeleteFontToHandle(normalFontHandle);

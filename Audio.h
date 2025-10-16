@@ -6,6 +6,7 @@ extern int buttonMoveSE;
 extern int buttonBeepSE;
 extern int buttonSelectSE;
 extern int bgm;
+extern int bgm1;
 extern int previousBGM;
 void AudioSetUp();
 
