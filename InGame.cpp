@@ -1,6 +1,7 @@
 ﻿#include"DxLib.h"
 #include"InGame.h"
 #include "Player.h"
+#include"Score.h"
 #include "UI.h"
 #include <Math.h>
 #include <cmath>
@@ -37,6 +38,8 @@ MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {
 	   {}
    }
 };
+
+int x;
 float drawConePosX;
 void DrawStage(int stageNum, Player player) {
 	//VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
@@ -78,6 +81,7 @@ void DrawStage(int stageNum, Player player) {
 			}
 		}
 	}
+	x = 0;
 }
 
 void DrawCone(VECTOR bottomCenterPos, float height) {
@@ -87,7 +91,13 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 
 bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)
 {
+	x++;
 	if (currentScreenType != INGAME)return false;
+	if (playerPos.y == coneBottom.y && playerPos.x < coneBottom.x) {
+		float distanceX = coneBottom.x - playerPos.x;
+		if (jumpDistance == 0) jumpDistance = distanceX; 
+		if (distanceX < jumpDistance) { jumpDistance = distanceX; printfDx("%f", jumpDistance); };
+	}
 	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS + playerRadius)return false;
 	VECTOR playerCenterPos = VAdd(playerPos, VGet(0, playerHeight / 2, playerPos.z));	// プレイヤー中央座標
 	float distance = Distance(playerCenterPos, coneBottom);	// 二点間の距離を計算

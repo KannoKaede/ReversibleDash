@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					camera.Move(player.GetSpeed());
 				}
 				if (CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; isGameStop = true; }
-				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(); }	// 仮で置いているr.Move();
+				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(player.GetSpeed()); }	// 仮で置いているr.Move();
 				InGameScoreView();
 				if (player.GetPosition().x >= goalPosition[stageNumber] + CLEARCANGE_POS) {
 					nextScreenType = STAGECLEAR;

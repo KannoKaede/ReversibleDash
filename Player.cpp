@@ -29,7 +29,6 @@ void Player::Move() {
 		PlayAnimation(modelHandle[modelIndex],animationIndex[modelIndex],true);
 	}
 	MV1SetRotationXYZ(modelHandle[modelIndex], playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
-	printfDx("%f\n%f\n%f\n", direction.x, direction.y, direction.z);
 	position.x += moveSpeed;
 	MV1SetPosition(modelHandle[modelIndex], position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
@@ -140,5 +139,3 @@ void Player::PlayAnimation(int model, int anime, bool isLoop) {
 	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
 	MV1SetAttachAnimTime(modelHandle[modelIndex], animationIndex[modelIndex], playTime);
 }
-
-// メモブレンド率使用違和感なくアニメーション

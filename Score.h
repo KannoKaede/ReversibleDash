@@ -14,11 +14,13 @@ extern int inGameVewScore;
 const int SCORE_ADDED_POINT = 10;
 
 /// <summary> スコアを計算する関数 </summary>
-void ScoreCalculation();	// インゲームを実装したら引数を実装する
+void ScoreCalculation(float speed);	// インゲームを実装したら引数を実装する
 
 /// <summary> インゲームでスコアを表示する関数 </summary>
 void InGameScoreView();
 
 void HighScoreCheck();
+
+extern float jumpDistance;
 
 #endif

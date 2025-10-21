@@ -7,15 +7,14 @@
 int score;
 int highScore[MAX_STAGE_NUM];
 int inGameVewScore;
-//ここら辺は仮で置いておくインゲームを作り出したら消す
-float 距離測定ライン = 5;
-float 距離 = 2;
-float 移動速度 = 4;
+float jumpDistance;
 
 /// <summary> スコアを計算する関数 </summary>
-void ScoreCalculation() {
-	if (CheckHitKey(KEY_INPUT_SPACE) && currentScreenType == INGAME) {
-		score += (((int)距離測定ライン * 10) - ((int)距離 * 10)) * (int)移動速度;
+void ScoreCalculation(float speed) {
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && currentScreenType == INGAME) {
+		int plusScore = (400 - (int)jumpDistance) * 7 * (int)speed;
+		if (plusScore > 0)score += plusScore;
+		jumpDistance = 0;
 	}
 	InGameScoreView();
 }
