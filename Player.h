@@ -42,6 +42,9 @@ public:
 	/// <param name="pos"> セットする座標 </param>
 	void SetPosition(VECTOR pos);
 
+	VECTOR GetDirection()const;
+	void SetDirection(VECTOR dir);
+
 	/// <summary> moveSpeedを返すメソッド </summary>
 	/// <returns> moveSpeed </returns>
 	float GetSpeed()const;
@@ -49,14 +52,18 @@ public:
 	/// <summary> changeSpeedCountを返すメソッド </summary>
 	/// <returns> changeSpeedCount </returns>
 	int GetChangeSpeedCount()const;
+
+	void PlayAnimation(int model,int anime,bool isLoop);
 private:
-	int modelHandle = 0;	// プレイヤーモデル
+	int modelHandle[3] = {};	// プレイヤーモデル
+	int animationIndex[3] = {};	// アニメーション
 	VECTOR position;	// プレイヤーの位置
 	VECTOR direction;	// プレイヤーの向き
 	float moveSpeed;	// プレイヤーの移動速度を格納
 	int changeSpeedCount;	// 移動速度の変更回数を格納するカウンタ
 };
 
+extern int modelIndex;
 extern float jumpPower;	// 実際のジャンプ力を入れる変数
 extern bool isFall;
 extern bool isJumping;	// 現在ジャンプ中か判定
