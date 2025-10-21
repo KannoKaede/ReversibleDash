@@ -49,9 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		if (currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == STAGECLEAR) {
 			if (!isGameStop) {
-				player.Move();
-				player.ChangeSpeed();
-				player.Jump();
+
 				if (player.GetChangeSpeedCount() <= 4) {
 					light.Move(player.GetSpeed());
 					camera.Move(player.GetSpeed());
@@ -69,6 +67,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (currentScreenType == INGAME && !isFading) DrawStartCountDown();
 			}
 			// カメラ、ライト、プレイヤーの描画
+			player.Move();
+			player.ChangeSpeed();
+			player.Jump();
 			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
 			SetLightPosition(light.GetLightPos());
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
