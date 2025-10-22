@@ -16,6 +16,7 @@ FADE_STATE fadeState;
 
 std::string previousText;
 std::string drawText = "";
+int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
 
 Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2, true);
 Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2, true);
@@ -34,6 +35,14 @@ Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT
 Button nextGame(STAGECLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2, true);
 Button clearGameExit(STAGECLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
 
+void UISetUp() {
+	keyRight = LoadGraph("Resource/RightKey.png");
+	keyLeft = LoadGraph("Resource/LeftKey.png");
+	keyUp = LoadGraph("Resource/UpKey.png");
+	keyDown = LoadGraph("Resource/DownKey.bmp");
+	keyEscape = LoadGraph("Resource/EscapeKey.png");
+}
+
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI()
 {
@@ -44,7 +53,9 @@ void DrawUI()
 		openStageSelectButton.Draw();
 		quitButton.Draw();
 		DrawTextString(0, 100, 16, "ReversibleDash", bigFontHandle);
-		DrawTextString(83, 0, 95, "Ver 0.0.00.00", smallFontHandle);
+		DrawTextString(83, 0, 95, "Ver 0.7.00.00", smallFontHandle);
+
+		DrawGraphPos(20, 20, keyRight);
 		break;
 	case STAGESELECT:
 		stageSelect1.Draw();
@@ -61,7 +72,9 @@ void DrawUI()
 	case STAGECLEAR:
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
+		DrawBox(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, screenHeight, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 95), COLOR_BLACK, smallFontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 1), COLOR_BLACK, smallFontHandle, "STAGE.%d", stageNumber);
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screenWidth, 25), ScreenDrawPosI(screenHeight, 25), ScreenDrawPosI(screenWidth, 75), ScreenDrawPosI(screenHeight, 75), COLOR_WHITEGRAY, TRUE);
 			resumeGame.Draw();
@@ -141,7 +154,7 @@ void ScreenFade(int fadeSpeed)
 	DrawBox(0, 0, screenWidth, screenHeight, COLOR_BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
-void TextFade(std::string text,int font) {
+void TextFade(std::string text, int font) {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
 	DrawTextString(0, 100, 45, drawText, bigFontHandle);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -158,7 +171,7 @@ int waitTime = 420;
 #define TEXTFADEOUTSPEED2 -5
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown() {
-	
+
 	if (previousText != drawText) {
 		previousText = drawText;
 		startTime = 0;
@@ -169,7 +182,7 @@ void DrawStartCountDown() {
 	TextFade(drawText, bigFontHandle);
 	if (startTime + waitTime > GetNowCount()) {
 		return;
-	}		
+	}
 	alphaValue = ClampNum(alphaValue + fadeSpeed, 0, 255);
 	if (alphaValue == 0) {
 		fadeSpeed = TEXTFADEINSPEED;
@@ -242,3 +255,10 @@ void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string tex
 	DrawFormatStringToHandle(drawPosX, drawPosY, COLOR_BLACK, font, "%06d", num);
 }
 
+void DrawGraphPos(float leftPct, float topPct, int image) {
+	int x = ScreenDrawPosI(screenWidth, leftPct);
+	int y = ScreenDrawPosI(screenHeight, topPct);
+
+	DrawGraph(x,y, image, TRUE);
+	printfDx("%d+%d", x,y);
+}

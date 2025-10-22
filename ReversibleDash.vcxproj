@@ -158,7 +158,28 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\PlayerModel.mv1" />
+    <Font Include="Resource\KaqookanV2.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\Audios\BGM_InGame.mp3" />
+    <Media Include="Resource\Audios\BGM_Title.mp3" />
+    <Media Include="Resource\Audios\JINGLE_GameOver.mp3" />
+    <Media Include="Resource\Audios\SE_ButtonBeep.mp3" />
+    <Media Include="Resource\Audios\SE_ButtonMove.mp3" />
+    <Media Include="Resource\Audios\SE_ButtonSelect.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Images\DownKey.png" />
+    <Image Include="Resource\Images\EnterKey.png" />
+    <Image Include="Resource\Images\EscapeKey.png" />
+    <Image Include="Resource\Images\LeftKey.png" />
+    <Image Include="Resource\Images\RightKey.png" />
+    <Image Include="Resource\Images\UpKey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
+    <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1" />
+    <None Include="Resource\PlayerAnimations\Player_Run.mv1" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

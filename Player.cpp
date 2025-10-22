@@ -2,6 +2,7 @@
 #include "InGame.h"
 #include "Input.h"
 #include "main.h"
+#include"Score.h"
 
 int modelIndex = 0;
 
@@ -29,7 +30,6 @@ void Player::Move() {
 		PlayAnimation(modelHandle[modelIndex],animationIndex[modelIndex],true);
 	}
 	MV1SetRotationXYZ(modelHandle[modelIndex], playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
-	printfDx("%f\n%f\n%f\n", direction.x, direction.y, direction.z);
 	position.x += moveSpeed;
 	MV1SetPosition(modelHandle[modelIndex], position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
@@ -56,6 +56,7 @@ void Player::Jump() {
 	if (isGameStop)return;
 	if (isJumping) {
 		position.y += jumpPower;
+		jumpDistance = 0;
 		if (!isFall) {
 			modelIndex = 1;
 			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
@@ -140,5 +141,3 @@ void Player::PlayAnimation(int model, int anime, bool isLoop) {
 	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
 	MV1SetAttachAnimTime(modelHandle[modelIndex], animationIndex[modelIndex], playTime);
 }
-
-// メモブレンド率使用違和感なくアニメーション
