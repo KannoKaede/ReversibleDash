@@ -92,8 +92,8 @@ bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECT
 	if (currentScreenType != INGAME)return false;
 	if (playerPos.y == coneBottom.y && playerPos.x < coneBottom.x) {
 		float distanceX = coneBottom.x - playerPos.x;
-		if (distanceX == 0 || jumpDistance > distanceX)  jumpDistance = distanceX; 
-		if (jumpDistance == 0) jumpDistance = distanceX; 
+		if (distanceX == 0 || jumpDistance > distanceX)  jumpDistance = distanceX;
+		if (jumpDistance == 0) jumpDistance = distanceX;
 		if (distanceX < jumpDistance) { jumpDistance = distanceX; printfDx("%f", jumpDistance); };
 	}
 	if (fabsf(playerPos.x - coneBottom.x) > CORN_RADIUS + playerRadius)return false;

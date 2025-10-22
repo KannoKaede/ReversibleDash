@@ -1,4 +1,4 @@
-#include "Button.h"
+﻿#include "Button.h"
 #include "InGame.h"
 
 
@@ -104,7 +104,7 @@ void ButtonPressed() {
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isFading) {
 		PlaySE(buttonSelectSE);
 		Button* selected = SelectGetButtonArray();
-		switch (selected->GetButtonType())	// �{�^�����Ƃɏ����𕪊�F���t�@�N�^�����O�܂Ƃ߂���Ƃ���͂܂Ƃ߂�
+		switch (selected->GetButtonType())	// ボタンごとに処理を分岐：リファクタリングまとめられるところはまとめる
 		{
 		case Button::GAMESTART:
 			nextScreenType = INGAME;

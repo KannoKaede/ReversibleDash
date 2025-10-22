@@ -16,78 +16,15 @@
     <Filter Include="リソース ファイル\Audio">
       <UniqueIdentifier>{bc74d9ea-2d42-4008-afc0-8115e257caf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\PlayerAnimations">
-      <UniqueIdentifier>{55e6a1b7-1bea-4cea-8481-d99c5f28e1aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Images">
       <UniqueIdentifier>{4d221b48-8bae-421c-bd51-ba17f2b9c029}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Ui.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="InGame.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="3dSetting.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Base.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="InGame.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="3dSetting.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="Resource\KaqookanV2.ttf">
-      <Filter>リソース ファイル</Filter>
-    </Font>
+    <Filter Include="リソース ファイル\PlayerModels">
+      <UniqueIdentifier>{55e6a1b7-1bea-4cea-8481-d99c5f28e1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Fonts">
+      <UniqueIdentifier>{17426fb6-bcb0-4b57-b2a8-bdc95ed40aa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\Audios\BGM_InGame.mp3">
@@ -131,13 +68,79 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1">
-      <Filter>リソース ファイル\PlayerAnimations</Filter>
+      <Filter>リソース ファイル\PlayerModels</Filter>
     </None>
     <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1">
-      <Filter>リソース ファイル\PlayerAnimations</Filter>
+      <Filter>リソース ファイル\PlayerModels</Filter>
     </None>
     <None Include="Resource\PlayerAnimations\Player_Run.mv1">
-      <Filter>リソース ファイル\PlayerAnimations</Filter>
+      <Filter>リソース ファイル\PlayerModels</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\KaqookanV2.ttf">
+      <Filter>リソース ファイル\Fonts</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\UI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Audio.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Bace.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Button.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\InGame.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Input.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Score.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\3dSetting.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\3dSetting.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Audio.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Button.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\InGame.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Input.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Score.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\UI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

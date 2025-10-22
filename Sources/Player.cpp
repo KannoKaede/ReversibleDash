@@ -27,7 +27,7 @@ void Player::Move() {
 	if (isGameStop)return;
 	if (!isJumping) {
 		modelIndex = 0;
-		PlayAnimation(modelHandle[modelIndex],animationIndex[modelIndex],true);
+		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], true);
 	}
 	MV1SetRotationXYZ(modelHandle[modelIndex], playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
 	position.x += moveSpeed;
@@ -62,7 +62,7 @@ void Player::Jump() {
 			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
 		}
 		else {
-			if(fabsf(BOTTOM_GROUND-position.y)<100|| fabsf(TOP_GROUND - position.y) < 100)modelIndex = 2;	// リファクタリング　小ジャンプだとダウンアニメーションが不自然
+			if (fabsf(BOTTOM_GROUND - position.y) < 100 || fabsf(TOP_GROUND - position.y) < 100)modelIndex = 2;	// リファクタリング　小ジャンプだとダウンアニメーションが不自然
 			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
 			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
 		}
@@ -136,7 +136,7 @@ void Player::PlayAnimation(int model, int anime, bool isLoop) {
 		playTime = 0;
 		test = model;
 	}
-	 totalTime = MV1GetAttachAnimTotalTime(modelHandle[modelIndex], animationIndex[modelIndex]);
+	totalTime = MV1GetAttachAnimTotalTime(modelHandle[modelIndex], animationIndex[modelIndex]);
 	playTime += 0.7f;
 	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
 	MV1SetAttachAnimTime(modelHandle[modelIndex], animationIndex[modelIndex], playTime);

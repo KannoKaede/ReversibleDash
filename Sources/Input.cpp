@@ -1,7 +1,7 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 
-char keyBuf[KEY_NUM];	// Œ»İ‚ÌƒL[“ü—Íó‘Ô
-char keyBuf_old[KEY_NUM];	// 1ƒtƒŒ[ƒ€‘O‚ÌƒL[“ü—Íó‘Ô
+char keyBuf[KEY_NUM];	// ç¾åœ¨ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹
+char keyBuf_old[KEY_NUM];	// 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹
 
 void CheckAllKeyState() {
 	for (int i = 0; i < KEY_NUM; i++) {

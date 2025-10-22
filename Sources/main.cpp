@@ -118,7 +118,7 @@ void GameSetUp() {
 	SetBackgroundColor(255, 255, 255);	// 背景色を白に。これは後で消す
 
 	// フォントをロードして、サイズを設定
-	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
+	AddFontResourceExA("Resource/Fonts/KaqookanV2.ttf", FR_PRIVATE, NULL);
 	fontData[FONT_EXTRALARGE].fontSize = screenWidth / 18;
 	fontData[FONT_LARGE].fontSize = screenWidth / 30;
 	fontData[FONT_MEDIUM].fontSize = screenWidth / 60;
@@ -129,7 +129,7 @@ void GameSetUp() {
 	fontData[FONT_SMALL].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_SMALL].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// NULLチェック
-	if (fontData[FONT_EXTRALARGE].fontHandle == -1 || fontData[FONT_LARGE].fontHandle == -1 || fontData[FONT_MEDIUM].fontHandle == -1|| fontData[FONT_SMALL].fontHandle == -1) {
+	if (fontData[FONT_EXTRALARGE].fontHandle == -1 || fontData[FONT_LARGE].fontHandle == -1 || fontData[FONT_MEDIUM].fontHandle == -1 || fontData[FONT_SMALL].fontHandle == -1) {
 		printfDx("Error:NULL フォントの取得失敗\n");
 	}
 }
