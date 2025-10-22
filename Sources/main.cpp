@@ -8,18 +8,9 @@
 #include "3dSetting.h"
 #include "Input.h"
 
-// メインの制御を文（特にwhile内）をリファクタリングする
-bool isGameQuit;
-int screenWidth;
-int screenHeight;
-int bigFontHandle;
-int normalFontHandle;
-int smallFontHandle;
-int exampleFont;
-int bigFontSize;
-int normalFontSize;
-int smallFontSize;
-int exampleFontSize;
+bool isGameQuit;		// exe終了フラグ
+int screenWidth, screenHeight;	// 画面サイズ
+FONT fontData[4];	// フォントデータとサイズ
 
 Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
@@ -28,11 +19,11 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	// 画面の解像度に応じて画面サイズを変更
 	screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screenWidth, screenHeight, 32);
-	SetEnableXAudioFlag(TRUE);
 	if (DxLib_Init() == -1) {	// エラー処理
 		return -1;
 	}
@@ -110,9 +101,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		WaitFrameRate();
 	}
 	// フォントデータを削除
-	DeleteFontToHandle(normalFontHandle);
-	DeleteFontToHandle(bigFontHandle);
-	DeleteFontToHandle(smallFontHandle);
+	for (int i = 0; i < 4; i++) {
+		DeleteFontToHandle(fontData[i].fontHandle);
+	}
 	RemoveFontResourceExA("", FR_PRIVATE, NULL);
 
 	DxLib_End();
@@ -120,31 +111,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 void GameSetUp() {
-	// 画面の解像度に応じて画面サイズを変更
-	
-
+	// Zバッファを有効にする、正確な奥行き関係に基づいた描画を行うために使用
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 
+	SetBackgroundColor(255, 255, 255);	// 背景色を白に。これは後で消す
 
-	SetBackgroundColor(255, 255, 255);	// 背景色を白に
-
-	// フォントのをロードして、サイズ等を設定
+	// フォントをロードして、サイズを設定
 	AddFontResourceExA("Resource/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	bigFontSize = screenWidth / 18;
-	normalFontSize = screenWidth / 30;
-	smallFontSize = screenWidth / 60;
-	exampleFontSize = screenWidth / 70;
-	bigFontHandle = CreateFontToHandle("N4カクーカンV2", bigFontSize, 5, DX_FONTTYPE_ANTIALIASING);
-	normalFontHandle = CreateFontToHandle("N4カクーカンV2", normalFontSize, 3, DX_FONTTYPE_ANTIALIASING);
-	smallFontHandle = CreateFontToHandle("N4カクーカンV2", smallFontSize, 1, DX_FONTTYPE_ANTIALIASING);
-	exampleFont = CreateFontToHandle("N4カクーカンV2", exampleFontSize, 1, DX_FONTTYPE_ANTIALIASING);
+	fontData[FONT_EXTRALARGE].fontSize = screenWidth / 18;
+	fontData[FONT_LARGE].fontSize = screenWidth / 30;
+	fontData[FONT_MEDIUM].fontSize = screenWidth / 60;
+	fontData[FONT_SMALL].fontSize = screenWidth / 70;
+	fontData[FONT_EXTRALARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_EXTRALARGE].fontSize, 5, DX_FONTTYPE_ANTIALIASING);
+	fontData[FONT_LARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_LARGE].fontSize, 3, DX_FONTTYPE_ANTIALIASING);
+	fontData[FONT_MEDIUM].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_MEDIUM].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
+	fontData[FONT_SMALL].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_SMALL].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// NULLチェック
-	if (screenWidth == 0 || screenHeight == 0) {
-		printfDx("Error:NULL 画面サイズの取得失敗\n");
-	}
-	if (bigFontHandle == -1 || normalFontHandle == -1 || smallFontHandle == -1) {
+	if (fontData[FONT_EXTRALARGE].fontHandle == -1 || fontData[FONT_LARGE].fontHandle == -1 || fontData[FONT_MEDIUM].fontHandle == -1|| fontData[FONT_SMALL].fontHandle == -1) {
 		printfDx("Error:NULL フォントの取得失敗\n");
 	}
 }

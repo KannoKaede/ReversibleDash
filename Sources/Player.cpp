@@ -13,11 +13,11 @@ Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
 	changeSpeedCount = 1;
 }
 void Player::SetUp() {
-	modelHandle[0] = MV1LoadModel("Resource/Player_Run.mv1");
+	modelHandle[0] = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
 	animationIndex[0] = MV1AttachAnim(modelHandle[0], 1, -1);
-	modelHandle[1] = MV1LoadModel("Resource/Player_JumpUp.mv1");
+	modelHandle[1] = MV1LoadModel("Resource/PlayerModels/Player_JumpUp.mv1");
 	animationIndex[1] = MV1AttachAnim(modelHandle[1], 1, -1);
-	modelHandle[2] = MV1LoadModel("Resource/Player_JumpDown.mv1");
+	modelHandle[2] = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
 	animationIndex[2] = MV1AttachAnim(modelHandle[2], 1, -1);
 
 	MV1SetPosition(modelHandle[modelIndex], position);
