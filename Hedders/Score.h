@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Main.h"
 #include "InGame.h"
-	// クラスにリファクタリングする。もしくは関数でしっかりと作る
+// クラスにリファクタリングする。もしくは関数でしっかりと作る
 #ifndef INCLUDED_Score_h
 #define INCLUDED_Score_h
 

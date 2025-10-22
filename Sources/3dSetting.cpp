@@ -1,4 +1,4 @@
-#include "3dSetting.h"
+﻿#include "3dSetting.h"
 
 Camera::Camera(VECTOR pos, VECTOR look) {
 	cameraPos = pos;
@@ -18,12 +18,12 @@ void Camera::Initialization() {
 	lookPos.x = START_CAMERA_POS.x;
 }
 
-VECTOR Camera::GetCameraPos() { 
+VECTOR Camera::GetCameraPos() {
 	return cameraPos;
 }
 
-VECTOR Camera::GetLookPos() { 
-	return lookPos; 
+VECTOR Camera::GetLookPos() {
+	return lookPos;
 }
 
 Light::Light(VECTOR pos) {
@@ -44,5 +44,5 @@ void Light::Initialization() {
 }
 
 VECTOR Light::GetLightPos() {
-	return lightPos; 
+	return lightPos;
 }

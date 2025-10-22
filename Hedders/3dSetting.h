@@ -1,61 +1,61 @@
-#pragma once
+ï»¿#pragma once
 #include"DxLib.h"
 #ifndef _3dSetting_h
 #define _3dSetting_h
 
-const VECTOR START_CAMERA_POS = VGet(350, 340, -600);	// ƒJƒƒ‰‚Ì‰ŠúÀ•W
-const VECTOR START_CAMERA_LOOK = VGet(350, 340, 0);	// ƒJƒƒ‰‚Ì‰Šú’Ž‹“_
+const VECTOR START_CAMERA_POS = VGet(350, 340, -600);	// ã‚«ãƒ¡ãƒ©ã®åˆæœŸåº§æ¨™
+const VECTOR START_CAMERA_LOOK = VGet(350, 340, 0);	// ã‚«ãƒ¡ãƒ©ã®åˆæœŸæ³¨è¦–ç‚¹
 class Camera {
 public:
-	/// <summary> ƒJƒƒ‰‚Ì‰Šú‰»ƒRƒ“ƒXƒgƒ‰ƒNƒ^</summary>
-	/// <param name="pos"> ƒJƒƒ‰‚ÌÀ•W </param>
-	/// <param name="look"> ’Ž‹“_ </param>
+	/// <summary> ã‚«ãƒ¡ãƒ©ã®åˆæœŸåŒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿</summary>
+	/// <param name="pos"> ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ </param>
+	/// <param name="look"> æ³¨è¦–ç‚¹ </param>
 	Camera(VECTOR pos, VECTOR look);
 
-	/// <summary> ƒJƒƒ‰‚Ì‰ŠúÝ’èƒƒ\ƒbƒh </summary>
+	/// <summary> ã‚«ãƒ¡ãƒ©ã®åˆæœŸè¨­å®šãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void SetUp();
 
-	/// <summary> ƒJƒƒ‰‚ÌˆÚ“®ƒƒ\ƒbƒh </summary>
-	/// <param name="moveAmount"> ˆÚ“®—Ê </param>
+	/// <summary> ã‚«ãƒ¡ãƒ©ã®ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+	/// <param name="moveAmount"> ç§»å‹•é‡ </param>
 	void Move(float moveAmount);
 
-	/// <summary> ƒJƒƒ‰‚ÌƒŠƒZƒbƒgƒƒ\ƒbƒh</summary>
+	/// <summary> ã‚«ãƒ¡ãƒ©ã®ãƒªã‚»ãƒƒãƒˆãƒ¡ã‚½ãƒƒãƒ‰</summary>
 	void Initialization();
 
-	/// <summary> cameraPos‚ð•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> cameraPosã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> cameraPos </returns>
 	VECTOR GetCameraPos();
 
-	/// <summary> lookPos‚ð•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> lookPosã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> lookPos </returns>
 	VECTOR GetLookPos();
 private:
-	VECTOR cameraPos;	// ƒJƒƒ‰‚ÌÀ•W
-	VECTOR lookPos;	// ƒJƒƒ‰‚Ì’Ž‹“_
+	VECTOR cameraPos;	// ã‚«ãƒ¡ãƒ©ã®åº§æ¨™
+	VECTOR lookPos;	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
 };
 
-const VECTOR START_LIGHT_POS = VGet(60, 0, -50);	// ƒ‰ƒCƒg‚Ì‰ŠúÀ•W
+const VECTOR START_LIGHT_POS = VGet(60, 0, -50);	// ãƒ©ã‚¤ãƒˆã®åˆæœŸåº§æ¨™
 class Light {
 public:
-	/// <summary> ƒ‰ƒCƒg‚Ì‰Šú‰»ƒRƒ“ƒXƒgƒ‰ƒNƒ^ </summary>
-	/// <param name="pos"> ƒ‰ƒCƒg‚ÌÀ•W </param>
+	/// <summary> ãƒ©ã‚¤ãƒˆã®åˆæœŸåŒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ </summary>
+	/// <param name="pos"> ãƒ©ã‚¤ãƒˆã®åº§æ¨™ </param>
 	Light(VECTOR pos);
 
-	/// <summary> ƒ‰ƒCƒg‚Ì‰ŠúÝ’èƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ©ã‚¤ãƒˆã®åˆæœŸè¨­å®šãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void SetUp();
 
-	/// <summary> ƒ‰ƒCƒg‚ÌˆÚ“®ƒƒ\ƒbƒh </summary>
-	/// <param name="moveAmount"> ˆÚ“®—Ê </param>
+	/// <summary> ãƒ©ã‚¤ãƒˆã®ç§»å‹•ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+	/// <param name="moveAmount"> ç§»å‹•é‡ </param>
 	void Move(float moveAmount);
 
-	/// <summary> ƒ‰ƒCƒg‚ÌƒŠƒZƒbƒgƒƒ\ƒbƒh </summary>
+	/// <summary> ãƒ©ã‚¤ãƒˆã®ãƒªã‚»ãƒƒãƒˆãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	void Initialization();
 
-	/// <summary> lightPos‚ð•Ô‚·ƒƒ\ƒbƒh </summary>
+	/// <summary> lightPosã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 	/// <returns> lightPos </returns>
 	VECTOR GetLightPos();
 private:
-	VECTOR lightPos;	// ƒ‰ƒCƒg‚ÌÀ•W
+	VECTOR lightPos;	// ãƒ©ã‚¤ãƒˆã®åº§æ¨™
 };
 
 #endif // !3dSetting_h

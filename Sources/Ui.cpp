@@ -260,7 +260,7 @@ void DrawProgressRateBar(const Player& player, float startPos, float endPos, flo
 
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
 	int font = fontData[fontType].fontHandle;;
-	int	fontSize =fontData[fontType].fontSize;;
+	int	fontSize = fontData[fontType].fontSize;;
 
 	int drawPosX = TextDrawCenterPosX(left, right, text, font);	// 左右中央を計算
 	int drawPosY = TextDrawCenterPosY(top, bottom, fontSize, text, font);	// 上下中央を計算

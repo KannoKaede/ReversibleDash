@@ -42,6 +42,8 @@ int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text, 
 void WaitFrameRate();
 #endif
 
+// フォルダ構造　整理する	--?
+// フォント　構造体にまとめる
 // ハイスコア　エクセルorメモで管理
 // 起動時　車の中で外を眺めているムービーを作成
 // タイトル画面　Escapeを押したらゲーム説明画面を表示

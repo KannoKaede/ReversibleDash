@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Hedders</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Hedders</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -135,29 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3dSetting.cpp" />
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Base.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="InGame.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Score.cpp" />
-    <ClCompile Include="Ui.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="3dSetting.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="InGame.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Main.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Score.h" />
-    <ClInclude Include="UI.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Font Include="Resource\KaqookanV2.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +157,29 @@
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
     <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1" />
     <None Include="Resource\PlayerAnimations\Player_Run.mv1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\3dSetting.cpp" />
+    <ClCompile Include="Sources\Audio.cpp" />
+    <ClCompile Include="Sources\Bace.cpp" />
+    <ClCompile Include="Sources\Button.cpp" />
+    <ClCompile Include="Sources\InGame.cpp" />
+    <ClCompile Include="Sources\Input.cpp" />
+    <ClCompile Include="Sources\Main.cpp" />
+    <ClCompile Include="Sources\Player.cpp" />
+    <ClCompile Include="Sources\Score.cpp" />
+    <ClCompile Include="Sources\UI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\3dSetting.h" />
+    <ClInclude Include="Sources\Audio.h" />
+    <ClInclude Include="Sources\Button.h" />
+    <ClInclude Include="Sources\InGame.h" />
+    <ClInclude Include="Sources\Input.h" />
+    <ClInclude Include="Sources\Main.h" />
+    <ClInclude Include="Sources\Player.h" />
+    <ClInclude Include="Sources\Score.h" />
+    <ClInclude Include="Sources\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

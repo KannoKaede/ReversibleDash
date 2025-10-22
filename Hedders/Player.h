@@ -53,7 +53,7 @@ public:
 	/// <returns> changeSpeedCount </returns>
 	int GetChangeSpeedCount()const;
 
-	void PlayAnimation(int model,int anime,bool isLoop);
+	void PlayAnimation(int model, int anime, bool isLoop);
 private:
 	int modelHandle[3] = {};	// プレイヤーモデル
 	int animationIndex[3] = {};	// アニメーション

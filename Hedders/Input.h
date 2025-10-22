@@ -1,20 +1,20 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #ifndef Input_h
 #define INput_h
 
-const int KEY_NUM = 256;	// ”z—ñ‚Ì—v‘f”
-extern char keyBuf[KEY_NUM];	// Œ»İ‚ÌƒL[“ü—Íó‘Ô
-extern char keyBuf_old[KEY_NUM];	// 1ƒtƒŒ[ƒ€‘O‚ÌƒL[“ü—Íó‘Ô
+const int KEY_NUM = 256;	// é…åˆ—ã®è¦ç´ æ•°
+extern char keyBuf[KEY_NUM];	// ç¾åœ¨ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹
+extern char keyBuf_old[KEY_NUM];	// 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹
 
-/// <summary> ƒL[‚Ì“ü—Íó‘Ô‚ğ’²‚×‚éƒƒ\ƒbƒh </summary>
+/// <summary> ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’èª¿ã¹ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
 void CheckAllKeyState();
 
-/// <summary> w’è‚ÌƒL[‚ª‰Ÿ‚³‚ê‚½uŠÔ‚¾‚¯true‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
-/// <param name="keyCode"> “ü—Íó‘Ô‚ğ’²‚×‚½‚¢ƒL[ </param>
+/// <summary> æŒ‡å®šã®ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã ã‘trueã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+/// <param name="keyCode"> å…¥åŠ›çŠ¶æ…‹ã‚’èª¿ã¹ãŸã„ã‚­ãƒ¼ </param>
 bool CheckHitKeyDown(const int keyCode);
 
-/// <summary> w’è‚ÌƒL[‚ª—£‚³‚ê‚½uŠÔ‚¾‚¯true‚ğ•Ô‚·ƒƒ\ƒbƒh </summary>
-/// <param name="keyCode"> “ü—Íó‘Ô‚ğ’²‚×‚½‚¢ƒL[ </param>
+/// <summary> æŒ‡å®šã®ã‚­ãƒ¼ãŒé›¢ã•ã‚ŒãŸç¬é–“ã ã‘trueã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰ </summary>
+/// <param name="keyCode"> å…¥åŠ›çŠ¶æ…‹ã‚’èª¿ã¹ãŸã„ã‚­ãƒ¼ </param>
 bool CheckHitKeyUp(const int keyCode);
 #endif
