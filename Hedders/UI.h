@@ -6,10 +6,6 @@
 #ifndef INCLUDED_UI_h
 #define INCLUDED_UI_h
 
-#define FONT_TYPE_1 1	// デカフォント
-#define FONT_TYPE_2 2	// ふつフォント
-#define FONT_TYPE_3 3	// チビフォント
-
 #define COLOR_WHITEGRAY GetColor(230, 230, 230)
 #define COLOR_GRAY GetColor(200, 200, 200)
 #define COLOR_GREEN GetColor(0, 255, 128)

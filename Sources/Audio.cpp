@@ -8,11 +8,11 @@ int bgm1;
 int previousBGM;
 
 void AudioSetUp() {
-	buttonMoveSE = LoadSoundMem("Resource/SE_ButtonMove.mp3");
-	buttonBeepSE = LoadSoundMem("Resource/SE_ButtonBeep.mp3");
-	buttonSelectSE = LoadSoundMem("Resource/SE_ButtonSelect.mp3");
-	bgm = LoadSoundMem("Resource/BGM_Title.mp3");
-	bgm1 = LoadSoundMem("Resource/BGM_InGame.mp3");
+	buttonMoveSE = LoadSoundMem("Resource/Audios/SE_ButtonMove.mp3");
+	buttonBeepSE = LoadSoundMem("Resource/Audios/SE_ButtonBeep.mp3");
+	buttonSelectSE = LoadSoundMem("Resource/Audios/SE_ButtonSelect.mp3");
+	bgm = LoadSoundMem("Resource/Audios/BGM_Title.mp3");
+	bgm1 = LoadSoundMem("Resource/Audios/BGM_InGame.mp3");
 	ChangeVolumeSoundMem(30, bgm);
 	ChangeVolumeSoundMem(30, bgm1);
 }

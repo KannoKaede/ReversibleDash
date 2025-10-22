@@ -18,30 +18,30 @@ std::string previousText;
 std::string drawText = "";
 int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
 
-Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_TYPE_2, true);
-Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_TYPE_2, true);
-Button quitButton(TITLE, 3, 1, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_TYPE_2, true);
-Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_TYPE_3, false);
-Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_TYPE_3, false);
-Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_TYPE_3, false);
-Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_TYPE_3, false);
-Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_TYPE_3, false);
-Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_TYPE_3, false);
-Button returnTitle(STAGESELECT, 2, 4, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_TYPE_3, true);
-Button resumeGame(PAUSE, 1, 1, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_TYPE_2, true);
-Button pauseGameExit(PAUSE, 1, 2, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
-Button retryGame(GAMEOVER, 1, 1, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_TYPE_2, true);
-Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
-Button nextGame(STAGECLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_TYPE_2, true);
-Button clearGameExit(STAGECLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_TYPE_2, true);
+Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", FONT_LARGE, true);
+Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", FONT_LARGE, true);
+Button quitButton(TITLE, 3, 1, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", FONT_LARGE, true);
+Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", FONT_MEDIUM, false);
+Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", FONT_MEDIUM, false);
+Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", FONT_MEDIUM, false);
+Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", FONT_MEDIUM, false);
+Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", FONT_MEDIUM, false);
+Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", FONT_MEDIUM, false);
+Button returnTitle(STAGESELECT, 2, 4, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "BACK", FONT_MEDIUM, true);
+Button resumeGame(PAUSE, 1, 1, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", FONT_LARGE, true);
+Button pauseGameExit(PAUSE, 1, 2, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_LARGE, true);
+Button retryGame(GAMEOVER, 1, 1, VGet(37, 70, 0), 10, 5, Button::RETRY, "RETRY", FONT_LARGE, true);
+Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_LARGE, true);
+Button nextGame(STAGECLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", FONT_LARGE, true);
+Button clearGameExit(STAGECLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", FONT_LARGE, true);
 
 void UISetUp() {
-	keyRight = LoadGraph("Resource/RightKey.png");
-	keyLeft = LoadGraph("Resource/LeftKey.png");
-	keyUp = LoadGraph("Resource/UpKey.png");
-	keyDown = LoadGraph("Resource/DownKey.png");
-	keyEscape = LoadGraph("Resource/EscapeKey.png");
-	keySpace = LoadGraph("Resource/SpaceKey.png");
+	keyRight = LoadGraph("Resource/Images/RightKey.png");
+	keyLeft = LoadGraph("Resource/Images/LeftKey.png");
+	keyUp = LoadGraph("Resource/Images/UpKey.png");
+	keyDown = LoadGraph("Resource/Images/DownKey.png");
+	keyEscape = LoadGraph("Resource/Images/EscapeKey.png");
+	keySpace = LoadGraph("Resource/Images/SpaceKey.png");
 }
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
@@ -53,15 +53,15 @@ void DrawUI(Player player)
 		titleButton.Draw();
 		openStageSelectButton.Draw();
 		quitButton.Draw();
-		DrawTextString(0, 100, 16, "ReversibleDash", bigFontHandle);
-		DrawTextString(83, 0, 95, "Ver 0.7.00.00", smallFontHandle);
+		DrawTextString(0, 100, 16, "ReversibleDash", fontData[FONT_EXTRALARGE].fontHandle);
+		DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[FONT_MEDIUM].fontHandle);
 		DrawImage(19, 97, keyLeft, true);
 		DrawImage(21, 97, keyRight, true);
 		DrawImage(20, 95.1f, keyUp, true);
 		DrawImage(20, 97, keyDown, true);
-		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[FONT_SMALL].fontHandle);
 		DrawImage(37, 95, keySpace, false);
-		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
+		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[FONT_SMALL].fontHandle);
 		break;
 	case STAGESELECT:
 		stageSelect1.Draw();
@@ -71,14 +71,14 @@ void DrawUI(Player player)
 		stageSelect5.Draw();
 		stageSelect6.Draw();
 		returnTitle.Draw();
-		DrawTextString(0, 100, 16, "STAGESELECT", bigFontHandle);
+		DrawTextString(0, 100, 16, "STAGESELECT", fontData[FONT_EXTRALARGE].fontHandle);
 		DrawImage(19, 97, keyLeft, true);
 		DrawImage(21, 97, keyRight, true);
 		DrawImage(20, 95.1f, keyUp, true);
 		DrawImage(20, 97, keyDown, true);
-		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[FONT_SMALL].fontHandle);
 		DrawImage(37, 95, keySpace, false);
-		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
+		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[FONT_SMALL].fontHandle);
 		break;
 	case PAUSE:
 	case GAMEOVER:
@@ -86,59 +86,59 @@ void DrawUI(Player player)
 	case INGAME:
 		// インゲームのUIを用意したらここに配置
 		DrawBox(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, screenHeight, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
-		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 95), COLOR_BLACK, smallFontHandle, "SCORE:%06d", inGameVewScore);
-		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 1), COLOR_BLACK, smallFontHandle, "STAGE.%d", stageNumber);
+		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 95), COLOR_BLACK, fontData[FONT_MEDIUM].fontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 1), COLOR_BLACK, fontData[FONT_MEDIUM].fontHandle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
 			DrawImage(20, 95, keyEscape, false);
-			DrawTextString(22.5f, 0, 95.8f, "Pause", exampleFont);
+			DrawTextString(22.5f, 0, 95.8f, "Pause", fontData[FONT_SMALL].fontHandle);
 			DrawImage(37, 95, keySpace, false);
-			DrawTextString(42.5f, 0, 95.8f, "Jump", exampleFont);
+			DrawTextString(42.5f, 0, 95.8f, "Jump", fontData[FONT_SMALL].fontHandle);
 		}
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screenWidth, 25), ScreenDrawPosI(screenHeight, 25), ScreenDrawPosI(screenWidth, 75), ScreenDrawPosI(screenHeight, 75), COLOR_WHITEGRAY, TRUE);
 			resumeGame.Draw();
 			pauseGameExit.Draw();
-			DrawTextString(0, 100, 32, "PAUSE", bigFontHandle);
+			DrawTextString(0, 100, 32, "PAUSE", fontData[FONT_EXTRALARGE].fontHandle);
 			DrawImage(19, 97, keyLeft, true);
 			DrawImage(21, 97, keyRight, true);
 			DrawImage(20, 95.1f, keyUp, true);
 			DrawImage(20, 97, keyDown, true);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[FONT_SMALL].fontHandle);
 			DrawImage(37, 95, keySpace, false);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[FONT_SMALL].fontHandle);
 		}
 		if (currentScreenType == GAMEOVER) {
 			DrawBox(ScreenDrawPosI(screenWidth, 23), ScreenDrawPosI(screenHeight, 18), ScreenDrawPosI(screenWidth, 77), ScreenDrawPosI(screenHeight, 82), COLOR_WHITEGRAY, TRUE);
 			gameOverGameExit.Draw();
 			retryGame.Draw();
-			DrawTextString(0, 100, 25, "GAMEOVER", bigFontHandle);
-			DrawTextString(27, 47, 43, "SCORE", normalFontHandle);
-			DrawTextInt(27, 47, 51, "000000", normalFontHandle, score);
+			DrawTextString(0, 100, 25, "GAMEOVER", fontData[FONT_EXTRALARGE].fontHandle);
+			DrawTextString(27, 47, 43, "SCORE", fontData[FONT_LARGE].fontHandle);
+			DrawTextInt(27, 47, 51, "000000", fontData[FONT_LARGE].fontHandle, score);
 			DrawImage(19, 97, keyLeft, true);
 			DrawImage(21, 97, keyRight, true);
 			DrawImage(20, 95.1f, keyUp, true);
 			DrawImage(20, 97, keyDown, true);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[FONT_SMALL].fontHandle);
 			DrawImage(37, 95, keySpace, false);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[FONT_SMALL].fontHandle);
 		}
 		if (currentScreenType == STAGECLEAR) {
 			DrawBox(ScreenDrawPosI(screenWidth, 23), ScreenDrawPosI(screenHeight, 18), ScreenDrawPosI(screenWidth, 77), ScreenDrawPosI(screenHeight, 82), COLOR_WHITEGRAY, TRUE);
 			nextGame.Draw();
 			clearGameExit.Draw();
-			DrawTextString(0, 100, 25, "STAGE CLEAR", bigFontHandle);
-			DrawTextString(27, 47, 43, "SCORE", normalFontHandle);
-			DrawTextInt(27, 47, 51, "000000", normalFontHandle, score);
-			DrawTextString(53, 73, 43, "HIGHSCORE", normalFontHandle);
-			DrawTextInt(53, 73, 51, "000000", normalFontHandle, highScore[stageNumber]);
+			DrawTextString(0, 100, 25, "STAGE CLEAR", fontData[FONT_EXTRALARGE].fontHandle);
+			DrawTextString(27, 47, 43, "SCORE", fontData[FONT_LARGE].fontHandle);
+			DrawTextInt(27, 47, 51, "000000", fontData[FONT_LARGE].fontHandle, score);
+			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[FONT_LARGE].fontHandle);
+			DrawTextInt(53, 73, 51, "000000", fontData[FONT_LARGE].fontHandle, highScore[stageNumber]);
 			DrawImage(19, 97, keyLeft, true);
 			DrawImage(21, 97, keyRight, true);
 			DrawImage(20, 95.1f, keyUp, true);
 			DrawImage(20, 97, keyDown, true);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[FONT_SMALL].fontHandle);
 			DrawImage(37, 95, keySpace, false);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[FONT_SMALL].fontHandle);
 		}
 		break;
 	default:
@@ -197,7 +197,7 @@ void ScreenFade(int fadeSpeed)
 }
 void TextFade(std::string text, int font) {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	DrawTextString(0, 100, 45, drawText, bigFontHandle);
+	DrawTextString(0, 100, 45, drawText, fontData[FONT_EXTRALARGE].fontHandle);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -220,7 +220,7 @@ void DrawStartCountDown() {
 	if (startTime == 0) {
 		startTime = GetNowCount();
 	}
-	TextFade(drawText, bigFontHandle);
+	TextFade(drawText, fontData[FONT_EXTRALARGE].fontHandle);
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
@@ -259,22 +259,9 @@ void DrawProgressRateBar(const Player& player, float startPos, float endPos, flo
 
 
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
-	int font = {}, fontSize = {};
-	switch (fontType)	// フォントなどの値を変える　リファクタリングしてくれ
-	{
-	case 1:
-		font = bigFontHandle;
-		fontSize = bigFontSize;
-		break;
-	case 2:
-		font = normalFontHandle;
-		fontSize = normalFontSize;
-		break;
-	case 3:
-		font = smallFontHandle;
-		fontSize = smallFontSize;
-		break;
-	}
+	int font = fontData[fontType].fontHandle;;
+	int	fontSize =fontData[fontType].fontSize;;
+
 	int drawPosX = TextDrawCenterPosX(left, right, text, font);	// 左右中央を計算
 	int drawPosY = TextDrawCenterPosY(top, bottom, fontSize, text, font);	// 上下中央を計算
 	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, font);

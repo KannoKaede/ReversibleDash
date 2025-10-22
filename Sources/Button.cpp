@@ -137,7 +137,7 @@ void ButtonPressed() {
 			fadeState = SCREENSETUP;
 			break;
 		case Button::GAMEQUIT:
-			isGameQuit = true;
+			DxLib_End();
 			break;
 		case Button::RETURNTITLE:
 			nextScreenType = TITLE;
