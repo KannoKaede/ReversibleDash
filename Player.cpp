@@ -2,6 +2,7 @@
 #include "InGame.h"
 #include "Input.h"
 #include "main.h"
+#include"Score.h"
 
 int modelIndex = 0;
 
@@ -55,6 +56,7 @@ void Player::Jump() {
 	if (isGameStop)return;
 	if (isJumping) {
 		position.y += jumpPower;
+		jumpDistance = 0;
 		if (!isFall) {
 			modelIndex = 1;
 			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);

@@ -39,7 +39,6 @@ MAPDATA mapDataArray[MAX_STAGE_NUM][2][50] = {
    }
 };
 
-int x;
 float drawConePosX;
 void DrawStage(int stageNum, Player player) {
 	//VECTOR drawPos = VAdd(BOTTOM_DRAW_POS, VGet(500, 0, 0));	// 描画する座標を指定の値ずらす
@@ -81,7 +80,6 @@ void DrawStage(int stageNum, Player player) {
 			}
 		}
 	}
-	x = 0;
 }
 
 void DrawCone(VECTOR bottomCenterPos, float height) {
@@ -91,10 +89,10 @@ void DrawCone(VECTOR bottomCenterPos, float height) {
 
 bool GetIsCollision(const VECTOR& coneBottom, const float coneHeight, const VECTOR& playerPos, const float playerHeight, const float playerRadius)
 {
-	x++;
 	if (currentScreenType != INGAME)return false;
 	if (playerPos.y == coneBottom.y && playerPos.x < coneBottom.x) {
 		float distanceX = coneBottom.x - playerPos.x;
+		if (distanceX == 0 || jumpDistance > distanceX)  jumpDistance = distanceX; 
 		if (jumpDistance == 0) jumpDistance = distanceX; 
 		if (distanceX < jumpDistance) { jumpDistance = distanceX; printfDx("%f", jumpDistance); };
 	}

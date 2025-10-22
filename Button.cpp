@@ -21,11 +21,11 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 void Button::Draw() {
 	DrawBox(ScreenDrawPosI(screenWidth, centerPos.x - widthLength), ScreenDrawPosI(screenHeight, centerPos.y - heightLength),
 		ScreenDrawPosI(screenWidth, centerPos.x + widthLength), ScreenDrawPosI(screenHeight, centerPos.y + heightLength), buttonColor, TRUE);
-	DrawBox(ScreenDrawPosI(screenWidth, centerPos.x), ScreenDrawPosI(screenHeight, centerPos.y + heightLength*0.9f),
-		ScreenDrawPosI(screenWidth, centerPos.x+ widthLength), ScreenDrawPosI(screenHeight, centerPos.y+heightLength*1.35f), buttonColor, TRUE);
-	DrawTriangleAA(ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f), 
-			ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 1.35f), 
-			ScreenDrawPosF(screenWidth, centerPos.x-widthLength*0.2f), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f), buttonColor, TRUE);
+	DrawBox(ScreenDrawPosI(screenWidth, centerPos.x), ScreenDrawPosI(screenHeight, centerPos.y + heightLength * 0.9f),
+		ScreenDrawPosI(screenWidth, centerPos.x + widthLength), ScreenDrawPosI(screenHeight, centerPos.y + heightLength * 1.35f), buttonColor, TRUE);
+	DrawTriangleAA(ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f),
+		ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 1.35f),
+		ScreenDrawPosF(screenWidth, centerPos.x - widthLength * 0.2f), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f), buttonColor, TRUE);
 	isCenter ?
 		DrawTextCenter(ScreenDrawPosF(screenWidth, centerPos.x - widthLength), ScreenDrawPosF(screenHeight, centerPos.y - heightLength),
 			ScreenDrawPosF(screenWidth, centerPos.x + widthLength), ScreenDrawPosF(screenHeight, centerPos.y + heightLength), drawText, fontType) :
@@ -58,8 +58,8 @@ int Button::GetRowNum() const {
 
 
 
-VECTOR buttonMovePos= STARTBUTTON_POS;
-VECTOR buttonPos= STARTBUTTON_POS;
+VECTOR buttonMovePos = STARTBUTTON_POS;
+VECTOR buttonPos = STARTBUTTON_POS;
 
 int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{ {0,0,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,0,0,0,0,0} }, // TITLE
@@ -70,22 +70,25 @@ int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 };
 
 void ButtonMovement() {
-	if (CheckHitKeyDown(KEY_INPUT_UP)) buttonMovePos.y += -1;
-	if (CheckHitKeyDown(KEY_INPUT_DOWN)) buttonMovePos.y += 1;
-	if (CheckHitKeyDown(KEY_INPUT_LEFT)) buttonMovePos.x += -1;
-	if (CheckHitKeyDown(KEY_INPUT_RIGHT)) buttonMovePos.x += 1;
+	if (!isFading) {
+		if (CheckHitKeyDown(KEY_INPUT_UP)) buttonMovePos.y += -1;
+		if (CheckHitKeyDown(KEY_INPUT_DOWN)) buttonMovePos.y += 1;
+		if (CheckHitKeyDown(KEY_INPUT_LEFT)) buttonMovePos.x += -1;
+		if (CheckHitKeyDown(KEY_INPUT_RIGHT)) buttonMovePos.x += 1;
+	}
 
 	buttonMovePos.x = ClampNum(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
 	buttonMovePos.y = ClampNum(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
+	bool test = CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_RIGHT);
 	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {
-		PlaySE(buttonBeepSE);
+		if(test)PlaySE(buttonBeepSE);
 		buttonMovePos = buttonPos;
 	}
-		if (buttonPos.x != buttonMovePos.x|| buttonPos.y != buttonMovePos.y) {
-			PlaySE(buttonMoveSE);
-		}
-		buttonPos = buttonMovePos;
+	if (buttonPos.x != buttonMovePos.x || buttonPos.y != buttonMovePos.y) {
+		PlaySE(buttonMoveSE);
+	}
+	buttonPos = buttonMovePos;
 
 	for (int i = 0; i < buttonArray.size(); i++) {
 		buttonArray[i]->SetButtonColor(BUTTON_NORMAL_COLOR);
@@ -98,11 +101,6 @@ void ButtonMovement() {
 }
 
 void ButtonPressed() {
-	if (currentScreenType == INGAME) {
-		buttonMovePos = VGet(0, 0, 0);
-		buttonPos = VGet(0, 0, 0);
-		return;
-	}
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isFading) {
 		PlaySE(buttonSelectSE);
 		Button* selected = SelectGetButtonArray();

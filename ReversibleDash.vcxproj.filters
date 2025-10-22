@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="リソース ファイル\Audio">
+      <UniqueIdentifier>{bc74d9ea-2d42-4008-afc0-8115e257caf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\PlayerAnimations">
+      <UniqueIdentifier>{55e6a1b7-1bea-4cea-8481-d99c5f28e1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Images">
+      <UniqueIdentifier>{4d221b48-8bae-421c-bd51-ba17f2b9c029}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -76,6 +85,59 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\PlayerModel.mv1" />
+    <Font Include="Resource\KaqookanV2.ttf">
+      <Filter>リソース ファイル</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\Audios\BGM_InGame.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+    <Media Include="Resource\Audios\BGM_Title.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+    <Media Include="Resource\Audios\JINGLE_GameOver.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+    <Media Include="Resource\Audios\SE_ButtonBeep.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+    <Media Include="Resource\Audios\SE_ButtonMove.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+    <Media Include="Resource\Audios\SE_ButtonSelect.mp3">
+      <Filter>リソース ファイル\Audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Images\RightKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\UpKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\DownKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\EnterKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\EscapeKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\LeftKey.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1">
+      <Filter>リソース ファイル\PlayerAnimations</Filter>
+    </None>
+    <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1">
+      <Filter>リソース ファイル\PlayerAnimations</Filter>
+    </None>
+    <None Include="Resource\PlayerAnimations\Player_Run.mv1">
+      <Filter>リソース ファイル\PlayerAnimations</Filter>
+    </None>
   </ItemGroup>
 </Project>

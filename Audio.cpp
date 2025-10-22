@@ -8,11 +8,11 @@ int bgm1;
 int previousBGM;
 
 void AudioSetUp() {
-	buttonMoveSE = LoadSoundMem("Resource/カーソル移動8.mp3");
-	buttonBeepSE = LoadSoundMem("Resource/ビープ音1.mp3");
-	buttonSelectSE = LoadSoundMem("Resource/決定ボタンを押す23.mp3");
-	bgm = LoadSoundMem("Resource/Bgm.mp3");
-	bgm1 = LoadSoundMem("Resource/maou_14_shining_star.mp3");
+	buttonMoveSE = LoadSoundMem("Resource/SE_ButtonMove.mp3");
+	buttonBeepSE = LoadSoundMem("Resource/SE_ButtonBeep.mp3");
+	buttonSelectSE = LoadSoundMem("Resource/SE_ButtonSelect.mp3");
+	bgm = LoadSoundMem("Resource/BGM_Title.mp3");
+	bgm1 = LoadSoundMem("Resource/BGM_InGame.mp3");
 	ChangeVolumeSoundMem(30, bgm);
 	ChangeVolumeSoundMem(30, bgm1);
 }
@@ -26,4 +26,9 @@ void PlayBGM(int bgmHandle) {
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP);
 		previousBGM = bgmHandle;
 	}
+}
+
+void PlayJINGLE(int jingleHandle) {
+	StopSoundMem(previousBGM);
+	PlaySoundMem(jingleHandle, DX_PLAYTYPE_BACK);
 }

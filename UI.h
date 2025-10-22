@@ -20,6 +20,11 @@
 
 #define START_COUNTDOWN_1  "READY..."	// スタートカウントダウンの文字の中身：最初
 #define START_COUNTDOWN_2 "GO!"	// スタートカウントダウンの文字の中身：最後
+
+
+extern int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
+
+void UISetUp();
 /// <summary> 画面の種類を定義する </summary>
 enum SCREEN_TYPE
 {
@@ -113,4 +118,6 @@ void DrawTextString(float leftPct, float rightPct, float heightPct, std::string 
 /// <param name="font"> 使用するフォント </param>
 /// /// <param name="font"> 使用するフォント </param>
 void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font,int num);
+
+void DrawGraphPos(float leftPct, float topPct, int image);
 #endif

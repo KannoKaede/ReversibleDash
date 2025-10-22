@@ -11,9 +11,11 @@ float jumpDistance;
 
 /// <summary> スコアを計算する関数 </summary>
 void ScoreCalculation(float speed) {
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && currentScreenType == INGAME) {
+
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && currentScreenType == INGAME&&jumpDistance<400) {
+		if (jumpDistance == 0)return;
 		int plusScore = (400 - (int)jumpDistance) * 7 * (int)speed;
-		if (plusScore > 0)score += plusScore;
+		score += plusScore;
 		jumpDistance = 0;
 	}
 	InGameScoreView();
@@ -21,14 +23,11 @@ void ScoreCalculation(float speed) {
 
 /// <summary> インゲームでスコアを表示する関数 </summary>
 void InGameScoreView() {
-	if (inGameVewScore > score) {
-		inGameVewScore = score;
-		return;
-	}
-
-	// 実スコアと表示用スコアの差が一定より小さかったらその値を加算する。それ以外は一定の値を加算し続ける
 	int differenceScore = score - inGameVewScore;
-	int addedPoint = (differenceScore < SCORE_ADDED_POINT) ? differenceScore : SCORE_ADDED_POINT;
+	if (differenceScore == 0)return;
+	int addedPoint = differenceScore < ADD_SCORE_10 ? differenceScore : ADD_SCORE_10;
+	addedPoint = differenceScore< ADD_SCORE_100? differenceScore : ADD_SCORE_100;
+	addedPoint = differenceScore< ADD_SCORE_200? differenceScore : ADD_SCORE_200;
 	inGameVewScore += addedPoint;
 }
 
