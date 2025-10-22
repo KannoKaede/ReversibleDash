@@ -15,9 +15,11 @@ int screenHeight;
 int bigFontHandle;
 int normalFontHandle;
 int smallFontHandle;
+int exampleFont;
 int bigFontSize;
 int normalFontSize;
 int smallFontSize;
+int exampleFontSize;
 
 Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
@@ -26,6 +28,10 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	ChangeWindowMode(TRUE);
+	SetGraphMode(screenWidth, screenHeight, 32);
 	SetEnableXAudioFlag(TRUE);
 	if (DxLib_Init() == -1) {	// エラー処理
 		return -1;
@@ -78,7 +84,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
 			MV1DrawModel(player.GetModelHandle());
 			DrawStage(stageNumber, player);
-			DrawProgressRateBar(player, 50, 97, 96.5f);
 		}
 		if (fadeState == FADEWAIT) {
 			player.Initialization();
@@ -95,7 +100,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (currentScreenType == INGAME)
 				PlayBGM(bgm1);
 		}
-		DrawUI();	//	UIを描画
+		DrawUI(player);	//	UIを描画
+		DrawGraph(-200, 100, keyDown, true);
 		isFading = ScreenFadeControl();	// フェード演出
 
 		ScreenFlip();
@@ -115,10 +121,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 void GameSetUp() {
 	// 画面の解像度に応じて画面サイズを変更
-	screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	screenHeight = GetSystemMetrics(SM_CYSCREEN);
-	ChangeWindowMode(TRUE);
-	SetGraphMode(screenWidth, screenHeight, 32);
+	
 
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
@@ -131,9 +134,11 @@ void GameSetUp() {
 	bigFontSize = screenWidth / 18;
 	normalFontSize = screenWidth / 30;
 	smallFontSize = screenWidth / 60;
+	exampleFontSize = screenWidth / 70;
 	bigFontHandle = CreateFontToHandle("N4カクーカンV2", bigFontSize, 5, DX_FONTTYPE_ANTIALIASING);
 	normalFontHandle = CreateFontToHandle("N4カクーカンV2", normalFontSize, 3, DX_FONTTYPE_ANTIALIASING);
 	smallFontHandle = CreateFontToHandle("N4カクーカンV2", smallFontSize, 1, DX_FONTTYPE_ANTIALIASING);
+	exampleFont = CreateFontToHandle("N4カクーカンV2", exampleFontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// NULLチェック
 	if (screenWidth == 0 || screenHeight == 0) {

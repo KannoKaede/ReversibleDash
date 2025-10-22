@@ -23,6 +23,7 @@
 
 
 extern int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
+#define KEYIMAGE_LENGTH 54
 
 void UISetUp();
 /// <summary> 画面の種類を定義する </summary>
@@ -43,7 +44,7 @@ extern SCREEN_TYPE currentScreenType;
 extern SCREEN_TYPE nextScreenType;
 
 /// <summary> 画面の状態に対応したUIを毎フレーム表示するメソッド </summary>
-void DrawUI();
+void DrawUI(Player player);
 
 /*フェード処理関連--------------------------------------------------------------------------------------------------------------------*/
 
@@ -117,7 +118,7 @@ void DrawTextString(float leftPct, float rightPct, float heightPct, std::string 
 /// <param name="text"> 描画するテキスト </param>
 /// <param name="font"> 使用するフォント </param>
 /// /// <param name="font"> 使用するフォント </param>
-void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font,int num);
+void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font, int num);
 
-void DrawGraphPos(float leftPct, float topPct, int image);
+void DrawImage(float leftPct, float topPct, int image, bool isHalf);
 #endif

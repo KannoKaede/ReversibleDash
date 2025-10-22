@@ -39,12 +39,13 @@ void UISetUp() {
 	keyRight = LoadGraph("Resource/RightKey.png");
 	keyLeft = LoadGraph("Resource/LeftKey.png");
 	keyUp = LoadGraph("Resource/UpKey.png");
-	keyDown = LoadGraph("Resource/DownKey.bmp");
+	keyDown = LoadGraph("Resource/DownKey.png");
 	keyEscape = LoadGraph("Resource/EscapeKey.png");
+	keySpace = LoadGraph("Resource/SpaceKey.png");
 }
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
-void DrawUI()
+void DrawUI(Player player)
 {
 	switch (currentScreenType)
 	{
@@ -54,8 +55,13 @@ void DrawUI()
 		quitButton.Draw();
 		DrawTextString(0, 100, 16, "ReversibleDash", bigFontHandle);
 		DrawTextString(83, 0, 95, "Ver 0.7.00.00", smallFontHandle);
-
-		DrawGraphPos(20, 20, keyRight);
+		DrawImage(19, 97, keyLeft, true);
+		DrawImage(21, 97, keyRight, true);
+		DrawImage(20, 95.1f, keyUp, true);
+		DrawImage(20, 97, keyDown, true);
+		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+		DrawImage(37, 95, keySpace, false);
+		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
 		break;
 	case STAGESELECT:
 		stageSelect1.Draw();
@@ -66,6 +72,13 @@ void DrawUI()
 		stageSelect6.Draw();
 		returnTitle.Draw();
 		DrawTextString(0, 100, 16, "STAGESELECT", bigFontHandle);
+		DrawImage(19, 97, keyLeft, true);
+		DrawImage(21, 97, keyRight, true);
+		DrawImage(20, 95.1f, keyUp, true);
+		DrawImage(20, 97, keyDown, true);
+		DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+		DrawImage(37, 95, keySpace, false);
+		DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
 		break;
 	case PAUSE:
 	case GAMEOVER:
@@ -75,11 +88,25 @@ void DrawUI()
 		DrawBox(0, ScreenDrawPosI(screenHeight, 94.4f), screenWidth, screenHeight, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 95), COLOR_BLACK, smallFontHandle, "SCORE:%06d", inGameVewScore);
 		DrawFormatStringToHandle(ScreenDrawPosI(screenWidth, 1), ScreenDrawPosI(screenHeight, 1), COLOR_BLACK, smallFontHandle, "STAGE.%d", stageNumber);
+		DrawProgressRateBar(player, 50, 97, 96.5f);
+		if (currentScreenType == INGAME) {
+			DrawImage(20, 95, keyEscape, false);
+			DrawTextString(22.5f, 0, 95.8f, "Pause", exampleFont);
+			DrawImage(37, 95, keySpace, false);
+			DrawTextString(42.5f, 0, 95.8f, "Jump", exampleFont);
+		}
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screenWidth, 25), ScreenDrawPosI(screenHeight, 25), ScreenDrawPosI(screenWidth, 75), ScreenDrawPosI(screenHeight, 75), COLOR_WHITEGRAY, TRUE);
 			resumeGame.Draw();
 			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", bigFontHandle);
+			DrawImage(19, 97, keyLeft, true);
+			DrawImage(21, 97, keyRight, true);
+			DrawImage(20, 95.1f, keyUp, true);
+			DrawImage(20, 97, keyDown, true);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawImage(37, 95, keySpace, false);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
 		}
 		if (currentScreenType == GAMEOVER) {
 			DrawBox(ScreenDrawPosI(screenWidth, 23), ScreenDrawPosI(screenHeight, 18), ScreenDrawPosI(screenWidth, 77), ScreenDrawPosI(screenHeight, 82), COLOR_WHITEGRAY, TRUE);
@@ -88,6 +115,13 @@ void DrawUI()
 			DrawTextString(0, 100, 25, "GAMEOVER", bigFontHandle);
 			DrawTextString(27, 47, 43, "SCORE", normalFontHandle);
 			DrawTextInt(27, 47, 51, "000000", normalFontHandle, score);
+			DrawImage(19, 97, keyLeft, true);
+			DrawImage(21, 97, keyRight, true);
+			DrawImage(20, 95.1f, keyUp, true);
+			DrawImage(20, 97, keyDown, true);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawImage(37, 95, keySpace, false);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
 		}
 		if (currentScreenType == STAGECLEAR) {
 			DrawBox(ScreenDrawPosI(screenWidth, 23), ScreenDrawPosI(screenHeight, 18), ScreenDrawPosI(screenWidth, 77), ScreenDrawPosI(screenHeight, 82), COLOR_WHITEGRAY, TRUE);
@@ -98,6 +132,13 @@ void DrawUI()
 			DrawTextInt(27, 47, 51, "000000", normalFontHandle, score);
 			DrawTextString(53, 73, 43, "HIGHSCORE", normalFontHandle);
 			DrawTextInt(53, 73, 51, "000000", normalFontHandle, highScore[stageNumber]);
+			DrawImage(19, 97, keyLeft, true);
+			DrawImage(21, 97, keyRight, true);
+			DrawImage(20, 95.1f, keyUp, true);
+			DrawImage(20, 97, keyDown, true);
+			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", exampleFont);
+			DrawImage(37, 95, keySpace, false);
+			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", exampleFont);
 		}
 		break;
 	default:
@@ -255,10 +296,14 @@ void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string tex
 	DrawFormatStringToHandle(drawPosX, drawPosY, COLOR_BLACK, font, "%06d", num);
 }
 
-void DrawGraphPos(float leftPct, float topPct, int image) {
+void DrawImage(float leftPct, float topPct, int image, bool isHalf) {
 	int x = ScreenDrawPosI(screenWidth, leftPct);
 	int y = ScreenDrawPosI(screenHeight, topPct);
-
-	DrawGraph(x,y, image, TRUE);
-	printfDx("%d+%d", x,y);
+	if (isHalf) {
+		int lenth = isHalf ? KEYIMAGE_LENGTH / 2 : KEYIMAGE_LENGTH;
+		DrawExtendGraph(x, y, x + lenth, y + lenth, image, TRUE);
+	}
+	else {
+		DrawGraph(x, y, image, TRUE);
+	}
 }
