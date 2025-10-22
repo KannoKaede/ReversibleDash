@@ -18,9 +18,11 @@ extern int screenHeight;    // 画面の高さ
 extern int bigFontHandle;	// フォント大
 extern int normalFontHandle;	// フォント中
 extern int smallFontHandle;	// フォント小
+extern int exampleFont;
 extern int bigFontSize;
 extern int normalFontSize;
 extern int smallFontSize;
+extern int exampleFontSize;
 
 /// <summary> ゲームの最初に必要な情報を取得、設定する </summary>
 void GameSetUp();
