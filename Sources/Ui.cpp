@@ -47,9 +47,9 @@ void UISetUp() {
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI(Player player)
 {
-	if (!isDrawInGame) {
+	if (isDrawInGame) {
 		DrawBox(0, ScreenDrawPosI(screen.height, 94.4f), screen.width, screen.height, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
-		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", inGameVewScore);
+		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", highScore[stageNumber]);
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].fontHandle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {

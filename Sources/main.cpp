@@ -34,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	player.SetUp();
 	camera.SetUp();
 	light.SetUp();
+	LoadHighScore();
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0)
@@ -83,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			light.Initialization();
 			if (fadeState == FADEWAIT) {	//仮で置いておく
 				score = 0;
-				inGameVewScore = 0;
+				vewScore = 0;
 			}
 		}
 		if (!isFading) {
@@ -101,6 +102,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		clsDx();	// デバッグ用文字を消す
 		WaitTimer(16);
 	}
+
+	SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < 4; i++) {
 		DeleteFontToHandle(fontData[i].fontHandle);
