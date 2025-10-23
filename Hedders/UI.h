@@ -3,19 +3,16 @@
 #include "DxLib.h"
 #include "Player.h"
 
-#ifndef INCLUDED_UI_h
-#define INCLUDED_UI_h
+const int COLOR_WHITEGRAY = GetColor(230, 230, 230);
+const int COLOR_GRAY = GetColor(200, 200, 200);
+const int COLOR_GREEN = GetColor(0, 255, 128);
+const int COLOR_BLACK = GetColor(0, 0, 0);
 
-#define COLOR_WHITEGRAY GetColor(230, 230, 230)
-#define COLOR_GRAY GetColor(200, 200, 200)
-#define COLOR_GREEN GetColor(0, 255, 128)
-#define COLOR_BLACK GetColor(0, 0, 0)
+constexpr float FADE_SPEED = 6;	// フェード速度
+constexpr int FADE_WAIT_TIME = 500;	// フェードの待機時間
 
-#define FADE_SPEED 6	// フェード速度
-#define FADE_WAIT_TIME 500	// フェードの待機時間
-
-#define START_COUNTDOWN_1  "READY..."	// スタートカウントダウンの文字の中身：最初
-#define START_COUNTDOWN_2 "GO!"	// スタートカウントダウンの文字の中身：最後
+const std::string START_COUNTDOWN_1 = "READY...";	// スタートカウントダウンの文字の中身：最初
+const std::string START_COUNTDOWN_2 = "GO!";	// スタートカウントダウンの文字の中身：最後
 
 
 extern int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
@@ -29,7 +26,7 @@ enum SCREEN_TYPE
 	STAGESELECT,
 	PAUSE,
 	GAMEOVER,
-	STAGECLEAR,
+	CLEAR,
 	INGAME
 };
 
@@ -117,4 +114,3 @@ void DrawTextString(float leftPct, float rightPct, float heightPct, std::string 
 void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font, int num);
 
 void DrawImage(float leftPct, float topPct, int image, bool isHalf);
-#endif

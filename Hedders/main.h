@@ -6,23 +6,32 @@
 #include<vector>
 #include<string>
 
-#ifndef INCLUDED_Main_h
-#define INCLUDED_Main_h
-constexpr int TARGET_FPS = 60;		// 目標フレームレート
-constexpr int FRAME_TIME = 1000 / TARGET_FPS;	// 1フレームの時間(ms)
-
-extern bool isGameQuit;		// exe終了フラグ
-extern int screenWidth, screenHeight;	// 画面サイズ
-
-struct FONT {
-	int fontHandle;
-	int fontSize;
+// 画面サイズを格納する構造体
+struct SCREEN_SIZE {
+	int width;				// 画面の幅
+	int height;				// 画面の高さ
 };
-extern FONT fontData[4];
-#define FONT_EXTRALARGE 0
-#define FONT_LARGE 1
-#define FONT_MEDIUM 2
-#define FONT_SMALL 3
+
+extern SCREEN_SIZE screen;	// 画面サイズ
+
+// フォントの種類と数を定義
+enum FONT_TYPE {
+	EXTRALARGE,				// 見出し用
+	LARGE,					// ボタン用
+	MEDIUM,					// スコア、ボタン用
+	SMALL,					// 操作説明用
+	FONT_TYPE_NUM			// フォントの種類
+};
+
+// フォントデータを格納する構造体
+struct FONT_DATA {
+	int fontHandle;			// フォントデータ
+	int fontSize;			// フォントサイズ
+};
+
+extern FONT_DATA fontData[FONT_TYPE_NUM];	// フォントデータとサイズ
+
+extern bool isDrawInGame;
 
 /// <summary> ゲームの初期設定を行うメソッド </summary>
 void GameSetUp();
@@ -39,8 +48,7 @@ float ScreenDrawPosF(int screenSize, float drawPosPercent);
 int ScreenDrawPosI(int screenSize, float drawPosPercent);
 int TextDrawCenterPosX(float left, float right, std::string text, int font);
 int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text, int font);
-void WaitFrameRate();
-#endif
+bool IsDrawInGame();
 
 // フォルダ構造　整理する	--?
 // フォント　構造体にまとめる

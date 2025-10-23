@@ -115,31 +115,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\3dSetting.h">
+    <ClInclude Include="Hedders\3dSetting.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Audio.h">
+    <ClInclude Include="Hedders\Audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Button.h">
+    <ClInclude Include="Hedders\Button.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\InGame.h">
+    <ClInclude Include="Hedders\InGame.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Input.h">
+    <ClInclude Include="Hedders\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Main.h">
+    <ClInclude Include="Hedders\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Player.h">
+    <ClInclude Include="Hedders\Score.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Score.h">
+    <ClInclude Include="Hedders\UI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\UI.h">
+    <ClInclude Include="Hedders\Main.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

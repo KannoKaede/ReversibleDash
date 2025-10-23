@@ -171,15 +171,15 @@
     <ClCompile Include="Sources\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\3dSetting.h" />
-    <ClInclude Include="Sources\Audio.h" />
-    <ClInclude Include="Sources\Button.h" />
-    <ClInclude Include="Sources\InGame.h" />
-    <ClInclude Include="Sources\Input.h" />
-    <ClInclude Include="Sources\Main.h" />
-    <ClInclude Include="Sources\Player.h" />
-    <ClInclude Include="Sources\Score.h" />
-    <ClInclude Include="Sources\UI.h" />
+    <ClInclude Include="Hedders\3dSetting.h" />
+    <ClInclude Include="Hedders\Audio.h" />
+    <ClInclude Include="Hedders\Button.h" />
+    <ClInclude Include="Hedders\InGame.h" />
+    <ClInclude Include="Hedders\Input.h" />
+    <ClInclude Include="Hedders\Main.h" />
+    <ClInclude Include="Hedders\Player.h" />
+    <ClInclude Include="Hedders\Score.h" />
+    <ClInclude Include="Hedders\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
