@@ -19,18 +19,18 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 }
 
 void Button::Draw() {
-	DrawBox(ScreenDrawPosI(screenWidth, centerPos.x - widthLength), ScreenDrawPosI(screenHeight, centerPos.y - heightLength),
-		ScreenDrawPosI(screenWidth, centerPos.x + widthLength), ScreenDrawPosI(screenHeight, centerPos.y + heightLength), buttonColor, TRUE);
-	DrawBox(ScreenDrawPosI(screenWidth, centerPos.x), ScreenDrawPosI(screenHeight, centerPos.y + heightLength * 0.9f),
-		ScreenDrawPosI(screenWidth, centerPos.x + widthLength), ScreenDrawPosI(screenHeight, centerPos.y + heightLength * 1.35f), buttonColor, TRUE);
-	DrawTriangleAA(ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f),
-		ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 1.35f),
-		ScreenDrawPosF(screenWidth, centerPos.x - widthLength * 0.2f), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 0.9f), buttonColor, TRUE);
+	DrawBox(ScreenDrawPosI(screen.width, centerPos.x - widthLength), ScreenDrawPosI(screen.height, centerPos.y - heightLength),
+		ScreenDrawPosI(screen.width, centerPos.x + widthLength), ScreenDrawPosI(screen.height, centerPos.y + heightLength), buttonColor, TRUE);
+	DrawBox(ScreenDrawPosI(screen.width, centerPos.x), ScreenDrawPosI(screen.height, centerPos.y + heightLength * 0.9f),
+		ScreenDrawPosI(screen.width, centerPos.x + widthLength), ScreenDrawPosI(screen.height, centerPos.y + heightLength * 1.35f), buttonColor, TRUE);
+	DrawTriangleAA(ScreenDrawPosF(screen.width, centerPos.x), ScreenDrawPosF(screen.height, centerPos.y + heightLength * 0.9f),
+		ScreenDrawPosF(screen.width, centerPos.x), ScreenDrawPosF(screen.height, centerPos.y + heightLength * 1.35f),
+		ScreenDrawPosF(screen.width, centerPos.x - widthLength * 0.2f), ScreenDrawPosF(screen.height, centerPos.y + heightLength * 0.9f), buttonColor, TRUE);
 	isCenter ?
-		DrawTextCenter(ScreenDrawPosF(screenWidth, centerPos.x - widthLength), ScreenDrawPosF(screenHeight, centerPos.y - heightLength),
-			ScreenDrawPosF(screenWidth, centerPos.x + widthLength), ScreenDrawPosF(screenHeight, centerPos.y + heightLength), drawText, fontType) :
-		DrawTextCenter(ScreenDrawPosF(screenWidth, centerPos.x), ScreenDrawPosF(screenHeight, centerPos.y + heightLength),
-			ScreenDrawPosF(screenWidth, centerPos.x + widthLength), ScreenDrawPosF(screenHeight, centerPos.y + heightLength * 1.35f), drawText, fontType);
+		DrawTextCenter(ScreenDrawPosF(screen.width, centerPos.x - widthLength), ScreenDrawPosF(screen.height, centerPos.y - heightLength),
+			ScreenDrawPosF(screen.width, centerPos.x + widthLength), ScreenDrawPosF(screen.height, centerPos.y + heightLength), drawText, fontType) :
+		DrawTextCenter(ScreenDrawPosF(screen.width, centerPos.x), ScreenDrawPosF(screen.height, centerPos.y + heightLength),
+			ScreenDrawPosF(screen.width, centerPos.x + widthLength), ScreenDrawPosF(screen.height, centerPos.y + heightLength * 1.35f), drawText, fontType);
 }
 void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;

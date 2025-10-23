@@ -1,4 +1,5 @@
 ﻿#include "Main.h"
+#include "UI.h"
 
 float ClampNum(float num, float min, float max) {
 	if (num < min) return min;
@@ -21,10 +22,6 @@ int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text, 
 	return (int)(((bottom - top) - fontSize) / 2 + top);
 }
 
-int lastTime = GetNowCount();
-void WaitFrameRate() {
-	int nowTime = GetNowCount();
-	int elapsed = nowTime - lastTime;
-	if (elapsed < FRAME_TIME) WaitTimer(FRAME_TIME - elapsed);
-	lastTime = GetNowCount();  // 計測基準を更新
+bool IsDrawInGame() {
+	return currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR;
 }

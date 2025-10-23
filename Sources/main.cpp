@@ -8,9 +8,9 @@
 #include "3dSetting.h"
 #include "Input.h"
 
-bool isGameQuit;		// exe終了フラグ
-int screenWidth, screenHeight;	// 画面サイズ
-FONT fontData[4];	// フォントデータとサイズ
+SCREEN_SIZE screen;
+FONT_DATA fontData[4];	// フォントデータとサイズ
+bool isDrawInGame;
 
 Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
@@ -20,10 +20,10 @@ Light light(START_LIGHT_POS);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 画面の解像度に応じて画面サイズを変更
-	screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	screen.width = GetSystemMetrics(SM_CXSCREEN);
+	screen.height = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
-	SetGraphMode(screenWidth, screenHeight, 32);
+	SetGraphMode(screen.width, screen.height, 32);
 	if (DxLib_Init() == -1) {	// エラー処理
 		return -1;
 	}
@@ -36,18 +36,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	light.SetUp();
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
-	while (ProcessMessage() == 0 && !isGameQuit)
+	while (ProcessMessage() == 0)
 	{
+		isDrawInGame = IsDrawInGame();
 		ClearDrawScreen();
 		CheckAllKeyState();	// 全キーの状態をチェック
 		if (currentScreenType != INGAME) {
 			ButtonMovement();	//  ボタンの移動
 			ButtonPressed();	// ボタンが押されたときの処理
 		}
-		if (currentScreenType == STAGECLEAR) {
+		if (currentScreenType == CLEAR) {
 			HighScoreCheck();
 		}
-		if (currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == STAGECLEAR) {
+		if (currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR) {
 			if (!isGameStop) {
 
 				if (player.GetChangeSpeedCount() <= 4) {
@@ -58,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				if (CheckHitKey(KEY_INPUT_SPACE)) { ScoreCalculation(player.GetSpeed()); }	// 仮で置いているr.Move();
 				InGameScoreView();
 				if (player.GetPosition().x >= goalPosition[stageNumber] + CLEARCANGE_POS) {
-					nextScreenType = STAGECLEAR;
+					nextScreenType = CLEAR;
 					fadeState = SCREENSETUP;
 					isGameStop = true;
 				}
@@ -98,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScreenFlip();
 
 		clsDx();	// デバッグ用文字を消す
-		WaitFrameRate();
+		WaitTimer(16);
 	}
 	// フォントデータを削除
 	for (int i = 0; i < 4; i++) {
@@ -119,17 +120,17 @@ void GameSetUp() {
 
 	// フォントをロードして、サイズを設定
 	AddFontResourceExA("Resource/Fonts/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	fontData[FONT_EXTRALARGE].fontSize = screenWidth / 18;
-	fontData[FONT_LARGE].fontSize = screenWidth / 30;
-	fontData[FONT_MEDIUM].fontSize = screenWidth / 60;
-	fontData[FONT_SMALL].fontSize = screenWidth / 70;
-	fontData[FONT_EXTRALARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_EXTRALARGE].fontSize, 5, DX_FONTTYPE_ANTIALIASING);
-	fontData[FONT_LARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_LARGE].fontSize, 3, DX_FONTTYPE_ANTIALIASING);
-	fontData[FONT_MEDIUM].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_MEDIUM].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
-	fontData[FONT_SMALL].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[FONT_SMALL].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
+	fontData[EXTRALARGE].fontSize = screen.width / 18;
+	fontData[LARGE].fontSize = screen.width / 30;
+	fontData[MEDIUM].fontSize = screen.width / 60;
+	fontData[SMALL].fontSize = screen.width / 70;
+	fontData[EXTRALARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[EXTRALARGE].fontSize, 5, DX_FONTTYPE_ANTIALIASING);
+	fontData[LARGE].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[LARGE].fontSize, 3, DX_FONTTYPE_ANTIALIASING);
+	fontData[MEDIUM].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[MEDIUM].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
+	fontData[SMALL].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[SMALL].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// NULLチェック
-	if (fontData[FONT_EXTRALARGE].fontHandle == -1 || fontData[FONT_LARGE].fontHandle == -1 || fontData[FONT_MEDIUM].fontHandle == -1 || fontData[FONT_SMALL].fontHandle == -1) {
+	if (fontData[EXTRALARGE].fontHandle == -1 || fontData[LARGE].fontHandle == -1 || fontData[MEDIUM].fontHandle == -1 || fontData[SMALL].fontHandle == -1) {
 		printfDx("Error:NULL フォントの取得失敗\n");
 	}
 }
