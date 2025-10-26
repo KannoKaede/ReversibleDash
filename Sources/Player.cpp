@@ -13,25 +13,52 @@ Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
 	changeSpeedCount = 1;
 }
 void Player::SetUp() {
-	modelHandle[0] = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
-	animationIndex[0] = MV1AttachAnim(modelHandle[0], 1, -1);
-	modelHandle[1] = MV1LoadModel("Resource/PlayerModels/Player_JumpUp.mv1");
-	animationIndex[1] = MV1AttachAnim(modelHandle[1], 1, -1);
-	modelHandle[2] = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
-	animationIndex[2] = MV1AttachAnim(modelHandle[2], 1, -1);
+	playerData[0].modelHandle = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
+	playerData[0].animeHandle = MV1AttachAnim(playerData[0].modelHandle, 1, -1);
+	playerData[1].modelHandle = MV1LoadModel("Resource/PlayerModels/Player_JumpUp.mv1");
+	playerData[1].animeHandle = MV1AttachAnim(playerData[1].modelHandle, 1, -1);
+	playerData[2].modelHandle = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
+	playerData[2].animeHandle = MV1AttachAnim(playerData[2].modelHandle, 1, -1);
 
-	MV1SetPosition(modelHandle[modelIndex], position);
-	MV1SetRotationXYZ(modelHandle[modelIndex], direction);
+	MV1SetPosition(playerData[modelIndex].modelHandle, position);
+	MV1SetRotationXYZ(playerData[modelIndex].modelHandle, direction);
 }
+
+void Debug(VECTOR pos) {
+	float height = isBottomGround ? PLAYER_HEIGHT : -PLAYER_HEIGHT;
+	VECTOR topLeftFront = VGet(pos.x - PLAYER_RADIUS, pos.y + height, pos.z - PLAYER_RADIUS);
+	VECTOR topRightFront = VGet(pos.x + PLAYER_RADIUS, pos.y + height, pos.z - PLAYER_RADIUS);
+	VECTOR topLeftBack = VGet(pos.x - PLAYER_RADIUS, pos.y + height, pos.z + PLAYER_RADIUS);
+	VECTOR topRightBack = VGet(pos.x + PLAYER_RADIUS, pos.y + height, pos.z + PLAYER_RADIUS);
+	VECTOR bottomLeftFront = VGet(pos.x - PLAYER_RADIUS, pos.y, pos.z - PLAYER_RADIUS);
+	VECTOR bottomRightFront = VGet(pos.x + PLAYER_RADIUS, pos.y, pos.z - PLAYER_RADIUS);
+	VECTOR bottomLeftBack = VGet(pos.x - PLAYER_RADIUS, pos.y, pos.z + PLAYER_RADIUS);
+	VECTOR bottomRightBack = VGet(pos.x + PLAYER_RADIUS, pos.y, pos.z + PLAYER_RADIUS);
+	DrawLine3D(topLeftFront, topRightFront, GetColor(255, 0, 0));
+	DrawLine3D(topRightFront, topRightBack, GetColor(255, 0, 0));
+	DrawLine3D(topRightBack, topLeftBack, GetColor(255, 0, 0));
+	DrawLine3D(topLeftBack, topLeftFront, GetColor(255, 0, 0));
+	DrawLine3D(bottomLeftFront, bottomRightFront, GetColor(255, 0, 0));
+	DrawLine3D(bottomRightFront, bottomRightBack, GetColor(255, 0, 0));
+	DrawLine3D(bottomRightBack, bottomLeftBack, GetColor(255, 0, 0));
+	DrawLine3D(bottomLeftBack, bottomLeftFront, GetColor(255, 0, 0));
+	DrawLine3D(topLeftFront, bottomLeftFront, GetColor(255, 0, 0));
+	DrawLine3D(topRightFront, bottomRightFront, GetColor(255, 0, 0));
+	DrawLine3D(topLeftBack, bottomLeftBack, GetColor(255, 0, 0));
+	DrawLine3D(topRightBack, bottomRightBack, GetColor(255, 0, 0));
+}
+
 void Player::Move() {
+
+	Debug(position);
 	if (isGameStop)return;
-	if (!isJumping) {
+	if (isGround) {
 		modelIndex = 0;
-		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], true);
+		PlayAnimation(playerData[modelIndex].modelHandle, playerData[modelIndex].animeHandle, true);
 	}
-	MV1SetRotationXYZ(modelHandle[modelIndex], playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
+	MV1SetRotationXYZ(playerData[modelIndex].modelHandle, isBottomGround ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
 	position.x += moveSpeed;
-	MV1SetPosition(modelHandle[modelIndex], position);
+	MV1SetPosition(playerData[modelIndex].modelHandle, position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
 }
 
@@ -48,47 +75,48 @@ void Player::ChangeSpeed() {
 
 
 float jumpPower;	// 実際のジャンプ力を入れる変数
-bool isJumping;	// 現在ジャンプ中か判定		地面に付いたらfalse
+bool isGround;	// 現在ジャンプ中か判定
 int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
 bool isFall;	// 落下中かの判定
-PLAYER_GROUND playerGround = BOTTOM;	// どちらの地面を走っているか
+bool isBottomGround = true;	// 上下どちらに居るか判定
 void Player::Jump() {
 	if (isGameStop)return;
-	if (isJumping) {
-		position.y += jumpPower;
-		jumpDistance = 0;
-		if (!isFall) {
-			modelIndex = 1;
-			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
-		}
-		else {
-			if (fabsf(BOTTOM_GROUND - position.y) < 100 || fabsf(TOP_GROUND - position.y) < 100)modelIndex = 2;	// リファクタリング　小ジャンプだとダウンアニメーションが不自然
-			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
-			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
-		}
-	}
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isJumping) {	//ジャンプ中には入れない
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && isGround) {
 		pressedMomentTime = GetNowCount();
-		jumpPower = playerGround == BOTTOM ? JUMP_POWER : -JUMP_POWER;
-		isJumping = true;
+		isGround = false;
+		jumpPower = isBottomGround?JUMP_POWER:-JUMP_POWER;
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
-		if (pressedMomentTime + JUMP_LOCK_TIME <= GetNowCount() && !isFall) {
-			isFall = true;
-			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
+	if (CheckHitKey(KEY_INPUT_SPACE) && !isGround) {
+		if (!isFall) {
+			if (pressedMomentTime + JUMP_LOCK_TIME < GetNowCount()) {
+				isFall = true;
+				isBottomGround = !isBottomGround;
+			}
+			else {
+				jumpPower = isBottomGround ? JUMP_POWER : -JUMP_POWER;
+			}
 		}
 	}
-	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ジャンプの値を初期化する
-		pressedMomentTime = 0;
+	if (CheckHitKeyUp(KEY_INPUT_SPACE) && !isFall) {
 		isFall = true;
 	}
-	if (position.y < BOTTOM_GROUND || position.y>TOP_GROUND) {
-		pressedMomentTime = 0;
-		isJumping = false;
-		isFall = false;
-		jumpPower = 0;
-		position.y = playerGround == BOTTOM ? BOTTOM_GROUND : 680;
+	if (position.y < BOTTOM_GROUND) {
+		position.y = BOTTOM_GROUND;
+		isGround = true;
 	}
+	if (position.y > TOP_GROUND) {
+		position.y = TOP_GROUND;
+		isGround = true;
+	}
+	if (isGround) {
+		jumpPower = 0;
+		isFall = false;
+		pressedMomentTime = 0;
+	}
+	if (!isGround) {
+		jumpPower -= isBottomGround ?GRAVITY:-GRAVITY;
+	}
+	position.y += jumpPower;
 }
 
 void Player::Initialization() {
@@ -96,12 +124,12 @@ void Player::Initialization() {
 	moveSpeed = FIRST_SPEED;
 	jumpPower = 0;
 	changeSpeedCount = 1;
-	playerGround = BOTTOM;
-	MV1SetRotationXYZ(modelHandle[modelIndex], direction);
+	isBottomGround = true;
+	MV1SetRotationXYZ(playerData[modelIndex].modelHandle, direction);
 }
 
 int Player::GetModelHandle() const {
-	return modelHandle[modelIndex];
+	return playerData[modelIndex].modelHandle;
 }
 
 VECTOR Player::GetPosition()const {
@@ -136,8 +164,8 @@ void Player::PlayAnimation(int model, int anime, bool isLoop) {
 		playTime = 0;
 		test = model;
 	}
-	totalTime = MV1GetAttachAnimTotalTime(modelHandle[modelIndex], animationIndex[modelIndex]);
+	totalTime = MV1GetAttachAnimTotalTime(playerData[modelIndex].modelHandle, playerData[modelIndex].animeHandle);
 	playTime += 0.7f;
 	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
-	MV1SetAttachAnimTime(modelHandle[modelIndex], animationIndex[modelIndex], playTime);
+	MV1SetAttachAnimTime(playerData[modelIndex].modelHandle, playerData[modelIndex].animeHandle, playTime);
 }

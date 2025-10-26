@@ -1,7 +1,13 @@
 ﻿#include "Main.h"
 #include "UI.h"
 
-float ClampNum(float num, float min, float max) {
+float ClampNumF(float num, float min, float max) {
+	if (num < min) return min;
+	else if (num > max) return max;
+	else return num;
+}
+
+int ClampNumI(int num, int min, int max) {
 	if (num < min) return min;
 	else if (num > max) return max;
 	else return num;

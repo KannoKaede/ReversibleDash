@@ -3,6 +3,7 @@
 #include"Audio.h"
 #include"Input.h"
 #include<iostream>
+#include <algorithm>
 #include <fstream>
 #include<vector>
 #include<string>
@@ -42,7 +43,8 @@ void GameSetUp();
 /// <param name="min"> 収める際の最小値 </param>
 /// <param name="max"> 収める際の最大値 </param>
 /// <returns> 指定の範囲に収められた値 </returns>
-float ClampNum(float num, float min, float max);
+float ClampNumF(float num, float min, float max);
+int ClampNumI(int num, int min, int max);
 
 float ScreenDrawPosF(int screenSize, float drawPosPercent);
 

@@ -102,7 +102,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		clsDx();	// デバッグ用文字を消す
 		WaitTimer(16);
 	}
-
 	SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < 4; i++) {

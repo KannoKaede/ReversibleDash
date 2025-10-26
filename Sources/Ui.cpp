@@ -183,7 +183,7 @@ bool ScreenFadeControl() {
 void ScreenFade(int fadeSpeed)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	alphaValue = ClampNum(alphaValue += fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue += fadeSpeed, 0, 255);
 	DrawBox(0, 0, screen.width, screen.height, COLOR_BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
@@ -216,7 +216,7 @@ void DrawStartCountDown() {
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
-	alphaValue = ClampNum(alphaValue + fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue + fadeSpeed, 0, 255);
 	if (alphaValue == 0) {
 		fadeSpeed = TEXTFADEINSPEED;
 		if (drawText != START_COUNTDOWN_2) {	// α値が0になったタイミングでテキストの状態を確認
@@ -240,7 +240,7 @@ void DrawStartCountDown() {
 	}
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {
-	float x = ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
+	float x = ClampNumF(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
 	float w = (endPos - startPos) * x;
 	DrawBox(ScreenDrawPosI(screen.width, startPos), ScreenDrawPosI(screen.height, heightPos - 1), ScreenDrawPosI(screen.width, endPos), ScreenDrawPosI(screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);
 	DrawCircleAA(ScreenDrawPosF(screen.width, startPos), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点

@@ -3,12 +3,15 @@
 #ifndef INCLUDED_Player_h
 #define INCLUDED_Player_h
 
-#define BOTTOM_GROUND		40				// 下側の地面の座標
-#define TOP_GROUND			680				// 上側の地面の座標
-#define FIRST_SPEED			4				// スタート時の速度
-#define GRAVITY				0.7f			// 重力
-#define JUMP_LOCK_TIME		300				// ジャンプ長押しが出来る時間
-#define JUMP_POWER			10				// ジャンプ力
+constexpr float PLAYER_RADIUS = 30.0f;	// プレイヤーの半径
+constexpr float PLAYER_HEIGHT = 120.0f;	// プレイヤーの高さ
+constexpr float BOTTOM_GROUND = 40;				// 下側の地面の座標
+constexpr float TOP_GROUND = 680;				// 上側の地面の座標
+constexpr float FIRST_SPEED = 4;				// スタート時の速度
+constexpr float GRAVITY = 0.7f;			// 重力
+constexpr int JUMP_LOCK_TIME = 300;				// ジャンプ長押しが出来る時間
+constexpr float JUMP_POWER = 10.0f;				// ジャンプ力
+
 const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 0);
 class Player {
 public:
@@ -55,8 +58,11 @@ public:
 
 	void PlayAnimation(int model, int anime, bool isLoop);
 private:
-	int modelHandle[3] = {};	// プレイヤーモデル
-	int animationIndex[3] = {};	// アニメーション
+	struct ModelData {
+		int modelHandle;
+		int animeHandle;
+	};
+	ModelData playerData[3];	// プレイヤーのモデルデータを格納する構造体
 	VECTOR position;	// プレイヤーの位置
 	VECTOR direction;	// プレイヤーの向き
 	float moveSpeed;	// プレイヤーの移動速度を格納
@@ -66,10 +72,6 @@ private:
 extern int modelIndex;
 extern float jumpPower;	// 実際のジャンプ力を入れる変数
 extern bool isFall;
-extern bool isJumping;	// 現在ジャンプ中か判定
-enum PLAYER_GROUND {
-	TOP,
-	BOTTOM
-};
-extern PLAYER_GROUND playerGround;	// 上下どちらにいるのか
+extern bool isGround;	// 現在ジャンプ中か判定
+extern bool isBottomGround;	// 上下どちらに居るか判定
 #endif
