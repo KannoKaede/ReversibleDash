@@ -66,10 +66,9 @@ private:
 extern int modelIndex;
 extern float jumpPower;	// 実際のジャンプ力を入れる変数
 extern bool isFall;
-extern bool isJumping;	// 現在ジャンプ中か判定
-enum PLAYER_GROUND {
-	TOP,
-	BOTTOM
-};
-extern PLAYER_GROUND playerGround;	// 上下どちらにいるのか
+extern bool isGround;	// 現在ジャンプ中か判定
+extern bool isGravityBottom;
+extern float groundPosY;
+constexpr float PLAYER_HEIGHT = 100;
+constexpr float PLAYER_RADIUS = 30;
 #endif

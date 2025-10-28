@@ -5,6 +5,7 @@
 #include<iostream>
 #include <fstream>
 #include<vector>
+#include<cmath>
 #include<string>
 
 // 画面サイズを格納する構造体
