@@ -25,11 +25,11 @@ void Player::SetUp() {
 }
 void Player::Move() {
 	if (isGameStop)return;
-	if (!isJumping) {
+	if (isGround) {
 		modelIndex = 0;
 		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], true);
 	}
-	MV1SetRotationXYZ(modelHandle[modelIndex], playerGround == BOTTOM ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
+	MV1SetRotationXYZ(modelHandle[modelIndex], isGravityBottom ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
 	position.x += moveSpeed;
 	MV1SetPosition(modelHandle[modelIndex], position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
@@ -48,46 +48,54 @@ void Player::ChangeSpeed() {
 
 
 float jumpPower;	// 実際のジャンプ力を入れる変数
-bool isJumping;	// 現在ジャンプ中か判定		地面に付いたらfalse
+bool isGround;	// 現在ジャンプ中か判定		地面に付いたらfalse
 int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
 bool isFall;	// 落下中かの判定
-PLAYER_GROUND playerGround = BOTTOM;	// どちらの地面を走っているか
+bool isGravityBottom;
+float groundPosY;
 void Player::Jump() {
 	if (isGameStop)return;
-	if (isJumping) {
-		position.y += jumpPower;
-		jumpDistance = 0;
-		if (!isFall) {
-			modelIndex = 1;
-			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
-		}
-		else {
-			if (fabsf(BOTTOM_GROUND - position.y) < 100 || fabsf(TOP_GROUND - position.y) < 100)modelIndex = 2;	// リファクタリング　小ジャンプだとダウンアニメーションが不自然
-			PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
-			jumpPower += playerGround == BOTTOM ? -GRAVITY : GRAVITY;
-		}
+
+	// 入力制御
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
+		// ジャンプ力を加えて地面との設置判定を無くす
+		jumpPower = isGravityBottom ? JUMP_POWER : -JUMP_POWER;
+		isGround = false;
+		pressedMomentTime = GetNowCount();	// 長押し時間を判定するために押したタイミングを保存
 	}
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && !isJumping) {	//ジャンプ中には入れない
-		pressedMomentTime = GetNowCount();
-		jumpPower = playerGround == BOTTOM ? JUMP_POWER : -JUMP_POWER;
-		isJumping = true;
-	}
-	if (CheckHitKey(KEY_INPUT_SPACE) && isJumping) {
-		if (pressedMomentTime + JUMP_LOCK_TIME <= GetNowCount() && !isFall) {
+	if (CheckHitKey(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
+		// ジャンプ上昇アニメーションの再生
+		modelIndex = 1;
+		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
+
+		if (pressedMomentTime + JUMP_LOCK_TIME < GetNowCount()) {	// 一定時間キーを押し込んでいたら落下を開始する
 			isFall = true;
-			playerGround = playerGround == BOTTOM ? TOP : BOTTOM;
+			pressedMomentTime = 0;
+			isGravityBottom = !isGravityBottom;	// 重力を反対側にする
 		}
 	}
-	if (CheckHitKeyUp(KEY_INPUT_SPACE)) {	// ジャンプの値を初期化する
-		pressedMomentTime = 0;
+	if (CheckHitKeyUp(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを離したときの処理
+		// まだ落下していなかったら落下を開始
 		isFall = true;
-	}
-	if (position.y < BOTTOM_GROUND || position.y>TOP_GROUND) {
 		pressedMomentTime = 0;
-		isJumping = false;
-		isFall = false;
-		jumpPower = 0;
-		position.y = playerGround == BOTTOM ? BOTTOM_GROUND : 680;
+	}
+
+	if (!isGround) {
+		if (isFall) {	// 落下処理
+			jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
+			// 落下アニメーションを再生
+			if (fabsf(BOTTOM_GROUND - position.y) < 100 || fabsf(TOP_GROUND - 70 - position.y) < 100) {		//リファクタリング
+				modelIndex = 2;
+				PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
+			}
+		}
+		position.y += jumpPower;
+	}
+	else {
+		// 地面に接地していたらプレイヤー座標を一度だけ地面に合わせる
+			position.y = groundPosY;
+			jumpPower = 0;
+			isFall = false;
 	}
 }
 
@@ -96,7 +104,7 @@ void Player::Initialization() {
 	moveSpeed = FIRST_SPEED;
 	jumpPower = 0;
 	changeSpeedCount = 1;
-	playerGround = BOTTOM;
+	isGravityBottom = true;
 	MV1SetRotationXYZ(modelHandle[modelIndex], direction);
 }
 
