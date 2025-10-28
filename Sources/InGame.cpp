@@ -7,8 +7,8 @@
 #include <cmath>
 bool isGameStop;	// ゲームが止まっているか
 int stageNumber;	// ステージ番号
-OBJ_DATA obj;
-OBJ_DATA ground;
+ObjData obj;
+ObjData ground;
 
 void DrawStage(int stageNum, Player player) {
 	ground = { VGet(0,0,0),40,500 };
@@ -26,11 +26,12 @@ void DrawStage(int stageNum, Player player) {
 }
 
 
-bool IsCollision(Player player, OBJ_DATA obj, bool isObstacles) {
+bool IsCollision(Player player, ObjData obj, bool isObstacles) {
 	VECTOR playerPos = player.GetPosition();
-	bool collisionX = (playerPos.x + PLAYER_RADIUS > obj.position.x - obj.radius) && (playerPos.x - PLAYER_RADIUS < obj.position.x + obj.radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
-	bool collisionY = (isGravityBottom && playerPos.y <= obj.position.y + obj.height && playerPos.y + PLAYER_HEIGHT >= obj.position.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
-					 (!isGravityBottom && playerPos.y >= obj.position.y + obj.height && playerPos.y - PLAYER_HEIGHT <= obj.position.y);	
+	VECTOR playerScale = player.GetScale();
+	bool collisionX = (playerPos.x + playerScale.x > obj.position.x - obj.radius) && (playerPos.x - playerScale.x < obj.position.x + obj.radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
+	bool collisionY = (isGravityBottom && playerPos.y <= obj.position.y + obj.height && playerPos.y + playerScale.y >= obj.position.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
+					 (!isGravityBottom && playerPos.y >= obj.position.y + obj.height && playerPos.y - playerScale.y <= obj.position.y);
 
 	// 足場の判定
 	if (!isObstacles) {

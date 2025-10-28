@@ -8,7 +8,7 @@ const int COLOR_GRAY = GetColor(200, 200, 200);
 const int COLOR_GREEN = GetColor(0, 255, 128);
 const int COLOR_BLACK = GetColor(0, 0, 0);
 
-constexpr float FADE_SPEED = 6;	// フェード速度
+constexpr int FADE_SPEED = 6;	// フェード速度
 constexpr int FADE_WAIT_TIME = 500;	// フェードの待機時間
 
 const std::string START_COUNTDOWN_1 = "READY...";	// スタートカウントダウンの文字の中身：最初

@@ -35,18 +35,21 @@ Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT
 Button nextGame(CLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", LARGE, true);
 Button clearGameExit(CLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", LARGE, true);
 
+int width, height;
 void UISetUp() {
-	keyRight = LoadGraph("Resource/Images/RightKey.png");
-	keyLeft = LoadGraph("Resource/Images/LeftKey.png");
+	keyRight = LoadGraph("Resource/Images/WASD.png");
+	keyLeft = LoadGraph("Resource/Images/.png");
 	keyUp = LoadGraph("Resource/Images/UpKey.png");
 	keyDown = LoadGraph("Resource/Images/DownKey.png");
 	keyEscape = LoadGraph("Resource/Images/EscapeKey.png");
 	keySpace = LoadGraph("Resource/Images/SpaceKey.png");
+	GetGraphSize(keyRight, &width, &height);
 }
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI(Player player)
 {
+	// 取得したサイズをコンソールに出力する
 	if (isDrawInGame) {
 		DrawBox(0, ScreenDrawPosI(screen.height, 94.4f), screen.width, screen.height, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", highScore[stageNumber]);
@@ -64,7 +67,7 @@ void DrawUI(Player player)
 			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].fontHandle);
 			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
+			DrawImage(21, 97, keyRight, false);
 			DrawImage(20, 95.1f, keyUp, true);
 			DrawImage(20, 97, keyDown, true);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
@@ -112,7 +115,7 @@ void DrawUI(Player player)
 			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].fontHandle);
 			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
+			DrawImage(19, 95, keyRight, false);
 			DrawImage(20, 95.1f, keyUp, true);
 			DrawImage(20, 97, keyDown, true);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
@@ -183,7 +186,7 @@ bool ScreenFadeControl() {
 void ScreenFade(int fadeSpeed)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	alphaValue = ClampNum(alphaValue += fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue += fadeSpeed, 0, 255);
 	DrawBox(0, 0, screen.width, screen.height, COLOR_BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
@@ -216,7 +219,7 @@ void DrawStartCountDown() {
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
-	alphaValue = ClampNum(alphaValue + fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue + fadeSpeed, 0, 255);
 	if (alphaValue == 0) {
 		fadeSpeed = TEXTFADEINSPEED;
 		if (drawText != START_COUNTDOWN_2) {	// α値が0になったタイミングでテキストの状態を確認
@@ -240,7 +243,7 @@ void DrawStartCountDown() {
 	}
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {
-	float x = ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
+	float x = ClampNumF(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
 	float w = (endPos - startPos) * x;
 	DrawBox(ScreenDrawPosI(screen.width, startPos), ScreenDrawPosI(screen.height, heightPos - 1), ScreenDrawPosI(screen.width, endPos), ScreenDrawPosI(screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);
 	DrawCircleAA(ScreenDrawPosF(screen.width, startPos), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点

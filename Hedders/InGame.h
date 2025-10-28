@@ -10,8 +10,6 @@ extern bool isGameStop;
 extern int stageNumber;     // 現在のステージ番号
 const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
 const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標:リファクタリング中の値をマップデータと円錐の半径を利用して代入したい
-const VECTOR TOP_DRAW_POS = VGet(-360, TOP_GROUND, 0);	// 上の円錐の底面座標
-const VECTOR BOTTOM_DRAW_POS = VGet(-360, BOTTOM_GROUND, 0);	// 下の円数の底面座標
 
 
 /// <summary> ステージを描画するメソッド </summary>
@@ -20,18 +18,18 @@ const VECTOR BOTTOM_DRAW_POS = VGet(-360, BOTTOM_GROUND, 0);	// 下の円数の�
 void DrawStage(int stageNum, Player player);
 constexpr float OBJ_HEIGHT = 70.0f;
 constexpr float OBJ_RADIUS = 40.0f;
-struct OBJ_DATA {
+struct ObjData {
 	VECTOR position;
 	float height;
 	float radius;
 };
-extern OBJ_DATA obj;
+extern ObjData obj;
 /// <summary> プレイヤーとオブジェクトが衝突しているかを返すメソッド </summary>
 /// <param name="player"> プレイヤーのインスタンス </param>
 /// <param name="obj"> オブジェクトの構造体 </param>
 /// <param name="isObstacles"> 障害物か足場、どちらで処理を行うか：true = 障害物 </param>
 /// <returns> 衝突判定 </returns>
-bool IsCollision(Player player, OBJ_DATA obj, bool isObstacles);
+bool IsCollision(Player player, ObjData obj, bool isObstacles);
 
 
 

@@ -12,7 +12,7 @@ SCREEN_SIZE screen;
 FONT_DATA fontData[4];	// フォントデータとサイズ
 bool isDrawInGame;
 
-Player player(VGet(0, 0, 0), VGet(0, -90 * DX_PI_F / 180, 0), FIRST_SPEED);
+Player player(START_PLAYER_POS, START_PLAYER_ROT, START_PLAYER_SCALE, FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
 Light light(START_LIGHT_POS);
 
@@ -74,8 +74,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			player.Jump();
 			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
 			SetLightPosition(light.GetLightPos());
-			MV1SetPosition(player.GetModelHandle(), player.GetPosition());
-			MV1DrawModel(player.GetModelHandle());
+			MV1SetPosition(player.GetModel(), player.GetPosition());
+			MV1DrawModel(player.GetModel());
 			DrawStage(stageNumber, player);
 		}
 		if (fadeState == FADEWAIT) {
