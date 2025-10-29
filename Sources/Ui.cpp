@@ -16,7 +16,10 @@ FADE_STATE fadeState;
 
 std::string previousText;
 std::string drawText = "";
-int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
+ImageData keyWASD;
+ImageData keySpace;
+ImageData keyEscape;
+
 
 Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", LARGE, true);
 Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", LARGE, true);
@@ -35,27 +38,29 @@ Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT
 Button nextGame(CLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "NEXT", LARGE, true);
 Button clearGameExit(CLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXIT", LARGE, true);
 
+int width, height;
 void UISetUp() {
-	keyRight = LoadGraph("Resource/Images/RightKey.png");
-	keyLeft = LoadGraph("Resource/Images/LeftKey.png");
-	keyUp = LoadGraph("Resource/Images/UpKey.png");
-	keyDown = LoadGraph("Resource/Images/DownKey.png");
-	keyEscape = LoadGraph("Resource/Images/EscapeKey.png");
-	keySpace = LoadGraph("Resource/Images/SpaceKey.png");
+	keyWASD = { LoadGraph("Resource/Images/WASD.png") };
+	GetGraphSize(keyWASD.image, &keyWASD.width, &keyWASD.height);
+	keyEscape = { LoadGraph("Resource/Images/EscapeKey.png") };
+	GetGraphSize(keyEscape.image, &keyEscape.width, &keyEscape.height);
+	keySpace = { LoadGraph("Resource/Images/SpaceKey.png") };
+	GetGraphSize(keySpace.image, &keySpace.width, &keySpace.height);
 }
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI(Player player)
 {
+	// 取得したサイズをコンソールに出力する
 	if (isDrawInGame) {
 		DrawBox(0, ScreenDrawPosI(screen.height, 94.4f), screen.width, screen.height, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", highScore[stageNumber]);
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].fontHandle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
-			DrawImage(20, 95, keyEscape, false);
+			DrawImage(20, 95, keyEscape);
 			DrawTextString(22.5f, 0, 95.8f, "Pause", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "Jump", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == PAUSE) {
@@ -63,12 +68,9 @@ void DrawUI(Player player)
 			resumeGame.Draw();
 			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == GAMEOVER) {
@@ -78,12 +80,9 @@ void DrawUI(Player player)
 			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == CLEAR) {
@@ -95,12 +94,9 @@ void DrawUI(Player player)
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
 			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(53, 73, 51, "000000", fontData[LARGE].fontHandle, highScore[stageNumber]);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 	}
@@ -111,12 +107,9 @@ void DrawUI(Player player)
 			quitButton.Draw();
 			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == STAGESELECT) {
@@ -128,12 +121,9 @@ void DrawUI(Player player)
 			stageSelect6.Draw();
 			returnTitle.Draw();
 			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 	}
@@ -183,7 +173,7 @@ bool ScreenFadeControl() {
 void ScreenFade(int fadeSpeed)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	alphaValue = ClampNum(alphaValue += fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue += fadeSpeed, 0, 255);
 	DrawBox(0, 0, screen.width, screen.height, COLOR_BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
@@ -216,7 +206,7 @@ void DrawStartCountDown() {
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
-	alphaValue = ClampNum(alphaValue + fadeSpeed, 0, 255);
+	alphaValue = ClampNumI(alphaValue + fadeSpeed, 0, 255);
 	if (alphaValue == 0) {
 		fadeSpeed = TEXTFADEINSPEED;
 		if (drawText != START_COUNTDOWN_2) {	// α値が0になったタイミングでテキストの状態を確認
@@ -240,7 +230,7 @@ void DrawStartCountDown() {
 	}
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {
-	float x = ClampNum(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
+	float x = ClampNumF(player.GetPosition().x / goalPosition[stageNumber], 0, 1);
 	float w = (endPos - startPos) * x;
 	DrawBox(ScreenDrawPosI(screen.width, startPos), ScreenDrawPosI(screen.height, heightPos - 1), ScreenDrawPosI(screen.width, endPos), ScreenDrawPosI(screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);
 	DrawCircleAA(ScreenDrawPosF(screen.width, startPos), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
@@ -275,15 +265,16 @@ void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string tex
 	DrawFormatStringToHandle(drawPosX, drawPosY, COLOR_BLACK, font, "%06d", num);
 }
 
-void DrawImage(float leftPct, float topPct, int image, bool isHalf) {
-	int x = ScreenDrawPosI(screen.width, leftPct);
-	int y = ScreenDrawPosI(screen.height, topPct);
-	if (isHalf) {
-		int length = isHalf ? KEYIMAGE_LENGTH / 2 : KEYIMAGE_LENGTH;
-		DrawExtendGraph(x, y, x + length, y + length, image, TRUE);
-	}
-	else {
-		DrawGraph(x, y, image, TRUE);
-	}
+void DrawImage(float leftPct, float topPct, ImageData image) {
+	// 実装環境の画面サイズとプレイ時の画面サイズでどれくらい差があるのか
+	float test = (float)screen.width / 2560;
+	// 左上頂点座標を計算
+	int x1 = ScreenDrawPosI(screen.width, leftPct);
+	int y1 = ScreenDrawPosI(screen.height, topPct);
+	// 右下頂点座標を計算
+	int x2 = x1 + (int)((float)image.width * test);
+	int y2 = y1 + (int)((float)image.height * test);
+
+	DrawExtendGraph(x1, y1, x2, y2, image.image, TRUE);
 }
 

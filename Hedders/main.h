@@ -43,7 +43,8 @@ void GameSetUp();
 /// <param name="min"> 収める際の最小値 </param>
 /// <param name="max"> 収める際の最大値 </param>
 /// <returns> 指定の範囲に収められた値 </returns>
-float ClampNum(float num, float min, float max);
+float ClampNumF(float num, float min, float max);
+int ClampNumI(int num, int min, int max);
 
 float ScreenDrawPosF(int screenSize, float drawPosPercent);
 
@@ -51,6 +52,8 @@ int ScreenDrawPosI(int screenSize, float drawPosPercent);
 int TextDrawCenterPosX(float left, float right, std::string text, int font);
 int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text, int font);
 bool IsDrawInGame();
+
+float ChangeRadians(float num);
 
 // 起動時　車の中で外を眺めているムービーを作成
 // タイトル画面　Escapeを押したらゲーム説明画面を表示

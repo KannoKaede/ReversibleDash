@@ -146,12 +146,9 @@
     <Media Include="Resource\Audios\SE_ButtonSelect.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\DownKey.png" />
     <Image Include="Resource\Images\EnterKey.png" />
     <Image Include="Resource\Images\EscapeKey.png" />
-    <Image Include="Resource\Images\LeftKey.png" />
-    <Image Include="Resource\Images\RightKey.png" />
-    <Image Include="Resource\Images\UpKey.png" />
+    <Image Include="Resource\Images\WASD.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
