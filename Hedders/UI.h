@@ -14,8 +14,6 @@ constexpr int FADE_WAIT_TIME = 500;	// フェードの待機時間
 const std::string START_COUNTDOWN_1 = "READY...";	// スタートカウントダウンの文字の中身：最初
 const std::string START_COUNTDOWN_2 = "GO!";	// スタートカウントダウンの文字の中身：最後
 
-
-extern int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
 #define KEYIMAGE_LENGTH 54
 
 void UISetUp();
@@ -58,6 +56,15 @@ enum FADE_STATE {
 	FADEWAIT,
 	NONE
 };
+
+struct ImageData {
+	int image;
+	int width;
+	int height;
+};
+extern ImageData keyWASD;
+extern ImageData keySpace;
+extern ImageData keyEscape;
 
 /// <summary> 現在のフェードの状態 </summary>
 extern FADE_STATE fadeState;
@@ -113,4 +120,4 @@ void DrawTextString(float leftPct, float rightPct, float heightPct, std::string 
 /// /// <param name="font"> 使用するフォント </param>
 void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font, int num);
 
-void DrawImage(float leftPct, float topPct, int image, bool isHalf);
+void DrawImage(float leftPct, float topPct, ImageData image);

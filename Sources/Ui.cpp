@@ -16,7 +16,10 @@ FADE_STATE fadeState;
 
 std::string previousText;
 std::string drawText = "";
-int keyRight, keyLeft, keyUp, keyDown, keyEscape, keySpace;
+ImageData keyWASD;
+ImageData keySpace;
+ImageData keyEscape;
+
 
 Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", LARGE, true);
 Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", LARGE, true);
@@ -37,13 +40,12 @@ Button clearGameExit(CLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "EXI
 
 int width, height;
 void UISetUp() {
-	keyRight = LoadGraph("Resource/Images/WASD.png");
-	keyLeft = LoadGraph("Resource/Images/.png");
-	keyUp = LoadGraph("Resource/Images/UpKey.png");
-	keyDown = LoadGraph("Resource/Images/DownKey.png");
-	keyEscape = LoadGraph("Resource/Images/EscapeKey.png");
-	keySpace = LoadGraph("Resource/Images/SpaceKey.png");
-	GetGraphSize(keyRight, &width, &height);
+	keyWASD = { LoadGraph("Resource/Images/WASD.png") };
+	GetGraphSize(keyWASD.image, &keyWASD.width, &keyWASD.height);
+	keyEscape = { LoadGraph("Resource/Images/EscapeKey.png") };
+	GetGraphSize(keyEscape.image, &keyEscape.width, &keyEscape.height);
+	keySpace = { LoadGraph("Resource/Images/SpaceKey.png") };
+	GetGraphSize(keySpace.image, &keySpace.width, &keySpace.height);
 }
 
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
@@ -56,9 +58,9 @@ void DrawUI(Player player)
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].fontHandle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
-			DrawImage(20, 95, keyEscape, false);
+			DrawImage(20, 95, keyEscape);
 			DrawTextString(22.5f, 0, 95.8f, "Pause", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "Jump", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == PAUSE) {
@@ -66,12 +68,9 @@ void DrawUI(Player player)
 			resumeGame.Draw();
 			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, false);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == GAMEOVER) {
@@ -81,12 +80,9 @@ void DrawUI(Player player)
 			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == CLEAR) {
@@ -98,12 +94,9 @@ void DrawUI(Player player)
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
 			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(53, 73, 51, "000000", fontData[LARGE].fontHandle, highScore[stageNumber]);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 	}
@@ -114,12 +107,9 @@ void DrawUI(Player player)
 			quitButton.Draw();
 			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(19, 95, keyRight, false);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == STAGESELECT) {
@@ -131,12 +121,9 @@ void DrawUI(Player player)
 			stageSelect6.Draw();
 			returnTitle.Draw();
 			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 97, keyLeft, true);
-			DrawImage(21, 97, keyRight, true);
-			DrawImage(20, 95.1f, keyUp, true);
-			DrawImage(20, 97, keyDown, true);
+			DrawImage(19, 95, keyWASD);
 			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace, false);
+			DrawImage(37, 95, keySpace);
 			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 	}
@@ -278,15 +265,16 @@ void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string tex
 	DrawFormatStringToHandle(drawPosX, drawPosY, COLOR_BLACK, font, "%06d", num);
 }
 
-void DrawImage(float leftPct, float topPct, int image, bool isHalf) {
-	int x = ScreenDrawPosI(screen.width, leftPct);
-	int y = ScreenDrawPosI(screen.height, topPct);
-	if (isHalf) {
-		int length = isHalf ? KEYIMAGE_LENGTH / 2 : KEYIMAGE_LENGTH;
-		DrawExtendGraph(x, y, x + length, y + length, image, TRUE);
-	}
-	else {
-		DrawGraph(x, y, image, TRUE);
-	}
+void DrawImage(float leftPct, float topPct, ImageData image) {
+	// 実装環境の画面サイズとプレイ時の画面サイズでどれくらい差があるのか
+	float test = (float)screen.width / 2560;
+	// 左上頂点座標を計算
+	int x1 = ScreenDrawPosI(screen.width, leftPct);
+	int y1 = ScreenDrawPosI(screen.height, topPct);
+	// 右下頂点座標を計算
+	int x2 = x1 + (int)((float)image.width * test);
+	int y2 = y1 + (int)((float)image.height * test);
+
+	DrawExtendGraph(x1, y1, x2, y2, image.image, TRUE);
 }
 

@@ -94,7 +94,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				PlayBGM(bgm1);
 		}
 		DrawUI(player);	//	UIを描画
-		DrawGraph(-200, 100, keyDown, true);
 		isFading = ScreenFadeControl();	// フェード演出
 
 		ScreenFlip();
