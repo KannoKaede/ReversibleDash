@@ -6,38 +6,38 @@
 
 int modelIndex = 0;
 
-Player::Player(VECTOR startPos, VECTOR startDirection, float startSpeed) {
-	position = startPos;
-	direction = startDirection;
+Player::Player(VECTOR startPos, VECTOR startRot,VECTOR startScale, float startSpeed) {
+	transform.position = startPos;
+	transform.rotation = startRot;
+	transform.scale = startScale;
 	moveSpeed = startSpeed;
-	changeSpeedCount = 1;
 }
 void Player::SetUp() {
-	modelHandle[0] = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
-	animationIndex[0] = MV1AttachAnim(modelHandle[0], 1, -1);
-	modelHandle[1] = MV1LoadModel("Resource/PlayerModels/Player_JumpUp.mv1");
-	animationIndex[1] = MV1AttachAnim(modelHandle[1], 1, -1);
-	modelHandle[2] = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
-	animationIndex[2] = MV1AttachAnim(modelHandle[2], 1, -1);
+	modelData[0].model = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
+	modelData[0].anime = MV1AttachAnim(modelData[0].model, 1, -1);
+	modelData[1].model = MV1LoadModel("Resource/PlayerModels/Player_JumpUp.mv1");
+	modelData[1].anime = MV1AttachAnim(modelData[1].model, 1, -1);
+	modelData[2].model = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
+	modelData[2].anime = MV1AttachAnim(modelData[2].model, 1, -1);
 
-	MV1SetPosition(modelHandle[modelIndex], position);
-	MV1SetRotationXYZ(modelHandle[modelIndex], direction);
+	MV1SetPosition(modelData[modelIndex].model, transform.position);
+	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 void Player::Move() {
 	if (isGameStop)return;
 	if (isGround) {
 		modelIndex = 0;
-		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], true);
+		PlayAnimation(modelData[modelIndex], true);
 	}
-	MV1SetRotationXYZ(modelHandle[modelIndex], isGravityBottom ? VGet(0, -90 * DX_PI_F / 180, 0) : VGet(180 * DX_PI_F / 180, 90 * DX_PI_F / 180, 0));
-	position.x += moveSpeed;
-	MV1SetPosition(modelHandle[modelIndex], position);
+	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0,ChangeRadians(-90.0f), 0) : VGet(ChangeRadians(180), ChangeRadians(90), 0));
+	transform.position.x += moveSpeed;
+	MV1SetPosition(modelData[modelIndex].model, transform.position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
 }
 
 void Player::ChangeSpeed() {
 	float speedUpPos = goalPosition[stageNumber] / 4;
-	if (position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
+	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
 	}
@@ -66,7 +66,7 @@ void Player::Jump() {
 	if (CheckHitKey(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
 		// ジャンプ上昇アニメーションの再生
 		modelIndex = 1;
-		PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
+		PlayAnimation(modelData[modelIndex], false);
 
 		if (pressedMomentTime + JUMP_LOCK_TIME < GetNowCount()) {	// 一定時間キーを押し込んでいたら落下を開始する
 			isFall = true;
@@ -84,48 +84,48 @@ void Player::Jump() {
 		if (isFall) {	// 落下処理
 			jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
 			// 落下アニメーションを再生
-			if (fabsf(BOTTOM_GROUND - position.y) < 100 || fabsf(TOP_GROUND - 70 - position.y) < 100) {		//リファクタリング
+			if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - 70 - transform.position.y) < 100) {		//リファクタリング
 				modelIndex = 2;
-				PlayAnimation(modelHandle[modelIndex], animationIndex[modelIndex], false);
+				PlayAnimation(modelData[modelIndex], false);
 			}
 		}
-		position.y += jumpPower;
+		transform.position.y += jumpPower;
 	}
 	else {
 		// 地面に接地していたらプレイヤー座標を一度だけ地面に合わせる
-			position.y = groundPosY;
+		transform.position.y = groundPosY;
 			jumpPower = 0;
 			isFall = false;
 	}
 }
 
 void Player::Initialization() {
-	position = START_PLAYER_POS;
+	transform.position = START_PLAYER_POS;
 	moveSpeed = FIRST_SPEED;
 	jumpPower = 0;
 	changeSpeedCount = 1;
 	isGravityBottom = true;
-	MV1SetRotationXYZ(modelHandle[modelIndex], direction);
+	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 
-int Player::GetModelHandle() const {
-	return modelHandle[modelIndex];
+int Player::GetModel() const {
+	return modelData[modelIndex].model;
 }
 
 VECTOR Player::GetPosition()const {
-	return position;
+	return transform.position;
 }
 
 void Player::SetPosition(VECTOR pos) {
-	position = pos;
+	transform.position = pos;
 }
 
-VECTOR Player::GetDirection()const {
-	return direction;
+VECTOR Player::GetRotation()const {
+	return transform.rotation;
 }
 
-void Player::SetDirection(VECTOR dir) {
-	direction = dir;
+VECTOR Player::GetScale()const {
+	return transform.scale;
 }
 
 float Player::GetSpeed()const {
@@ -139,13 +139,13 @@ int Player::GetChangeSpeedCount()const {
 float playTime;
 int test;
 float totalTime;
-void Player::PlayAnimation(int model, int anime, bool isLoop) {
-	if (test != model) {
+void Player::PlayAnimation(ModelData player, bool isLoop) {
+	if (test != player.model) {
 		playTime = 0;
-		test = model;
+		test = player.model;
 	}
-	totalTime = MV1GetAttachAnimTotalTime(modelHandle[modelIndex], animationIndex[modelIndex]);
+	totalTime = MV1GetAttachAnimTotalTime(modelData[modelIndex].model, modelData[modelIndex].anime);
 	playTime += 0.7f;
 	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
-	MV1SetAttachAnimTime(modelHandle[modelIndex], animationIndex[modelIndex], playTime);
+	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, playTime);
 }

@@ -47,22 +47,13 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\RightKey.png">
-      <Filter>リソース ファイル\Images</Filter>
-    </Image>
-    <Image Include="Resource\Images\UpKey.png">
-      <Filter>リソース ファイル\Images</Filter>
-    </Image>
-    <Image Include="Resource\Images\DownKey.png">
-      <Filter>リソース ファイル\Images</Filter>
-    </Image>
     <Image Include="Resource\Images\EnterKey.png">
       <Filter>リソース ファイル\Images</Filter>
     </Image>
     <Image Include="Resource\Images\EscapeKey.png">
       <Filter>リソース ファイル\Images</Filter>
     </Image>
-    <Image Include="Resource\Images\LeftKey.png">
+    <Image Include="Resource\Images\WASD.png">
       <Filter>リソース ファイル\Images</Filter>
     </Image>
   </ItemGroup>
