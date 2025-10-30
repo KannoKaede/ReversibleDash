@@ -5,7 +5,7 @@
 #ifndef INCLUDED_InGame_h
 #define INCLUDED_InGame_h
 
-#define CLEARCANGE_POS 1200
+#define CLEARCANGE_POS 1500
 extern bool isGameStop;
 extern int stageNumber;     // 現在のステージ番号
 const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
@@ -15,7 +15,7 @@ const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴ
 /// <summary> ステージを描画するメソッド </summary>
 /// <param name="stageNum"> ステージ番号 </param>
 /// <param name="player"> プレイヤーのインスタンス </param>
-void DrawStage(int stageNum, Player player);
+void DrawStage(Player player);
 constexpr float OBJ_HEIGHT = 70.0f;
 constexpr float OBJ_RADIUS = 40.0f;
 struct ObjData {
@@ -32,6 +32,11 @@ extern ObjData obj;
 bool IsCollision(Player player, ObjData obj, bool isObstacles);
 
 
-
+extern int stageHandle;
+void StageSetUp();
+constexpr float DRAW_BACKSTAGE_X = 23700;
+constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };
+void DrawBackStage(Player player);
+void StageInitialization();
 
 #endif

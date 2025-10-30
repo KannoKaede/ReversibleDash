@@ -19,23 +19,31 @@ Light light(START_LIGHT_POS);
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	// 画面の解像度に応じて画面サイズを変更
+	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
 	screen.width = GetSystemMetrics(SM_CXSCREEN);
 	screen.height = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screen.width, screen.height, 32);
-	if (DxLib_Init() == -1) {	// エラー処理
-		return -1;
-	}
+	if (DxLib_Init() == -1)return -1;
 	// 初期設定
-	UISetUp();
 	GameSetUp();
-	AudioSetUp();
-	player.SetUp();
-	camera.SetUp();
-	light.SetUp();
-	LoadHighScore();
 
+	for (int i = 0; i < MV1GetMaterialNum(stageHandle); i++)
+	{
+		MV1SetMaterialDifColor(stageHandle, i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+		MV1SetMaterialAmbColor(stageHandle, i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+		MV1SetMaterialSpcColor(stageHandle, i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+		MV1SetMaterialEmiColor(stageHandle, i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+		MV1SetMaterialSpcPower(stageHandle, i, 3.0f);
+	}
+	for (int i = 0; i < MV1GetMaterialNum(player.GetModel()); i++)
+	{
+		MV1SetMaterialDifColor(player.GetModel(), i, GetColorF(0.3f, 0.3f, 0.3f, 1.0f));
+		MV1SetMaterialAmbColor(player.GetModel(), i, GetColorF(1, 1, 1, 1));
+		MV1SetMaterialSpcColor(player.GetModel(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+		MV1SetMaterialEmiColor(player.GetModel(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+		MV1SetMaterialSpcPower(player.GetModel(), i, 3.0f);
+	}
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0)
 	{
@@ -49,7 +57,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (currentScreenType == CLEAR) {
 			HighScoreCheck();
 		}
-		if (currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR) {
+		if (isDrawInGame) {
+			// カメラ、ライト、プレイヤーの描画
+			player.Move();
+			player.ChangeSpeed();
+			player.Jump();
+			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
+			SetLightPosition(light.GetLightPos());
+			DrawStage(player);
 			if (!isGameStop) {
 
 				if (player.GetChangeSpeedCount() <= 4) {
@@ -68,20 +83,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			else {
 				if (currentScreenType == INGAME && !isFading) DrawStartCountDown();
 			}
-			// カメラ、ライト、プレイヤーの描画
-			player.Move();
-			player.ChangeSpeed();
-			player.Jump();
-			SetCameraPositionAndTarget_UpVecY(camera.GetCameraPos(), camera.GetLookPos());
-			SetLightPosition(light.GetLightPos());
-			MV1SetPosition(player.GetModel(), player.GetPosition());
-			MV1DrawModel(player.GetModel());
-			DrawStage(stageNumber, player);
 		}
 		if (fadeState == FADEWAIT) {
 			player.Initialization();
 			camera.Initialization();
 			light.Initialization();
+			StageInitialization();
 			if (fadeState == FADEWAIT) {	//仮で置いておく
 				score = 0;
 				vewScore = 0;
@@ -117,8 +124,7 @@ void GameSetUp() {
 	// Zバッファを有効にする、正確な奥行き関係に基づいた描画を行うために使用
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
-
-	SetBackgroundColor(255, 255, 255);	// 背景色を白に。これは後で消す
+	SetBackgroundColor(160, 216, 239);	// 背景色を白に。これは後で消す
 
 	// フォントをロードして、サイズを設定
 	AddFontResourceExA("Resource/Fonts/KaqookanV2.ttf", FR_PRIVATE, NULL);
@@ -131,8 +137,11 @@ void GameSetUp() {
 	fontData[MEDIUM].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[MEDIUM].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
 	fontData[SMALL].fontHandle = CreateFontToHandle("N4カクーカンV2", fontData[SMALL].fontSize, 1, DX_FONTTYPE_ANTIALIASING);
 
-	// NULLチェック
-	if (fontData[EXTRALARGE].fontHandle == -1 || fontData[LARGE].fontHandle == -1 || fontData[MEDIUM].fontHandle == -1 || fontData[SMALL].fontHandle == -1) {
-		printfDx("Error:NULL フォントの取得失敗\n");
-	}
+	UISetUp();
+	AudioSetUp();
+	StageSetUp();
+	player.SetUp();
+	camera.SetUp();
+	light.SetUp();
+	LoadHighScore();
 }

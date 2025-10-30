@@ -7,7 +7,7 @@ constexpr float FIRST_SPEED = 4.0f;		// スタート時の速度
 constexpr float GRAVITY = 0.7f;			// 重力
 constexpr int JUMP_LOCK_TIME = 300;		// ジャンプ長押しが出来る時間
 constexpr float JUMP_POWER = 10;		// ジャンプ力
-const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 0);
+const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 250);
 const VECTOR START_PLAYER_ROT = VGet(0, ChangeRadians(-90.0f), 0);
 const VECTOR START_PLAYER_SCALE = VGet(30, 100, 0);
 class Player {

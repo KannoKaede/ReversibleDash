@@ -6,7 +6,7 @@ Camera::Camera(VECTOR pos, VECTOR look) {
 }
 
 void Camera::SetUp() {
-	SetCameraNearFar(0, 100);
+	SetCameraNearFar(0, 1000);
 }
 
 void Camera::Move(float moveAmount) {
@@ -32,7 +32,7 @@ Light::Light(VECTOR pos) {
 
 void Light::SetUp() {
 	SetUseLighting(TRUE);
-	SetLightDirection(VGet(0, 0, 1));
+	SetLightDirection(VGet(0, -0.7f, 0.3f));
 }
 
 void Light::Move(float moveAmount) {

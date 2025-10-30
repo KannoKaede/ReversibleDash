@@ -20,10 +20,13 @@ void Player::SetUp() {
 	modelData[2].model = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
 	modelData[2].anime = MV1AttachAnim(modelData[2].model, 1, -1);
 
+
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
 	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 void Player::Move() {
+	MV1SetPosition(modelData[modelIndex].model, transform.position);
+	MV1DrawModel(modelData[modelIndex].model);
 	if (isGameStop)return;
 	if (isGround) {
 		modelIndex = 0;
