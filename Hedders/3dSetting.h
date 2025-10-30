@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include"DxLib.h"
+#include"Main.h"
+#include "Player.h"
 #ifndef _3dSetting_h
 #define _3dSetting_h
 
@@ -17,7 +18,7 @@ public:
 
 	/// <summary> カメラの移動メソッド </summary>
 	/// <param name="moveAmount"> 移動量 </param>
-	void Move(float moveAmount);
+	void Move(Player player);
 
 	/// <summary> カメラのリセットメソッド</summary>
 	void Initialization();
@@ -43,10 +44,6 @@ public:
 
 	/// <summary> ライトの初期設定メソッド </summary>
 	void SetUp();
-
-	/// <summary> ライトの移動メソッド </summary>
-	/// <param name="moveAmount"> 移動量 </param>
-	void Move(float moveAmount);
 
 	/// <summary> ライトのリセットメソッド </summary>
 	void Initialization();

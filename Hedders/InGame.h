@@ -6,12 +6,17 @@
 #define INCLUDED_InGame_h
 
 #define CLEARCANGE_POS 1500
-extern bool isGameStop;
-extern int stageNumber;     // 現在のステージ番号
+
 const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
-const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標:リファクタリング中の値をマップデータと円錐の半径を利用して代入したい
+const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標
+constexpr float DRAW_BACKSTAGE_X = 23700;	// ステージ背景の描画開始座標X
+constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
+class Stage {
+public:
 
+private:
 
+};
 /// <summary> ステージを描画するメソッド </summary>
 /// <param name="stageNum"> ステージ番号 </param>
 /// <param name="player"> プレイヤーのインスタンス </param>
@@ -34,8 +39,6 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles);
 
 extern int stageHandle;
 void StageSetUp();
-constexpr float DRAW_BACKSTAGE_X = 23700;
-constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };
 void DrawBackStage(Player player);
 void StageInitialization();
 

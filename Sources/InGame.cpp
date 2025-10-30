@@ -5,14 +5,14 @@
 #include "UI.h"
 #include <Math.h>
 #include <cmath>
-bool isGameStop;	// ゲームが止まっているか
-int stageNumber;	// ステージ番号
+
 ObjData obj;
 ObjData ground;
 int stageHandle;
-
+int carHandle[4];
 void StageSetUp() {
 	stageHandle = MV1LoadModel("Resource/stage/city.mv1");
+	carHandle[0] = MV1LoadModel("Resource/stage/Car_1.mv1");
 }
 void DrawStage(Player player) {
 	DrawBackStage(player);
@@ -62,10 +62,16 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles) {
 VECTOR drawPos = {};
 void DrawBackStage(Player player) {
 	// 車が動いているように見せるためにステージ背景を左側に動かす
-	if (!isGameStop && player.GetPosition().x <= goalPosition[stageNumber])drawPos.x -= 6;
-	else if (!isGameStop && player.GetPosition().x >= goalPosition[stageNumber])drawPos.x -= 14;
+	if (!isGameStop){
+		drawPos.x += 1.5f;
+		if (player.GetPosition().x > goalPosition[stageNumber]) {
+			drawPos.x -= 8;
+		}
+	}
 	MV1SetPosition(stageHandle, drawPos);
 	MV1DrawModel(stageHandle);
+		MV1SetPosition(carHandle[0], VGet(500,40,250));
+	MV1DrawModel(carHandle[0]);
 }
 
 void StageInitialization() {

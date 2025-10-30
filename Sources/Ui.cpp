@@ -52,51 +52,51 @@ void UISetUp() {
 void DrawUI(Player player)
 {
 	// 取得したサイズをコンソールに出力する
-	if (isDrawInGame) {
-		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", highScore[stageNumber]);
-		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].fontHandle, "STAGE.%d", stageNumber);
+	if (IsDrawInGame()) {
+		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].handle, "SCORE:%06d", highScore[stageNumber]);
+		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].handle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
 			DrawImage(21, 95, keyEscape);
-			DrawTextString(23.5f, 0, 95.8f, "Pause", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "Pause", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5, 0, 95.8f, "Jump", fontData[SMALL].fontHandle);
+			DrawTextString(37.5, 0, 95.8f, "Jump", fontData[SMALL].handle);
 		}
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screen.width, 25), ScreenDrawPosI(screen.height, 25), ScreenDrawPosI(screen.width, 75), ScreenDrawPosI(screen.height, 75), COLOR_WHITEGRAY, TRUE);
 			resumeGame.Draw();
 			pauseGameExit.Draw();
-			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].fontHandle);
+			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].handle);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 		if (currentScreenType == GAMEOVER) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
 			gameOverGameExit.Draw();
 			retryGame.Draw();
-			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].fontHandle);
-			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].fontHandle);
-			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
+			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].handle);
+			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].handle);
+			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].handle, score);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 		if (currentScreenType == CLEAR) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
 			nextGame.Draw();
 			clearGameExit.Draw();
-			DrawTextString(0, 100, 25, "STAGE CLEAR", fontData[EXTRALARGE].fontHandle);
-			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].fontHandle);
-			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
-			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[LARGE].fontHandle);
-			DrawTextInt(53, 73, 51, "000000", fontData[LARGE].fontHandle, highScore[stageNumber]);
+			DrawTextString(0, 100, 25, "STAGE CLEAR", fontData[EXTRALARGE].handle);
+			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].handle);
+			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].handle, score);
+			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[LARGE].handle);
+			DrawTextInt(53, 73, 51, "000000", fontData[LARGE].handle, highScore[stageNumber]);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 	}
 	else {
@@ -104,12 +104,12 @@ void DrawUI(Player player)
 			titleButton.Draw();
 			openStageSelectButton.Draw();
 			quitButton.Draw();
-			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].fontHandle);
-			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].fontHandle);
+			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].handle);
+			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].handle);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 		if (currentScreenType == STAGESELECT) {
 			stageSelect1.Draw();
@@ -119,11 +119,11 @@ void DrawUI(Player player)
 			stageSelect5.Draw();
 			stageSelect6.Draw();
 			returnTitle.Draw();
-			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].fontHandle);
+			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].handle);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
+			DrawTextString(23.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawTextString(37.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].handle);
 		}
 	}
 }
@@ -151,7 +151,10 @@ bool ScreenFadeControl() {
 		fadeState = NONE;
 		return false;
 	case FADEWAIT:		// 指定時間待機：待機中にUIの切り替えを行う
-		if (fadeStartCount == 0) fadeStartCount = GetNowCount();
+		if (fadeStartCount == 0) {
+			GameInitialization();
+			fadeStartCount = GetNowCount();
+		}
 		if ((fadeStartCount + FADE_WAIT_TIME) <= GetNowCount()) {
 			SystemReset();
 			fadeState = FADEIN;
@@ -178,7 +181,7 @@ void ScreenFade(int fadeSpeed)
 }
 void TextFade(std::string text, int font) {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	DrawTextString(0, 100, 45, drawText, fontData[EXTRALARGE].fontHandle);
+	DrawTextString(0, 100, 45, drawText, fontData[EXTRALARGE].handle);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -201,7 +204,7 @@ void DrawStartCountDown() {
 	if (startTime == 0) {
 		startTime = GetNowCount();
 	}
-	TextFade(drawText, fontData[EXTRALARGE].fontHandle);
+	TextFade(drawText, fontData[EXTRALARGE].handle);
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
@@ -240,11 +243,11 @@ void DrawProgressRateBar(const Player& player, float startPos, float endPos, flo
 
 
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
-	int font = fontData[fontType].fontHandle;;
-	int	fontSize = fontData[fontType].fontSize;;
+	int font = fontData[fontType].handle;;
+	int	fontSize = fontData[fontType].size;;
 
 	int drawPosX = TextDrawCenterPosX(left, right, text, font);	// 左右中央を計算
-	int drawPosY = TextDrawCenterPosY(top, bottom, fontSize, text, font);	// 上下中央を計算
+	int drawPosY = TextDrawCenterPosY(top, bottom, fontSize, text);	// 上下中央を計算
 	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, font);
 }
 

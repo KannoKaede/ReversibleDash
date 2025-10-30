@@ -12,7 +12,7 @@ float jumpDistance;
 /// <summary> スコアを計算する関数 </summary>
 void ScoreCalculation(float speed) {
 
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && currentScreenType == INGAME && jumpDistance < 400) {
+	if (currentScreenType == INGAME && jumpDistance < 400) {
 		if (jumpDistance == 0)return;
 		int plusScore = (400 - (int)jumpDistance) * 7 * (int)speed;
 		score += plusScore;

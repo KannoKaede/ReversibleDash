@@ -9,9 +9,13 @@ void Camera::SetUp() {
 	SetCameraNearFar(0, 1000);
 }
 
-void Camera::Move(float moveAmount) {
-	cameraPos.x += moveAmount;
-	lookPos.x += moveAmount;
+void Camera::Move(Player player) {
+	SetCameraPositionAndTarget_UpVecY(cameraPos, lookPos);
+	if (isGameStop)return;
+	if (player.GetChangeSpeedCount() <= 4) {
+		cameraPos.x += player.GetSpeed();
+		lookPos.x += player.GetSpeed();
+	}
 }
 void Camera::Initialization() {
 	cameraPos = START_CAMERA_POS;
@@ -35,9 +39,6 @@ void Light::SetUp() {
 	SetLightDirection(VGet(0, -0.7f, 0.3f));
 }
 
-void Light::Move(float moveAmount) {
-	lightPos.x += moveAmount;
-}
 
 void Light::Initialization() {
 	lightPos = START_LIGHT_POS;
