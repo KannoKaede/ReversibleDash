@@ -8,6 +8,7 @@
 #include<cmath>
 #include<string>
 
+
 // 画面サイズを格納する構造体
 struct SCREEN_SIZE {
 	int width;				// 画面の幅
@@ -58,5 +59,4 @@ float ChangeRadians(float num);
 // 起動時　車の中で外を眺めているムービーを作成
 // タイトル画面　Escapeを押したらゲーム説明画面を表示
 // プレイヤー　ジャンプアニメーションを1つにまとめて変更
-// 衝突判定　全て四角形で行う
 // ステージ　上側のステージを障害物ではなく足場に変更

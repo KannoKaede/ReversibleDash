@@ -53,25 +53,24 @@ void DrawUI(Player player)
 {
 	// 取得したサイズをコンソールに出力する
 	if (isDrawInGame) {
-		DrawBox(0, ScreenDrawPosI(screen.height, 94.4f), screen.width, screen.height, GetColor(128, 128, 128), TRUE);	// テスト インゲームのUIボックスの大きさ
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, fontData[MEDIUM].fontHandle, "SCORE:%06d", highScore[stageNumber]);
 		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, fontData[MEDIUM].fontHandle, "STAGE.%d", stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
-			DrawImage(20, 95, keyEscape);
-			DrawTextString(22.5f, 0, 95.8f, "Pause", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "Jump", fontData[SMALL].fontHandle);
+			DrawImage(21, 95, keyEscape);
+			DrawTextString(23.5f, 0, 95.8f, "Pause", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5, 0, 95.8f, "Jump", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screen.width, 25), ScreenDrawPosI(screen.height, 25), ScreenDrawPosI(screen.width, 75), ScreenDrawPosI(screen.height, 75), COLOR_WHITEGRAY, TRUE);
 			resumeGame.Draw();
 			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 95, keyWASD);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawImage(20, 95, keyWASD);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == GAMEOVER) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
@@ -80,10 +79,10 @@ void DrawUI(Player player)
 			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
-			DrawImage(19, 95, keyWASD);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawImage(20, 95, keyWASD);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == CLEAR) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
@@ -94,10 +93,10 @@ void DrawUI(Player player)
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].fontHandle, score);
 			DrawTextString(53, 73, 43, "HIGHSCORE", fontData[LARGE].fontHandle);
 			DrawTextInt(53, 73, 51, "000000", fontData[LARGE].fontHandle, highScore[stageNumber]);
-			DrawImage(19, 95, keyWASD);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawImage(20, 95, keyWASD);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
 		}
 	}
 	else {
@@ -107,10 +106,10 @@ void DrawUI(Player player)
 			quitButton.Draw();
 			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].fontHandle);
 			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].fontHandle);
-			DrawImage(19, 95, keyWASD);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawImage(20, 95, keyWASD);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].fontHandle);
 		}
 		if (currentScreenType == STAGESELECT) {
 			stageSelect1.Draw();
@@ -121,10 +120,10 @@ void DrawUI(Player player)
 			stageSelect6.Draw();
 			returnTitle.Draw();
 			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].fontHandle);
-			DrawImage(19, 95, keyWASD);
-			DrawTextString(22.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
-			DrawImage(37, 95, keySpace);
-			DrawTextString(42.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
+			DrawImage(20, 95, keyWASD);
+			DrawTextString(23.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].fontHandle);
+			DrawImage(32, 95, keySpace);
+			DrawTextString(37.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].fontHandle);
 		}
 	}
 }

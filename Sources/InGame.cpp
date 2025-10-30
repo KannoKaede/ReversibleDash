@@ -9,9 +9,14 @@ bool isGameStop;	// ゲームが止まっているか
 int stageNumber;	// ステージ番号
 ObjData obj;
 ObjData ground;
+int stageHandle;
 
-void DrawStage(int stageNum, Player player) {
-	ground = { VGet(0,0,0),40,500 };
+void StageSetUp() {
+	stageHandle = MV1LoadModel("Resource/stage/city.mv1");
+}
+void DrawStage(Player player) {
+	DrawBackStage(player);
+	ground = { VGet(0,0,0),40,10000 };
 	obj = { VGet(200,TOP_GROUND,0),-70,5000 };
 	IsCollision(player, obj, false);
 	IsCollision(player, ground, false);
@@ -31,7 +36,7 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles) {
 	VECTOR playerScale = player.GetScale();
 	bool collisionX = (playerPos.x + playerScale.x > obj.position.x - obj.radius) && (playerPos.x - playerScale.x < obj.position.x + obj.radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
 	bool collisionY = (isGravityBottom && playerPos.y <= obj.position.y + obj.height && playerPos.y + playerScale.y >= obj.position.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
-					 (!isGravityBottom && playerPos.y >= obj.position.y + obj.height && playerPos.y - playerScale.y <= obj.position.y);
+		(!isGravityBottom && playerPos.y >= obj.position.y + obj.height && playerPos.y - playerScale.y <= obj.position.y);
 
 	// 足場の判定
 	if (!isObstacles) {
@@ -41,11 +46,29 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles) {
 			isGround = true;
 		}
 		// obj.yの範囲内にいるがobj.xの範囲外にいる場合はそのまま落下する
-		else if(!collisionX&&collisionY){
+		else if (!collisionX && collisionY) {
 			isGround = false;
 			isFall = true;
 		}
 	}
-	return true;
+	else {
+		if (collisionX && collisionY) {
+			return true;
+		}
+	}
+	return false;
+}
+
+VECTOR drawPos = {};
+void DrawBackStage(Player player) {
+	// 車が動いているように見せるためにステージ背景を左側に動かす
+	if (!isGameStop && player.GetPosition().x <= goalPosition[stageNumber])drawPos.x -= 6;
+	else if (!isGameStop && player.GetPosition().x >= goalPosition[stageNumber])drawPos.x -= 14;
+	MV1SetPosition(stageHandle, drawPos);
+	MV1DrawModel(stageHandle);
+}
+
+void StageInitialization() {
+	drawPos = VGet(DRAW_BACKSTAGE_X, 0, DRAW_BACKSTAGE_Z[stageNumber]);
 }
 
