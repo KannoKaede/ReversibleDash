@@ -8,6 +8,11 @@
 #include <cmath>
 #include <string>
 
+const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
+const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの色
+const int COLOR_LIGHTGRAY = GetColor(200, 200, 200);    // 非選択時のボタンの色
+const int COLOR_BLACK = GetColor(0, 0, 0);   // テキストで使用する色
+
 // 画面サイズを格納する構造体
 struct ScreenSize {
 	int width;				// 画面の幅
@@ -45,6 +50,7 @@ void GameSetUp();
 /// <summary> ゲームのリセットを行うメソッド </summary>
 void GameInitialization();
 
+/// <summary> ゲーム終了時に各種リソースの解放を行うメソッド </summary>
 void GameCleanUp();
 
 /// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>

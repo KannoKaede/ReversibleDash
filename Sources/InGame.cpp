@@ -74,6 +74,10 @@ void DrawBackStage(Player player) {
 	MV1DrawModel(carHandle[0]);
 }
 
+bool IsGoal(float x) {
+	return x >= goalPosition[stageNumber] + CLEARCANGE_POS;
+}
+
 void StageInitialization() {
 	drawPos = VGet(DRAW_BACKSTAGE_X, 0, DRAW_BACKSTAGE_Z[stageNumber]);
 }

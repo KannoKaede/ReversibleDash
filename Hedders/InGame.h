@@ -40,6 +40,8 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles);
 extern int stageHandle;
 void StageSetUp();
 void DrawBackStage(Player player);
+
+bool IsGoal(float x);
 void StageInitialization();
 
 #endif

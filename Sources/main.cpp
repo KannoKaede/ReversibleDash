@@ -12,53 +12,40 @@ Player player(START_PLAYER_POS, START_PLAYER_ROT, START_PLAYER_SCALE, FIRST_SPEE
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
 Light light(START_LIGHT_POS);
 
-// プログラムは WinMain から始まります
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
 	SetScreenSize();	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
 	if (DxLib_Init() == -1)return -1;	// DXライブラリ初期化処理
 	GameSetUp();	// ゲームの初期設定を行う
-
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0)
 	{
-		ClearDrawScreen();
+		ClearDrawScreen();	// 画面をクリア
 		CheckAllKeyState();	// 全キーの状態をチェック
-		if (currentScreenType != INGAME) {
-			ButtonMovement();	//  ボタンの移動
-			ButtonPressed();	// ボタンが押されたときの処理
-		}
-		else {
-			if (!isGameStop && CheckHitKeyDown(KEY_INPUT_ESCAPE)) { nextScreenType = PAUSE; fadeState = SCREENSETUP; isGameStop = true; }
-			if (!isFading) DrawStartCountDown();
-		}
-		if (currentScreenType == CLEAR) {
-			HighScoreCheck();
-		}
 		if (IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
 			player.Move();
-			player.ChangeSpeed();
 			player.Jump();
-			SetLightPosition(light.GetLightPos());
 			camera.Move(player);
 			DrawStage(player);
 			InGameScoreView();
-			if (!isGameStop && player.GetPosition().x >= goalPosition[stageNumber] + CLEARCANGE_POS) {
-				nextScreenType = CLEAR;
-				fadeState = SCREENSETUP;
-				isGameStop = true;
-			}
+			if (!isGameStop && IsGoal(player.GetPosition().x)) ChangeUIState(CLEAR, SCREENSETUP);
 		}
 
 		if (!isFading) {
 			if (currentScreenType == TITLE || currentScreenType == STAGESELECT)
-				PlayBGM(bgm);
+				PlayBGM(bgm[TITLE_BGM]);
 			if (currentScreenType == INGAME)
-				PlayBGM(bgm1);
+				PlayBGM(bgm[INGAME_BGM]);
+			if (CheckHitKeyDown(KEY_INPUT_ESCAPE))  ChangeUIState(PAUSE, SCREENSETUP);
 		}
 
 		DrawUI(player);	//	UIを描画
+		if (currentScreenType != INGAME) {
+			ButtonMovement();	//  ボタンの移動
+			ButtonPressed();	// ボタンが押されたときの処理
+			if (currentScreenType == CLEAR) HighScoreCheck();
+		}
 		isFading = ScreenFadeControl();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
 		ScreenFlip();
@@ -123,7 +110,6 @@ void GameInitialization() {
 	// 座標やスコア等をリセットする
 	player.Initialization();
 	camera.Initialization();
-	light.Initialization();
 	StageInitialization();
 	score = 0;
 	vewScore = 0;

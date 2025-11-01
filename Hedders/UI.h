@@ -3,11 +3,6 @@
 #include "DxLib.h"
 #include "Player.h"
 
-const int COLOR_WHITEGRAY = GetColor(230, 230, 230);
-const int COLOR_GRAY = GetColor(200, 200, 200);
-const int COLOR_GREEN = GetColor(0, 255, 128);
-const int COLOR_BLACK = GetColor(0, 0, 0);
-
 constexpr int FADE_SPEED = 6;	// フェード速度
 constexpr int FADE_WAIT_TIME = 500;	// フェードの待機時間
 
@@ -121,3 +116,5 @@ void DrawTextString(float leftPct, float rightPct, float heightPct, std::string 
 void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font, int num);
 
 void DrawImage(float leftPct, float topPct, ImageData image);
+
+void ChangeUIState(SCREEN_TYPE screen,FADE_STATE fade);

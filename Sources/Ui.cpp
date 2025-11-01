@@ -61,11 +61,10 @@ void DrawUI(Player player)
 			DrawTextString(23.5f, 0, 95.8f, "Pause", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
 			DrawTextString(37.5, 0, 95.8f, "Jump", fontData[SMALL].handle);
+			DrawStartCountDown();
 		}
 		if (currentScreenType == PAUSE) {
 			DrawBox(ScreenDrawPosI(screen.width, 25), ScreenDrawPosI(screen.height, 25), ScreenDrawPosI(screen.width, 75), ScreenDrawPosI(screen.height, 75), COLOR_WHITEGRAY, TRUE);
-			resumeGame.Draw();
-			pauseGameExit.Draw();
 			DrawTextString(0, 100, 32, "PAUSE", fontData[EXTRALARGE].handle);
 			DrawImage(20, 95, keyWASD);
 			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
@@ -74,8 +73,6 @@ void DrawUI(Player player)
 		}
 		if (currentScreenType == GAMEOVER) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
-			gameOverGameExit.Draw();
-			retryGame.Draw();
 			DrawTextString(0, 100, 25, "GAMEOVER", fontData[EXTRALARGE].handle);
 			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].handle);
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].handle, score);
@@ -86,8 +83,6 @@ void DrawUI(Player player)
 		}
 		if (currentScreenType == CLEAR) {
 			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
-			nextGame.Draw();
-			clearGameExit.Draw();
 			DrawTextString(0, 100, 25, "STAGE CLEAR", fontData[EXTRALARGE].handle);
 			DrawTextString(27, 47, 43, "SCORE", fontData[LARGE].handle);
 			DrawTextInt(27, 47, 51, "000000", fontData[LARGE].handle, score);
@@ -101,9 +96,6 @@ void DrawUI(Player player)
 	}
 	else {
 		if (currentScreenType == TITLE) {
-			titleButton.Draw();
-			openStageSelectButton.Draw();
-			quitButton.Draw();
 			DrawTextString(0, 100, 16, "ReversibleDash", fontData[EXTRALARGE].handle);
 			DrawTextString(83, 0, 95, "Ver 0.7.00.00", fontData[MEDIUM].handle);
 			DrawImage(20, 95, keyWASD);
@@ -112,25 +104,18 @@ void DrawUI(Player player)
 			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 		if (currentScreenType == STAGESELECT) {
-			stageSelect1.Draw();
-			stageSelect2.Draw();
-			stageSelect3.Draw();
-			stageSelect4.Draw();
-			stageSelect5.Draw();
-			stageSelect6.Draw();
-			returnTitle.Draw();
 			DrawTextString(0, 100, 16, "STAGESELECT", fontData[EXTRALARGE].handle);
 			DrawImage(20, 95, keyWASD);
-			DrawTextString(23.5f, 0, 95.8f, "ButtonMove", fontData[SMALL].handle);
+			DrawTextString(23.5f, 0, 95.8f, "Move", fontData[SMALL].handle);
 			DrawImage(32, 95, keySpace);
-			DrawTextString(37.5f, 0, 95.8f, "ButtonSelect", fontData[SMALL].handle);
+			DrawTextString(37.5f, 0, 95.8f, "Select", fontData[SMALL].handle);
 		}
 	}
 }
 
 void SystemReset() {
-	buttonMovePos = STARTBUTTON_POS;
-	buttonPos = STARTBUTTON_POS;
+	buttonMovePos = START_BUTTON_POS;
+	buttonPos = START_BUTTON_POS;
 	currentScreenType = nextScreenType;
 	if (fadeStartCount != 0)fadeStartCount = 0;
 }
@@ -165,7 +150,6 @@ bool ScreenFadeControl() {
 	case NONE:
 		return false;
 	default:
-		printfDx("ERROR : 予期しない値です(fadeState)");
 		return false;
 	}
 }
@@ -196,7 +180,7 @@ int waitTime = 420;
 #define TEXTFADEOUTSPEED2 -5
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown() {
-
+	if (isFading||!isGameStop) return;
 	if (previousText != drawText) {
 		previousText = drawText;
 		startTime = 0;
@@ -278,5 +262,11 @@ void DrawImage(float leftPct, float topPct, ImageData image) {
 	int y2 = y1 + (int)((float)image.height * test);
 
 	DrawExtendGraph(x1, y1, x2, y2, image.image, TRUE);
+}
+
+void ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
+	nextScreenType = screen;
+	fadeState = fade;
+	isGameStop = true;
 }
 

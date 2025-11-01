@@ -36,17 +36,15 @@ void Player::Move() {
 	transform.position.x += moveSpeed;
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
 	float speedUpPos = goalPosition[stageNumber] / 4;
-}
-
-void Player::ChangeSpeed() {
-	float speedUpPos = goalPosition[stageNumber] / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
 	}
-	else {
-		return;
-	}
+}
+
+void Player::ChangeSpeed() {
+	float speedUpPos = goalPosition[stageNumber] / 4;
+	
 }
 
 
