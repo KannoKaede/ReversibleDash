@@ -1,6 +1,4 @@
-﻿#include "DxLib.h"
-#include "Main.h"
-#include "UI.h"
+﻿#include "UI.h"
 #include "Score.h"
 #include "InGame.h"
 // 全体像が完成したらリファクタリングする（ハイスコアはセーブデータに保存するように変更）
@@ -12,7 +10,7 @@ float jumpDistance;
 /// <summary> スコアを計算する関数 </summary>
 void ScoreCalculation(float speed) {
 
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && currentScreenType == INGAME && jumpDistance < 400) {
+	if (currentScreenType == INGAME && jumpDistance < 400) {
 		if (jumpDistance == 0)return;
 		int plusScore = (400 - (int)jumpDistance) * 7 * (int)speed;
 		score += plusScore;
@@ -23,35 +21,42 @@ void ScoreCalculation(float speed) {
 
 /// <summary> インゲームでスコアを表示する関数 </summary>
 void InGameScoreView() {
-	int differenceScore = score - vewScore;
+	int differenceScore = score - vewScore;	// 表示スコアと実際のスコアの差分
 	if (differenceScore == 0)return;
+
+	// 差分が一定より大きい場合は加算するスコアを大きくする
 	int addedPoint = differenceScore < ADD_SCORE_10 ? differenceScore : ADD_SCORE_10;
 	addedPoint = differenceScore < ADD_SCORE_100 ? differenceScore : ADD_SCORE_100;
 	addedPoint = differenceScore < ADD_SCORE_200 ? differenceScore : ADD_SCORE_200;
+
 	vewScore += addedPoint;
 }
 
 void HighScoreCheck() {
+	// ステージのハイスコアより高い場合は更新する
 	if (highScore[stageNumber] < score) {
 		highScore[stageNumber] = score;
 	}
 }
 
 void LoadHighScore() {
+	// テキストファイルからハイスコアを読み込み値を代入する
 	std::ifstream file(SCORE_FILEPATH);
 
+	// 一行ずつ読み込み、配列に代入する
 	for (int i = 0; i < MAX_STAGE_NUM; i++) {
-		if (!(file >> highScore[i])) {
+		if (!(file >> highScore[i])) {	// 読み込み失敗時は0を代入
 			highScore[i] = 0;
 		}
 	}
 
 	file.close();
 }
+
 void SaveHighScore() {
 	std::ofstream file(SCORE_FILEPATH, std::ios::trunc); 
 
-	for (int i = 0; i < MAX_STAGE_NUM; i++) {
+	for (int i = 0; i < MAX_STAGE_NUM; i++) {	// ファイルにハイスコアを書き込む
 		file << highScore[i] << "\n";
 	}
 

@@ -1,22 +1,15 @@
 ﻿#pragma once
 #include "UI.h"		// 画面の状態を取得用
 #include "Main.h"	// 画面サイズ取得用
-#ifndef Button_h
-#define Button_h
 
-#define STARTBUTTON_POS VGet(1,1,0)
+const VECTOR START_BUTTON_POS = VGet(1, 1, 0);
 class Button {
 public:
 	enum BUTTON_TYPE {
 		GAMESTART,  // ゲーム開始
 		OPENSTAGESELECT,    // ステージセレクトを開く
 		GAMEQUIT,   // exe終了
-		SELECTSTAGE1,   // ステージ選択
-		SELECTSTAGE2,   // ステージ選択
-		SELECTSTAGE3,   // ステージ選択
-		SELECTSTAGE4,   // ステージ選択
-		SELECTSTAGE5,   // ステージ選択
-		SELECTSTAGE6,   // ステージ選択
+		SELECTSTAGE1, SELECTSTAGE2, SELECTSTAGE3, SELECTSTAGE4, SELECTSTAGE5, SELECTSTAGE6,	// ステージ選択
 		RESUME,	// ゲーム再開
 		GAMEEXIT,	// インゲーム終了
 		RETRY,	// リトライ
@@ -37,18 +30,11 @@ public:
 	Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font, bool isCenterPos);
 
 	/// <summary> ボタンの描画メソッド </summary>
-	void Draw();
+	void Draw()const;
 
 	/// <summary> ボタンの色の変更メソッド </summary>
 	/// <param name="changeColor"> 変更する色 </param>
 	void SetButtonColor(int changeColor);
-
-	/// <summary> ボタンの描画座標を返すメソッド </summary>
-	/// <param name="screenSize"> 画面のサイズ </param>
-	/// <param name="pos"> ボタンの中心座標 </param>
-	/// <param name="length"> ボタンの長さ </param>
-	/// <returns> 描画座標 </returns>
-	int GetDrawPos(int screenSize, float pos, int length)const;
 
 	/// <summary> buttonTypeを返すメソッド </summary>
 	/// <returns> buttonType </returns>
@@ -58,8 +44,8 @@ public:
 	/// <returns> belongScreen </returns>
 	SCREEN_TYPE GetBelongScreen()const;
 
-	/// <summary> columNumを返すメソッド </summary>
-	/// <returns> columNum </returns>
+	/// <summary> columnNumを返すメソッド </summary>
+	/// <returns> columnNum </returns>
 	int GetColumNum()const;
 
 	/// <summary> rowNumを返すメソッド </summary>
@@ -83,6 +69,7 @@ private:
 /// <summary> どのボタンを選択しているかを返すメソッド </summary>
 /// <returns> 選択中のボタンのインスタンス </returns>
 Button* SelectGetButtonArray();
+
 /// <summary> ボタンの移動処理を行うメソッド </summary>
 void ButtonMovement();
 
@@ -93,12 +80,7 @@ void ButtonPressed();
 extern std::vector<Button*> buttonArray;    // ボタンの配列
 extern VECTOR buttonMovePos;    // ボタンの移動座標
 extern VECTOR buttonPos;    // ボタンの選択位置
-const int BUTTON_NUM_X = 6; // 横のボタン数
-const int BUTTON_NUM_Y = 5; // 縦のボタン数
-const int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
+constexpr int BUTTON_NUM_X = 6; // 横のボタン数
+constexpr int BUTTON_NUM_Y = 5; // 縦のボタン数
+constexpr int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
 extern int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X];    // ボタンの配置マップ
-const int BUTTON_SELECT_COLOR = GetColor(0, 255, 128);  // 選択中のボタンの色
-const int BUTTON_NORMAL_COLOR = GetColor(200, 200, 200);    // 非選択中のボタンの色
-const int TEXT_COLOR = GetColor(0, 0, 0);   // 文字の色
-
-#endif

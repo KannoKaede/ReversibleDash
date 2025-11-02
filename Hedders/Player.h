@@ -2,10 +2,10 @@
 #include "Main.h"
 
 constexpr float BOTTOM_GROUND = 40.0f;	// 下側の地面の座標
-constexpr float TOP_GROUND = 680.0f;	// 上側の地面の座標
-constexpr float FIRST_SPEED = 4.0f;		// スタート時の速度
+constexpr float TOP_GROUND = 840.0f;	// 上側の地面の座標
+constexpr float FIRST_SPEED = 10.0f;		// スタート時の速度
 constexpr float GRAVITY = 0.7f;			// 重力
-constexpr int JUMP_LOCK_TIME = 300;		// ジャンプ長押しが出来る時間
+constexpr int JUMP_LOCK_TIME = 370;		// ジャンプ長押しが出来る時間
 constexpr float JUMP_POWER = 10;		// ジャンプ力
 const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 250);
 const VECTOR START_PLAYER_ROT = VGet(0, ChangeRadians(-90.0f), 0);
@@ -23,9 +23,6 @@ public:
 
 	/// <summary> プレイヤーの移動メソッド </summary>
 	void Move();
-
-	/// <summary> プレイヤーの移動速度変更メソッド </summary>
-	void ChangeSpeed();
 
 	/// <summary> プレイヤーのジャンプ処理メソッド </summary>
 	void Jump();
@@ -63,7 +60,7 @@ public:
 
 	void PlayAnimation(ModelData player, bool isLoop);
 private:
-	ModelData modelData[3];
+	ModelData modelData[3] = {};
 
 	struct Transform {
 		VECTOR position;	// プレイヤーの位置
@@ -74,8 +71,8 @@ private:
 
 	float moveSpeed;	// プレイヤーの移動速度を格納
 	int changeSpeedCount = 1;	// 移動速度の変更回数を格納するカウンタ
-	float jumpPower;	// 実際のジャンプ力を入れる変数
-	int modelIndex;		// 使用するモデルアニメーション
+	float jumpPower = {};	// 実際のジャンプ力を入れる変数
+	int modelIndex = {};		// 使用するモデルアニメーション
 };
 extern bool isFall;		// 現在落下中か
 extern bool isGround;	// 現在ジャンプ中か判定
