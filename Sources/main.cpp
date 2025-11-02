@@ -11,6 +11,7 @@
 Player player(START_PLAYER_POS, START_PLAYER_ROT, START_PLAYER_SCALE, FIRST_SPEED);
 Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
 Light light(START_LIGHT_POS);
+Stage stage;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -27,9 +28,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			player.Move();
 			player.Jump();
 			camera.Move(player);
-			DrawStage(player);
+			stage.Draw(player);
 			InGameScoreView();
-			if (!isGameStop && IsGoal(player.GetPosition().x)) ChangeUIState(CLEAR, SCREENSETUP);
+			if (!isGameStop && stage.IsGoal(player.GetPosition().x)) {
+				HighScoreCheck();
+				ChangeUIState(CLEAR, SCREENSETUP);
+			}
 		}
 
 		if (!isFading) {
@@ -44,7 +48,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (currentScreenType != INGAME) {
 			ButtonMovement();	//  ボタンの移動
 			ButtonPressed();	// ボタンが押されたときの処理
-			if (currentScreenType == CLEAR) HighScoreCheck();
 		}
 		isFading = ScreenFadeControl();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
@@ -81,20 +84,20 @@ void GameSetUp() {
 	// その他、初期設定を行うものをここでまとめて行う
 	UISetUp();
 	AudioSetUp();
-	StageSetUp();
+	stage.SetUp();
 	player.SetUp();
 	camera.SetUp();
 	light.SetUp();
 	LoadHighScore();
 
 	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
-	for (int i = 0; i < MV1GetMaterialNum(stageHandle); i++)	// ステージのモデル
+	for (int i = 0; i < MV1GetMaterialNum(stage.GetBackStageHandle()); i++)	// ステージのモデル
 	{
-		MV1SetMaterialDifColor(stageHandle, i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
-		MV1SetMaterialAmbColor(stageHandle, i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
-		MV1SetMaterialSpcColor(stageHandle, i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-		MV1SetMaterialEmiColor(stageHandle, i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-		MV1SetMaterialSpcPower(stageHandle, i, 3.0f);
+		MV1SetMaterialDifColor(stage.GetBackStageHandle(), i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+		MV1SetMaterialAmbColor(stage.GetBackStageHandle(), i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+		MV1SetMaterialSpcColor(stage.GetBackStageHandle(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+		MV1SetMaterialEmiColor(stage.GetBackStageHandle(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+		MV1SetMaterialSpcPower(stage.GetBackStageHandle(), i, 3.0f);
 	}
 	for (int i = 0; i < MV1GetMaterialNum(player.GetModel()); i++)	// プレイヤーのモデル
 	{
@@ -110,7 +113,7 @@ void GameInitialization() {
 	// 座標やスコア等をリセットする
 	player.Initialization();
 	camera.Initialization();
-	StageInitialization();
+	stage.Initialization();
 	score = 0;
 	vewScore = 0;
 }

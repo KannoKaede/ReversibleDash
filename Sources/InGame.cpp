@@ -1,37 +1,45 @@
-﻿#include"DxLib.h"
-#include"InGame.h"
-#include "Player.h"
+﻿#include"InGame.h"
 #include"Score.h"
 #include "UI.h"
-#include <Math.h>
-#include <cmath>
 
-ObjData obj;
-ObjData ground;
-int stageHandle;
-int carHandle[4];
-void StageSetUp() {
-	stageHandle = MV1LoadModel("Resource/stage/city.mv1");
-	carHandle[0] = MV1LoadModel("Resource/stage/Car_1.mv1");
+Stage::Stage() {};
+void Stage::SetUp() {
+	backStageHandle = MV1LoadModel("Resource/stage/city.mv1");
 }
-void DrawStage(Player player) {
+
+void Stage::Draw(Player player) {
+	// 背景ステージの描画、衝突判定を行う
+	// メモ：障害物の描画と判定のfor文を追加
 	DrawBackStage(player);
-	ground = { VGet(0,0,0),40,10000 };
-	obj = { VGet(200,TOP_GROUND,0),-70,5000 };
-	IsCollision(player, obj, false);
 	IsCollision(player, ground, false);
-	DrawLine3D(VGet(obj.position.x + obj.radius, obj.position.y + obj.height, obj.position.z - obj.radius), VGet(obj.position.x - obj.radius, obj.position.y + obj.height, obj.position.z - obj.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(obj.position.x + obj.radius, obj.position.y + obj.height, obj.position.z + obj.radius), VGet(obj.position.x - obj.radius, obj.position.y + obj.height, obj.position.z + obj.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(obj.position.x + obj.radius, obj.position.y + obj.height, obj.position.z + obj.radius), VGet(obj.position.x + obj.radius, obj.position.y + obj.height, obj.position.z - obj.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(obj.position.x - obj.radius, obj.position.y + obj.height, obj.position.z + obj.radius), VGet(obj.position.x - obj.radius, obj.position.y + obj.height, obj.position.z - obj.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(ground.position.x + ground.radius, ground.position.y + ground.height, ground.position.z - ground.radius), VGet(ground.position.x - ground.radius, ground.position.y + ground.height, ground.position.z - ground.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(ground.position.x + ground.radius, ground.position.y + ground.height, ground.position.z + ground.radius), VGet(ground.position.x - ground.radius, ground.position.y + ground.height, ground.position.z + ground.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(ground.position.x + ground.radius, ground.position.y + ground.height, ground.position.z + ground.radius), VGet(ground.position.x + ground.radius, ground.position.y + ground.height, ground.position.z - ground.radius), GetColor(0, 0, 0));
-	DrawLine3D(VGet(ground.position.x - ground.radius, ground.position.y + ground.height, ground.position.z + ground.radius), VGet(ground.position.x - ground.radius, ground.position.y + ground.height, ground.position.z - ground.radius), GetColor(0, 0, 0));
+	IsCollision(player, object, false);
+}
+bool Stage::IsGoal(float playerX) {
+	// プレイヤー座標がゴール座標＋クリア画面に移動するための距離を超えたらtrueを返す
+	return playerX >= goalPosition[stageNumber] + CLEARCANGE_POS;
+}
+int Stage::GetBackStageHandle()const {
+	return backStageHandle;
 }
 
+void Stage::Initialization() {
+	// 背景ステージの描画座標をステージ番号に合わせてリセット
+	backDrawPos = VGet(DRAW_BACKSTAGE_X, 0, DRAW_BACKSTAGE_Z[stageNumber]);
+}
 
-bool IsCollision(Player player, ObjData obj, bool isObstacles) {
+void Stage::DrawBackStage(Player player) {
+	// 車が動いているように見せるためにステージ背景を左側に動かす
+	if (!isGameStop) {
+		backDrawPos.x += 1.5f;
+		if (player.GetPosition().x > goalPosition[stageNumber]) {
+			backDrawPos.x -= 8;
+		}
+	}
+	MV1SetPosition(backStageHandle, backDrawPos);
+	MV1DrawModel(backStageHandle);
+}
+
+bool Stage::IsCollision(Player player, ObjData obj, bool isObstacles) {
 	VECTOR playerPos = player.GetPosition();
 	VECTOR playerScale = player.GetScale();
 	bool collisionX = (playerPos.x + playerScale.x > obj.position.x - obj.radius) && (playerPos.x - playerScale.x < obj.position.x + obj.radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
@@ -57,28 +65,5 @@ bool IsCollision(Player player, ObjData obj, bool isObstacles) {
 		}
 	}
 	return false;
-}
-
-VECTOR drawPos = {};
-void DrawBackStage(Player player) {
-	// 車が動いているように見せるためにステージ背景を左側に動かす
-	if (!isGameStop){
-		drawPos.x += 1.5f;
-		if (player.GetPosition().x > goalPosition[stageNumber]) {
-			drawPos.x -= 8;
-		}
-	}
-	MV1SetPosition(stageHandle, drawPos);
-	MV1DrawModel(stageHandle);
-		MV1SetPosition(carHandle[0], VGet(500,40,250));
-	MV1DrawModel(carHandle[0]);
-}
-
-bool IsGoal(float x) {
-	return x >= goalPosition[stageNumber] + CLEARCANGE_POS;
-}
-
-void StageInitialization() {
-	drawPos = VGet(DRAW_BACKSTAGE_X, 0, DRAW_BACKSTAGE_Z[stageNumber]);
 }
 

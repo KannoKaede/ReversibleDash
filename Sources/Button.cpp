@@ -109,7 +109,8 @@ void ButtonMovement() {
 }
 
 void ButtonPressed() {
-	if (CheckHitKeyDown(KEY_INPUT_SPACE)||CheckHitKeyDown(KEY_INPUT_RETURN) && !isFading) {
+	if (isFading) return;
+	if (CheckHitKeyDown(KEY_INPUT_SPACE)||CheckHitKeyDown(KEY_INPUT_RETURN)) {
 		PlaySE(se[BUTTON_SELECT]);	// 押されたら選択音を鳴らす
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
