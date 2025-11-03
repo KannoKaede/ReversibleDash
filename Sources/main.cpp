@@ -1,5 +1,4 @@
-﻿#include "DxLib.h"
-#include "Main.h"
+﻿#include "Main.h"
 #include "UI.h"
 #include "Score.h"
 #include "Stage.h"
@@ -15,9 +14,9 @@ Stage stage;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	SetScreenSize();	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
+	GameBase::Instance().SetScreenSize();	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
 	if (DxLib_Init() == -1)return -1;	// DXライブラリ初期化処理
-	GameSetUp();	// ゲームの初期設定を行う
+	GameBase::Instance().SetUp();	// ゲームの初期設定を行う
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0)
 	{
@@ -30,7 +29,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			camera.Move(player);
 			stage.Draw(player);
 			InGameScoreView();
-			if (!isGameStop && stage.IsGoal(player.GetPosition().x)) {
+			if (!GameBase::Instance().GetIsGameStop() && stage.IsGoal(player.GetPosition().x)) {
 				HighScoreCheck();
 				ChangeUIState(CLEAR, SCREENSETUP);
 			}
@@ -57,12 +56,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		WaitTimer(16);
 	}
 
-	GameCleanUp();	// ゲーム終了処理
+	GameBase::Instance().CleanUp();	// ゲーム終了処理
 	DxLib_End();
 	return 0;
 }
 
-void GameSetUp() {
+void GameBase::SetUp() {
 	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定：リファクタリング→スカイボックスに変更するかも
 	SetMouseDispFlag(FALSE);	// マウスを非表示
 
@@ -109,7 +108,7 @@ void GameSetUp() {
 	}
 }
 
-void GameInitialization() {
+void GameBase::Initialization() {
 	// 座標やスコア等をリセットする
 	player.Initialization();
 	camera.Initialization();
@@ -118,7 +117,7 @@ void GameInitialization() {
 	vewScore = 0;
 }
 
-void GameCleanUp() {
+void GameBase::CleanUp() {
 	SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < FONT_TYPE_NUM; i++) {

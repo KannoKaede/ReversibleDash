@@ -34,8 +34,8 @@ void InGameScoreView() {
 
 void HighScoreCheck() {
 	// ステージのハイスコアより高い場合は更新する
-	if (highScore[stageNumber] < score) {
-		highScore[stageNumber] = score;
+	if (highScore[GameBase::Instance().GetStageNumber()] < score) {
+		highScore[GameBase::Instance().GetStageNumber()] = score;
 	}
 }
 
