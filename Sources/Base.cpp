@@ -1,16 +1,32 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 #include "UI.h"
 
-ScreenSize screen;	// ‰æ–ÊƒTƒCƒY
-FontData fontData[4];	// ƒtƒHƒ“ƒgƒf[ƒ^‚ÆƒTƒCƒY
-bool isGameStop;		// ƒQ[ƒ€‚Ìis‚ª~‚Ü‚Á‚Ä‚¢‚é‚©”»’è‚·‚éƒtƒ‰ƒO
-int stageNumber;		// —V‚ñ‚Å‚¢‚éƒXƒe[ƒW”Ô†
-
-void SetScreenSize() {
+void GameBase::SetScreenSize() {
 	screen.width = GetSystemMetrics(SM_CXSCREEN);
 	screen.height = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screen.width, screen.height, 32);
+}
+
+void GameBase::SetStageNumber(int num) {
+	stageNumber = num;
+}
+int GameBase::GetStageNumber() {
+	return stageNumber;
+}
+
+void GameBase::SetIsGameStop(bool changeBool) {
+	isGameStop = changeBool;
+}
+bool GameBase::GetIsGameStop() {
+	return isGameStop;
+}
+
+ScreenSize GameBase::GetScreenSize() {
+	return screen;
+}
+FontData GameBase::GetFontData(int number) {
+	return fontData[number];
 }
 
 float ClampNumF(float num, float min, float max) {
@@ -26,32 +42,32 @@ int ClampNumI(int num, int min, int max) {
 }
 
 float ScreenDrawPosF(int screenSize, float drawPosPercent) {
-	// ‰æ–ÊƒTƒCƒY‚É•`‰æ‚µ‚½‚¢ˆê‚Ì“‚ğ‚©‚¯‚Ä100‚ÅŠ„‚é‚±‚Æ‚Å•`‰æÀ•W‚ğ‹‚ß‚é
+	// ç”»é¢ã‚µã‚¤ã‚ºã«æç”»ã—ãŸã„ä¸€ã®ï¼…ã‚’ã‹ã‘ã¦100ã§å‰²ã‚‹ã“ã¨ã§æç”»åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	return screenSize * drawPosPercent / 100;
 }
 
 int ScreenDrawPosI(int screenSize, float drawPosPercent) {
-	// ‰æ–ÊƒTƒCƒY‚É•`‰æ‚µ‚½‚¢ˆê‚Ì“‚ğ‚©‚¯‚Ä100‚ÅŠ„‚é‚±‚Æ‚Å•`‰æÀ•W‚ğ‹‚ß‚é
+	// ç”»é¢ã‚µã‚¤ã‚ºã«æç”»ã—ãŸã„ä¸€ã®ï¼…ã‚’ã‹ã‘ã¦100ã§å‰²ã‚‹ã“ã¨ã§æç”»åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	return(int)(screenSize * drawPosPercent / 100);
 }
 
 int TextDrawCenterPosX(float left, float right, std::string text, int font) {
-	// ¶‰E‚Ì·‚ğ‹‚ßA•`‰æ‚·‚é•¶š—ñ‚Ì•‚ğˆø‚¢‚½‚à‚Ì‚ğ2‚ÅŠ„‚è—]”’‚ğŒvZ‚µ‚½‚Ì‚¿‚É¶’[‚ÌÀ•W‚ğ‘«‚·‚±‚Æ‚Å’†‰›‚ÌÀ•W‚ğ‹‚ß‚é
+	// å·¦å³ã®å·®ã‚’æ±‚ã‚ã€æç”»ã™ã‚‹æ–‡å­—åˆ—ã®å¹…ã‚’å¼•ã„ãŸã‚‚ã®ã‚’2ã§å‰²ã‚Šä½™ç™½ã‚’è¨ˆç®—ã—ãŸã®ã¡ã«å·¦ç«¯ã®åº§æ¨™ã‚’è¶³ã™ã“ã¨ã§ä¸­å¤®ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	return (int)(((right - left) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(text.c_str()))) / 2 + left);
 }
 
 int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text) {
-	// ã‰º‚Ì·‚ğ‹‚ßAƒtƒHƒ“ƒgƒTƒCƒY‚ğˆø‚¢‚½‚à‚Ì‚ğ2‚ÅŠ„‚è—]”’‚ğŒvZ‚µ‚½‚Ì‚¿‚Éã•”‚ÌÀ•W‚ğ‘«‚·‚±‚Æ‚Å’†‰›‚ÌÀ•W‚ğ‹‚ß‚é
+	// ä¸Šä¸‹ã®å·®ã‚’æ±‚ã‚ã€ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’å¼•ã„ãŸã‚‚ã®ã‚’2ã§å‰²ã‚Šä½™ç™½ã‚’è¨ˆç®—ã—ãŸã®ã¡ã«ä¸Šéƒ¨ã®åº§æ¨™ã‚’è¶³ã™ã“ã¨ã§ä¸­å¤®ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	return (int)(((bottom - top) - fontSize) / 2 + top);
 }
 
 bool IsDrawInGame() {
-	// ƒXƒe[ƒW‚ğ— ‚Å•`‰æ‚·‚é‰æ–Ê‚ğ•Ô‚·
+	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’è£ã§æç”»ã™ã‚‹ç”»é¢ã‚’è¿”ã™
 	return currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR;
 }
 
 
 constexpr float ChangeRadians(float num) {
-	// “x”–@‚ğƒ‰ƒWƒAƒ“‚É•ÏŠ·
+	// åº¦æ•°æ³•ã‚’ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›
 	return num * DX_PI_F / 180;
 }

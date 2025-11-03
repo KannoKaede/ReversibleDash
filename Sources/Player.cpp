@@ -24,7 +24,7 @@ void Player::Move() {
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
 	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0, ChangeRadians(-90.0f), 0) : VGet(ChangeRadians(180), ChangeRadians(90), 0));
 	MV1DrawModel(modelData[modelIndex].model);
-	if (isGameStop)return;
+	if (GameBase::Instance().GetIsGameStop())return;
 	if (isGround) {	// 地面にいる場合は走るアニメーションを再生
 		modelIndex = 0;
 		PlayAnimation(modelData[modelIndex], true);
@@ -32,7 +32,7 @@ void Player::Move() {
 	transform.position.x += moveSpeed;
 
 	// 速度変更処理：ゴール地点の1/4ごとに速度を上げていく
-	float speedUpPos = goalPosition[stageNumber] / 4;
+	float speedUpPos = goalPosition[GameBase::Instance().GetStageNumber()] / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
@@ -46,7 +46,7 @@ bool isFall;	// 落下中かの判定
 bool isGravityBottom;
 float groundPosY;
 void Player::Jump() {
-	if (isGameStop)return;
+	if (GameBase::Instance().GetIsGameStop())return;
 
 	// 入力制御
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理

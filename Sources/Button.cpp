@@ -17,6 +17,7 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 }
 
 void Button::Draw()const {
+	ScreenSize screen = GameBase::Instance().GetScreenSize();
 	// ボタンの座標をスクリーン座標に変換
 	int drawPosX = ScreenDrawPosI(screen.width, centerPos.x);
 	int drawPosY = ScreenDrawPosI(screen.height, centerPos.y);
@@ -91,7 +92,7 @@ void ButtonMovement() {
 	buttonMovePos.y = ClampNumF(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
 	// ボタンを押しているかのフラグを立てる：画面を変えた際にボタンのボタンの座標がずれてビープ音が鳴るのを防ぐ
-	bool isMoveInput = CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_RIGHT)|| CheckHitKeyDown(KEY_INPUT_W) || CheckHitKeyDown(KEY_INPUT_S) || CheckHitKeyDown(KEY_INPUT_A) || CheckHitKeyDown(KEY_INPUT_D);
+	bool isMoveInput = CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_RIGHT) || CheckHitKeyDown(KEY_INPUT_W) || CheckHitKeyDown(KEY_INPUT_S) || CheckHitKeyDown(KEY_INPUT_A) || CheckHitKeyDown(KEY_INPUT_D);
 	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {	// 移動先にボタンが無い場合はビープ音を鳴らして移動前の座標に戻す
 		if (isMoveInput)PlaySE(se[BUTTON_BEEP]);
 		buttonMovePos = buttonPos;
@@ -110,14 +111,14 @@ void ButtonMovement() {
 
 void ButtonPressed() {
 	if (isFading) return;
-	if (CheckHitKeyDown(KEY_INPUT_SPACE)||CheckHitKeyDown(KEY_INPUT_RETURN)) {
+	if (CheckHitKeyDown(KEY_INPUT_SPACE) || CheckHitKeyDown(KEY_INPUT_RETURN)) {
 		PlaySE(se[BUTTON_SELECT]);	// 押されたら選択音を鳴らす
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
 		case Button::GAMESTART:
 			ChangeUIState(INGAME, FADEOUT);
-			stageNumber = 1;
+			GameBase::Instance().SetStageNumber(1);
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::RESUME:
@@ -129,7 +130,7 @@ void ButtonPressed() {
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::NEXTSTAGE:
-			stageNumber++;
+			GameBase::Instance().SetStageNumber(GameBase::Instance().GetStageNumber()+1);
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
 			break;
@@ -145,32 +146,32 @@ void ButtonPressed() {
 		case Button::SELECTSTAGE1:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 1;
+			GameBase::Instance().SetStageNumber(1);
 			break;
 		case Button::SELECTSTAGE2:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 2;
+			GameBase::Instance().SetStageNumber(2);
 			break;
 		case Button::SELECTSTAGE3:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 3;
+			GameBase::Instance().SetStageNumber(3);
 			break;
 		case Button::SELECTSTAGE4:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 4;
+			GameBase::Instance().SetStageNumber(4);
 			break;
 		case Button::SELECTSTAGE5:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 5;
+			GameBase::Instance().SetStageNumber(5);
 			break;
 		case Button::SELECTSTAGE6:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			stageNumber = 6;
+			GameBase::Instance().SetStageNumber(6);
 			break;
 		case Button::GAMEEXIT:
 			ChangeUIState(TITLE, FADEOUT);

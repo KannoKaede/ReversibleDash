@@ -13,14 +13,10 @@ const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの�
 const int COLOR_LIGHTGRAY = GetColor(200, 200, 200);    // 非選択時のボタンの色
 const int COLOR_BLACK = GetColor(0, 0, 0);   // テキストで使用する色
 
-// 画面サイズを格納する構造体
 struct ScreenSize {
 	int width;				// 画面の幅
 	int height;				// 画面の高さ
 };
-
-extern ScreenSize screen;	// 画面サイズ
-
 // フォントの種類と数を定義
 enum FONT_TYPE {
 	EXTRALARGE,				// 見出し用
@@ -29,29 +25,38 @@ enum FONT_TYPE {
 	SMALL,					// 操作説明用
 	FONT_TYPE_NUM			// フォントの種類
 };
-
 // フォントデータを格納する構造体
 struct FontData {
 	int handle;			// フォントデータ
 	int size;			// フォントサイズ
 };
 
-extern FontData fontData[FONT_TYPE_NUM];	// フォントデータとサイズ
+class GameBase {
+public:
+	static GameBase& Instance() {
+		static GameBase instance;
+		return instance;
+	}
 
-extern int stageNumber;     // 現在のステージ番号
-extern bool isGameStop;
-
-/// <summary> ゲーム起動時に画面サイズにウィンドウを合わせるメソッド </summary>
-void SetScreenSize();
-
-/// <summary> ゲームの初期設定を行うメソッド </summary>
-void GameSetUp();
-
-/// <summary> ゲームのリセットを行うメソッド </summary>
-void GameInitialization();
-
-/// <summary> ゲーム終了時に各種リソースの解放を行うメソッド </summary>
-void GameCleanUp();
+	void SetScreenSize();
+	void SetUp();
+	void Initialization();
+	void CleanUp();
+	void SetStageNumber(int num);
+	int GetStageNumber();
+	void SetIsGameStop(bool changeBool);
+	bool GetIsGameStop();
+	ScreenSize GetScreenSize();
+	FontData GetFontData(int number);
+private:
+	GameBase() {}
+	GameBase(const GameBase&) = delete;
+	GameBase& operator = (const GameBase&) = delete;
+	ScreenSize screen = {};
+	FontData fontData[FONT_TYPE_NUM] = {};
+	int stageNumber = {};
+	bool isGameStop = true;
+};
 
 /// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>
 /// <param name="num"> 指定の値に収めたい変数 </param>
@@ -108,4 +113,3 @@ constexpr float ChangeRadians(float num);
 // タイトル画面　Escapeを押したらゲーム説明画面を表示
 // プレイヤー　ジャンプアニメーションを1つにまとめて変更
 // ステージ　上側のステージを障害物ではなく足場に変更
-// InGame.h/cpp　クラス化
