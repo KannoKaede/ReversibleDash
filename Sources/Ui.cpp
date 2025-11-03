@@ -2,7 +2,7 @@
 #include "Main.h"
 #include "UI.h"
 #include "Score.h"
-#include "InGame.h"
+#include "Stage.h"
 #include "Button.h"
 #include "Input.h"
 

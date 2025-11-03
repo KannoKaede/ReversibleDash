@@ -1,10 +1,10 @@
-ï»¿#include "Main.h"
+#include "Main.h"
 #include "UI.h"
 
-ScreenSize screen;	// ç”»é¢ã‚µã‚¤ã‚º
-FontData fontData[4];	// ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ã¨ã‚µã‚¤ã‚º
-bool isGameStop;		// ã‚²ãƒ¼ãƒ ã®é€²è¡ŒãŒæ­¢ã¾ã£ã¦ã„ã‚‹ã‹åˆ¤å®šã™ã‚‹ãƒ•ãƒ©ã‚°
-int stageNumber;		// éŠã‚“ã§ã„ã‚‹ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
+ScreenSize screen;	// ‰æ–ÊƒTƒCƒY
+FontData fontData[4];	// ƒtƒHƒ“ƒgƒf[ƒ^‚ÆƒTƒCƒY
+bool isGameStop;		// ƒQ[ƒ€‚Ìis‚ª~‚Ü‚Á‚Ä‚¢‚é‚©”»’è‚·‚éƒtƒ‰ƒO
+int stageNumber;		// —V‚ñ‚Å‚¢‚éƒXƒe[ƒW”Ô†
 
 void SetScreenSize() {
 	screen.width = GetSystemMetrics(SM_CXSCREEN);
@@ -26,32 +26,32 @@ int ClampNumI(int num, int min, int max) {
 }
 
 float ScreenDrawPosF(int screenSize, float drawPosPercent) {
-	// ç”»é¢ã‚µã‚¤ã‚ºã«æç”»ã—ãŸã„ä¸€ã®ï¼…ã‚’ã‹ã‘ã¦100ã§å‰²ã‚‹ã“ã¨ã§æç”»åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+	// ‰æ–ÊƒTƒCƒY‚É•`‰æ‚µ‚½‚¢ˆê‚Ì“‚ğ‚©‚¯‚Ä100‚ÅŠ„‚é‚±‚Æ‚Å•`‰æÀ•W‚ğ‹‚ß‚é
 	return screenSize * drawPosPercent / 100;
 }
 
 int ScreenDrawPosI(int screenSize, float drawPosPercent) {
-	// ç”»é¢ã‚µã‚¤ã‚ºã«æç”»ã—ãŸã„ä¸€ã®ï¼…ã‚’ã‹ã‘ã¦100ã§å‰²ã‚‹ã“ã¨ã§æç”»åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+	// ‰æ–ÊƒTƒCƒY‚É•`‰æ‚µ‚½‚¢ˆê‚Ì“‚ğ‚©‚¯‚Ä100‚ÅŠ„‚é‚±‚Æ‚Å•`‰æÀ•W‚ğ‹‚ß‚é
 	return(int)(screenSize * drawPosPercent / 100);
 }
 
 int TextDrawCenterPosX(float left, float right, std::string text, int font) {
-	// å·¦å³ã®å·®ã‚’æ±‚ã‚ã€æç”»ã™ã‚‹æ–‡å­—åˆ—ã®å¹…ã‚’å¼•ã„ãŸã‚‚ã®ã‚’2ã§å‰²ã‚Šä½™ç™½ã‚’è¨ˆç®—ã—ãŸã®ã¡ã«å·¦ç«¯ã®åº§æ¨™ã‚’è¶³ã™ã“ã¨ã§ä¸­å¤®ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+	// ¶‰E‚Ì·‚ğ‹‚ßA•`‰æ‚·‚é•¶š—ñ‚Ì•‚ğˆø‚¢‚½‚à‚Ì‚ğ2‚ÅŠ„‚è—]”’‚ğŒvZ‚µ‚½‚Ì‚¿‚É¶’[‚ÌÀ•W‚ğ‘«‚·‚±‚Æ‚Å’†‰›‚ÌÀ•W‚ğ‹‚ß‚é
 	return (int)(((right - left) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(text.c_str()))) / 2 + left);
 }
 
 int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text) {
-	// ä¸Šä¸‹ã®å·®ã‚’æ±‚ã‚ã€ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’å¼•ã„ãŸã‚‚ã®ã‚’2ã§å‰²ã‚Šä½™ç™½ã‚’è¨ˆç®—ã—ãŸã®ã¡ã«ä¸Šéƒ¨ã®åº§æ¨™ã‚’è¶³ã™ã“ã¨ã§ä¸­å¤®ã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
+	// ã‰º‚Ì·‚ğ‹‚ßAƒtƒHƒ“ƒgƒTƒCƒY‚ğˆø‚¢‚½‚à‚Ì‚ğ2‚ÅŠ„‚è—]”’‚ğŒvZ‚µ‚½‚Ì‚¿‚Éã•”‚ÌÀ•W‚ğ‘«‚·‚±‚Æ‚Å’†‰›‚ÌÀ•W‚ğ‹‚ß‚é
 	return (int)(((bottom - top) - fontSize) / 2 + top);
 }
 
 bool IsDrawInGame() {
-	// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’è£ã§æç”»ã™ã‚‹ç”»é¢ã‚’è¿”ã™
+	// ƒXƒe[ƒW‚ğ— ‚Å•`‰æ‚·‚é‰æ–Ê‚ğ•Ô‚·
 	return currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR;
 }
 
 
-float ChangeRadians(float num) {
-	// åº¦æ•°æ³•ã‚’ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›
+constexpr float ChangeRadians(float num) {
+	// “x”–@‚ğƒ‰ƒWƒAƒ“‚É•ÏŠ·
 	return num * DX_PI_F / 180;
 }
