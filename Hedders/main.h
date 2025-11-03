@@ -102,7 +102,7 @@ bool IsDrawInGame();
 /// <summary> 度数法をラジアンに変換して返すメソッド </summary>
 /// <param name="num"> 度数法での角度 </param>
 /// <returns> ラジアンに変換された角度 </returns>
-float ChangeRadians(float num);
+constexpr float ChangeRadians(float num);
 
 // 起動時　車の中で外を眺めているムービーを作成
 // タイトル画面　Escapeを押したらゲーム説明画面を表示

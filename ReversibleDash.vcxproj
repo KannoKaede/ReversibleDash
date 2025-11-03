@@ -158,24 +158,24 @@
   <ItemGroup>
     <ClCompile Include="Sources\3dSetting.cpp" />
     <ClCompile Include="Sources\Audio.cpp" />
-    <ClCompile Include="Sources\Bace.cpp" />
+    <ClCompile Include="Sources\Base.cpp" />
     <ClCompile Include="Sources\Button.cpp" />
-    <ClCompile Include="Sources\InGame.cpp" />
     <ClCompile Include="Sources\Input.cpp" />
     <ClCompile Include="Sources\Main.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
     <ClCompile Include="Sources\Score.cpp" />
+    <ClCompile Include="Sources\Stage.cpp" />
     <ClCompile Include="Sources\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hedders\3dSetting.h" />
     <ClInclude Include="Hedders\Audio.h" />
     <ClInclude Include="Hedders\Button.h" />
-    <ClInclude Include="Hedders\InGame.h" />
     <ClInclude Include="Hedders\Input.h" />
     <ClInclude Include="Hedders\Main.h" />
     <ClInclude Include="Hedders\Player.h" />
     <ClInclude Include="Hedders\Score.h" />
+    <ClInclude Include="Hedders\Stage.h" />
     <ClInclude Include="Hedders\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

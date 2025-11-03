@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Main.h"
-#include "InGame.h"
+#include "Stage.h"
 
 constexpr int ADD_SCORE_10 = 10;	// viewScoreに加算するスコアの値
 constexpr int ADD_SCORE_100 = 100;	// viewScoreに加算するスコアの値

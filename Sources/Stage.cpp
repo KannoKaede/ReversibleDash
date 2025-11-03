@@ -1,4 +1,4 @@
-ï»¿#include"InGame.h"
+#include"Stage.h"
 #include"Score.h"
 #include "UI.h"
 
@@ -8,14 +8,14 @@ void Stage::SetUp() {
 }
 
 void Stage::Draw(Player player) {
-	// èƒŒæ™¯ã‚¹ãƒ†ãƒ¼ã‚¸ã®æç”»ã€è¡çªåˆ¤å®šã‚’è¡Œã†
-	// ãƒ¡ãƒ¢ï¼šéšœå®³ç‰©ã®æç”»ã¨åˆ¤å®šã®foræ–‡ã‚’è¿½åŠ 
+	// ”wŒiƒXƒe[ƒW‚Ì•`‰æAÕ“Ë”»’è‚ðs‚¤
+	// ƒƒ‚FáŠQ•¨‚Ì•`‰æ‚Æ”»’è‚Ìfor•¶‚ð’Ç‰Á
 	DrawBackStage(player);
 	IsCollision(player, ground, false);
 	IsCollision(player, object, false);
 }
 bool Stage::IsGoal(float playerX) {
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™ãŒã‚´ãƒ¼ãƒ«åº§æ¨™ï¼‹ã‚¯ãƒªã‚¢ç”»é¢ã«ç§»å‹•ã™ã‚‹ãŸã‚ã®è·é›¢ã‚’è¶…ãˆãŸã‚‰trueã‚’è¿”ã™
+	// ƒvƒŒƒCƒ„[À•W‚ªƒS[ƒ‹À•W{ƒNƒŠƒA‰æ–Ê‚ÉˆÚ“®‚·‚é‚½‚ß‚Ì‹——£‚ð’´‚¦‚½‚çtrue‚ð•Ô‚·
 	return playerX >= goalPosition[stageNumber] + CLEARCANGE_POS;
 }
 int Stage::GetBackStageHandle()const {
@@ -23,12 +23,12 @@ int Stage::GetBackStageHandle()const {
 }
 
 void Stage::Initialization() {
-	// èƒŒæ™¯ã‚¹ãƒ†ãƒ¼ã‚¸ã®æç”»åº§æ¨™ã‚’ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ã«åˆã‚ã›ã¦ãƒªã‚»ãƒƒãƒˆ
+	// ”wŒiƒXƒe[ƒW‚Ì•`‰æÀ•W‚ðƒXƒe[ƒW”Ô†‚É‡‚í‚¹‚ÄƒŠƒZƒbƒg
 	backDrawPos = VGet(DRAW_BACKSTAGE_X, 0, DRAW_BACKSTAGE_Z[stageNumber]);
 }
 
 void Stage::DrawBackStage(Player player) {
-	// è»ŠãŒå‹•ã„ã¦ã„ã‚‹ã‚ˆã†ã«è¦‹ã›ã‚‹ãŸã‚ã«ã‚¹ãƒ†ãƒ¼ã‚¸èƒŒæ™¯ã‚’å·¦å´ã«å‹•ã‹ã™
+	// ŽÔ‚ª“®‚¢‚Ä‚¢‚é‚æ‚¤‚ÉŒ©‚¹‚é‚½‚ß‚ÉƒXƒe[ƒW”wŒi‚ð¶‘¤‚É“®‚©‚·
 	if (!isGameStop) {
 		backDrawPos.x += 1.5f;
 		if (player.GetPosition().x > goalPosition[stageNumber]) {
@@ -42,18 +42,18 @@ void Stage::DrawBackStage(Player player) {
 bool Stage::IsCollision(Player player, ObjData obj, bool isObstacles) {
 	VECTOR playerPos = player.GetPosition();
 	VECTOR playerScale = player.GetScale();
-	bool collisionX = (playerPos.x + playerScale.x > obj.position.x - obj.radius) && (playerPos.x - playerScale.x < obj.position.x + obj.radius);	// Xè»¸ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¡çªã—ã¦ã„ã‚‹ã‹åˆ¤å®š
-	bool collisionY = (isGravityBottom && playerPos.y <= obj.position.y + obj.height && playerPos.y + playerScale.y >= obj.position.y) ||	// ä¸‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰ã‚ªãƒ–ã‚¸ã‚§ä¸Šå´ã‚ˆã‚Šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä¸‹ã‹ã€ä¸Šã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰ã‚ªãƒ–ã‚¸ã‚§ä¸‹å´ã‚ˆã‚Šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸Šã«å±…ã‚‹ã‹åˆ¤å®š
+	bool collisionX = (playerPos.x + playerScale.x > obj.position.x - obj.radius) && (playerPos.x - playerScale.x < obj.position.x + obj.radius);	// XŽ²‚ÅƒvƒŒƒCƒ„[‚ªƒIƒuƒWƒFƒNƒg‚ÉÕ“Ë‚µ‚Ä‚¢‚é‚©”»’è
+	bool collisionY = (isGravityBottom && playerPos.y <= obj.position.y + obj.height && playerPos.y + playerScale.y >= obj.position.y) ||	// ‰º‚ÌƒIƒuƒWƒFƒNƒg‚È‚çƒIƒuƒWƒFã‘¤‚æ‚èƒvƒŒƒCƒ„[‚ª‰º‚©Aã‚ÌƒIƒuƒWƒFƒNƒg‚È‚çƒIƒuƒWƒF‰º‘¤‚æ‚èƒvƒŒƒCƒ„[ã‚É‹‚é‚©”»’è
 		(!isGravityBottom && playerPos.y >= obj.position.y + obj.height && playerPos.y - playerScale.y <= obj.position.y);
 
-	// è¶³å ´ã®åˆ¤å®š
+	// ‘«ê‚Ì”»’è
 	if (!isObstacles) {
-		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒobj.xã®ç¯„å›²å†…ã«ã„ã¦obj.yã®ç¯„å›²å†…ã«ã‚‚ã„ã‚‹å ´åˆè¨­ç½®åˆ¤å®šã‚’æœ‰åŠ¹ã«ã™ã‚‹
+		// ƒvƒŒƒCƒ„[‚ªobj.x‚Ì”ÍˆÍ“à‚É‚¢‚Äobj.y‚Ì”ÍˆÍ“à‚É‚à‚¢‚éê‡Ý’u”»’è‚ð—LŒø‚É‚·‚é
 		if (collisionX && collisionY) {
-			groundPosY = obj.position.y + obj.height;	// è¶³å ´ã¨ãªã‚‹åº§æ¨™ã‚’ä¿å­˜
+			groundPosY = obj.position.y + obj.height;	// ‘«ê‚Æ‚È‚éÀ•W‚ð•Û‘¶
 			isGround = true;
 		}
-		// obj.yã®ç¯„å›²å†…ã«ã„ã‚‹ãŒobj.xã®ç¯„å›²å¤–ã«ã„ã‚‹å ´åˆã¯ãã®ã¾ã¾è½ä¸‹ã™ã‚‹
+		// obj.y‚Ì”ÍˆÍ“à‚É‚¢‚é‚ªobj.x‚Ì”ÍˆÍŠO‚É‚¢‚éê‡‚Í‚»‚Ì‚Ü‚Ü—Ž‰º‚·‚é
 		else if (!collisionX && collisionY) {
 			isGround = false;
 			isFall = true;
