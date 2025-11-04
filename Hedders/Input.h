@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
+
 const int KEY_NUM = 256;	// 配列の要素数
 extern char keyBuf[KEY_NUM];	// 現在のキー入力状態
 extern char keyBuf_old[KEY_NUM];	// 1フレーム前のキー入力状態

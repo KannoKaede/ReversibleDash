@@ -1,35 +1,35 @@
-﻿#include "Main.h"
-#include "UI.h"
+﻿#include "3dSetting.h"
+#include "Audio.h"
+#include "Button.h"
+#include "Input.h"
+#include "Main.h"
+#include "Player.h"
 #include "Score.h"
 #include "Stage.h"
-#include "Button.h"
-#include "Player.h"
-#include "3dSetting.h"
-#include "Input.h"
+#include "UI.h"
 
 Player player(START_PLAYER_POS, START_PLAYER_ROT, START_PLAYER_SCALE, FIRST_SPEED);
-Camera camera(START_CAMERA_POS, START_CAMERA_LOOK);
-Light light(START_LIGHT_POS);
-Stage stage;
+Camera camera;
+Light light;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	GameBase::Instance().SetScreenSize();	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
+	base.SetScreenSize();	// 画面の解像度に応じて画面サイズを変更	: ここに置かないと画像が描画できなくなる
 	if (DxLib_Init() == -1)return -1;	// DXライブラリ初期化処理
-	GameBase::Instance().SetUp();	// ゲームの初期設定を行う
+	base.SetUp();	// ゲームの初期設定を行う
 	SetDrawScreen(DX_SCREEN_BACK);	// 描画先を裏画面に指定
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
 		CheckAllKeyState();	// 全キーの状態をチェック
-		if (IsDrawInGame()) {
+		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
 			player.Move();
 			player.Jump();
 			camera.Move(player);
 			stage.Draw(player);
 			InGameScoreView();
-			if (!GameBase::Instance().GetIsGameStop() && stage.IsGoal(player.GetPosition().x)) {
+			if (!base.isGameStop && stage.IsGoal(player.GetPosition().x)) {
 				HighScoreCheck();
 				ChangeUIState(CLEAR, SCREENSETUP);
 			}
@@ -45,8 +45,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		DrawUI(player);	//	UIを描画
 		if (currentScreenType != INGAME) {
-			ButtonMovement();	//  ボタンの移動
-			ButtonPressed();	// ボタンが押されたときの処理
+			buttonManager.ButtonMovement();	//  ボタンの移動
+			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
 		isFading = ScreenFadeControl();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
@@ -56,12 +56,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		WaitTimer(16);
 	}
 
-	GameBase::Instance().CleanUp();	// ゲーム終了処理
+	base.CleanUp();	// ゲーム終了処理
 	DxLib_End();
 	return 0;
 }
 
-void GameBase::SetUp() {
+void Base::SetUp() {
 	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定：リファクタリング→スカイボックスに変更するかも
 	SetMouseDispFlag(FALSE);	// マウスを非表示
 
@@ -108,7 +108,7 @@ void GameBase::SetUp() {
 	}
 }
 
-void GameBase::Initialization() {
+void Base::Initialization() {
 	// 座標やスコア等をリセットする
 	player.Initialization();
 	camera.Initialization();
@@ -117,7 +117,7 @@ void GameBase::Initialization() {
 	vewScore = 0;
 }
 
-void GameBase::CleanUp() {
+void Base::CleanUp() {
 	SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < FONT_TYPE_NUM; i++) {

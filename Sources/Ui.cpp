@@ -1,5 +1,4 @@
-﻿#include "DxLib.h"
-#include "Main.h"
+﻿#include "Main.h"
 #include "UI.h"
 #include "Score.h"
 #include "Stage.h"
@@ -50,12 +49,10 @@ void UISetUp() {
 /// <summary> 画面の状態に対応したUIを表示するメソッド </summary>
 void DrawUI(Player player)
 {
-	auto& base = GameBase::Instance();
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
 	// 取得したサイズをコンソールに出力する
-	if (IsDrawInGame()) {
-		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 95), COLOR_BLACK, base.GetFontData(MEDIUM).handle, "SCORE:%06d", highScore[GameBase::Instance().GetStageNumber()]);
-		DrawFormatStringToHandle(ScreenDrawPosI(screen.width, 1), ScreenDrawPosI(screen.height, 1), COLOR_BLACK, base.GetFontData(MEDIUM).handle, "STAGE.%d", GameBase::Instance().GetStageNumber());
+	if (base.IsDrawInGame()) {
+		DrawFormatStringToHandle(base.ScreenDrawPosI(base.screen.width, 1), base.ScreenDrawPosI(base.screen.height, 95), COLOR_BLACK, base.GetFontData(MEDIUM).handle, "SCORE:%06d", highScore[base.stageNumber]);
+		DrawFormatStringToHandle(base.ScreenDrawPosI(base.screen.width, 1), base.ScreenDrawPosI(base.screen.height, 1), COLOR_BLACK, base.GetFontData(MEDIUM).handle, "STAGE.%d", base.stageNumber);
 		DrawProgressRateBar(player, 50, 97, 96.5f);
 		if (currentScreenType == INGAME) {
 			DrawImage(21, 95, keyEscape);
@@ -65,7 +62,8 @@ void DrawUI(Player player)
 			DrawStartCountDown();
 		}
 		if (currentScreenType == PAUSE) {
-			DrawBox(ScreenDrawPosI(screen.width, 25), ScreenDrawPosI(screen.height, 25), ScreenDrawPosI(screen.width, 75), ScreenDrawPosI(screen.height, 75), COLOR_WHITEGRAY, TRUE);
+			DrawBox(base.ScreenDrawPosI(base.screen.width, 25), base.ScreenDrawPosI(base.screen.height, 25),
+				base.ScreenDrawPosI(base.screen.width, 75), base.ScreenDrawPosI(base.screen.height, 75), COLOR_WHITEGRAY, TRUE);
 			DrawTextString(0, 100, 32, "PAUSE", base.GetFontData(EXTRALARGE).handle);
 			DrawImage(20, 95, keyWASD);
 			DrawTextString(23.5f, 0, 95.8f, "Move", base.GetFontData(SMALL).handle);
@@ -73,7 +71,8 @@ void DrawUI(Player player)
 			DrawTextString(37.5f, 0, 95.8f, "Select", base.GetFontData(SMALL).handle);
 		}
 		if (currentScreenType == GAMEOVER) {
-			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
+			DrawBox(base.ScreenDrawPosI(base.screen.width, 23), base.ScreenDrawPosI(base.screen.height, 18), 
+				base.ScreenDrawPosI(base.screen.width, 77), base.ScreenDrawPosI(base.screen.height, 82), COLOR_WHITEGRAY, TRUE);
 			DrawTextString(0, 100, 25, "GAMEOVER", base.GetFontData(EXTRALARGE).handle);
 			DrawTextString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
 			DrawTextInt(27, 47, 51, "000000", base.GetFontData(LARGE).handle, score);
@@ -83,12 +82,13 @@ void DrawUI(Player player)
 			DrawTextString(37.5f, 0, 95.8f, "Select", base.GetFontData(SMALL).handle);
 		}
 		if (currentScreenType == CLEAR) {
-			DrawBox(ScreenDrawPosI(screen.width, 23), ScreenDrawPosI(screen.height, 18), ScreenDrawPosI(screen.width, 77), ScreenDrawPosI(screen.height, 82), COLOR_WHITEGRAY, TRUE);
+			DrawBox(base.ScreenDrawPosI(base.screen.width, 23), base.ScreenDrawPosI(base.screen.height, 18), 
+				base.ScreenDrawPosI(base.screen.width, 77), base.ScreenDrawPosI(base.screen.height, 82), COLOR_WHITEGRAY, TRUE);
 			DrawTextString(0, 100, 25, "STAGE CLEAR", base.GetFontData(EXTRALARGE).handle);
 			DrawTextString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
 			DrawTextInt(27, 47, 51, "000000", base.GetFontData(LARGE).handle, score);
 			DrawTextString(53, 73, 43, "HIGHSCORE", base.GetFontData(LARGE).handle);
-			DrawTextInt(53, 73, 51, "000000", base.GetFontData(LARGE).handle, highScore[GameBase::Instance().GetStageNumber()]);
+			DrawTextInt(53, 73, 51, "000000", base.GetFontData(LARGE).handle, highScore[base.stageNumber]);
 			DrawImage(20, 95, keyWASD);
 			DrawTextString(23.5f, 0, 95.8f, "Move", base.GetFontData(SMALL).handle);
 			DrawImage(32, 95, keySpace);
@@ -115,8 +115,8 @@ void DrawUI(Player player)
 }
 
 void SystemReset() {
-	buttonMovePos = START_BUTTON_POS;
-	buttonPos = START_BUTTON_POS;
+	buttonManager.buttonMovePos = START_BUTTON_POS;
+	buttonManager.buttonPos = START_BUTTON_POS;
 	currentScreenType = nextScreenType;
 	if (fadeStartCount != 0)fadeStartCount = 0;
 }
@@ -138,13 +138,13 @@ bool ScreenFadeControl() {
 		return false;
 	case FADEWAIT:		// 指定時間待機：待機中にUIの切り替えを行う
 		if (fadeStartCount == 0) {
-			GameBase::Instance().Initialization();
+			base.Initialization();
 			fadeStartCount = GetNowCount();
 		}
 		if ((fadeStartCount + FADE_WAIT_TIME) <= GetNowCount()) {
 			SystemReset();
 			fadeState = FADEIN;
-			if (currentScreenType == TITLE) GameBase::Instance().SetStageNumber(0);
+			if (currentScreenType == TITLE)base.stageNumber = 0;
 		}
 		ScreenFade(0);
 		return true;
@@ -159,16 +159,14 @@ bool ScreenFadeControl() {
 /// <param name="fadeSpeed">フェード速度</param>
 void ScreenFade(int fadeSpeed)
 {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	alphaValue = ClampNumI(alphaValue += fadeSpeed, 0, 255);
-	DrawBox(0, 0, screen.width, screen.height, COLOR_BLACK, TRUE);
+	alphaValue = base.ClampNumI(alphaValue += fadeSpeed, 0, 255);
+	DrawBox(0, 0, base.screen.width, base.screen.height, COLOR_BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 void TextFade(std::string text, int font) {
-	int fontData = GameBase::Instance().GetFontData(EXTRALARGE).handle;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
-	DrawTextString(0, 100, 45, drawText, fontData);
+	DrawTextString(0, 100, 45, drawText, base.fontData->handle);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
@@ -183,7 +181,7 @@ constexpr int WAITTIME_START = 420;
 #define TEXTFADEOUTSPEED2 -5
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void DrawStartCountDown() {
-	if (isFading||!GameBase::Instance().GetIsGameStop()) return;
+	if (isFading||!base.isGameStop) return;
 	if (previousText != drawText) {
 		previousText = drawText;
 		startTime = 0;
@@ -191,11 +189,11 @@ void DrawStartCountDown() {
 	if (startTime == 0) {
 		startTime = GetNowCount();
 	}
-	TextFade(drawText, GameBase::Instance().GetFontData(EXTRALARGE).handle);
+	TextFade(drawText, base.fontData[EXTRALARGE].handle);
 	if (startTime + waitTime > GetNowCount()) {
 		return;
 	}
-	alphaValue = ClampNumI(alphaValue + fadeSpeed, 0, 255);
+	alphaValue = base.ClampNumI(alphaValue + fadeSpeed, 0, 255);
 	if (alphaValue == 0) {
 		fadeSpeed = TEXTFADEINSPEED;
 		if (drawText != START_COUNTDOWN_2) {	// α値が0になったタイミングでテキストの状態を確認
@@ -203,7 +201,7 @@ void DrawStartCountDown() {
 			waitTime = WAITTIME_CHANGE;
 		}
 		else {	// 最後のテキストだった場合スタートカウントダウンを終了する
-			GameBase::Instance().SetIsGameStop(false);
+			base.isGameStop = false;
 			waitTime = WAITTIME_START;
 		}
 	}
@@ -219,50 +217,50 @@ void DrawStartCountDown() {
 	}
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
-	float x = ClampNumF(player.GetPosition().x / goalPosition[GameBase::Instance().GetStageNumber()], 0, 1);
+	float x = base.ClampNumF(player.GetPosition().x / goalPosition[base.stageNumber], 0, 1);
 	float w = (endPos - startPos) * x;
-	DrawBox(ScreenDrawPosI(screen.width, startPos), ScreenDrawPosI(screen.height, heightPos - 1), ScreenDrawPosI(screen.width, endPos), ScreenDrawPosI(screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);
-	DrawCircleAA(ScreenDrawPosF(screen.width, startPos), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
-	DrawCircleAA(ScreenDrawPosF(screen.width, endPos), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(200, 200, 200), TRUE);	// 終了地点
-	DrawBox(ScreenDrawPosI(screen.width, startPos), ScreenDrawPosI(screen.height, heightPos - 1), ScreenDrawPosI(screen.width, startPos + w), ScreenDrawPosI(screen.height, heightPos + 1), GetColor(0, 200, 0), TRUE);
-	DrawCircleAA(ScreenDrawPosF(screen.width, startPos + w), ScreenDrawPosF(screen.height, heightPos), ScreenDrawPosF(screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// プレイヤー座標
+	DrawBox(base.ScreenDrawPosI(base.screen.width, startPos), base.ScreenDrawPosI(base.screen.height, heightPos - 1),
+		base.ScreenDrawPosI(base.screen.width, endPos), base.ScreenDrawPosI(base.screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);
+	DrawCircleAA(base.ScreenDrawPosF(base.screen.width, startPos), base.ScreenDrawPosF(base.screen.height, heightPos),
+		base.ScreenDrawPosF(base.screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// 開始地点
+	DrawCircleAA(base.ScreenDrawPosF(base.screen.width, endPos), base.ScreenDrawPosF(base.screen.height, heightPos), 
+		base.ScreenDrawPosF(base.screen.width, 1), 64, GetColor(200, 200, 200), TRUE);	// 終了地点
+	DrawBox(base.ScreenDrawPosI(base.screen.width, startPos), base.ScreenDrawPosI(base.screen.height, heightPos - 1), 
+		base.ScreenDrawPosI(base.screen.width, startPos + w), base.ScreenDrawPosI(base.screen.height, heightPos + 1), GetColor(0, 200, 0), TRUE);
+	DrawCircleAA(base.ScreenDrawPosF(base.screen.width, startPos + w), base.ScreenDrawPosF(base.screen.height, heightPos),
+		base.ScreenDrawPosF(base.screen.width, 1), 64, GetColor(0, 200, 0), TRUE);	// プレイヤー座標
 }
 
 
 void DrawTextCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
-	FontData font = GameBase::Instance().GetFontData(fontType);
 
-	int drawPosX = TextDrawCenterPosX(left, right, text, font.handle);	// 左右中央を計算
-	int drawPosY = TextDrawCenterPosY(top, bottom, font.size, text);	// 上下中央を計算
-	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, font.handle);
+	int drawPosX = base.TextDrawCenterPosX(left, right, text, base.fontData[fontType].handle);	// 左右中央を計算
+	int drawPosY = base.TextDrawCenterPosY(top, bottom, base.fontData[fontType].size, text);	// 上下中央を計算
+	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, base.fontData[fontType].handle);
 }
 
 void DrawTextString(float leftPct, float rightPct, float heightPct, std::string text, int font) {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
-	float drawLeftPos = ScreenDrawPosF(screen.width, leftPct);
-	float drawRightPos = ScreenDrawPosF(screen.width, rightPct);
-	int drawPosX = drawLeftPos > drawRightPos ? (int)drawLeftPos : TextDrawCenterPosX(drawLeftPos, drawRightPos, text, font);
-	int drawPosY = ScreenDrawPosI(screen.height, heightPct);
+	float drawLeftPos = base.ScreenDrawPosF(base.screen.width, leftPct);
+	float drawRightPos = base.ScreenDrawPosF(base.screen.width, rightPct);
+	int drawPosX = drawLeftPos > drawRightPos ? (int)drawLeftPos : base.TextDrawCenterPosX(drawLeftPos, drawRightPos, text, font);
+	int drawPosY = base.ScreenDrawPosI(base.screen.height, heightPct);
 	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, font);
 }
 
 void DrawTextInt(float leftPct, float rightPct, float heightPct, std::string text, int font, int num) {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
-	float drawLeftPos = ScreenDrawPosF(screen.width, leftPct);
-	float drawRightPos = ScreenDrawPosF(screen.width, rightPct);
-	int drawPosX = drawLeftPos > drawRightPos ? (int)drawLeftPos : TextDrawCenterPosX(drawLeftPos, drawRightPos, text, font);
-	int drawPosY = ScreenDrawPosI(screen.height, heightPct);
+	float drawLeftPos = base.ScreenDrawPosF(base.screen.width, leftPct);
+	float drawRightPos = base.ScreenDrawPosF(base.screen.width, rightPct);
+	int drawPosX = drawLeftPos > drawRightPos ? (int)drawLeftPos : base.TextDrawCenterPosX(drawLeftPos, drawRightPos, text, font);
+	int drawPosY = base.ScreenDrawPosI(base.screen.height, heightPct);
 	DrawFormatStringToHandle(drawPosX, drawPosY, COLOR_BLACK, font, "%06d", num);
 }
 
 void DrawImage(float leftPct, float topPct, ImageData image) {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
 	// 実装環境の画面サイズとプレイ時の画面サイズでどれくらい差があるのか
-	float test = (float)screen.width / 2560;
+	float test = (float)base.screen.width / 2560;
 	// 左上頂点座標を計算
-	int x1 = ScreenDrawPosI(screen.width, leftPct);
-	int y1 = ScreenDrawPosI(screen.height, topPct);
+	int x1 = base.ScreenDrawPosI(base.screen.width, leftPct);
+	int y1 = base.ScreenDrawPosI(base.screen.height, topPct);
 	// 右下頂点座標を計算
 	int x2 = x1 + (int)((float)image.width * test);
 	int y2 = y1 + (int)((float)image.height * test);
@@ -273,6 +271,6 @@ void DrawImage(float leftPct, float topPct, ImageData image) {
 void ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 	nextScreenType = screen;
 	fadeState = fade;
-	GameBase::Instance().SetIsGameStop(true);
+	base.isGameStop = true;
 }
 

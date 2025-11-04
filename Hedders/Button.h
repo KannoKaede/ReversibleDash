@@ -1,8 +1,12 @@
 ﻿#pragma once
 #include "UI.h"		// 画面の状態を取得用
-#include "Main.h"	// 画面サイズ取得用
+#include <vector>
 
-const VECTOR START_BUTTON_POS = VGet(1, 1, 0);
+const VECTOR START_BUTTON_POS = VGet(1, 1, 0);	// 画面が変わるたびにボタンの位置を戻す座標
+constexpr int BUTTON_NUM_X = 6; // 横のボタン数
+constexpr int BUTTON_NUM_Y = 5; // 縦のボタン数
+constexpr int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
+
 class Button {
 public:
 	enum BUTTON_TYPE {
@@ -66,21 +70,23 @@ private:
 	bool isCenter;	// テキストをボタン中央に描画するか
 };
 
-/// <summary> どのボタンを選択しているかを返すメソッド </summary>
-/// <returns> 選択中のボタンのインスタンス </returns>
-Button* SelectGetButtonArray();
+class ButtonManager {
+public:
+	ButtonManager() :buttonArray({}), buttonMovePos(START_BUTTON_POS), buttonPos(START_BUTTON_POS) {}
+	std::vector<Button*> buttonArray;    // ボタンの配列
+	VECTOR buttonMovePos;    // ボタンの移動座標
+	VECTOR buttonPos;    // ボタンの選択位置
+	int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X];    // ボタンの配置マップ
 
-/// <summary> ボタンの移動処理を行うメソッド </summary>
-void ButtonMovement();
+	/// <summary> どのボタンを選択しているかを返すメソッド </summary>
+	/// <returns> 選択中のボタンのインスタンス </returns>
+	Button* SelectGetButtonArray();
 
-/// <summary> ボタンの押下処理を行うメソッド </summary>
-void ButtonPressed();
+	/// <summary> ボタンの移動処理を行うメソッド </summary>
+	void ButtonMovement();
 
+	/// <summary> ボタンの押下処理を行うメソッド </summary>
+	void ButtonPressed();
+};
 
-extern std::vector<Button*> buttonArray;    // ボタンの配列
-extern VECTOR buttonMovePos;    // ボタンの移動座標
-extern VECTOR buttonPos;    // ボタンの選択位置
-constexpr int BUTTON_NUM_X = 6; // 横のボタン数
-constexpr int BUTTON_NUM_Y = 5; // 縦のボタン数
-constexpr int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
-extern int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X];    // ボタンの配置マップ
+extern ButtonManager buttonManager;

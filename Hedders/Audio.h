@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Main.h"
+#include "DxLib.h"
 
 enum SeType {	// SEの種類を定義
 	BUTTON_MOVE,	// ボタン移動音

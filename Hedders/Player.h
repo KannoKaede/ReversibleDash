@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "DxLib.h"
 #include "Main.h"
 
 constexpr float BOTTOM_GROUND = 40.0f;	// 下側の地面の座標
@@ -8,7 +9,7 @@ constexpr float GRAVITY = 0.7f;			// 重力
 constexpr int JUMP_LOCK_TIME = 370;		// ジャンプ長押しが出来る時間
 constexpr float JUMP_POWER = 10;		// ジャンプ力
 const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 250);
-const VECTOR START_PLAYER_ROT = VGet(0, ChangeRadians(-90.0f), 0);
+const VECTOR START_PLAYER_ROT = VGet(0, base.ChangeRadians(-90.0f), 0);
 const VECTOR START_PLAYER_SCALE = VGet(30, 100, 0);
 class Player {
 public:
@@ -59,6 +60,10 @@ public:
 	int GetChangeSpeedCount()const;
 
 	void PlayAnimation(ModelData player, bool isLoop);
+	bool isFall;		// 現在落下中か
+	bool isGround;	// 現在ジャンプ中か判定
+	bool isGravityBottom;	// 上下どちらの地面にいるか判定
+	float groundPosY;	// 接地した地面の座標Y
 private:
 	ModelData modelData[3] = {};
 
@@ -74,7 +79,3 @@ private:
 	float jumpPower = {};	// 実際のジャンプ力を入れる変数
 	int modelIndex = {};		// 使用するモデルアニメーション
 };
-extern bool isFall;		// 現在落下中か
-extern bool isGround;	// 現在ジャンプ中か判定
-extern bool isGravityBottom;	// 上下どちらの地面にいるか判定
-extern float groundPosY;	// 接地した地面の座標Y

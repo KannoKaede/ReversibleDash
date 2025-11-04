@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Main.h"
+#include <string>
 #include "Stage.h"
 
 constexpr int ADD_SCORE_10 = 10;	// viewScoreに加算するスコアの値

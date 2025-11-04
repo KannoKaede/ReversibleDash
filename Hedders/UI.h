@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include <string>
 #include "DxLib.h"
 #include "Player.h"
+#include <string>
 
 constexpr int FADE_SPEED = 6;	// フェード速度
 constexpr int FADE_WAIT_TIME = 500;	// フェードの待機時間

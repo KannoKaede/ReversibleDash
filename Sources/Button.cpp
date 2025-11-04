@@ -1,6 +1,9 @@
-﻿#include "Button.h"
+﻿#include "Audio.h"
+#include "Button.h"
+#include "Input.h"
+#include "Main.h"
 
-std::vector<Button*> buttonArray;
+ButtonManager buttonManager;
 
 Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font, bool isCenterPos) {
 	belongScreen = screen;
@@ -13,17 +16,16 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 	drawText = text;
 	fontType = font;
 	isCenter = isCenterPos;
-	buttonArray.push_back(this);
+	buttonManager.buttonArray.push_back(this);
 }
 
 void Button::Draw()const {
-	ScreenSize screen = GameBase::Instance().GetScreenSize();
 	// ボタンの座標をスクリーン座標に変換
-	int drawPosX = ScreenDrawPosI(screen.width, centerPos.x);
-	int drawPosY = ScreenDrawPosI(screen.height, centerPos.y);
+	int drawPosX = base.ScreenDrawPosI(base.screen.width, centerPos.x);
+	int drawPosY = base.ScreenDrawPosI(base.screen.height, centerPos.y);
 	// ボタンの幅と高さをスクリーン座標に変換する
-	int width = ScreenDrawPosI(screen.width, (float)widthLength);
-	int height = ScreenDrawPosI(screen.height, (float)heightLength);
+	int width = base.ScreenDrawPosI(base.screen.width, (float)widthLength);
+	int height = base.ScreenDrawPosI(base.screen.height, (float)heightLength);
 
 	DrawBox((drawPosX - width), (drawPosY - height), (drawPosX + width), (drawPosY + height), buttonColor, TRUE);	// ボタン本体
 	DrawBox(drawPosX, (drawPosY + (int)(height * 0.9f)), (drawPosX + width), (drawPosY + (int)(height * 1.35f)), buttonColor, TRUE);	// ボタン右下の長方形
@@ -71,7 +73,7 @@ int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }  // STAGECLEAR
 };
 
-void ButtonMovement() {
+void ButtonManager::ButtonMovement() {
 	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
 	for (auto* btn : buttonArray) {
 		if (btn->GetBelongScreen() == currentScreenType) {
@@ -88,8 +90,8 @@ void ButtonMovement() {
 	}
 
 	// ボタンの移動範囲を制限
-	buttonMovePos.x = ClampNumF(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
-	buttonMovePos.y = ClampNumF(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
+	buttonMovePos.x = base.ClampNumF(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
+	buttonMovePos.y = base.ClampNumF(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
 	// ボタンを押しているかのフラグを立てる：画面を変えた際にボタンのボタンの座標がずれてビープ音が鳴るのを防ぐ
 	bool isMoveInput = CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_RIGHT) || CheckHitKeyDown(KEY_INPUT_W) || CheckHitKeyDown(KEY_INPUT_S) || CheckHitKeyDown(KEY_INPUT_A) || CheckHitKeyDown(KEY_INPUT_D);
@@ -109,7 +111,7 @@ void ButtonMovement() {
 	}
 }
 
-void ButtonPressed() {
+void ButtonManager::ButtonPressed() {
 	if (isFading) return;
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) || CheckHitKeyDown(KEY_INPUT_RETURN)) {
 		PlaySE(se[BUTTON_SELECT]);	// 押されたら選択音を鳴らす
@@ -118,7 +120,7 @@ void ButtonPressed() {
 		{
 		case Button::GAMESTART:
 			ChangeUIState(INGAME, FADEOUT);
-			GameBase::Instance().SetStageNumber(1);
+			base.stageNumber = 1;
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::RESUME:
@@ -130,7 +132,7 @@ void ButtonPressed() {
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::NEXTSTAGE:
-			GameBase::Instance().SetStageNumber(GameBase::Instance().GetStageNumber()+1);
+			base.stageNumber++;
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
 			break;
@@ -146,32 +148,32 @@ void ButtonPressed() {
 		case Button::SELECTSTAGE1:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(1);
+			base.stageNumber = 1;
 			break;
 		case Button::SELECTSTAGE2:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(2);
+			base.stageNumber = 2;
 			break;
 		case Button::SELECTSTAGE3:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(3);
+			base.stageNumber = 3;
 			break;
 		case Button::SELECTSTAGE4:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(4);
+			base.stageNumber = 4;
 			break;
 		case Button::SELECTSTAGE5:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(5);
+			base.stageNumber = 5;
 			break;
 		case Button::SELECTSTAGE6:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			GameBase::Instance().SetStageNumber(6);
+			base.stageNumber = 6;
 			break;
 		case Button::GAMEEXIT:
 			ChangeUIState(TITLE, FADEOUT);
@@ -180,7 +182,7 @@ void ButtonPressed() {
 	}
 }
 
-Button* SelectGetButtonArray() {
+Button* ButtonManager::SelectGetButtonArray() {
 	for (auto* btn : buttonArray) {
 		// 属している画面、ボタンの座標が一致するボタンを返す
 		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && btn->GetBelongScreen() == currentScreenType)

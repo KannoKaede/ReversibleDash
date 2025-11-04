@@ -1,7 +1,8 @@
-﻿#include "UI.h"
-#include "Score.h"
+﻿#include "Score.h"
 #include "Stage.h"
-// 全体像が完成したらリファクタリングする（ハイスコアはセーブデータに保存するように変更）
+#include <fstream>
+#include "UI.h"
+
 int score;
 int highScore[MAX_STAGE_NUM];
 int vewScore;
@@ -34,8 +35,8 @@ void InGameScoreView() {
 
 void HighScoreCheck() {
 	// ステージのハイスコアより高い場合は更新する
-	if (highScore[GameBase::Instance().GetStageNumber()] < score) {
-		highScore[GameBase::Instance().GetStageNumber()] = score;
+	if (highScore[base.stageNumber] < score) {
+		highScore[base.stageNumber] = score;
 	}
 }
 

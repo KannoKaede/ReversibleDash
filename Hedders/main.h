@@ -1,11 +1,5 @@
 ﻿#pragma once
 #include "DxLib.h"
-#include "Audio.h"
-#include "Input.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <cmath>
 #include <string>
 
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
@@ -31,83 +25,75 @@ struct FontData {
 	int size;			// フォントサイズ
 };
 
-class GameBase {
+class Base {
 public:
-	static GameBase& Instance() {
-		static GameBase instance;
-		return instance;
-	}
+	Base() :screen(), fontData(), stageNumber(0), isGameStop(true) {}	// コンストラクタ
+
+	ScreenSize screen;	// 画面サイズ情報
+	FontData fontData[FONT_TYPE_NUM];	// フォント情報
+	int stageNumber;	// ステージ番号
+	bool isGameStop;	// ゲームが停止しているかのフラグ
 
 	void SetScreenSize();
 	void SetUp();
 	void Initialization();
 	void CleanUp();
-	void SetStageNumber(int num);
-	int GetStageNumber();
-	void SetIsGameStop(bool changeBool);
-	bool GetIsGameStop();
-	ScreenSize GetScreenSize();
 	FontData GetFontData(int number);
+
+	/// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>
+/// <param name="num"> 指定の値に収めたい変数 </param>
+/// <param name="min"> 収める際の最小値 </param>
+/// <param name="max"> 収める際の最大値 </param>
+/// <returns> 指定の範囲に収められた値 </returns>
+	int ClampNumI(int num, int min, int max);
+
+	/// <summary> 値を指定の範囲にfloat型で収めて返すメソッド </summary>
+	/// <param name="num"> 指定の値に収めたい変数 </param>
+	/// <param name="min"> 収める際の最小値 </param>
+	/// <param name="max"> 収める際の最大値 </param>
+	/// <returns> 指定の範囲に収められた値 </returns>
+	float ClampNumF(float num, float min, float max);
+
+	/// <summary> 描画座標をint型で返すメソッド </summary>
+	/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
+	/// <param name="drawPosPercent"> 描画したい場所（％） </param>
+	/// <returns> スクリーン描画座標 </returns>
+	int ScreenDrawPosI(int screenSize, float drawPosPercent);
+
+	/// <summary> 描画座標をfloat型で返すメソッド </summary>
+	/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
+	/// <param name="drawPosPercent"> 描画したい場所（％） </param>
+	/// <returns> スクリーン描画座標 </returns>
+	float ScreenDrawPosF(int screenSize, float drawPosPercent);
+
+	/// <summary> テキストを左右中央に配置するための座標を返すメソッド </summary>
+	/// <param name="left"> 収めたい枠の左端座標 </param>
+	/// <param name="right"> 収めたい枠の右端座標 </param>
+	/// <param name="text"> 表示するテキスト </param>
+	/// <param name="font"> 使用するフォント </param>
+	/// <returns> 左右中央に配置するための座標X </returns>
+	int TextDrawCenterPosX(float left, float right, std::string text, int font);
+
+	/// <summary> テキストを上下秋桜に配置するための座標を返すメソッド </summary>
+	/// <param name="top"> 収めたい枠の上部座標 </param>
+	/// <param name="bottom"> 収めたい枠の下部座標 </param>
+	/// <param name="fontSize"> 使用するフォントのサイズ </param>
+	/// <param name="text"> 表示するテキスト </param>
+	/// <returns> 上下中央に配置するための座標Y </returns>
+	int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text);
+
+	/// <summary> インゲームのステージやプレイヤーを表示するかのフラグを返すメソッド </summary>
+	/// <returns> インゲームを描画するかのフラグ </returns>
+	bool IsDrawInGame();
+
+	/// <summary> 度数法をラジアンに変換して返すメソッド </summary>
+	/// <param name="num"> 度数法での角度 </param>
+	/// <returns> ラジアンに変換された角度 </returns>
+	constexpr float ChangeRadians(float num);
 private:
-	GameBase() {}
-	GameBase(const GameBase&) = delete;
-	GameBase& operator = (const GameBase&) = delete;
-	ScreenSize screen = {};
-	FontData fontData[FONT_TYPE_NUM] = {};
-	int stageNumber = {};
-	bool isGameStop = true;
 };
 
-/// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>
-/// <param name="num"> 指定の値に収めたい変数 </param>
-/// <param name="min"> 収める際の最小値 </param>
-/// <param name="max"> 収める際の最大値 </param>
-/// <returns> 指定の範囲に収められた値 </returns>
-int ClampNumI(int num, int min, int max);
-
-/// <summary> 値を指定の範囲にfloat型で収めて返すメソッド </summary>
-/// <param name="num"> 指定の値に収めたい変数 </param>
-/// <param name="min"> 収める際の最小値 </param>
-/// <param name="max"> 収める際の最大値 </param>
-/// <returns> 指定の範囲に収められた値 </returns>
-float ClampNumF(float num, float min, float max);
-
-/// <summary> 描画座標をint型で返すメソッド </summary>
-/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
-/// <param name="drawPosPercent"> 描画したい場所（％） </param>
-/// <returns> スクリーン描画座標 </returns>
-int ScreenDrawPosI(int screenSize, float drawPosPercent);
-
-/// <summary> 描画座標をfloat型で返すメソッド </summary>
-/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
-/// <param name="drawPosPercent"> 描画したい場所（％） </param>
-/// <returns> スクリーン描画座標 </returns>
-float ScreenDrawPosF(int screenSize, float drawPosPercent);
-
-/// <summary> テキストを左右中央に配置するための座標を返すメソッド </summary>
-/// <param name="left"> 収めたい枠の左端座標 </param>
-/// <param name="right"> 収めたい枠の右端座標 </param>
-/// <param name="text"> 表示するテキスト </param>
-/// <param name="font"> 使用するフォント </param>
-/// <returns> 左右中央に配置するための座標X </returns>
-int TextDrawCenterPosX(float left, float right, std::string text, int font);
-
-/// <summary> テキストを上下秋桜に配置するための座標を返すメソッド </summary>
-/// <param name="top"> 収めたい枠の上部座標 </param>
-/// <param name="bottom"> 収めたい枠の下部座標 </param>
-/// <param name="fontSize"> 使用するフォントのサイズ </param>
-/// <param name="text"> 表示するテキスト </param>
-/// <returns> 上下中央に配置するための座標Y </returns>
-int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text);
-
-/// <summary> インゲームのステージやプレイヤーを表示するかのフラグを返すメソッド </summary>
-/// <returns> インゲームを描画するかのフラグ </returns>
-bool IsDrawInGame();
-
-/// <summary> 度数法をラジアンに変換して返すメソッド </summary>
-/// <param name="num"> 度数法での角度 </param>
-/// <returns> ラジアンに変換された角度 </returns>
-constexpr float ChangeRadians(float num);
+extern Base base;
 
 // 起動時　車の中で外を眺めているムービーを作成
 // タイトル画面　Escapeを押したらゲーム説明画面を表示

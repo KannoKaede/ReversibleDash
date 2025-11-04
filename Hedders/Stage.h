@@ -1,56 +1,57 @@
-#pragma once
-#include "Main.h"
+﻿#pragma once
+#include "DxLib.h"
 #include "Player.h"
 
-constexpr float CLEARCANGE_POS = 1500;	// �S�[����ɃN���A��ʂɈړ�����܂łɕK�v�ȋ���
-const int MAX_STAGE_NUM = 7;    //�X�e�[�W�̍ő吔�F�z��Ŏg�p���邽�߃X�e�[�W���{�P
-const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// �S�[�����W
-constexpr float DRAW_BACKSTAGE_X = 23700;	// �X�e�[�W�w�i�̕`��J�n���WX
-constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// �X�e�[�W���Ƃ̃X�e�[�W�w�i�̕`��J�n���WZ
-constexpr float OBJ_HEIGHT = 70.0f;	// �I�u�W�F�N�g�̍���
-constexpr float OBJ_RADIUS = 40.0f;	// �I�u�W�F�N�g�̔��a
+constexpr float CLEARCANGE_POS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
+const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
+const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標
+constexpr float DRAW_BACKSTAGE_X = 23700;	// ステージ背景の描画開始座標X
+constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
+constexpr float OBJ_HEIGHT = 70.0f;	// オブジェクトの高さ
+constexpr float OBJ_RADIUS = 40.0f;	// オブジェクトの半径
 class Stage {
 public:
-	/// <summary> �R���X�g���N�^ </summary>
-	Stage();
+	/// <summary> コンストラクタ </summary>
+	Stage():object({ VGet(200,TOP_GROUND,0),-70,5000 }),ground({ VGet(0,0,0),40,10000 } ){}
 
-	/// <summary> �X�e�[�W�����ݒ胁�\�b�h </summary>
+	/// <summary> ステージ初期設定メソッド </summary>
 	void SetUp();
 
-	/// <summary> �X�e�[�W�`�惁�\�b�h </summary>
-	/// <param name="player"> �v���C���[�C���X�^���X </param>
-	void Draw(Player player);
+	/// <summary> ステージ描画メソッド </summary>
+	/// <param name="player"> プレイヤーインスタンス </param>
+	void Draw(Player& player);
 
-	/// <summary> �N���A��ʂɑJ�ڏo���邩��Ԃ����\�b�h </summary>
-	/// <param name="x"> �v���C���[��X���W </param>
-	/// <returns> �N���A��ʂɑJ�ڂ��邩�ۂ� </returns>
+	/// <summary> クリア画面に遷移出来るかを返すメソッド </summary>
+	/// <param name="x"> プレイヤーのX座標 </param>
+	/// <returns> クリア画面に遷移するか否か </returns>
 	bool IsGoal(float playerX);
 
-	/// <summary> �w�i�X�e�[�W�̃��f����Ԃ����\�b�h </summary>
+	/// <summary> 背景ステージのモデルを返すメソッド </summary>
 	/// <returns> backStageHandle </returns>
 	int GetBackStageHandle()const;
 
-	/// <summary> �X�e�[�W���Z�b�g���\�b�h </summary>
+	/// <summary> ステージリセットメソッド </summary>
 	void Initialization();
 private:
-	int backStageHandle = {};	// �w�i�X�e�[�W�̃��f���n���h��
-	struct ObjData {	// �I�u�W�F�N�g�̃f�[�^�\����
-		VECTOR position;	// ���W
-		float height;	// ����
-		float radius;	// ���a
+	int backStageHandle = {};	// 背景ステージのモデルハンドル
+	struct ObjData {	// オブジェクトのデータ構造体
+		VECTOR position;	// 座標
+		float height;	// 高さ
+		float radius;	// 半径
 	};
-	ObjData object = { VGet(200,TOP_GROUND,0),-70,5000 };	// �e�X�g�F�n�ʂ̃I�u�W�F�N�g
-	ObjData ground = { VGet(0,0,0),40,10000 }; ;	// �e�X�g��̃I�u�W�F�N�g
-	VECTOR backDrawPos = {};	// �w�i�X�e�[�W�̕`����W
+	ObjData object;	// テスト：地面のオブジェクト
+	ObjData ground;	// テスト上のオブジェクト
+	VECTOR backDrawPos = {};	// 背景ステージの描画座標
 
-	/// <summary> �w�i�X�e�[�W��`�悷�郁�\�b�h </summary>
-	/// <param name="player"> �v���C���[�̃C���X�^���X </param>
+	/// <summary> 背景ステージを描画するメソッド </summary>
+	/// <param name="player"> プレイヤーのインスタンス </param>
 	void DrawBackStage(Player player);
 
-	/// <summary> �I�u�W�F�N�g�ƃv���C���[�̏Փ˔����Ԃ����\�b�h </summary>
-	/// <param name="player"> �v���C���[�̃C���X�^���X </param>
-	/// <param name="obj"> ������s���I�u�W�F�N�g </param>
-	/// <param name="isObstacles"> �n�ʂƂ��Ĕ��肷�邩��Q���Ƃ��Ĕ��肷�邩�̃t���O�F��Q�� = true </param>
-	/// <returns> �Փ˂��Ă��邩�ۂ� </returns>
-	bool IsCollision(Player player, ObjData obj, bool isObstacles);
+	/// <summary> オブジェクトとプレイヤーの衝突判定を返すメソッド </summary>
+	/// <param name="player"> プレイヤーのインスタンス </param>
+	/// <param name="obj"> 判定を行うオブジェクト </param>
+	/// <param name="isObstacles"> 地面として判定するか障害物として判定するかのフラグ：障害物 = true </param>
+	/// <returns> 衝突しているか否か </returns>
+	bool IsCollision(Player& player, ObjData obj, bool isObstacles);
 };
+extern Stage stage;

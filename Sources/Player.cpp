@@ -1,6 +1,7 @@
-﻿#include "Player.h"
-#include "Main.h"
+﻿#include "Input.h"
+#include "Player.h"
 #include "Score.h"
+#include "Stage.h"
 
 int modelIndex = 0;
 
@@ -22,9 +23,9 @@ void Player::SetUp() {
 void Player::Move() {
 	// モデルの座標更新と描画を先に行う
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
-	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0, ChangeRadians(-90.0f), 0) : VGet(ChangeRadians(180), ChangeRadians(90), 0));
+	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0, base.ChangeRadians(-90.0f), 0) : VGet(base.ChangeRadians(180), base.ChangeRadians(90), 0));
 	MV1DrawModel(modelData[modelIndex].model);
-	if (GameBase::Instance().GetIsGameStop())return;
+	if (base.isGameStop)return;
 	if (isGround) {	// 地面にいる場合は走るアニメーションを再生
 		modelIndex = 0;
 		PlayAnimation(modelData[modelIndex], true);
@@ -32,7 +33,7 @@ void Player::Move() {
 	transform.position.x += moveSpeed;
 
 	// 速度変更処理：ゴール地点の1/4ごとに速度を上げていく
-	float speedUpPos = goalPosition[GameBase::Instance().GetStageNumber()] / 4;
+	float speedUpPos = goalPosition[base.stageNumber] / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
@@ -46,7 +47,7 @@ bool isFall;	// 落下中かの判定
 bool isGravityBottom;
 float groundPosY;
 void Player::Jump() {
-	if (GameBase::Instance().GetIsGameStop())return;
+	if (base.isGameStop)return;
 
 	// 入力制御
 	if (CheckHitKeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
@@ -130,12 +131,12 @@ int Player::GetChangeSpeedCount()const {
 }
 
 float playTime;
-int test;
+int previousModel;
 float totalTime;
 void Player::PlayAnimation(ModelData player, bool isLoop) {
-	if (test != player.model) {	// モデルが変わったら再生時間をリセット
+	if (previousModel != player.model) {	// モデルが変わったら再生時間をリセット
 		playTime = 0;
-		test = player.model;
+		previousModel = player.model;
 	}
 	// アニメーションのそう再生時間を取得し、それを超えるまでアニメーションを進める
 	totalTime = MV1GetAttachAnimTotalTime(modelData[modelIndex].model, modelData[modelIndex].anime);
