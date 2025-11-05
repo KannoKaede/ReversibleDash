@@ -27,9 +27,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			player.Move();
 			player.Jump();
 			camera.Move(player);
-			stage.Draw(player);
+			stageManager.Draw(player);
 			InGameScoreView();
-			if (!base.isGameStop && stage.IsGoal(player.GetPosition().x)) {
+			if (!base.isGameStop && stageManager.IsClear(player.GetPosition().x)) {
 				HighScoreCheck();
 				ChangeUIState(CLEAR, SCREENSETUP);
 			}
@@ -83,20 +83,20 @@ void Base::SetUp() {
 	// その他、初期設定を行うものをここでまとめて行う
 	UISetUp();
 	AudioSetUp();
-	stage.SetUp();
+	stageManager.SetUp();
 	player.SetUp();
 	camera.SetUp();
 	light.SetUp();
 	LoadHighScore();
 
 	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
-	for (int i = 0; i < MV1GetMaterialNum(stage.GetBackStageHandle()); i++)	// ステージのモデル
+	for (int i = 0; i < MV1GetMaterialNum(stageManager.GetCityHandle()); i++)	// ステージのモデル
 	{
-		MV1SetMaterialDifColor(stage.GetBackStageHandle(), i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
-		MV1SetMaterialAmbColor(stage.GetBackStageHandle(), i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
-		MV1SetMaterialSpcColor(stage.GetBackStageHandle(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-		MV1SetMaterialEmiColor(stage.GetBackStageHandle(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-		MV1SetMaterialSpcPower(stage.GetBackStageHandle(), i, 3.0f);
+		MV1SetMaterialDifColor(stageManager.GetCityHandle(), i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+		MV1SetMaterialAmbColor(stageManager.GetCityHandle(), i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+		MV1SetMaterialSpcColor(stageManager.GetCityHandle(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+		MV1SetMaterialEmiColor(stageManager.GetCityHandle(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+		MV1SetMaterialSpcPower(stageManager.GetCityHandle(), i, 3.0f);
 	}
 	for (int i = 0; i < MV1GetMaterialNum(player.GetModel()); i++)	// プレイヤーのモデル
 	{
@@ -112,7 +112,7 @@ void Base::Initialization() {
 	// 座標やスコア等をリセットする
 	player.Initialization();
 	camera.Initialization();
-	stage.Initialization();
+	stageManager.Initialization();
 	score = 0;
 	vewScore = 0;
 }

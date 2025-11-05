@@ -154,6 +154,15 @@
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
     <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1" />
     <None Include="Resource\PlayerAnimations\Player_Run.mv1" />
+    <None Include="Resource\Stage\city.mv1" />
+    <None Include="Resource\Stage\LargeCar\LargeCar_1.mv1" />
+    <None Include="Resource\Stage\LargeCar\LargeCar_2.mv1" />
+    <None Include="Resource\Stage\LargeCar\LargeCar_3.mv1" />
+    <None Include="Resource\Stage\LargeCar\LargeCar_4.mv1" />
+    <None Include="Resource\Stage\SmallCar\SmallCar_1.mv1" />
+    <None Include="Resource\Stage\SmallCar\SmallCar_2.mv1" />
+    <None Include="Resource\Stage\SmallCar\SmallCar_3.mv1" />
+    <None Include="Resource\Stage\SmallCar\SmallCar_4.mv1" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\3dSetting.cpp" />

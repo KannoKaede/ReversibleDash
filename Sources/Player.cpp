@@ -33,7 +33,7 @@ void Player::Move() {
 	transform.position.x += moveSpeed;
 
 	// 速度変更処理：ゴール地点の1/4ごとに速度を上げていく
-	float speedUpPos = goalPosition[base.stageNumber] / 4;
+	float speedUpPos = stageManager.GetGoalPosition(base.stageNumber) / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
