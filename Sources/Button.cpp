@@ -21,11 +21,11 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 
 void Button::Draw()const {
 	// ボタンの座標をスクリーン座標に変換
-	int drawPosX = base.ScreenDrawPosI(base.screen.width, centerPos.x);
-	int drawPosY = base.ScreenDrawPosI(base.screen.height, centerPos.y);
+	int drawPosX = base.ScreenDrawPosI(base.GetScreen().width, centerPos.x);
+	int drawPosY = base.ScreenDrawPosI(base.GetScreen().height, centerPos.y);
 	// ボタンの幅と高さをスクリーン座標に変換する
-	int width = base.ScreenDrawPosI(base.screen.width, (float)widthLength);
-	int height = base.ScreenDrawPosI(base.screen.height, (float)heightLength);
+	int width = base.ScreenDrawPosI(base.GetScreen().width, (float)widthLength);
+	int height = base.ScreenDrawPosI(base.GetScreen().height, (float)heightLength);
 
 	DrawBox((drawPosX - width), (drawPosY - height), (drawPosX + width), (drawPosY + height), buttonColor, TRUE);	// ボタン本体
 	DrawBox(drawPosX, (drawPosY + (int)(height * 0.9f)), (drawPosX + width), (drawPosY + (int)(height * 1.35f)), buttonColor, TRUE);	// ボタン右下の長方形
@@ -70,10 +70,10 @@ void ButtonManager::ButtonMovement() {
 	}
 	// フェード中にボタンを移動できないようにする
 	if (!isFading) {
-		if (CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
-		if (CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_S)) buttonMovePos.y += 1;
-		if (CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_A)) buttonMovePos.x += -1;
-		if (CheckHitKeyDown(KEY_INPUT_RIGHT) || CheckHitKeyDown(KEY_INPUT_D)) buttonMovePos.x += 1;
+		if (input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
+		if (input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_S)) buttonMovePos.y += 1;
+		if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) buttonMovePos.x += -1;
+		if (input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_D)) buttonMovePos.x += 1;
 	}
 
 	// ボタンの移動範囲を制限
@@ -81,13 +81,13 @@ void ButtonManager::ButtonMovement() {
 	buttonMovePos.y = base.ClampNumF(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
 	// ボタンを押しているかのフラグを立てる：画面を変えた際にボタンのボタンの座標がずれてビープ音が鳴るのを防ぐ
-	bool isMoveInput = CheckHitKeyDown(KEY_INPUT_UP) || CheckHitKeyDown(KEY_INPUT_DOWN) || CheckHitKeyDown(KEY_INPUT_LEFT) || CheckHitKeyDown(KEY_INPUT_RIGHT) || CheckHitKeyDown(KEY_INPUT_W) || CheckHitKeyDown(KEY_INPUT_S) || CheckHitKeyDown(KEY_INPUT_A) || CheckHitKeyDown(KEY_INPUT_D);
+	bool isMoveInput = input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_W) || input.KeyDown(KEY_INPUT_S) || input.KeyDown(KEY_INPUT_A) || input.KeyDown(KEY_INPUT_D);
 	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {	// 移動先にボタンが無い場合はビープ音を鳴らして移動前の座標に戻す
-		if (isMoveInput)PlaySE(se[BUTTON_BEEP]);
+		if (isMoveInput)audioManager.PlaySE(audioManager.BUTTON_BEEP);
 		buttonMovePos = buttonPos;
 	}
 	else if (buttonPos.x != buttonMovePos.x || buttonPos.y != buttonMovePos.y) {	// 移動先にボタンがある、かつボタンの座標が変わっている場合は移動音を鳴らす
-		PlaySE(se[BUTTON_MOVE]);
+		audioManager.PlaySE(audioManager.BUTTON_MOVE);
 	}
 	buttonPos = buttonMovePos;	// ボタンの座標を更新
 
@@ -100,14 +100,14 @@ void ButtonManager::ButtonMovement() {
 
 void ButtonManager::ButtonPressed() {
 	if (isFading) return;
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) || CheckHitKeyDown(KEY_INPUT_RETURN)) {
-		PlaySE(se[BUTTON_SELECT]);	// 押されたら選択音を鳴らす
+	if (input.KeyDown(KEY_INPUT_SPACE) || input.KeyDown(KEY_INPUT_RETURN)) {
+		audioManager.PlaySE(audioManager.BUTTON_SELECT);	// 押されたら選択音を鳴らす
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
 		case Button::GAMESTART:
 			ChangeUIState(INGAME, FADEOUT);
-			base.stageNumber = 1;
+			base.SetStageNumber(1);
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::RESUME:
@@ -119,7 +119,7 @@ void ButtonManager::ButtonPressed() {
 			drawText = START_COUNTDOWN_1;
 			break;
 		case Button::NEXTSTAGE:
-			base.stageNumber++;
+			base.SetStageNumber(base.GetStageNumber() + 1);
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
 			break;
@@ -135,32 +135,32 @@ void ButtonManager::ButtonPressed() {
 		case Button::SELECTSTAGE1:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 1;
+			base.SetStageNumber(1);
 			break;
 		case Button::SELECTSTAGE2:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 2;
+			base.SetStageNumber(2);
 			break;
 		case Button::SELECTSTAGE3:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 3;
+			base.SetStageNumber(3);
 			break;
 		case Button::SELECTSTAGE4:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 4;
+			base.SetStageNumber(4);
 			break;
 		case Button::SELECTSTAGE5:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 5;
+			base.SetStageNumber(5);
 			break;
 		case Button::SELECTSTAGE6:
 			ChangeUIState(INGAME, FADEOUT);
 			drawText = START_COUNTDOWN_1;
-			base.stageNumber = 6;
+			base.SetStageNumber(6);
 			break;
 		case Button::GAMEEXIT:
 			ChangeUIState(TITLE, FADEOUT);

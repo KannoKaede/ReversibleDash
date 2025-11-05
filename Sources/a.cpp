@@ -1,6 +1,6 @@
-﻿#include "Audio.h"
+﻿#include "CameraLight.h"
+#include "Audio.h"
 #include "Button.h"
-#include "CameraLight.h"
 #include "Input.h"
 #include "Main.h"
 #include "Player.h"
@@ -28,7 +28,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			cameraLight.CameraMove(player);
 			stageManager.Draw(player);
 			InGameScoreView();
-			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
+			if (!base.isGameStop && stageManager.IsClear(player.GetPosition().x)) {
 				HighScoreCheck();
 				ChangeUIState(CLEAR, SCREENSETUP);
 			}

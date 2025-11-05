@@ -1,5 +1,10 @@
-D:\ReversibleDash\InGame.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\InGame.obj
-D:\ReversibleDash\Main.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Main.obj
-D:\ReversibleDash\Player.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Player.obj
-D:\ReversibleDash\Score.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Score.obj
-D:\ReversibleDash\Ui.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Ui.obj
+D:\ReversibleDash\Sources\Audio.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Audio.obj
+D:\ReversibleDash\Sources\Base.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Base.obj
+D:\ReversibleDash\Sources\Button.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Button.obj
+D:\ReversibleDash\Sources\CameraLight.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\CameraLight.obj
+D:\ReversibleDash\Sources\Input.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Input.obj
+D:\ReversibleDash\Sources\Main.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Main.obj
+D:\ReversibleDash\Sources\Player.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Player.obj
+D:\ReversibleDash\Sources\Score.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Score.obj
+D:\ReversibleDash\Sources\Stage.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\Stage.obj
+D:\ReversibleDash\Sources\UI.cpp;D:\ReversibleDash\ReversibleDash\x64\Debug\UI.obj

@@ -25,7 +25,7 @@ void Player::Move() {
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
 	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0, base.ChangeRadians(-90.0f), 0) : VGet(base.ChangeRadians(180), base.ChangeRadians(90), 0));
 	MV1DrawModel(modelData[modelIndex].model);
-	if (base.isGameStop)return;
+	if (base.GetIsGameStop())return;
 	if (isGround) {	// 地面にいる場合は走るアニメーションを再生
 		modelIndex = 0;
 		PlayAnimation(modelData[modelIndex], true);
@@ -33,7 +33,7 @@ void Player::Move() {
 	transform.position.x += moveSpeed;
 
 	// 速度変更処理：ゴール地点の1/4ごとに速度を上げていく
-	float speedUpPos = stageManager.GetGoalPosition(base.stageNumber) / 4;
+	float speedUpPos = stageManager.GetGoalPosition(base.GetStageNumber()) / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * (changeSpeedCount - 1) : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
@@ -47,10 +47,10 @@ bool isFall;	// 落下中かの判定
 bool isGravityBottom;
 float groundPosY;
 void Player::Jump() {
-	if (base.isGameStop)return;
+	if (base.GetIsGameStop())return;
 
 	// 入力制御
-	if (CheckHitKeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
+	if (input.KeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
 		printfDx("Jump!\n");
 		// ジャンプ力を加えて地面との設置判定を無くす
 		jumpPower = isGravityBottom ? JUMP_POWER : -JUMP_POWER;
@@ -58,7 +58,7 @@ void Player::Jump() {
 		ScoreCalculation(moveSpeed);
 		pressedMomentTime = GetNowCount();	// 長押し時間を判定するために押したタイミングを保存
 	}
-	if (CheckHitKey(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
+	if (input.KeyPushing(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
 		// ジャンプ上昇アニメーションの再生
 		modelIndex = 1;
 		PlayAnimation(modelData[modelIndex], false);
@@ -68,7 +68,7 @@ void Player::Jump() {
 			isGravityBottom = !isGravityBottom;	// 重力を反対側にする
 		}
 	}
-	if (CheckHitKeyUp(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを離したときの処理
+	if (input.KeyUp(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを離したときの処理
 		// まだ落下していなかったら落下を開始
 		isFall = true;
 		pressedMomentTime = 0;

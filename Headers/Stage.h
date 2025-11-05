@@ -4,8 +4,10 @@
 #include <vector>
 
 const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
-constexpr float OBJ_HEIGHT = 70.0f;	// オブジェクトの高さ
-constexpr float OBJ_RADIUS = 40.0f;	// オブジェクトの半径
+constexpr float S_CAR_HEIGHT = 110;	// オブジェクトの高さ
+constexpr float S_CAR_RADIUS = 130;	// オブジェクトの半径
+constexpr float L_CAR_HEIGHT = 220;	// オブジェクトの高さ
+constexpr float L_CAR_RADIUS = 320;	// オブジェクトの半径
 #define SmallRandom rand() % 4
 #define LargeRandom rand() % 4 + 4
 
@@ -81,7 +83,7 @@ private:
 	std::vector<Car> carArray[MAX_STAGE_NUM] = {	// ステージごとの車の情報を格納
 		{},	// ステージ0は存在しないので空
 		// ステージ1
-		{Car(SmallRandom,110,130,1000),Car(LargeRandom,220,320,3000)},
+		{Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,1000),Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,3000)},
 		// ステージ2
 		{},
 		// ステージ3

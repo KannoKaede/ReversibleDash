@@ -3,14 +3,11 @@
 Base base;
 
 void Base::SetScreenSize() {
+	// モニターサイズを取得した後、そのサイズに合わせてウィンドウサイズを設定
 	screen.width = GetSystemMetrics(SM_CXSCREEN);
 	screen.height = GetSystemMetrics(SM_CYSCREEN);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screen.width, screen.height, 32);
-}
-
-FontData Base::GetFontData(int number) {
-	return fontData[number];
 }
 
 float Base::ClampNumF(float num, float min, float max) {
@@ -49,7 +46,6 @@ bool Base::IsDrawInGame() {
 	// ステージを裏で描画する画面を返す
 	return currentScreenType == INGAME || currentScreenType == PAUSE || currentScreenType == GAMEOVER || currentScreenType == CLEAR;
 }
-
 
 constexpr float Base::ChangeRadians(float num) {
 	// 度数法をラジアンに変換
