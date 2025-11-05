@@ -217,7 +217,7 @@ void DrawStartCountDown() {
 	}
 }
 void DrawProgressRateBar(const Player& player, float startPos, float endPos, float heightPos) {
-	float x = base.ClampNumF(player.GetPosition().x / goalPosition[base.stageNumber], 0, 1);
+	float x = base.ClampNumF(player.GetPosition().x / stageManager.GetGoalPosition(base.stageNumber), 0, 1);
 	float w = (endPos - startPos) * x;
 	DrawBox(base.ScreenDrawPosI(base.screen.width, startPos), base.ScreenDrawPosI(base.screen.height, heightPos - 1),
 		base.ScreenDrawPosI(base.screen.width, endPos), base.ScreenDrawPosI(base.screen.height, heightPos + 1), GetColor(200, 200, 200), TRUE);

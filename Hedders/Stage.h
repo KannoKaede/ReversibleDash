@@ -3,64 +3,85 @@
 #include "Player.h"
 #include <vector>
 
-constexpr float CLEARCANGE_POS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
 const int MAX_STAGE_NUM = 7;    //ステージの最大数：配列で使用するためステージ数＋１
-const float goalPosition[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標
-constexpr float DRAW_BACKSTAGE_X = 23700;	// ステージ背景の描画開始座標X
-constexpr float DRAW_BACKSTAGE_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
 constexpr float OBJ_HEIGHT = 70.0f;	// オブジェクトの高さ
 constexpr float OBJ_RADIUS = 40.0f;	// オブジェクトの半径
+#define SmallRandom rand() % 4
+#define LargeRandom rand() % 4 + 4
 
-const VECTOR START_CAR_POS = VGet(2000, BOTTOM_GROUND, 250);
-class Stage {
+// 車の情報をまとめたクラス
+class Car {
 public:
 	/// <summary> コンストラクタ </summary>
-	Stage() :object({ VGet(200,TOP_GROUND,0),-70,5000 }), ground({ VGet(0,0,0),40,10000 }) {}
+	/// <param name="type"> モデルデータはまだ入れられないのでモデルデータの要素数を入れる </param>
+	/// <param name="_height"> 車の高さ </param>
+	/// <param name="_radius"> 車の半径 </param>
+	/// <param name="posX"> 車の描画座標X </param>
+	Car(int type, float _height, float _radius, float posX) :carHandle(type), height(_height), radius(_radius), position(VGet(posX, 40, 250)) {}
 
-	/// <summary> ステージ初期設定メソッド </summary>
+	// private変数を読み取り専用で渡すメソッド群
+	int GetCarHandle() { return carHandle; }
+	float GetHeight() { return height; }
+	float GetRadius() { return radius; }
+	VECTOR GetPosition() { return position; }
+
+	// private変数に値を書き込むメソッド
+	void  SetCarHandle(int handle) { carHandle = handle; }
+private:
+	int carHandle;	// モデルデータ
+	float height;	// 高さ
+	float radius;	// 半径
+	VECTOR position;	// 座標
+};
+
+
+// ステージ描画を管理するクラス
+class StageManager {
+public:
+	/// <summary> コンストラクタ </summary>
+	StageManager() :cityHandle(), cityDrawPos(VGet(23700, 0, 0)), carHandle(), carMoveX() {}
+
+	/// <summary> コンストラクタでは設定できないモデルデータをロードするメソッド </summary>
 	void SetUp();
 
-	/// <summary> ステージ描画メソッド </summary>
-	/// <param name="player"> プレイヤーインスタンス </param>
+	/// <summary> ステージを描画するメソッド </summary>
+	/// <param name="player"> プレイヤーのインスタンス </param>
 	void Draw(Player& player);
 
-	/// <summary> クリア画面に遷移出来るかを返すメソッド </summary>
-	/// <param name="x"> プレイヤーのX座標 </param>
-	/// <returns> クリア画面に遷移するか否か </returns>
-	bool IsGoal(float playerX);
+	/// <summary>
+	/// 衝突判定を返すメソッド
+	/// </summary>
+	/// <param name="player"> プレイヤーのインスタンス </param>
+	/// <returns> 衝突判定 </returns>
+	bool IsCollision(Player& player, VECTOR objPos, float height, float radius, bool isObstacles);
 
-	/// <summary> 背景ステージのモデルを返すメソッド </summary>
-	/// <returns> backStageHandle </returns>
-	int GetBackStageHandle()const;
+	/// <summary> ゴール後にクリア画面に遷移出来るか返すメソッド </summary>
+	/// <param name="playerPosX"> プレイヤーの座標X </param>
+	/// <returns> クリア画面に遷移可能か </returns>
+	bool IsClear(float playerPosX);
 
-	/// <summary> ステージリセットメソッド </summary>
+	/// <summary> 書き換えたデータをリセットするメソッド </summary>
 	void Initialization();
-private:
-	int backStageHandle = {};	// 背景ステージのモデルハンドル
-	struct ObjData {	// オブジェクトのデータ構造体
-		VECTOR position;	// 座標
-		float height;	// 高さ
-		float radius;	// 半径
-	};
-	ObjData object;	// テスト：地面のオブジェクト
-	ObjData ground;	// テスト上のオブジェクト
-	VECTOR backDrawPos = {};	// 背景ステージの描画座標
 
-	int smallCarHandle[4] = {};
-	int largeCarHandle[4] = {};
-	struct DrawCarData {
-		bool isLarge;
-		int type;
-		float drawPosX;
-		int model;
-	};
-	DrawCarData drawCarData[MAX_STAGE_NUM][50] = {
-		{},
+	// private変数を読み取り専用で渡すメソッド群
+	int GetCityHandle() { return cityHandle; }
+	int GetCarHandle(int number) { return carHandle[number]; }
+	float GetGoalPosition(int number) { return GOAL_POS_X[number]; }
+
+	// private変数に値を書き込むメソッド
+	void SetCarArray(int stageNum, Car car) { carArray[stageNum].push_back(car); }
+private:
+	int cityHandle;	// 背景ステージのモデルデータ
+	VECTOR cityDrawPos;	// 背景ステージの座標
+	int carHandle[8];	// 車のモデルデータ
+	const float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
+	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標
+	const float CLEAR_CHANGE_DIS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
+	float carMoveX;
+	std::vector<Car> carArray[MAX_STAGE_NUM] = {	// ステージごとの車の情報を格納
+		{},	// ステージ0は存在しないので空
 		// ステージ1
-		{
-			{false,rand() % 4,1000,0},
-			{true,rand()%4,2000,0}
-		},
+		{Car(SmallRandom,110,130,1000),Car(LargeRandom,220,320,3000)},
 		// ステージ2
 		{},
 		// ステージ3
@@ -72,14 +93,5 @@ private:
 		// ステージ6
 		{},
 	};
-
-
-
-	/// <summary> オブジェクトとプレイヤーの衝突判定を返すメソッド </summary>
-	/// <param name="player"> プレイヤーのインスタンス </param>
-	/// <param name="obj"> 判定を行うオブジェクト </param>
-	/// <param name="isObstacles"> 地面として判定するか障害物として判定するかのフラグ：障害物 = true </param>
-	/// <returns> 衝突しているか否か </returns>
-	bool IsCollision(Player& player, ObjData obj, bool isObstacles);
 };
-extern Stage stage;
+extern StageManager stageManager;	// StageManagerのインスタンス
