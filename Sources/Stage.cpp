@@ -29,14 +29,14 @@ void StageManager::Draw(Player& player) {
 	IsCollision(player, VGet(12000, 0, 0), 40, 20000, false);
 
 	// 車の描画
-	if (!base.isGameStop) carMoveX += -7;	// 車を左に移動させていく
-	for (size_t i = 0; i < carArray[base.stageNumber].size(); i++) {
-		Car car = carArray[base.stageNumber][i];	// 書きやすい用に使うインスタンスを格納
+	if (!base.GetIsGameStop()) carMoveX += -7;	// 車を左に移動させていく
+	for (size_t i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
+		Car car = carArray[base.GetStageNumber()][i];	// 書きやすい用に使うインスタンスを格納
 		VECTOR drawPos = VAdd(car.GetPosition(), VGet(carMoveX, 0, 0));
 		MV1SetPosition(car.GetCarHandle(),drawPos);	// 車の座標を更新
 		MV1DrawModel(car.GetCarHandle());
 		// 衝突したらゲームオーバーに設定
-		if (!base.isGameStop&&IsCollision(player, drawPos, car.GetHeight(), car.GetRadius(), true))ChangeUIState(GAMEOVER, SCREENSETUP);
+		if (!base.GetIsGameStop() && IsCollision(player, drawPos, car.GetHeight(), car.GetRadius(), true))ChangeUIState(GAMEOVER, SCREENSETUP);
 	}
 }
 
@@ -81,12 +81,12 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 }
 
 bool StageManager::IsClear(float playerPosX) {
-	return playerPosX >= GOAL_POS_X[base.stageNumber] + CLEAR_CHANGE_DIS;	// ゴール後一定以上進んだらクリア画面の遷移を可能にするフラグをtrueにする
+	return playerPosX >= GOAL_POS_X[base.GetStageNumber()] + CLEAR_CHANGE_DIS;	// ゴール後一定以上進んだらクリア画面の遷移を可能にするフラグをtrueにする
 }
 
 void StageManager::Initialization() {
 	carMoveX = 0;	// 車の移動座標の初期化
 	// 背景ステージの座標をステージに合わせて変更
-	cityDrawPos.z = CITY_POS_Z[base.stageNumber];
+	cityDrawPos.z = CITY_POS_Z[base.GetStageNumber()];
 	MV1SetPosition(cityHandle, cityDrawPos);
 }

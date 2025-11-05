@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Hedders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Headers</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Hedders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)Headers</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -165,10 +165,10 @@
     <None Include="Resource\Stage\SmallCar\SmallCar_4.mv1" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\3dSetting.cpp" />
     <ClCompile Include="Sources\Audio.cpp" />
     <ClCompile Include="Sources\Base.cpp" />
     <ClCompile Include="Sources\Button.cpp" />
+    <ClCompile Include="Sources\CameraLight.cpp" />
     <ClCompile Include="Sources\Input.cpp" />
     <ClCompile Include="Sources\Main.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
@@ -177,15 +177,15 @@
     <ClCompile Include="Sources\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Hedders\3dSetting.h" />
-    <ClInclude Include="Hedders\Audio.h" />
-    <ClInclude Include="Hedders\Button.h" />
-    <ClInclude Include="Hedders\Input.h" />
-    <ClInclude Include="Hedders\Main.h" />
-    <ClInclude Include="Hedders\Player.h" />
-    <ClInclude Include="Hedders\Score.h" />
-    <ClInclude Include="Hedders\Stage.h" />
-    <ClInclude Include="Hedders\UI.h" />
+    <ClInclude Include="Headers\Audio.h" />
+    <ClInclude Include="Headers\Button.h" />
+    <ClInclude Include="Headers\CameraLight.h" />
+    <ClInclude Include="Headers\Input.h" />
+    <ClInclude Include="Headers\Main.h" />
+    <ClInclude Include="Headers\Player.h" />
+    <ClInclude Include="Headers\Score.h" />
+    <ClInclude Include="Headers\Stage.h" />
+    <ClInclude Include="Headers\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

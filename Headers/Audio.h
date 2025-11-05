@@ -1,0 +1,39 @@
+﻿#pragma once
+#include "DxLib.h"
+
+class AudioManager {
+public:
+	/// <summary> コンストラクタ </summary>
+	AudioManager():se(),bgm(),pastBgmtype() {}
+	
+	// SEの種類を定義
+	enum SeType {
+		BUTTON_MOVE,	// ボタン移動
+		BUTTON_BEEP,	// ボタン移動不可
+		BUTTON_SELECT,	// ボタン選択
+		SE_MAX_NUM		// SEの種類の最大数
+	};
+
+	// BGMの種類の定義
+	enum BgmType {
+		OUTGAME_BGM,	// インゲーム非描画時のBGM
+		INGAME_BGM,		// インゲーム描画時のBGM
+		BGM_MAX_NUM		// BGMの種類の最大数
+	};
+
+	/// <summary> コンストラクタでは設定できない音声データをロードするメソッド </summary>
+	void SetUp();
+
+	/// <summary> SEを再生するメソッド </summary>
+	/// <param name="seHandle"> 再生したいSEの種類 </param>
+	void PlaySE(SeType seHandle);
+
+	/// <summary> BGMを再生するメソッド </summary>
+	/// <param name="bgmHandle"> 再生したいBGMの種類 </param>
+	void PlayBGM(BgmType bgmHandle);
+private:
+	int se[SE_MAX_NUM];	// SEデータ
+	int bgm[BGM_MAX_NUM];	//BGMデータ
+	BgmType pastBgmtype;	// 再生していたBGM
+};
+extern AudioManager audioManager;

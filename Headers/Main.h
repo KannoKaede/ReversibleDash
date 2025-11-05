@@ -29,22 +29,16 @@ class Base {
 public:
 	Base() :screen(), fontData(), stageNumber(0), isGameStop(true) {}	// コンストラクタ
 
-	ScreenSize screen;	// 画面サイズ情報
-	FontData fontData[FONT_TYPE_NUM];	// フォント情報
-	int stageNumber;	// ステージ番号
-	bool isGameStop;	// ゲームが停止しているかのフラグ
-
 	void SetScreenSize();
 	void SetUp();
 	void Initialization();
 	void CleanUp();
-	FontData GetFontData(int number);
 
 	/// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>
-/// <param name="num"> 指定の値に収めたい変数 </param>
-/// <param name="min"> 収める際の最小値 </param>
-/// <param name="max"> 収める際の最大値 </param>
-/// <returns> 指定の範囲に収められた値 </returns>
+	/// <param name="num"> 指定の値に収めたい変数 </param>
+	/// <param name="min"> 収める際の最小値 </param>
+	/// <param name="max"> 収める際の最大値 </param>
+	/// <returns> 指定の範囲に収められた値 </returns>
 	int ClampNumI(int num, int min, int max);
 
 	/// <summary> 値を指定の範囲にfloat型で収めて返すメソッド </summary>
@@ -90,7 +84,21 @@ public:
 	/// <param name="num"> 度数法での角度 </param>
 	/// <returns> ラジアンに変換された角度 </returns>
 	constexpr float ChangeRadians(float num);
+
+	// private変数を読み取り専用で渡すメソッド群
+	ScreenSize GetScreen() { return screen; }
+	FontData GetFontData(int fontType) { return fontData[fontType]; }
+	int GetStageNumber() { return stageNumber; }
+	bool GetIsGameStop() { return isGameStop; }
+
+	// private変数に値を書き込むメソッド
+	void SetStageNumber(int num) { stageNumber = num; }
+	void SetIsGameStop(bool _isGameStop) { isGameStop = _isGameStop; }
 private:
+	ScreenSize screen;	// 画面サイズ情報
+	FontData fontData[FONT_TYPE_NUM];	// フォント情報
+	int stageNumber;	// ステージ番号
+	bool isGameStop;	// ゲームが停止しているかのフラグ
 };
 
 extern Base base;

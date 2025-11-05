@@ -1,21 +1,24 @@
 ﻿#include "Input.h"
 
-char keyBuf[KEY_NUM];	// 現在のキー入力状態
-char keyBuf_old[KEY_NUM];	// 1フレーム前のキー入力状態
+Input input;
 
-void CheckAllKeyState() {
-	// 1フレーム前のキー入力状態を保存
+void Input::CheckAllKey() {
 	for (int i = 0; i < KEY_NUM; i++) {
-		keyBuf_old[i] = keyBuf[i];
+		pastKey[i] = currentKey[i];
 	}
-	GetHitKeyStateAll(keyBuf);	// 現在のキー入力状態を取得
+	GetHitKeyStateAll(currentKey);
 }
 
-bool CheckHitKeyDown(const int keyCode) {
+bool Input::KeyDown(const int key) {
 	// キーを押し込んだ瞬間を検出
-	return keyBuf_old[keyCode] == 0 && keyBuf[keyCode] == 1;
+	return pastKey[key] == 0 && currentKey[key] == 1;
 }
-bool CheckHitKeyUp(const int keyCode) {
-	// キーを離した瞬間を検出
-	return keyBuf_old[keyCode] == 1 && keyBuf[keyCode] == 0;
+bool Input::KeyPushing(const int key) {
+	// キーを押し続けている状態を検知
+	return pastKey[key] == 1 && currentKey[key] == 1;
 }
+bool Input::KeyUp(const int key) {
+	// キーを離した瞬間を検知
+	return pastKey[key] == 1 && currentKey[key] == 0;
+}
+
