@@ -62,7 +62,7 @@ void SaveHighScore() {
 ScoreManager scoreManager;
 
 void ScoreManager::AddScoreCalculate(float moveSpeed) {
-	if (currentScreenType == INGAME && jumpDistance < 400) {
+	if (uiManager.IsEqualCurrenScreen(INGAME) && jumpDistance < 400) {
 		score += (400 - (int)jumpDistance) * 7 * (int)moveSpeed;
 		jumpDistance = 0;
 	}

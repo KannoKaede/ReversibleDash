@@ -30,24 +30,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			InGameScoreView();
 			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
 				HighScoreCheck();
-				ChangeUIState(CLEAR, SCREENSETUP);
+				fadeManager.ChangeUIState(CLEAR, fadeManager.NOTFADE);
 			}
 		}
 
-		if (!isFading) {
-			if (currentScreenType == TITLE || currentScreenType == STAGESELECT)
+		if (!fadeManager.GetIsFading()) {
+			if (uiManager.IsEqualCurrenScreen(TITLE) || uiManager.IsEqualCurrenScreen(STAGESELECT))
 				audioManager.PlayBGM(audioManager.OUTGAME_BGM);
-			if (currentScreenType == INGAME)
+			if (uiManager.IsEqualCurrenScreen(INGAME))
 				audioManager.PlayBGM(audioManager.INGAME_BGM);
-			if (input.KeyDown(KEY_INPUT_ESCAPE))  ChangeUIState(PAUSE, SCREENSETUP);
+			if (input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, fadeManager.NOTFADE);
 		}
 
-		DrawUI(player);	//	UIを描画
-		if (currentScreenType != INGAME) {
+		uiManager.DrawUI(player);	//	UIを描画
+		if (!uiManager.IsEqualCurrenScreen(INGAME)) {
 			buttonManager.ButtonMovement();	//  ボタンの移動
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
-		isFading = ScreenFadeControl();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
+		fadeManager.DrawFadeController();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
 		ScreenFlip();
 
@@ -80,7 +80,7 @@ void Base::SetUp() {
 	fontData[SMALL].handle = CreateFontToHandle("N4カクーカンV2", fontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
 
 	// その他、初期設定を行うものをここでまとめて行う
-	UISetUp();
+	uiManager.SetUp();
 	audioManager.SetUp();
 	stageManager.SetUp();
 	player.SetUp();
