@@ -36,7 +36,7 @@ void StageManager::Draw(Player& player) {
 		MV1SetPosition(car.GetCarHandle(),drawPos);	// 車の座標を更新
 		MV1DrawModel(car.GetCarHandle());
 		// 衝突したらゲームオーバーに設定
-		if (!base.GetIsGameStop() && IsCollision(player, drawPos, car.GetHeight(), car.GetRadius(), true))ChangeUIState(GAMEOVER, SCREENSETUP);
+		if (!base.GetIsGameStop() && IsCollision(player, drawPos, car.GetHeight(), car.GetRadius(), true))fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
 	}
 }
 

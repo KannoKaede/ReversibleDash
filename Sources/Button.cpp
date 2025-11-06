@@ -38,7 +38,7 @@ void Button::Draw()const {
 	float textBoxBottom = isCenter ? (float)(drawPosY + height) : (float)(drawPosY + height * 1.35f);
 
 	// 上で計算した座標を使ってテキストを描画
-	DrawTextCenter(textBoxLeft, textBoxTop, textBoxRight, textBoxBottom, drawText, fontType);
+	uiManager.DrawStringCenter(textBoxLeft, textBoxTop, textBoxRight, textBoxBottom, drawText, fontType);
 }
 void Button::SetButtonColor(int changeColor) {
 	buttonColor = changeColor;
@@ -63,13 +63,13 @@ int Button::GetRowNum() const {
 void ButtonManager::ButtonMovement() {
 	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
 	for (auto* btn : buttonArray) {
-		if (btn->GetBelongScreen() == currentScreenType) {
+		if (uiManager.IsEqualCurrenScreen(btn->GetBelongScreen())) {
 			btn->Draw();
 			btn->SetButtonColor(COLOR_LIGHTGRAY);
 		}
 	}
 	// フェード中にボタンを移動できないようにする
-	if (!isFading) {
+	if (!fadeManager.GetIsFading()) {
 		if (input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
 		if (input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_S)) buttonMovePos.y += 1;
 		if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) buttonMovePos.x += -1;
@@ -82,7 +82,7 @@ void ButtonManager::ButtonMovement() {
 
 	// ボタンを押しているかのフラグを立てる：画面を変えた際にボタンのボタンの座標がずれてビープ音が鳴るのを防ぐ
 	bool isMoveInput = input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_W) || input.KeyDown(KEY_INPUT_S) || input.KeyDown(KEY_INPUT_A) || input.KeyDown(KEY_INPUT_D);
-	if (buttonMap[currentScreenType][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {	// 移動先にボタンが無い場合はビープ音を鳴らして移動前の座標に戻す
+	if (buttonMap[uiManager.GetCurrentScreen()][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {	// 移動先にボタンが無い場合はビープ音を鳴らして移動前の座標に戻す
 		if (isMoveInput)audioManager.PlaySE(audioManager.BUTTON_BEEP);
 		buttonMovePos = buttonPos;
 	}
@@ -99,71 +99,71 @@ void ButtonManager::ButtonMovement() {
 }
 
 void ButtonManager::ButtonPressed() {
-	if (isFading) return;
+	if (fadeManager.GetIsFading()) return;
 	if (input.KeyDown(KEY_INPUT_SPACE) || input.KeyDown(KEY_INPUT_RETURN)) {
 		audioManager.PlaySE(audioManager.BUTTON_SELECT);	// 押されたら選択音を鳴らす
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
 		case Button::GAMESTART:
-			ChangeUIState(INGAME, FADEOUT);
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
 			base.SetStageNumber(1);
-			drawText = START_COUNTDOWN_1;
+			uiManager.SetIsStartCountDown(true);
 			break;
 		case Button::RESUME:
-			ChangeUIState(INGAME, SCREENSETUP);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
+			uiManager.SetIsStartCountDown(true);
 			break;
 		case Button::RETRY:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			break;
 		case Button::NEXTSTAGE:
 			base.SetStageNumber(base.GetStageNumber() + 1);
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			break;
 		case Button::OPENSTAGESELECT:
-			ChangeUIState(STAGESELECT, SCREENSETUP);
+			fadeManager.ChangeUIState(STAGESELECT, fadeManager.NOTFADE);
 			break;
 		case Button::GAMEQUIT:
 			DxLib_End();
 			break;
 		case Button::RETURNTITLE:
-			ChangeUIState(TITLE, SCREENSETUP);
+			fadeManager.ChangeUIState(TITLE, fadeManager.NOTFADE);
 			break;
 		case Button::SELECTSTAGE1:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(1);
 			break;
 		case Button::SELECTSTAGE2:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(2);
 			break;
 		case Button::SELECTSTAGE3:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(3);
 			break;
 		case Button::SELECTSTAGE4:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(4);
 			break;
 		case Button::SELECTSTAGE5:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(5);
 			break;
 		case Button::SELECTSTAGE6:
-			ChangeUIState(INGAME, FADEOUT);
-			drawText = START_COUNTDOWN_1;
+			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			uiManager.SetIsStartCountDown(true);
 			base.SetStageNumber(6);
 			break;
 		case Button::GAMEEXIT:
-			ChangeUIState(TITLE, FADEOUT);
+			fadeManager.ChangeUIState(TITLE, fadeManager.FADEOUT);
 			break;
 		}
 	}
@@ -172,7 +172,7 @@ void ButtonManager::ButtonPressed() {
 Button* ButtonManager::SelectGetButtonArray() {
 	for (auto* btn : buttonArray) {
 		// 属している画面、ボタンの座標が一致するボタンを返す
-		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && btn->GetBelongScreen() == currentScreenType)
+		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && uiManager.IsEqualCurrenScreen(btn->GetBelongScreen()))
 			return btn;
 	}
 	return nullptr;
