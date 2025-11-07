@@ -271,7 +271,7 @@ void PauseScene::Draw(Player player) {
 }
 
 void InGameScene::Draw(Player player) {
-	uiManager.DrawString(1, 0, 95.7f, "SCORE : " + std::to_string(vewScore), base.GetFontData(MEDIUM).handle);	// スコアの描画
+	uiManager.DrawString(1, 0, 95.7f, "SCORE : " + std::to_string(scoreManager.GetViewScore()), base.GetFontData(MEDIUM).handle);	// スコアの描画
 	uiManager.DrawString(1, 0, 1, "STAGE" + std::to_string(base.GetStageNumber()), base.GetFontData(MEDIUM).handle);	// 現在遊んでいるステージがどこか描画
 	uiManager.DrawStartCountDown();	// スタートカウントダウンの描画
 
@@ -293,7 +293,7 @@ void GameOverScene::Draw() {
 
 	// スコアの描画
 	uiManager.DrawString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(27, 47, 51, std::to_string(score), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetFontData(LARGE).handle);
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
@@ -310,11 +310,11 @@ void ClearScene::Draw() {
 
 	//スコアの描画
 	uiManager.DrawString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(27, 47, 51, std::to_string(score), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetFontData(LARGE).handle);
 
 	// ハイスコアの描画
 	uiManager.DrawString(53, 73, 43, "HIGHSCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(53, 73, 51, std::to_string(highScore[base.GetStageNumber()]), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(53, 73, 51, std::to_string(scoreManager.GetHighScore(base.GetStageNumber())), base.GetFontData(LARGE).handle);
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
