@@ -135,14 +135,15 @@ private:
 	GameOverScene gameOverScene;
 	ClearScene clearScene;
 
-	int startTime = 0;
-	int waitTime = 0;
-	int drawTextCount = 0;
-	const std::string DRAW_TEXT[3] = {"READY..." ,"GO!!!"};
-	int fadeSpeed[2][2] = { { 5,-5 }, { 10,-10 } };
-	int fasp = 0;
-	bool isFadeStart = true;
-	bool isStartCountDown = true;
+	int startTime = 0;	// 待機を開始したタイミングを保持
+	int waitTime = 0;	// 何秒待機するかの値
+	int drawCount = 0;	// 描画する文字のカウント
+	const int START_WAITTIME[2] = { 1000,1000 };	// 待機時間
+	const std::string DRAW_TEXT[2] = {"READY..." ,"GO!!!"};	// 描画する文字
+	const int TEXT_FADE_SPEED[2][2] = { { 30,-5 }, { 30,-10 } };	// 文字をフェードさせるスピード
+	int textFadeSpeed = 0;	// 文字のalpha値を変更するための変数
+	bool isFadeStart = true;	// 文字のフェードが始めか終わりかの判定
+	bool isStartCountDown = true;	// スタートカウントダウンの描画が終了しているか
 };
 
 extern UIManager uiManager;

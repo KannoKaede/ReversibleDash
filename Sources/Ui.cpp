@@ -11,12 +11,12 @@
 Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GAME START", LARGE, true);
 Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "STAGE SELECT", LARGE, true);
 Button quitButton(TITLE, 3, 1, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GAME QUIT", LARGE, true);
-Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE1, "STAGE.1", MEDIUM, false);
-Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE2, "STAGE.2", MEDIUM, false);
-Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE3, "STAGE.3", MEDIUM, false);
-Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE4, "STAGE.4", MEDIUM, false);
-Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE5, "STAGE.5", MEDIUM, false);
-Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE6, "STAGE.6", MEDIUM, false);
+Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE, "STAGE.1", MEDIUM, false);
+Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE, "STAGE.2", MEDIUM, false);
+Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE, "STAGE.3", MEDIUM, false);
+Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE, "STAGE.4", MEDIUM, false);
+Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE, "STAGE.5", MEDIUM, false);
+Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE, "STAGE.6", MEDIUM, false);
 Button returnTitle(STAGESELECT, 2, 4, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "BACK", MEDIUM, true);
 Button resumeGame(PAUSE, 1, 1, VGet(37, 63, 0), 10, 5, Button::RESUME, "RESUME", LARGE, true);
 Button pauseGameExit(PAUSE, 1, 2, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "EXIT", LARGE, true);
@@ -64,40 +64,45 @@ void UIManager::DrawUI(Player player) {
 	}
 }
 
+// リファクタリング：文字を描画時の待機時間を実装できていない
 /// <summary> スタートカウントダウンの描画を行うメソッド </summary>
 void UIManager::DrawStartCountDown() {
-	if (fadeManager.GetIsFading() || !isStartCountDown) return;
-	if (startTime == 0) {
-		if (drawTextCount >= 2) {
+	if (fadeManager.GetIsFading() || !isStartCountDown) return;	// フェード中、スタートカウントダウンの描画が終了したら処理に入らない
+	if (startTime == 0) {	// 最初と文字を切り替えるタイミングのみ入る。
+		if (drawCount >= 2) {	// 配列外に行ったら全て初期化して処理を止める
 			isStartCountDown = false;
-			drawTextCount = 0;
+			drawCount = 0;
 			startTime = 0;
 			return;
 		}
 		// テキストの描画で使う変数をリセットする
-		isFadeStart = true;
+		isFadeStart = true;	// フェードイン状態に切り替える
 		startTime = GetNowCount();
-		waitTime = 500;	// デバッグ用後で変えて
+		waitTime = START_WAITTIME[drawCount];
 	}
-
+	// 文字の描画
+	fadeManager.DrawTextFade(DRAW_TEXT[drawCount], base.GetFontData(EXTRALARGE).handle, textFadeSpeed);
 	// 一定時間経過したらテキストのフェード演出を開始する
-	if (startTime + waitTime > GetNowCount()) return;
+	if (startTime + waitTime > GetNowCount())  return; 
 
+	// alpha値が0になったらalpha値を増やすように変更
 	if (fadeManager.GetAlphaValue() == 0) {
+		textFadeSpeed = TEXT_FADE_SPEED[drawCount][0];
+
+		// フェードアウトで0になったらカウントを増やして描画する文字をリセットする
 		if (!isFadeStart) {
-			startTime = 0;
-			drawTextCount++;
+			startTime = 0;	// 最初の待機に戻るために初期化
+			drawCount++;
 			return;
 		}
-		fasp = fadeSpeed[drawTextCount][0];
-
 	}
+
+	// 文字を完全に描画出来たらフェードアウトするように切り替える
 	else if (fadeManager.GetAlphaValue() == 255) {
 		isFadeStart = false;
-		if (drawTextCount == 1)base.SetIsGameStop(false);
-		fasp = fadeSpeed[drawTextCount][1];
+		if (drawCount == 1)base.SetIsGameStop(false);
+		textFadeSpeed = TEXT_FADE_SPEED[drawCount][1];
 	}
-	fadeManager.DrawTextFade(DRAW_TEXT[drawTextCount], base.GetFontData(EXTRALARGE).handle, fasp);
 }
 
 void UIManager::DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightPct) {
@@ -215,8 +220,8 @@ void FadeManager::ChangeScene() {
 	uiManager.SetCurrentScreen(uiManager.GetNextScreen());	// 描画するUIを変更する
 
 	// ボタンの座標を初期化
-	buttonManager.buttonMovePos = START_BUTTON_POS;
-	buttonManager.buttonPos = START_BUTTON_POS;
+	buttonManager.SetButtonMovePos( START_BUTTON_POS);
+	buttonManager.SetButtonPos(START_BUTTON_POS);
 }
 
 void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
