@@ -27,9 +27,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			player.Jump();
 			cameraLight.CameraMove(player);
 			stageManager.Draw(player);
-			InGameScoreView();
+			scoreManager.AddViewScore();
 			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
-				HighScoreCheck();
+				scoreManager.CheckHighScore();
 				fadeManager.ChangeUIState(CLEAR, fadeManager.NOTFADE);
 			}
 		}
@@ -85,7 +85,7 @@ void Base::SetUp() {
 	stageManager.SetUp();
 	player.SetUp();
 	cameraLight.SetUp();
-	LoadHighScore();
+	scoreManager.LoadHighScore();
 
 	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
 	for (int i = 0; i < MV1GetMaterialNum(stageManager.GetCityHandle()); i++)	// ステージのモデル
@@ -111,12 +111,12 @@ void Base::Initialization() {
 	player.Initialization();
 	cameraLight.Initialization();
 	stageManager.Initialization();
-	score = 0;
-	vewScore = 0;
+	scoreManager.SetScore(0);
+	scoreManager.SetViewScore(0);
 }
 
 void Base::CleanUp() {
-	SaveHighScore();
+	scoreManager.SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < FONT_TYPE_NUM; i++) {
 		DeleteFontToHandle(fontData[i].handle);

@@ -55,7 +55,7 @@ void Player::Jump() {
 		// ジャンプ力を加えて地面との設置判定を無くす
 		jumpPower = isGravityBottom ? JUMP_POWER : -JUMP_POWER;
 		isGround = false;
-		ScoreCalculation(moveSpeed);
+		scoreManager.AddScoreCalculate(moveSpeed);
 		pressedMomentTime = GetNowCount();	// 長押し時間を判定するために押したタイミングを保存
 	}
 	if (input.KeyPushing(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
