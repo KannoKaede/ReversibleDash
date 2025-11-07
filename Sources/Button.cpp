@@ -16,7 +16,7 @@ Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int h
 	drawText = text;
 	fontType = font;
 	isCenter = isCenterPos;
-	buttonManager.buttonArray.push_back(this);
+	buttonManager.SetButtonArray(this);
 }
 
 void Button::Draw()const {
@@ -105,22 +105,25 @@ void ButtonManager::ButtonPressed() {
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
+			// フェード処理を挟むかつインゲームに遷移するボタンをまとめた
 		case Button::GAMESTART:
+		case Button::RETRY:
+		case Button::NEXTSTAGE:
+		case Button::SELECTSTAGE:
 			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			base.SetStageNumber(1);
 			uiManager.SetIsStartCountDown(true);
+			// ステージ1に移動
+			if (selected->GetButtonType() == Button::GAMESTART)
+				base.SetStageNumber(1);
+			// 次のステージに移動
+			if (selected->GetButtonType() == Button::NEXTSTAGE)
+				base.SetStageNumber(base.GetStageNumber() + 1);
+			// ボタンの座標を利用して指定のステージに移動
+			if (selected->GetButtonType() == Button::SELECTSTAGE)
+				base.SetStageNumber((selected->GetColumNum() - 1) * 3 + selected->GetRowNum());
 			break;
 		case Button::RESUME:
 			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
-			uiManager.SetIsStartCountDown(true);
-			break;
-		case Button::RETRY:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			break;
-		case Button::NEXTSTAGE:
-			base.SetStageNumber(base.GetStageNumber() + 1);
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
 			uiManager.SetIsStartCountDown(true);
 			break;
 		case Button::OPENSTAGESELECT:
@@ -131,36 +134,6 @@ void ButtonManager::ButtonPressed() {
 			break;
 		case Button::RETURNTITLE:
 			fadeManager.ChangeUIState(TITLE, fadeManager.NOTFADE);
-			break;
-		case Button::SELECTSTAGE1:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(1);
-			break;
-		case Button::SELECTSTAGE2:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(2);
-			break;
-		case Button::SELECTSTAGE3:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(3);
-			break;
-		case Button::SELECTSTAGE4:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(4);
-			break;
-		case Button::SELECTSTAGE5:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(5);
-			break;
-		case Button::SELECTSTAGE6:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
-			uiManager.SetIsStartCountDown(true);
-			base.SetStageNumber(6);
 			break;
 		case Button::GAMEEXIT:
 			fadeManager.ChangeUIState(TITLE, fadeManager.FADEOUT);

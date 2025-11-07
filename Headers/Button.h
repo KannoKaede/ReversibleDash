@@ -2,10 +2,10 @@
 #include "UI.h"		// 画面の状態を取得用
 #include <vector>
 
-const VECTOR START_BUTTON_POS = VGet(1, 1, 0);	// 画面が変わるたびにボタンの位置を戻す座標
 constexpr int BUTTON_NUM_X = 6; // 横のボタン数
 constexpr int BUTTON_NUM_Y = 5; // 縦のボタン数
 constexpr int BUTTON_NUM_SCREEN = 5;    // ボタンのある画面の種類数
+const VECTOR START_BUTTON_POS = VGet(1, 1, 0);	// 画面が変わるたびにボタンの位置を戻す座標
 
 class Button {
 public:
@@ -13,7 +13,7 @@ public:
 		GAMESTART,  // ゲーム開始
 		OPENSTAGESELECT,    // ステージセレクトを開く
 		GAMEQUIT,   // exe終了
-		SELECTSTAGE1, SELECTSTAGE2, SELECTSTAGE3, SELECTSTAGE4, SELECTSTAGE5, SELECTSTAGE6,	// ステージ選択
+		SELECTSTAGE,	// ステージ選択
 		RESUME,	// ゲーム再開
 		GAMEEXIT,	// インゲーム終了
 		RETRY,	// リトライ
@@ -72,10 +72,8 @@ private:
 
 class ButtonManager {
 public:
-	ButtonManager() :buttonArray({}), buttonMovePos(START_BUTTON_POS), buttonPos(START_BUTTON_POS) {}
-	std::vector<Button*> buttonArray;    // ボタンの配列
-	VECTOR buttonMovePos;    // ボタンの移動座標
-	VECTOR buttonPos;    // ボタンの選択位置
+	ButtonManager() :buttonArray() {}
+
 	int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{ {0,0,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,0,0,0,0,0} }, // TITLE
 	{ {0,0,0,0,0,0}, {0,1,1,1,0,0}, {0,1,1,1,1,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // STAGESELECT
@@ -93,6 +91,15 @@ public:
 
 	/// <summary> ボタンの押下処理を行うメソッド </summary>
 	void ButtonPressed();
+
+	void SetButtonArray(Button* button) { buttonArray.push_back(button); }
+	void SetButtonMovePos(VECTOR pos) {buttonMovePos = pos; }
+	void SetButtonPos(VECTOR pos) { buttonPos = pos; }
+private:
+	VECTOR buttonMovePos = START_BUTTON_POS;    // ボタンの移動座標
+	VECTOR buttonPos = START_BUTTON_POS;    // ボタンの選択位置
+	std::vector<Button*> buttonArray;    // ボタンの配列
+	
 };
 
 extern ButtonManager buttonManager;
