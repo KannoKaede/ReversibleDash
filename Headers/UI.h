@@ -73,7 +73,7 @@ public:
 	/// <param name="startPos"> バーの左端座標 </param>
 	/// <param name="endPos"> バーの右端座標 </param>
 	/// <param name="heightPos"> 描画するスクリーン座標Y（％） </param>
-	void DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightct);
+	void DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightPct);
 
 	struct ImageData {	// 画像データ構造体
 		int image;	// 画像ハンドル
@@ -110,7 +110,7 @@ public:
 	/// <returns> 現在の画面と指定の画面が等しいか </returns>
 	bool IsEqualCurrenScreen(SCREEN_TYPE screen) { return currentScreen == screen; }
 
-	ImageData GetImageDASD() { return keyWASD; }
+	ImageData GetImageWASD() { return keyWASD; }
 	ImageData GetImageSpace() { return keySpace; }
 	ImageData GetImageEscape() { return keyEscape; }
 	SCREEN_TYPE GetCurrentScreen() { return currentScreen; }

@@ -26,12 +26,12 @@ void StageManager::SetUp() {
 void StageManager::Draw(Player& player) {
 	// 背景ステージの描画と衝突判定の設定
 	MV1DrawModel(cityHandle);
-	IsCollision(player, VGet(12000, 0, 0), 40, 20000, false);
+	IsCollision(player, VGet(12000, 0, 0), 40, 20000, false);	// リファクタリング：ステージを全部作り終わったら定数に変更
 
 	// 車の描画
 	if (!base.GetIsGameStop()) carMoveX += -7;	// 車を左に移動させていく
 	for (size_t i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
-		Car car = carArray[base.GetStageNumber()][i];	// 書きやすい用に使うインスタンスを格納
+		Car car = carArray[base.GetStageNumber()][i];	// 描画用に一時的に取得
 		VECTOR drawPos = VAdd(car.GetPosition(), VGet(carMoveX, 0, 0));
 		MV1SetPosition(car.GetCarHandle(),drawPos);	// 車の座標を更新
 		MV1DrawModel(car.GetCarHandle());
@@ -44,8 +44,8 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	VECTOR playerPos = player.GetPosition();
 	VECTOR playerScale = player.GetScale();
 	bool collisionX = (playerPos.x + playerScale.x > objPos.x - radius) && (playerPos.x - playerScale.x < objPos.x + radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
-	bool collisionY = (player.isGravityBottom && playerPos.y <= objPos.y + height && playerPos.y + playerScale.y >= objPos.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
-		(!player.isGravityBottom && playerPos.y >= objPos.y + height && playerPos.y - playerScale.y <= objPos.y);
+	bool collisionY = (player.GetIsGravityBottom() && playerPos.y <= objPos.y + height && playerPos.y + playerScale.y >= objPos.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
+		(!player.GetIsGravityBottom() && playerPos.y >= objPos.y + height && playerPos.y - playerScale.y <= objPos.y);
 	// 衝突判定デバッグ用ライン　判定枠の表示
 	/*float z = 70;
 	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
@@ -64,13 +64,13 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	if (!isObstacles) {
 		// プレイヤーがobj.xの範囲内にいてobj.yの範囲内にもいる場合設置判定を有効にする
 		if (collisionX && collisionY) {
-			player.groundPosY = objPos.y + height;	// 足場となる座標を保存
-			player.isGround = true;
+			player.SetGroundPosY( objPos.y + height);	// 足場となる座標を保存
+			player.SetIsGround(true);
 		}
 		// obj.yの範囲内にいるがobj.xの範囲外にいる場合はそのまま落下する
 		else if (!collisionX && collisionY) {
-			player.isGround = false;
-			player.isFall = true;
+			player.SetIsGround(false);
+			player.SetIsFall(true);
 		}
 	}
 	// 車の判定

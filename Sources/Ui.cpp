@@ -131,7 +131,7 @@ void UIManager::DrawStringCenter(float left, float top, float right, float botto
 	int drawPosX = base.TextDrawCenterPosX(left, right, text, base.GetFontData(fontType).handle);	// 左右中央を計算
 	int drawPosY = base.TextDrawCenterPosY(top, bottom, base.GetFontData(fontType).size, text);	// 上下中央を計算
 	// 左右上下中央に文字を描画
-	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, base.GetFontData(fontType).handle);
+	DrawStringToHandle(drawPosX, drawPosY, text.c_str(), COLOR_BLACK, base.GetFontData(fontType).handle);
 }
 
 void UIManager::DrawString(float leftPct, float rightPct, float heightPct, std::string text, int font) {
@@ -144,7 +144,8 @@ void UIManager::DrawString(float leftPct, float rightPct, float heightPct, std::
 	int drawPosY = base.ScreenDrawPosI(base.GetScreen().height, heightPct);	// 描画座標Yを計算
 
 	// 文字を描画
-	DrawStringToHandle(drawPosX, drawPosY, const_cast<char*>(text.c_str()), COLOR_BLACK, font);
+	DrawStringToHandle(drawPosX, drawPosY, text.c_str(), COLOR_BLACK, font);
+	DrawStringToHandle(drawPosX, drawPosY, text.c_str(), COLOR_BLACK, font);
 }
 
 void UIManager::DrawImage(float leftPct, float topPct, ImageData image) {
@@ -238,7 +239,7 @@ void TitleScene::Draw() {
 	uiManager.DrawString(83, 0, 95, "Ver 0.7.00.00", base.GetFontData(MEDIUM).handle);	// バージョンの描画
 
 	// 操作説明の描画
-	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
@@ -248,7 +249,7 @@ void StageSelectScene::Draw() {
 	uiManager.DrawString(0, 100, 16, "STAGESELECT", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// 操作説明の描画
-	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
@@ -262,7 +263,7 @@ void PauseScene::Draw(Player player) {
 	uiManager.DrawString(0, 100, 32, "PAUSE", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// 操作説明の描画
-	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
@@ -296,7 +297,7 @@ void GameOverScene::Draw() {
 	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetFontData(LARGE).handle);
 
 	// 操作説明の描画
-	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
@@ -317,7 +318,7 @@ void ClearScene::Draw() {
 	uiManager.DrawString(53, 73, 51, std::to_string(scoreManager.GetHighScore(base.GetStageNumber())), base.GetFontData(LARGE).handle);
 
 	// 操作説明の描画
-	uiManager.DrawImage(20, 95, uiManager.GetImageDASD());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);

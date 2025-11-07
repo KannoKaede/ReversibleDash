@@ -3,14 +3,13 @@
 #include "Score.h"
 #include "Stage.h"
 
-int modelIndex = 0;
-
 Player::Player(VECTOR startPos, VECTOR startRot, VECTOR startScale, float startSpeed) {
 	transform.position = startPos;
 	transform.rotation = startRot;
 	transform.scale = startScale;
 	moveSpeed = startSpeed;
 }
+
 void Player::SetUp() {
 	// モデルの読み込みとアニメーションの設定
 	modelData[0].model = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
@@ -20,6 +19,7 @@ void Player::SetUp() {
 	modelData[2].model = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
 	modelData[2].anime = MV1AttachAnim(modelData[2].model, 1, -1);
 }
+
 void Player::Move() {
 	// モデルの座標更新と描画を先に行う
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
@@ -40,18 +40,12 @@ void Player::Move() {
 	}
 }
 
-float jumpPower;	// 実際のジャンプ力を入れる変数
-bool isGround;	// 現在ジャンプ中か判定		地面に付いたらfalse
 int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
-bool isFall;	// 落下中かの判定
-bool isGravityBottom;
-float groundPosY;
 void Player::Jump() {
 	if (base.GetIsGameStop())return;
 
 	// 入力制御
 	if (input.KeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
-		printfDx("Jump!\n");
 		// ジャンプ力を加えて地面との設置判定を無くす
 		jumpPower = isGravityBottom ? JUMP_POWER : -JUMP_POWER;
 		isGround = false;
@@ -99,50 +93,23 @@ void Player::Initialization() {
 	jumpPower = 0;
 	changeSpeedCount = 1;
 	isGravityBottom = true;
+	modelIndex = 0;
+	animePlayTime = 0;
+	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
+	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
 	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 
-int Player::GetModel() const {
-	return modelData[modelIndex].model;
-}
-
-VECTOR Player::GetPosition()const {
-	return transform.position;
-}
-
-void Player::SetPosition(VECTOR pos) {
-	transform.position = pos;
-}
-
-VECTOR Player::GetRotation()const {
-	return transform.rotation;
-}
-
-VECTOR Player::GetScale()const {
-	return transform.scale;
-}
-
-float Player::GetSpeed()const {
-	return moveSpeed;
-}
-
-int Player::GetChangeSpeedCount()const {
-	return changeSpeedCount;
-}
-
-float playTime;
-int previousModel;
-float totalTime;
 void Player::PlayAnimation(ModelData player, bool isLoop) {
-	if (previousModel != player.model) {	// モデルが変わったら再生時間をリセット
-		playTime = 0;
-		previousModel = player.model;
+	if (animePastModel != player.model) {	// モデルが変わったら再生時間をリセット
+		animePlayTime = 0;
+		animePastModel = player.model;
 	}
 	// アニメーションのそう再生時間を取得し、それを超えるまでアニメーションを進める
-	totalTime = MV1GetAttachAnimTotalTime(modelData[modelIndex].model, modelData[modelIndex].anime);
-	playTime += 0.7f;
+	animePlayTotalTime = MV1GetAttachAnimTotalTime(modelData[modelIndex].model, modelData[modelIndex].anime);
+	animePlayTime += 0.7f;
 
 	// ループする場合は最初に戻し、しない場合は最後のフレームで止める
-	if (playTime >= totalTime)isLoop ? playTime = 0.0f : playTime = totalTime;
-	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, playTime);
+	if (animePlayTime >= animePlayTotalTime)isLoop ? animePlayTime = 0.0f : animePlayTime = animePlayTotalTime;
+	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
 }
