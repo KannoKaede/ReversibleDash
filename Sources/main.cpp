@@ -61,7 +61,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 }
 
 void Base::SetUp() {
-	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定：リファクタリング→スカイボックスに変更するかも
+	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定
 	SetMouseDispFlag(FALSE);	// マウスを非表示
 
 	// Zバッファを有効にする、正確な奥行き関係に基づいた描画を行うために使用

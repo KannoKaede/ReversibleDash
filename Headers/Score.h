@@ -34,9 +34,7 @@ public:
 	void SetViewScore(int num) { viewScore = num; }
 
 	// 定数群
-	const int ADD_SCORE_10 = 10;	// viewScoreに加算するスコアの値
-	const int ADD_SCORE_100 = 100;	// viewScoreに加算するスコアの値
-	const int ADD_SCORE_200 = 200;	// viewScoreに加算するスコアの値
+	const std::vector<int> scoreSteps = { 200, 100, 10 };	// ViewSore加算する値
 private:
 	int viewScore;	// ゲーム画面表示スコア
 	int score;	// 内部保存スコア

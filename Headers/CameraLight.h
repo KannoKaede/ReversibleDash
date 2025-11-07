@@ -2,13 +2,10 @@
 #include "DxLib.h"
 #include "Player.h"
 
+constexpr int CAMERA_MOVE_LIMIT = 4;	// プレイヤーの加速カウントが一定になったらカメラが追従しなくなる
 class CameraLight {
 public:
-
-
-	/// <summary> カメラの初期化コンストラクタ</summary>
-	/// <param name="pos"> カメラの座標 </param>
-	/// <param name="look"> 注視点 </param>
+	/// <summary> コンストラクタ</summary>
 	CameraLight() :cameraPos(START_CAMERA_POS), cameraLookPos(START_CAMERA_LOOKPOS) {}
 
 	/// <summary> カメラの初期設定メソッド </summary>
@@ -16,7 +13,7 @@ public:
 
 	/// <summary> カメラの移動メソッド </summary>
 	/// <param name="moveAmount"> 移動量 </param>
-	void CameraMove(Player player);
+	void CameraMove(Player& player);
 
 	/// <summary> カメラのリセットメソッド</summary>
 	void Initialization();

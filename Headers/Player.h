@@ -11,6 +11,7 @@ constexpr float JUMP_POWER = 10;		// ジャンプ力
 const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 250);
 const VECTOR START_PLAYER_ROT = VGet(0, base.ChangeRadians(-90.0f), 0);
 const VECTOR START_PLAYER_SCALE = VGet(30, 100, 0);
+
 class Player {
 public:
 	struct ModelData {
@@ -28,42 +29,28 @@ public:
 	/// <summary> プレイヤーのジャンプ処理メソッド </summary>
 	void Jump();
 
+	/// <summary> アニメーションの再生を行うメソッド </summary>
+	/// <param name="player"> プレイヤーのモデルデータ、アニメーションデータ </param>
+	/// <param name="isLoop"> ループ再生するかのフラグ </param>
+	void PlayAnimation(ModelData player, bool isLoop);
+
 	/// <summary> プレイヤーのリセットメソッド </summary>
 	void Initialization();
 
-	/// <summary> modelHandleを返すメソッド </summary>
-	/// <returns> modelHandle </returns>
-	int GetModel()const;
+	// private変数を読み取り専用で渡すメソッド群
+	int GetModel()const { return modelData[modelIndex].model; }
+	VECTOR GetPosition()const { return transform.position; }
+	VECTOR GetRotation()const { return transform.rotation; }
+	VECTOR GetScale()const { return transform.scale; }
+	float GetSpeed()const { return moveSpeed; }
+	int GetChangeSpeedCount()const { return changeSpeedCount; }
+	bool GetIsGravityBottom() { return isGravityBottom; }
 
-	/// <summary> positionを返すメソッド </summary>
-	/// <returns> position </returns>
-	VECTOR GetPosition()const;
-
-	/// <summary> positionをセットするメソッド </summary>
-	/// <param name="pos"> セットする座標 </param>
-	void SetPosition(VECTOR pos);
-
-	/// <summary> rotationを返すメソッド </summary>
-	/// <returns> rotation </returns>
-	VECTOR GetRotation()const;
-
-	/// <summary> scaleを返すメソッド </summary>
-	/// <returns> scale </returns>
-	VECTOR GetScale()const;
-
-	/// <summary> moveSpeedを返すメソッド </summary>
-	/// <returns> moveSpeed </returns>
-	float GetSpeed()const;
-
-	/// <summary> changeSpeedCountを返すメソッド </summary>
-	/// <returns> changeSpeedCount </returns>
-	int GetChangeSpeedCount()const;
-
-	void PlayAnimation(ModelData player, bool isLoop);
-	bool isFall;		// 現在落下中か
-	bool isGround;	// 現在ジャンプ中か判定
-	bool isGravityBottom;	// 上下どちらの地面にいるか判定
-	float groundPosY;	// 接地した地面の座標Y
+	// private変数に値を書き込むメソッド群
+	void SetPosition(VECTOR pos) { transform.position = pos; }
+	void SetIsFall(bool state) { isFall = state; }
+	void SetIsGround(bool state) { isGround = state; }
+	void SetGroundPosY(float pos) { groundPosY = pos; }
 private:
 	ModelData modelData[3] = {};
 
@@ -74,8 +61,21 @@ private:
 	};
 	Transform transform;
 
+	// 移動で使用
 	float moveSpeed;	// プレイヤーの移動速度を格納
 	int changeSpeedCount = 1;	// 移動速度の変更回数を格納するカウンタ
+
+	// ジャンプ、落下処理で使用
+	int pressedMomentTime;
 	float jumpPower = {};	// 実際のジャンプ力を入れる変数
 	int modelIndex = {};		// 使用するモデルアニメーション
+	bool isFall;		// 現在落下中か
+	bool isGround;	// 現在ジャンプ中か判定
+	bool isGravityBottom;	// 上下どちらの地面にいるか判定
+	float groundPosY;	// 接地した地面の座標Y
+
+	// アニメーション再生処理で使用
+	float animePlayTime;	// アニメーションの再生するフレームを設定する
+	int animePastModel = {};	// 前回再生していたアニメーションモデルを保存
+	float animePlayTotalTime = {};	// 再生しているアニメーションのそう再生時間を保存
 };

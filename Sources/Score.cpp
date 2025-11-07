@@ -17,10 +17,14 @@ void ScoreManager::AddViewScore() {
 	int differenceScore = score - viewScore;	// 表示スコアと実際のスコアの差分
 	if (differenceScore == 0)return;
 
-	// 差分が一定より大きい場合は加算するスコアを大きくする
-	int addedPoint = differenceScore < ADD_SCORE_10 ? differenceScore : ADD_SCORE_10;
-	addedPoint = differenceScore < ADD_SCORE_100 ? differenceScore : ADD_SCORE_100;
-	addedPoint = differenceScore < ADD_SCORE_200 ? differenceScore : ADD_SCORE_200;
+	// ViewScoreに加算する値をスコアとの差に合わせて変更
+	int addedPoint = differenceScore;
+	for (int step : scoreSteps) {
+		if (differenceScore >= step) {
+			addedPoint = step;
+			break;
+		}
+	}
 
 	viewScore += addedPoint;
 }
@@ -33,7 +37,6 @@ void ScoreManager::CheckHighScore() {
 void ScoreManager::LoadHighScore() {
 	// テキストファイルからハイスコアを読み込み値を代入する
 	std::ifstream file("Resource/HighScore_Data.txt");
-
 	// 一行ずつ読み込み、配列に代入する
 	for (int i = 0; i < MAX_STAGE_NUM; i++) {
 		if (!(file >> highScore[i])) {	// 読み込み失敗時は0を代入
@@ -46,6 +49,7 @@ void ScoreManager::LoadHighScore() {
 
 void ScoreManager::SaveHighScore() {
 	std::ofstream file("Resource/HighScore_Data.txt", std::ios::trunc);
+	if (!file.is_open())return;
 
 	for (int i = 0; i < MAX_STAGE_NUM; i++) {	// ファイルにハイスコアを書き込む
 		file << highScore[i] << "\n";
