@@ -10,6 +10,7 @@ constexpr float L_CAR_HEIGHT = 220;	// オブジェクトの高さ
 constexpr float L_CAR_RADIUS = 320;	// オブジェクトの半径
 #define SmallRandom rand() % 4
 #define LargeRandom rand() % 4 + 4
+#define CloudRandom rand()%5
 
 // 車の情報をまとめたクラス
 class Car {
@@ -36,12 +37,28 @@ private:
 	VECTOR position;	// 座標
 };
 
+// 雲の情報をまとめたクラス
+class Cloud {
+public:
+	Cloud(int type, float drawPosX) :cloudHandle(type), height(-50), radius(120), position(VGet(drawPosX, 700, 250)) {}
+	int GetCloudHandle() { return cloudHandle; }
+	float GetHeight() { return height; }
+	float GetRadius() { return radius; }
+	VECTOR GetPosition() { return position; }
+	void SetCloudHandle(int handle) { cloudHandle = handle; }
+private:
+	int cloudHandle;
+	float height;
+	float radius;
+	VECTOR position;
+};
+
 
 // ステージ描画を管理するクラス
 class StageManager {
 public:
 	/// <summary> コンストラクタ </summary>
-	StageManager() :cityHandle(), cityDrawPos(VGet(23700, 0, 0)), carHandle(), carMoveX() {}
+	StageManager() :cityHandle(), cityDrawPos(VGet(23700, 0, 0)), carHandle(), cloudHandle(), carMoveX() {}
 
 	/// <summary> コンストラクタでは設定できないモデルデータをロードするメソッド </summary>
 	void SetUp();
@@ -76,16 +93,51 @@ private:
 	int cityHandle;	// 背景ステージのモデルデータ
 	VECTOR cityDrawPos;	// 背景ステージの座標
 	int carHandle[8];	// 車のモデルデータ
+	int cloudHandle[5];	// 雲のモデルデータ
 	const float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
-	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,7000,100,100,100,100,100 };	// ゴール座標
+	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,100000,100000,100000,100000 };	// ゴール座標
 	const float CLEAR_CHANGE_DIS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
+	const int COLLISION_DISTANCE = 155;		// 雲の衝突判定を行うか判定する距離
 	float carMoveX;
 	std::vector<Car> carArray[MAX_STAGE_NUM] = {	// ステージごとの車の情報を格納
 		{},	// ステージ0は存在しないので空
 		// ステージ1
-		{Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,1000),Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,3000)},
+		{
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,2000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,3500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,5000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,9000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,10500),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,13000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,13900),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,14600),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,15300),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,16000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,16700),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,17400),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,18100),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,18800),
+		},
 		// ステージ2
-		{},
+		{
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,1500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,3000),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,5000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,5700),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,6300),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,7000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,7700),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,11500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,12200),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,12900),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,13600),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,14300),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,15000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,15700),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,19000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,19700),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,20400),
+		},
 		// ステージ3
 		{},
 		// ステージ4
@@ -94,6 +146,80 @@ private:
 		{},
 		// ステージ6
 		{},
+	};
+	std::vector<Cloud> cloudArray[MAX_STAGE_NUM] = {
+		{},
+		// ステージ1
+		{
+			Cloud(CloudRandom,7240),
+			Cloud(CloudRandom,7480),
+			Cloud(CloudRandom,7720),
+			Cloud(CloudRandom,7960),
+			Cloud(CloudRandom,8200),
+			Cloud(CloudRandom,8440),
+			Cloud(CloudRandom,8680),
+			// 隙間
+			Cloud(CloudRandom,9320),
+			Cloud(CloudRandom,9560),
+			Cloud(CloudRandom,9800),
+			Cloud(CloudRandom,10040),
+			Cloud(CloudRandom,10280),
+			Cloud(CloudRandom,10520),
+			// 隙間
+			Cloud(CloudRandom,11160),
+			Cloud(CloudRandom,11400),
+			Cloud(CloudRandom,11640),
+			// 隙間
+			Cloud(CloudRandom,11800),
+			Cloud(CloudRandom,12040),
+			Cloud(CloudRandom,12280),
+			Cloud(CloudRandom,12520),
+			Cloud(CloudRandom,12760),
+			Cloud(CloudRandom,13000),
+			Cloud(CloudRandom,13240),
+			Cloud(CloudRandom,13480),
+		},
+		{
+			Cloud(CloudRandom,2400),
+			Cloud(CloudRandom,2680),
+			Cloud(CloudRandom,2920),
+			Cloud(CloudRandom,3160),
+			Cloud(CloudRandom,3400),
+			Cloud(CloudRandom,3640),
+			Cloud(CloudRandom,3880),
+			// 隙間
+			Cloud(CloudRandom,4520),
+			Cloud(CloudRandom,4760),
+			Cloud(CloudRandom,5000),
+			// 隙間
+			Cloud(CloudRandom,6360),
+			Cloud(CloudRandom,6500),
+			Cloud(CloudRandom,6740),
+			Cloud(CloudRandom,6980),
+			Cloud(CloudRandom,7220),
+			// 隙間
+			Cloud(CloudRandom,7860),
+			Cloud(CloudRandom,8100),
+			Cloud(CloudRandom,8340),
+			// 隙間
+			Cloud(CloudRandom,8980),
+			Cloud(CloudRandom,9220),
+			Cloud(CloudRandom,9460),
+			Cloud(CloudRandom,9700),
+			// 隙間
+			Cloud(CloudRandom,11000),
+			Cloud(CloudRandom,11240),
+			Cloud(CloudRandom,11480),
+			Cloud(CloudRandom,11720),
+			Cloud(CloudRandom,11960),
+			Cloud(CloudRandom,12200),
+			// 隙間
+			Cloud(CloudRandom,12840),
+			Cloud(CloudRandom,13080),
+			Cloud(CloudRandom,13320),
+			Cloud(CloudRandom,13560),
+			Cloud(CloudRandom,13800),
+		},
 	};
 };
 extern StageManager stageManager;	// StageManagerのインスタンス

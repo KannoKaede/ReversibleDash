@@ -6,37 +6,57 @@ StageManager stageManager;
 
 void StageManager::SetUp() {
 	cityHandle = MV1LoadModel("Resource/Stages/city.mv1");
-	carHandle[0] = MV1LoadModel("Resource/Stages/SmallCar/SmallCar_1.mv1");
-	carHandle[1] = MV1LoadModel("Resource/Stages/SmallCar/SmallCar_2.mv1");
-	carHandle[2] = MV1LoadModel("Resource/Stages/SmallCar/SmallCar_3.mv1");
-	carHandle[3] = MV1LoadModel("Resource/Stages/SmallCar/SmallCar_4.mv1");
-	carHandle[4] = MV1LoadModel("Resource/Stages/LargeCar/LargeCar_1.mv1");
-	carHandle[5] = MV1LoadModel("Resource/Stages/LargeCar/LargeCar_2.mv1");
-	carHandle[6] = MV1LoadModel("Resource/Stages/LargeCar/LargeCar_3.mv1");
-	carHandle[7] = MV1LoadModel("Resource/Stages/LargeCar/LargeCar_4.mv1");
-	
+	carHandle[0] = MV1LoadModel("Resource/Stages/SmallCars/SmallCar_1.mv1");
+	carHandle[1] = MV1LoadModel("Resource/Stages/SmallCars/SmallCar_2.mv1");
+	carHandle[2] = MV1LoadModel("Resource/Stages/SmallCars/SmallCar_3.mv1");
+	carHandle[3] = MV1LoadModel("Resource/Stages/SmallCars/SmallCar_4.mv1");
+	carHandle[4] = MV1LoadModel("Resource/Stages/LargeCars/LargeCar_1.mv1");
+	carHandle[5] = MV1LoadModel("Resource/Stages/LargeCars/LargeCar_2.mv1");
+	carHandle[6] = MV1LoadModel("Resource/Stages/LargeCars/LargeCar_3.mv1");
+	carHandle[7] = MV1LoadModel("Resource/Stages/LargeCars/LargeCar_4.mv1");
+
+	cloudHandle[0] = MV1LoadModel("Resource/Stages/Clouds/Cloud_1.mv1");
+	cloudHandle[1] = MV1LoadModel("Resource/Stages/Clouds/Cloud_2.mv1");
+	cloudHandle[2] = MV1LoadModel("Resource/Stages/Clouds/Cloud_3.mv1");
+	cloudHandle[3] = MV1LoadModel("Resource/Stages/Clouds/Cloud_4.mv1");
+	cloudHandle[4] = MV1LoadModel("Resource/Stages/Clouds/Cloud_5.mv1");
+
+
 	// コンストラクタでモデルを設定できないのでここでモデルを設定する
 	for (int i = 1; i < MAX_STAGE_NUM; i++) {
-		for (size_t j = 0; j < carArray[i].size(); j++) {
+		for (int j = 0; j < carArray[i].size(); j++) {
 			carArray[i][j].SetCarHandle(carHandle[carArray[i][j].GetCarHandle()]);
 		}
+		for (int k = 0; k < cloudArray[i].size(); k++) {
+			cloudArray[i][k].SetCloudHandle(cloudHandle[cloudArray[i][k].GetCloudHandle()]);
+		}
 	}
+
 }
 
 void StageManager::Draw(Player& player) {
 	// 背景ステージの描画と衝突判定の設定
 	MV1DrawModel(cityHandle);
 	IsCollision(player, VGet(12000, 0, 0), 40, 20000, false);	// リファクタリング：ステージを全部作り終わったら定数に変更
-
+	printfDx("%f", player.GetPosition().x);
 	// 車の描画
 	if (!base.GetIsGameStop()) carMoveX += -7;	// 車を左に移動させていく
-	for (size_t i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
+	for (int i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
 		Car car = carArray[base.GetStageNumber()][i];	// 描画用に一時的に取得
 		VECTOR drawPos = VAdd(car.GetPosition(), VGet(carMoveX, 0, 0));
-		MV1SetPosition(car.GetCarHandle(),drawPos);	// 車の座標を更新
+		MV1SetPosition(car.GetCarHandle(), drawPos);	// 車の座標を更新
 		MV1DrawModel(car.GetCarHandle());
 		// 衝突したらゲームオーバーに設定
 		if (!base.GetIsGameStop() && IsCollision(player, drawPos, car.GetHeight(), car.GetRadius(), true))fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
+	}
+
+	// 雲の描画
+	for (int j = 0; j < cloudArray[base.GetStageNumber()].size(); j++) {
+		Cloud cloud = cloudArray[base.GetStageNumber()][j];
+		MV1SetPosition(cloud.GetCloudHandle(), cloud.GetPosition());
+		MV1DrawModel(cloud.GetCloudHandle());
+		if (fabsf(player.GetPosition().x - cloud.GetPosition().x) <= COLLISION_DISTANCE)
+			IsCollision(player, cloud.GetPosition(), cloud.GetHeight(), cloud.GetRadius(), false);
 	}
 }
 
@@ -47,7 +67,7 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	bool collisionY = (player.GetIsGravityBottom() && playerPos.y <= objPos.y + height && playerPos.y + playerScale.y >= objPos.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
 		(!player.GetIsGravityBottom() && playerPos.y >= objPos.y + height && playerPos.y - playerScale.y <= objPos.y);
 	// 衝突判定デバッグ用ライン　判定枠の表示
-	/*float z = 70;
+	float z = 70;
 	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
 	DrawLine3D(VGet(objPos.x - radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
 	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y, objPos.z + z), GetColor(255, 255, 255));
@@ -59,13 +79,14 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
 	DrawLine3D(VGet(objPos.x - radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
 	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z - z), VGet(objPos.x + radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));*/
-	 //足場の判定
+	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z - z), VGet(objPos.x + radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));
+	//足場の判定
 	if (!isObstacles) {
 		// プレイヤーがobj.xの範囲内にいてobj.yの範囲内にもいる場合設置判定を有効にする
 		if (collisionX && collisionY) {
-			player.SetGroundPosY( objPos.y + height);	// 足場となる座標を保存
+			player.SetGroundPosY(objPos.y + height);	// 足場となる座標を保存
 			player.SetIsGround(true);
+			printfDx("うお");
 		}
 		// obj.yの範囲内にいるがobj.xの範囲外にいる場合はそのまま落下する
 		else if (!collisionX && collisionY) {
@@ -75,7 +96,7 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	}
 	// 車の判定
 	else {
-		if (collisionX && collisionY) return true;	// 車の中にプレイヤーが侵入したら
+		if (collisionX && collisionY) return false;	// 車の中にプレイヤーが侵入したら
 	}
 	return false;
 }

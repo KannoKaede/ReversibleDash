@@ -8,7 +8,7 @@ void CameraLight::SetUp() {
 	SetLightDirection(VGet(0, -0.7f, 0.3f));
 }
 
-void CameraLight::CameraMove(Player player) {
+void CameraLight::CameraMove(Player& player) {
 	SetCameraPositionAndTarget_UpVecY(cameraPos, cameraLookPos);	// カメラの位置と注視点を設定
 	if (base.GetIsGameStop())return;	// ゲームが止まっているときは移動処理に進まない
 
