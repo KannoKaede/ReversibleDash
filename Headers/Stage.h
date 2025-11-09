@@ -95,12 +95,12 @@ private:
 	int carHandle[8];	// 車のモデルデータ
 	int cloudHandle[5];	// 雲のモデルデータ
 	const float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
-	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,100000,100000,100000,100000 };	// ゴール座標
+	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,14000,100000,100000,100000 };	// ゴール座標
 	const float CLEAR_CHANGE_DIS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
 	const int COLLISION_DISTANCE = 155;		// 雲の衝突判定を行うか判定する距離
 	float carMoveX;
 	std::vector<Car> carArray[MAX_STAGE_NUM] = {	// ステージごとの車の情報を格納
-		{},	// ステージ0は存在しないので空
+		{},	// ステージ0は存在しないので空 車4500足したらいい感じ	選択してる車で来てる、上の雲出来てない
 		// ステージ1
 		{
 			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,2000),
@@ -139,13 +139,33 @@ private:
 			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,20400),
 		},
 		// ステージ3
-		{},
+		{
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,2500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,4000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,5500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,7000),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,10000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,13000),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,16400),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,20000),
+		},
 		// ステージ4
-		{},
+		{
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,5000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,8000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,10000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,11500),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,13500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,15000),
+		},
 		// ステージ5
-		{},
+		{
+		
+		},
 		// ステージ6
-		{},
+		{
+		
+		},
 	};
 	std::vector<Cloud> cloudArray[MAX_STAGE_NUM] = {
 		{},
@@ -179,8 +199,9 @@ private:
 			Cloud(CloudRandom,13240),
 			Cloud(CloudRandom,13480),
 		},
+		// ステージ2
 		{
-			Cloud(CloudRandom,2400),
+			Cloud(CloudRandom,2440),
 			Cloud(CloudRandom,2680),
 			Cloud(CloudRandom,2920),
 			Cloud(CloudRandom,3160),
@@ -219,6 +240,65 @@ private:
 			Cloud(CloudRandom,13320),
 			Cloud(CloudRandom,13560),
 			Cloud(CloudRandom,13800),
+		},
+		// ステージ3
+		{
+			Cloud(CloudRandom,5500),
+			Cloud(CloudRandom,5740),
+			Cloud(CloudRandom,5980),
+			Cloud(CloudRandom,6220),
+			Cloud(CloudRandom,6460),
+			Cloud(CloudRandom,6700),
+			// 隙間
+			Cloud(CloudRandom,7340),
+			Cloud(CloudRandom,7580),
+			Cloud(CloudRandom,7820),
+			Cloud(CloudRandom,8060),
+			// 隙間
+			Cloud(CloudRandom,9200),
+			Cloud(CloudRandom,9440),
+			Cloud(CloudRandom,9680),
+			Cloud(CloudRandom,9920),
+			// 隙間
+			Cloud(CloudRandom,10540),
+			Cloud(CloudRandom,10780),
+			Cloud(CloudRandom,11020),
+			Cloud(CloudRandom,11260),
+			Cloud(CloudRandom,11500),
+		},
+		// ステージ4
+		{
+		Cloud(CloudRandom,2500),
+		Cloud(CloudRandom,2740),
+		Cloud(CloudRandom,2980),
+		Cloud(CloudRandom,3220),
+		Cloud(CloudRandom,3460),
+		Cloud(CloudRandom,3700),
+		// 隙間
+		Cloud(CloudRandom,4340),
+		Cloud(CloudRandom,4580),
+		Cloud(CloudRandom,4820),
+		Cloud(CloudRandom,5060),
+		// 隙間
+		Cloud(CloudRandom,7500),
+		Cloud(CloudRandom,7740),
+		Cloud(CloudRandom,7980),
+		Cloud(CloudRandom,8220),
+		Cloud(CloudRandom,8460),
+		// 隙間
+		Cloud(CloudRandom,9100),
+		Cloud(CloudRandom,9340),
+		Cloud(CloudRandom,9580),
+		Cloud(CloudRandom,9820),
+		// 隙間
+		},
+		// ステージ5
+		{
+		
+		},
+		// ステージ6
+		{
+		
 		},
 	};
 };

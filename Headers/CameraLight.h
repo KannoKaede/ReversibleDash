@@ -18,8 +18,8 @@ public:
 	/// <summary> カメラのリセットメソッド</summary>
 	void Initialization();
 
-	const VECTOR START_CAMERA_POS = VGet(350, 340, -600);	// カメラの初期座標
-	const VECTOR START_CAMERA_LOOKPOS = VGet(350, 340, 0);	// カメラの初期注視点
+	const VECTOR START_CAMERA_POS = VGet(350, 330, -600);	// カメラの初期座標
+	const VECTOR START_CAMERA_LOOKPOS = VGet(350, 320, 0);	// カメラの初期注視点
 private:
 	VECTOR cameraPos;	// カメラの座標
 	VECTOR cameraLookPos;	// カメラの注視点
