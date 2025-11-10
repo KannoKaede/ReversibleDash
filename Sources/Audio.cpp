@@ -1,4 +1,6 @@
 ﻿#include "Audio.h"
+#include "UI.h"
+#include "Input.h"
 
 AudioManager audioManager;
 
@@ -7,11 +9,14 @@ void AudioManager::SetUp() {
 	se[BUTTON_MOVE] = LoadSoundMem("Resource/Audios/SE_ButtonMove.mp3");
 	se[BUTTON_BEEP] = LoadSoundMem("Resource/Audios/SE_ButtonBeep.mp3");
 	se[BUTTON_SELECT] = LoadSoundMem("Resource/Audios/SE_ButtonSelect.mp3");
+	se[JINGLE_CLEAR] = LoadSoundMem("Resource/Audios/JINGLE_Clear.mp3");
+	se[JINGLE_GAMEOVER] = LoadSoundMem("Resource/Audios/JINGLE_GameOver.mp3");
 	bgm[OUTGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_Title.mp3");
 	bgm[INGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_InGame.mp3");
 	// 音量設定
-	ChangeVolumeSoundMem(30, bgm[OUTGAME_BGM]);
-	ChangeVolumeSoundMem(30, bgm[INGAME_BGM]);
+	ChangeVolumeSoundMem(50, bgm[OUTGAME_BGM]);
+	ChangeVolumeSoundMem(50, bgm[INGAME_BGM]);
+	ChangeVolumeSoundMem(50, se[JINGLE_CLEAR]);
 }
 
 void AudioManager::PlaySE(SeType seHandle) {
@@ -20,9 +25,37 @@ void AudioManager::PlaySE(SeType seHandle) {
 
 void AudioManager::PlayBGM(BgmType bgmType) {
 	// 同じBGMを何回も再生しないようにブロックする
-	if (pastBgmtype != bgmType) {
-		StopSoundMem(bgm[pastBgmtype]);	// 前回のBGMを停止
+	if (pastBgmType != bgmType) {
+		StopSoundMem(bgm[pastBgmType]);	// 前回のBGMを停止
 		PlaySoundMem(bgm[bgmType], DX_PLAYTYPE_LOOP);
-		pastBgmtype = bgmType;
+		pastBgmType = bgmType;
+	}
+}
+
+void AudioManager::StopBGM() {
+	StopSoundMem(bgm[pastBgmType]);
+	pastBgmType = BGM_MAX_NUM;	// 使用していないBGMナンバーに初期化
+}
+
+void AudioManager::AudioPlayControl() {
+	if (!fadeManager.GetIsFading()  ) {
+		switch (uiManager.GetCurrentScreen()) {
+			case TITLE:
+			case STAGESELECT:
+				PlayBGM(OUTGAME_BGM);
+				break;
+			case INGAME:
+				if(!uiManager.GetIsStartCountDown())
+				PlayBGM(INGAME_BGM);
+				break;
+			case PAUSE:
+			case GAMEOVER:
+			case CLEAR:
+				StopBGM();
+				break;
+		}
+	}
+	else {
+		StopBGM();
 	}
 }

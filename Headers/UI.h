@@ -108,13 +108,14 @@ public:
 	/// <summary> 現在の画面が指定の画面と等しいかを返すメソッド </summary>
 	/// <param name="screen"> 指定の画面 </param>
 	/// <returns> 現在の画面と指定の画面が等しいか </returns>
-	bool IsEqualCurrenScreen(SCREEN_TYPE screen) { return currentScreen == screen; }
+	bool CheckScreen(SCREEN_TYPE screen) { return currentScreen == screen; }
 
 	ImageData GetImageWASD() { return keyWASD; }
 	ImageData GetImageSpace() { return keySpace; }
 	ImageData GetImageEscape() { return keyEscape; }
 	SCREEN_TYPE GetCurrentScreen() { return currentScreen; }
 	SCREEN_TYPE GetNextScreen() { return nextScreen; }
+	bool GetIsStartCountDown() { return isStartCountDown; }
 
 	void SetCurrentScreen(SCREEN_TYPE current) { currentScreen = current; }
 	void SetNextScreen(SCREEN_TYPE next) { nextScreen = next; }

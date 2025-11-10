@@ -1,6 +1,4 @@
-﻿  Main.cpp
-  Player.cpp
-  Score.cpp
-D:\ReversibleDash\Sources\Player.cpp(58,3): error C3861: 'ScoreCalculation': 識別子が見つかりませんでした
+﻿  Audio.cpp
   UI.cpp
   コードを生成中...
+  ReversibleDash.vcxproj -> C:\Users\kkaed\OneDrive\ドキュメント\GitHub\ReversibleDash\x64\Debug\ReversibleDash.exe

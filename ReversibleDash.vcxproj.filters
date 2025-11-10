@@ -54,6 +54,9 @@
     <Media Include="Resource\Audios\SE_ButtonSelect.mp3">
       <Filter>リソース ファイル\Audios</Filter>
     </Media>
+    <Media Include="Resource\Audios\JINGLE_Clear.mp3">
+      <Filter>リソース ファイル\Audios</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Images\EnterKey.png">
@@ -128,9 +131,6 @@
     <ClCompile Include="Sources\Score.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\3dSetting.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Base.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -140,33 +140,36 @@
     <ClCompile Include="Sources\Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\CameraLight.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Hedders\3dSetting.h">
+    <ClInclude Include="Headers\Audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Audio.h">
+    <ClInclude Include="Headers\Button.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Button.h">
+    <ClInclude Include="Headers\CameraLight.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Input.h">
+    <ClInclude Include="Headers\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Player.h">
+    <ClInclude Include="Headers\Main.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Score.h">
+    <ClInclude Include="Headers\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\UI.h">
+    <ClInclude Include="Headers\Score.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Main.h">
+    <ClInclude Include="Headers\Stage.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Hedders\Stage.h">
+    <ClInclude Include="Headers\UI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -44,7 +44,7 @@ int Base::TextDrawCenterPosY(float top, float bottom, int fontSize, std::string 
 
 bool Base::IsDrawInGame() {
 	// ステージを裏で描画する画面を返す
-	return uiManager.IsEqualCurrenScreen(INGAME) || uiManager.IsEqualCurrenScreen(PAUSE) || uiManager.IsEqualCurrenScreen(GAMEOVER) || uiManager.IsEqualCurrenScreen(CLEAR);
+	return uiManager.CheckScreen(INGAME) || uiManager.CheckScreen(PAUSE) || uiManager.CheckScreen(GAMEOVER) || uiManager.CheckScreen(CLEAR);
 }
 
 constexpr float Base::ChangeRadians(float num) {
