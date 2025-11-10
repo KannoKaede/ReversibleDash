@@ -4,13 +4,15 @@
 class AudioManager {
 public:
 	/// <summary> コンストラクタ </summary>
-	AudioManager():se(),bgm(),pastBgmtype() {}
+	AudioManager():se(),bgm(),pastBgmType(BGM_MAX_NUM) {}
 	
 	// SEの種類を定義
 	enum SeType {
 		BUTTON_MOVE,	// ボタン移動
 		BUTTON_BEEP,	// ボタン移動不可
 		BUTTON_SELECT,	// ボタン選択
+		JINGLE_CLEAR,	// クリアジングル
+		JINGLE_GAMEOVER,// ゲームオーバージングル
 		SE_MAX_NUM		// SEの種類の最大数
 	};
 
@@ -31,9 +33,15 @@ public:
 	/// <summary> BGMを再生するメソッド </summary>
 	/// <param name="bgmHandle"> 再生したいBGMの種類 </param>
 	void PlayBGM(BgmType bgmHandle);
+
+	/// <summary> 再生しているBGMを停止するメソッド </summary>
+	void StopBGM();
+
+	/// <summary> BGMの再生停止を管理するメソッド </summary>
+	void AudioPlayControl();
 private:
 	int se[SE_MAX_NUM];	// SEデータ
 	int bgm[BGM_MAX_NUM];	//BGMデータ
-	BgmType pastBgmtype;	// 再生していたBGM
+	BgmType pastBgmType;	// 再生していたBGM
 };
 extern AudioManager audioManager;

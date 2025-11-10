@@ -31,21 +31,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
 				scoreManager.CheckHighScore();
 				fadeManager.ChangeUIState(CLEAR, fadeManager.NOTFADE);
+				audioManager.PlaySE(audioManager.JINGLE_CLEAR);
 			}
 		}
-
-		if (!fadeManager.GetIsFading()) {
-			if (uiManager.IsEqualCurrenScreen(TITLE) || uiManager.IsEqualCurrenScreen(STAGESELECT))
-				audioManager.PlayBGM(audioManager.OUTGAME_BGM);
-			if (uiManager.IsEqualCurrenScreen(INGAME))
-				audioManager.PlayBGM(audioManager.INGAME_BGM);
-			if (input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, fadeManager.NOTFADE);
-		}
-
+		
+		audioManager.AudioPlayControl();
 		uiManager.DrawUI(player);	//	UIを描画
-		if (!uiManager.IsEqualCurrenScreen(INGAME)) {
+		if (!uiManager.CheckScreen(INGAME)) {
 			buttonManager.ButtonMovement();	//  ボタンの移動
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
+		}
+		else {
+			if (!uiManager.GetIsStartCountDown() && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, fadeManager.NOTFADE);
 		}
 		fadeManager.DrawFadeController();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
@@ -86,6 +83,7 @@ void Base::SetUp() {
 	player.SetUp();
 	cameraLight.SetUp();
 	scoreManager.LoadHighScore();
+	audioManager.PlayBGM(audioManager.OUTGAME_BGM);	// 最初にタイトルのBGMを流しておく
 
 	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
 	for (int i = 0; i < MV1GetMaterialNum(stageManager.GetCityHandle()); i++)	// ステージのモデル

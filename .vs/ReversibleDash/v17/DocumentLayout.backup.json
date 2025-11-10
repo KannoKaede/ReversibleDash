@@ -1,26 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\ReversibleDash\\",
+  "WorkspaceRootPath": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Headers\\Score.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Headers\\Score.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Sources\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Sources\\Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Sources\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|D:\\ReversibleDash\\Sources\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Headers\\Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Stage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Stage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Headers\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Score.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Stage.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Headers\\Stage.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Headers\\Audio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Audio.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Audio.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{67C63436-2976-4412-BBC8-AB340E723F2E}|ReversibleDash.vcxproj|solutionrelative:Sources\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,77 +54,149 @@
       "DocumentGroups": [
         {
           "DockedWidth": 242,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
+              "Title": "Button.h",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Button.h",
+              "RelativeDocumentMoniker": "Headers\\Button.h",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Button.h",
+              "RelativeToolTip": "Headers\\Button.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-10T12:29:16.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "UI.cpp",
-              "DocumentMoniker": "D:\\ReversibleDash\\Sources\\Ui.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Ui.cpp",
               "RelativeDocumentMoniker": "Sources\\Ui.cpp",
-              "ToolTip": "D:\\ReversibleDash\\Sources\\Ui.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Ui.cpp",
               "RelativeToolTip": "Sources\\Ui.cpp",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAYwN4AAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABkAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-07T06:06:33.294Z",
+              "WhenOpened": "2025-11-10T12:27:50.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Stage.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Stage.cpp",
+              "RelativeDocumentMoniker": "Sources\\Stage.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Stage.cpp",
+              "RelativeToolTip": "Sources\\Stage.cpp",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-10T12:19:00.485Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Player.cpp",
+              "RelativeDocumentMoniker": "Sources\\Player.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Player.cpp",
+              "RelativeToolTip": "Sources\\Player.cpp",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFkAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-10T12:18:35.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UI.h",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\UI.h",
+              "RelativeDocumentMoniker": "Headers\\UI.h",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\UI.h",
+              "RelativeToolTip": "Headers\\UI.h",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAEwG4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-10T11:52:52.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Main.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\main.cpp",
+              "RelativeDocumentMoniker": "Sources\\main.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\main.cpp",
+              "RelativeToolTip": "Sources\\main.cpp",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAEwCEAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-10T11:47:22.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Audio.h",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Audio.h",
+              "RelativeDocumentMoniker": "Headers\\Audio.h",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Audio.h",
+              "RelativeToolTip": "Headers\\Audio.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAEwA4AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-10T11:44:28.434Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Audio.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Audio.cpp",
+              "RelativeDocumentMoniker": "Sources\\Audio.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Audio.cpp",
+              "RelativeToolTip": "Sources\\Audio.cpp",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACYAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-10T11:43:44.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Stage.h",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Stage.h",
+              "RelativeDocumentMoniker": "Headers\\Stage.h",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Headers\\Stage.h",
+              "RelativeToolTip": "Headers\\Stage.h",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAEwE8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-10T09:41:38.157Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Button.cpp",
-              "DocumentMoniker": "D:\\ReversibleDash\\Sources\\Button.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Button.cpp",
               "RelativeDocumentMoniker": "Sources\\Button.cpp",
-              "ToolTip": "D:\\ReversibleDash\\Sources\\Button.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Button.cpp",
               "RelativeToolTip": "Sources\\Button.cpp",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAAHwAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAAAGYAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-07T02:13:38.989Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Score.cpp",
-              "DocumentMoniker": "D:\\ReversibleDash\\Sources\\Score.cpp",
+              "DocumentMoniker": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Score.cpp",
               "RelativeDocumentMoniker": "Sources\\Score.cpp",
-              "ToolTip": "D:\\ReversibleDash\\Sources\\Score.cpp",
+              "ToolTip": "C:\\Users\\kkaed\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\GitHub\\ReversibleDash\\Sources\\Score.cpp",
               "RelativeToolTip": "Sources\\Score.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-05T05:34:49.064Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Score.h",
-              "DocumentMoniker": "D:\\ReversibleDash\\Headers\\Score.h",
-              "RelativeDocumentMoniker": "Headers\\Score.h",
-              "ToolTip": "D:\\ReversibleDash\\Headers\\Score.h",
-              "RelativeToolTip": "Headers\\Score.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-11-07T00:06:20.364Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 158,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Main.cpp",
-              "DocumentMoniker": "D:\\ReversibleDash\\Sources\\Main.cpp",
-              "RelativeDocumentMoniker": "Sources\\Main.cpp",
-              "ToolTip": "D:\\ReversibleDash\\Sources\\Main.cpp",
-              "RelativeToolTip": "Sources\\Main.cpp",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAHIAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-05T05:52:03.492Z",
               "EditorCaption": ""
             }
           ]

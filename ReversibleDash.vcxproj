@@ -140,6 +140,7 @@
   <ItemGroup>
     <Media Include="Resource\Audios\BGM_InGame.mp3" />
     <Media Include="Resource\Audios\BGM_Title.mp3" />
+    <Media Include="Resource\Audios\JINGLE_Clear.mp3" />
     <Media Include="Resource\Audios\JINGLE_GameOver.mp3" />
     <Media Include="Resource\Audios\SE_ButtonBeep.mp3" />
     <Media Include="Resource\Audios\SE_ButtonMove.mp3" />

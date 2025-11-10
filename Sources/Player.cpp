@@ -1,4 +1,5 @@
-﻿#include "Input.h"
+﻿#include "Audio.h"
+#include "Input.h"
 #include "Player.h"
 #include "Score.h"
 #include "Stage.h"
@@ -84,7 +85,10 @@ void Player::Jump() {
 			PlayAnimation(modelData[modelIndex], false);
 		}
 		// 画面上部からはみ出たらゲームオーバー
-		if (transform.position.y > 1500) fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
+		if (transform.position.y > 1500) {
+			fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
+			audioManager.PlaySE(audioManager.JINGLE_GAMEOVER);
+		}
 	}
 	transform.position.y += jumpPower;
 }

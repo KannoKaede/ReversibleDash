@@ -96,7 +96,7 @@ private:
 	int carHandle[8];	// 車のモデルデータ
 	int cloudHandle[5];	// 雲のモデルデータ
 	const float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };	// ステージごとのステージ背景の描画開始座標Z
-	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,14000,15000,14500,1000 };	// ゴール座標
+	const float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,14000,15000,14500,30000 };	// ゴール座標
 	const float CLEAR_CHANGE_DIS = 1500;	// ゴール後にクリア画面に移動するまでに必要な距離
 	const int COLLISION_DISTANCE = 155;		// 雲の衝突判定を行うか判定する距離
 	float carMoveX;
@@ -173,7 +173,21 @@ private:
 		},
 		// ステージ6
 		{
-		
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,2500),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,5500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,7800),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,12000),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,15000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,15900),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,16600),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,17300),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,18000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,18700),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,19500),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,22500),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,25500),
+			Car(LargeRandom,L_CAR_HEIGHT,L_CAR_RADIUS,29000),
+			Car(SmallRandom,S_CAR_HEIGHT,S_CAR_RADIUS,31000),
 		},
 	};
 	std::vector<Cloud> cloudArray[MAX_STAGE_NUM] = {
@@ -358,6 +372,47 @@ private:
 		// ステージ6
 		{
 		Cloud(CloudRandom,2500),
+		Cloud(CloudRandom,2740),
+		Cloud(CloudRandom,2980),
+		Cloud(CloudRandom,3220),
+		Cloud(CloudRandom,3460),
+		Cloud(CloudRandom,3700),
+		Cloud(CloudRandom,3940),
+		Cloud(CloudRandom,4180),
+		// 隙間
+		Cloud(CloudRandom,4820),
+		Cloud(CloudRandom,5060),
+		Cloud(CloudRandom,5300),
+		// 隙間
+		Cloud(CloudRandom,8300),
+		Cloud(CloudRandom,8540),
+		Cloud(CloudRandom,8780),
+		Cloud(CloudRandom,9020),
+		Cloud(CloudRandom,9260),
+		Cloud(CloudRandom,9500),
+		// 隙間
+		Cloud(CloudRandom,10140),
+		Cloud(CloudRandom,10380),
+		Cloud(CloudRandom,10620),
+		// 隙間
+		Cloud(CloudRandom,11260),
+		Cloud(CloudRandom,11500),
+		Cloud(CloudRandom,11740),
+		Cloud(CloudRandom,11980),
+		Cloud(CloudRandom,12020),
+		// 隙間
+		Cloud(CloudRandom,14980),
+		Cloud(CloudRandom,15220),
+		Cloud(CloudRandom,15460),
+		Cloud(CloudRandom,15700),
+		Cloud(CloudRandom,15940),
+		Cloud(CloudRandom,16180),
+		Cloud(CloudRandom,16420),
+
+		Cloud(CloudRandom,17580),
+		Cloud(CloudRandom,17820),
+		Cloud(CloudRandom,18060),
+		Cloud(CloudRandom,18300),
 		},
 	};
 };

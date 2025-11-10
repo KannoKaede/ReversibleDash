@@ -7,7 +7,7 @@ float jumpDistance;
 ScoreManager scoreManager;
 
 void ScoreManager::AddScoreCalculate(float moveSpeed) {
-	if (uiManager.IsEqualCurrenScreen(INGAME) && jumpDistance < 400) {
+	if (uiManager.CheckScreen(INGAME) && jumpDistance < 400) {
 		score += (400 - (int)jumpDistance) * 7 * (int)moveSpeed;
 		jumpDistance = 0;
 	}

@@ -40,36 +40,15 @@ void Button::Draw()const {
 	// 上で計算した座標を使ってテキストを描画
 	uiManager.DrawStringCenter(textBoxLeft, textBoxTop, textBoxRight, textBoxBottom, drawText, fontType);
 }
-void Button::SetButtonColor(int changeColor) {
-	buttonColor = changeColor;
-}
-
-Button::BUTTON_TYPE Button::GetButtonType()const {
-	return buttonType;
-}
-
-SCREEN_TYPE Button::GetBelongScreen()const {
-	return belongScreen;
-}
-
-int Button::GetColumNum() const {
-	return columnNum;
-}
-
-int Button::GetRowNum() const {
-	return rowNum;
-}
 
 void ButtonManager::ButtonMovement() {
 	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
-	if (uiManager.GetCurrentScreen() != CLEAR) {	// ステージクリアはネクストボタンを非表示にする場合があるので除外
 		for (auto* btn : buttonArray) {
-			if (uiManager.IsEqualCurrenScreen(btn->GetBelongScreen())) {
+			if (uiManager.CheckScreen(btn->GetBelongScreen())) {
 				btn->Draw();
 				btn->SetButtonColor(COLOR_LIGHTGRAY);
 			}
 		}
-	}
 	// フェード中にボタンを移動できないようにする
 	if (!fadeManager.GetIsFading()) {
 		if (input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
@@ -116,7 +95,7 @@ void ButtonManager::ButtonPressed() {
 			uiManager.SetIsStartCountDown(true);
 			// ステージ1に移動
 			if (selected->GetButtonType() == Button::GAMESTART)
-				base.SetStageNumber(6);
+				base.SetStageNumber(1);
 			// 次のステージに移動
 			if (selected->GetButtonType() == Button::NEXTSTAGE)
 				base.SetStageNumber(base.GetStageNumber() + 1);
@@ -147,7 +126,7 @@ void ButtonManager::ButtonPressed() {
 Button* ButtonManager::SelectGetButtonArray() {
 	for (auto* btn : buttonArray) {
 		// 属している画面、ボタンの座標が一致するボタンを返す
-		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && uiManager.IsEqualCurrenScreen(btn->GetBelongScreen()))
+		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && uiManager.CheckScreen(btn->GetBelongScreen()))
 			return btn;
 	}
 	return nullptr;
