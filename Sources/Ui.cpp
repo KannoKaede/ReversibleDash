@@ -83,7 +83,7 @@ void UIManager::DrawStartCountDown() {
 	// 文字の描画
 	fadeManager.DrawTextFade(DRAW_TEXT[drawCount], base.GetFontData(EXTRALARGE).handle, textFadeSpeed);
 	// 一定時間経過したらテキストのフェード演出を開始する
-	if (startTime + waitTime > GetNowCount())  return; 
+	if (startTime + waitTime > GetNowCount())  return;
 
 	// alpha値が0になったらalpha値を増やすように変更
 	if (fadeManager.GetAlphaValue() == 0) {
@@ -221,8 +221,9 @@ void FadeManager::ChangeScene() {
 	uiManager.SetCurrentScreen(uiManager.GetNextScreen());	// 描画するUIを変更する
 
 	// ボタンの座標を初期化
-	buttonManager.SetButtonMovePos( START_BUTTON_POS);
-	buttonManager.SetButtonPos(START_BUTTON_POS);
+	VECTOR buttonPos = START_BUTTON_POS;
+	buttonManager.SetButtonMovePos(buttonPos);
+	buttonManager.SetButtonPos(buttonPos);
 }
 
 void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
@@ -316,6 +317,15 @@ void ClearScene::Draw() {
 	// ハイスコアの描画
 	uiManager.DrawString(53, 73, 43, "HIGHSCORE", base.GetFontData(LARGE).handle);
 	uiManager.DrawString(53, 73, 51, std::to_string(scoreManager.GetHighScore(base.GetStageNumber())), base.GetFontData(LARGE).handle);
+	if (base.GetStageNumber() != 6) {
+		nextGame.Draw();
+	}
+	else {
+
+		buttonManager.SetButtonMovePos(VGet(2, 1, 0));	// 指定のステージまでクリアしたらExitボタンに選択を合わせる
+		buttonManager.SetButtonPos(VGet(2, 1, 0));	// 指定のステージまでクリアしたらExitボタンに選択を合わせる
+	}
+	clearGameExit.Draw();
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());

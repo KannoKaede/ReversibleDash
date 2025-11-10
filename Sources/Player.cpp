@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Score.h"
 #include "Stage.h"
+#include "UI.h"
 
 Player::Player(VECTOR startPos, VECTOR startRot, VECTOR startScale, float startSpeed) {
 	transform.position = startPos;
@@ -82,6 +83,8 @@ void Player::Jump() {
 			modelIndex = 2;
 			PlayAnimation(modelData[modelIndex], false);
 		}
+		// 画面上部からはみ出たらゲームオーバー
+		if (transform.position.y > 1500) fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
 	}
 	transform.position.y += jumpPower;
 }

@@ -62,10 +62,12 @@ int Button::GetRowNum() const {
 
 void ButtonManager::ButtonMovement() {
 	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
-	for (auto* btn : buttonArray) {
-		if (uiManager.IsEqualCurrenScreen(btn->GetBelongScreen())) {
-			btn->Draw();
-			btn->SetButtonColor(COLOR_LIGHTGRAY);
+	if (uiManager.GetCurrentScreen() != CLEAR) {	// ステージクリアはネクストボタンを非表示にする場合があるので除外
+		for (auto* btn : buttonArray) {
+			if (uiManager.IsEqualCurrenScreen(btn->GetBelongScreen())) {
+				btn->Draw();
+				btn->SetButtonColor(COLOR_LIGHTGRAY);
+			}
 		}
 	}
 	// フェード中にボタンを移動できないようにする
@@ -114,7 +116,7 @@ void ButtonManager::ButtonPressed() {
 			uiManager.SetIsStartCountDown(true);
 			// ステージ1に移動
 			if (selected->GetButtonType() == Button::GAMESTART)
-				base.SetStageNumber(1);
+				base.SetStageNumber(6);
 			// 次のステージに移動
 			if (selected->GetButtonType() == Button::NEXTSTAGE)
 				base.SetStageNumber(base.GetStageNumber() + 1);
