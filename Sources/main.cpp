@@ -104,6 +104,24 @@ void Base::SetUp() {
 		MV1SetMaterialEmiColor(player.GetModel(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
 		MV1SetMaterialSpcPower(player.GetModel(), i, 3.0f);
 	}
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < MV1GetMaterialNum(stageManager.GetCarHandle(i)); j++) {
+			MV1SetMaterialDifColor(stageManager.GetCarHandle(i), j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+			MV1SetMaterialAmbColor(stageManager.GetCarHandle(i), j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+			MV1SetMaterialSpcColor(stageManager.GetCarHandle(i), j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+			MV1SetMaterialEmiColor(stageManager.GetCarHandle(i), j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+			MV1SetMaterialSpcPower(stageManager.GetCarHandle(i), j, 3.0f);
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < MV1GetMaterialNum(stageManager.GetCloudHandle(i)); j++) {
+			MV1SetMaterialDifColor(stageManager.GetCloudHandle(i), j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+			MV1SetMaterialAmbColor(stageManager.GetCloudHandle(i), j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+			MV1SetMaterialSpcColor(stageManager.GetCloudHandle(i), j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+			MV1SetMaterialEmiColor(stageManager.GetCloudHandle(i), j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+			MV1SetMaterialSpcPower(stageManager.GetCloudHandle(i), j, 3.0f);
+		}
+	}
 }
 
 void Base::Initialization() {

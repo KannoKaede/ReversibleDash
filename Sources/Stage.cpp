@@ -66,27 +66,13 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	bool collisionX = (playerPos.x + playerScale.x > objPos.x - radius) && (playerPos.x - playerScale.x < objPos.x + radius);	// X軸でプレイヤーがオブジェクトに衝突しているか判定
 	bool collisionY = (player.GetIsGravityBottom() && playerPos.y <= objPos.y + height && playerPos.y + playerScale.y >= objPos.y) ||	// 下のオブジェクトならオブジェ上側よりプレイヤーが下か、上のオブジェクトならオブジェ下側よりプレイヤー上に居るか判定
 		(!player.GetIsGravityBottom() && playerPos.y >= objPos.y + height && playerPos.y - playerScale.y <= objPos.y);
-	// 衝突判定デバッグ用ライン　判定枠の表示
-	float z = 70;
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x - radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z - z), VGet(objPos.x - radius, objPos.y, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y + height, objPos.z + z), VGet(objPos.x + radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x - radius, objPos.y + height, objPos.z + z), VGet(objPos.x - radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y + height, objPos.z + z), VGet(objPos.x - radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y + height, objPos.z - z), VGet(objPos.x - radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x - radius, objPos.y, objPos.z + z), VGet(objPos.x - radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z + z), VGet(objPos.x + radius, objPos.y + height, objPos.z + z), GetColor(255, 255, 255));
-	DrawLine3D(VGet(objPos.x + radius, objPos.y, objPos.z - z), VGet(objPos.x + radius, objPos.y + height, objPos.z - z), GetColor(255, 255, 255));
+
 	//足場の判定
 	if (!isObstacles) {
 		// プレイヤーがobj.xの範囲内にいてobj.yの範囲内にもいる場合設置判定を有効にする
 		if (collisionX && collisionY) {
 			player.SetGroundPosY(objPos.y + height);	// 足場となる座標を保存
 			player.SetIsGround(true);
-			printfDx("うお");
 		}
 		// obj.yの範囲内にいるがobj.xの範囲外にいる場合はそのまま落下する
 		else if (!collisionX && collisionY) {
