@@ -36,26 +36,17 @@ public:
 	/// <summary> ボタンの描画メソッド </summary>
 	void Draw()const;
 
-	/// <summary> ボタンの色の変更メソッド </summary>
-	/// <param name="changeColor"> 変更する色 </param>
-	void SetButtonColor(int changeColor);
+	// private変数を読み取り専用で返すメソッド群
+	BUTTON_TYPE GetButtonType()const { return buttonType; };
+	SCREEN_TYPE GetBelongScreen()const { return belongScreen; };
+	int GetColumNum()const { return columnNum; };
+	int GetRowNum()const { return rowNum; };
 
-	/// <summary> buttonTypeを返すメソッド </summary>
-	/// <returns> buttonType </returns>
-	BUTTON_TYPE GetButtonType()const;
-
-	/// <summary> belongScreenを返すメソッド </summary>
-	/// <returns> belongScreen </returns>
-	SCREEN_TYPE GetBelongScreen()const;
-
-	/// <summary> columnNumを返すメソッド </summary>
-	/// <returns> columnNum </returns>
-	int GetColumNum()const;
-
-	/// <summary> rowNumを返すメソッド </summary>
-	/// <returns> rowNum </returns>
-	int GetRowNum()const;
-
+	// private変数に書き込みを行うメソッド群
+	void SetDrawText(std::string text) { drawText = text; }
+	void SetButtonColor(int changeColor) { buttonColor = changeColor; }
+	void SetButtonType(BUTTON_TYPE type) { buttonType = type; }
+	
 private:
 	BUTTON_TYPE buttonType;   // ボタンの種類
 	SCREEN_TYPE belongScreen;   // どのスクリーンに配置してあるか
@@ -93,13 +84,13 @@ public:
 	void ButtonPressed();
 
 	void SetButtonArray(Button* button) { buttonArray.push_back(button); }
-	void SetButtonMovePos(VECTOR pos) {buttonMovePos = pos; }
+	void SetButtonMovePos(VECTOR pos) { buttonMovePos = pos; }
 	void SetButtonPos(VECTOR pos) { buttonPos = pos; }
 private:
 	VECTOR buttonMovePos = START_BUTTON_POS;    // ボタンの移動座標
 	VECTOR buttonPos = START_BUTTON_POS;    // ボタンの選択位置
 	std::vector<Button*> buttonArray;    // ボタンの配列
-	
+
 };
 
 extern ButtonManager buttonManager;
