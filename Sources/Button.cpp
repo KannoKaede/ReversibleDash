@@ -5,50 +5,36 @@
 
 ButtonManager buttonManager;
 
-Button::Button(SCREEN_TYPE screen, int y, int x, VECTOR center, int width, int height, BUTTON_TYPE button, std::string text, int font, bool isCenterPos) {
-	belongScreen = screen;
-	columnNum = y;
-	rowNum = x;
-	centerPos = center;
-	widthLength = width;
-	heightLength = height;
-	buttonType = button;
-	drawText = text;
-	fontType = font;
-	isCenter = isCenterPos;
+Button::Button(ButtonLocation _location, ButtonArea _area, ButtonType _buttonType, std::string _drawText, int _fontType) {
+	location = _location;
+	area = _area;
+	buttonType = _buttonType;
+	drawText = _drawText;
+	fontType = _fontType;
 	buttonManager.SetButtonArray(this);
 }
 
 void Button::Draw()const {
-	// ボタンの座標をスクリーン座標に変換
-	int drawPosX = base.ScreenDrawPosI(base.GetScreen().width, centerPos.x);
-	int drawPosY = base.ScreenDrawPosI(base.GetScreen().height, centerPos.y);
-	// ボタンの幅と高さをスクリーン座標に変換する
-	int width = base.ScreenDrawPosI(base.GetScreen().width, (float)widthLength);
-	int height = base.ScreenDrawPosI(base.GetScreen().height, (float)heightLength);
+	// ボタンの上下左右の座標を計算
+	int boxRight = base.ScreenDrawPosI(base.GetScreen().width, (area.position.x + area.width));
+	int boxLeft = base.ScreenDrawPosI(base.GetScreen().width, (area.position.x - area.width));
+	int  boxTop = base.ScreenDrawPosI(base.GetScreen().height, (area.position.y + area.height));
+	int  boxBottom = base.ScreenDrawPosI(base.GetScreen().height, (area.position.y - area.height));
 
-	DrawBox((drawPosX - width), (drawPosY - height), (drawPosX + width), (drawPosY + height), buttonColor, TRUE);	// ボタン本体
-	DrawBox(drawPosX, (drawPosY + (int)(height * 0.9f)), (drawPosX + width), (drawPosY + (int)(height * 1.35f)), buttonColor, TRUE);	// ボタン右下の長方形
-	DrawTriangleAA((float)drawPosX, (float)drawPosY + ((float)height * 0.9f), (float)drawPosX, (float)drawPosY + ((float)height * 1.35f), (float)drawPosX - ((float)width * 0.2f), (float)drawPosY + ((float)height * 0.9f), buttonColor, TRUE);
+	DrawBox(boxLeft, boxTop, boxRight, boxBottom, buttonColor, TRUE);	// ボタン：長方形を描画
 
-	// テキストを中央に配置するか右下に配置するかで描画座標の計算を変える
-	float  textBoxLeft = isCenter ? (float)(drawPosX - width) : (float)drawPosX;
-	float textBoxTop = isCenter ? (float)(drawPosY - height) : (float)(drawPosY + height);
-	float textBoxRight = (float)(drawPosX + width);
-	float textBoxBottom = isCenter ? (float)(drawPosY + height) : (float)(drawPosY + height * 1.35f);
-
-	// 上で計算した座標を使ってテキストを描画
-	uiManager.DrawStringCenter(textBoxLeft, textBoxTop, textBoxRight, textBoxBottom, drawText, fontType);
+	// 上で計算した座標を使用してテキストを中央に描画
+	uiManager.DrawStringCenter((float)boxLeft, (float)boxTop, (float)boxRight, (float)boxBottom, drawText, fontType);
 }
 
 void ButtonManager::ButtonMovement() {
 	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
-		for (auto* btn : buttonArray) {
-			if (uiManager.CheckScreen(btn->GetBelongScreen())) {
-				btn->Draw();
-				btn->SetButtonColor(COLOR_LIGHTGRAY);
-			}
+	for (auto* btn : buttonArray) {
+		if (uiManager.CheckScreen(btn->GetBelongScreen())) {
+			btn->Draw();
+			btn->SetButtonColor(COLOR_LIGHTGRAY);
 		}
+	}
 	// フェード中にボタンを移動できないようにする
 	if (!fadeManager.GetIsFading()) {
 		if (input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
@@ -87,36 +73,36 @@ void ButtonManager::ButtonPressed() {
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
 			// フェード処理を挟むかつインゲームに遷移するボタンをまとめた
-		case Button::GAMESTART:
-		case Button::RETRY:
-		case Button::NEXTSTAGE:
-		case Button::SELECTSTAGE:
+		case ButtonType::Start:
+		case ButtonType::Retry:
+		case ButtonType::Next:
+		case ButtonType::PickStage:
 			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
 			uiManager.SetIsStartCountDown(true);
 			// ステージ1に移動
-			if (selected->GetButtonType() == Button::GAMESTART)
+			if (selected->GetButtonType() == ButtonType::Start)
 				base.SetStageNumber(1);
 			// 次のステージに移動
-			if (selected->GetButtonType() == Button::NEXTSTAGE)
+			if (selected->GetButtonType() == ButtonType::Next)
 				base.SetStageNumber(base.GetStageNumber() + 1);
 			// ボタンの座標を利用して指定のステージに移動
-			if (selected->GetButtonType() == Button::SELECTSTAGE)
+			if (selected->GetButtonType() == ButtonType::PickStage)
 				base.SetStageNumber((selected->GetColumNum() - 1) * 3 + selected->GetRowNum());
 			break;
-		case Button::RESUME:
+		case ButtonType::Resume:
 			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
 			uiManager.SetIsStartCountDown(true);
 			break;
-		case Button::OPENSTAGESELECT:
-			fadeManager.ChangeUIState(STAGESELECT, fadeManager.NOTFADE);
+		case ButtonType::StageSelect:
+			fadeManager.ChangeUIState(SCREEN_TYPE::STAGESELECT, fadeManager.NOTFADE);
 			break;
-		case Button::GAMEQUIT:
+		case ButtonType::Quit:
 			DxLib_End();
 			break;
-		case Button::RETURNTITLE:
+		case ButtonType::ReturnTitle:
 			fadeManager.ChangeUIState(TITLE, fadeManager.NOTFADE);
 			break;
-		case Button::GAMEEXIT:
+		case ButtonType::Exit:
 			fadeManager.ChangeUIState(TITLE, fadeManager.FADEOUT);
 			break;
 		}
