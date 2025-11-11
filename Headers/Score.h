@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "Stage.h"
-
-extern float jumpDistance;	// メモ　プレイヤークラスに入れる
-
+#include "Player.h"
 
 class ScoreManager {
 public:
@@ -11,7 +9,7 @@ public:
 
 	/// <summary> 加算するスコアを計算するメソッド </summary>
 	/// <param name="moveSpeed"> プレイヤーの移動速度 </param>
-	void AddScoreCalculate(float moveSpeed);
+	void AddScoreCalculate(float dis,float moveSpeed);
 
 	/// <summary> 実スコアと表示スコアが一致するまで表示スコアに値を加算し続けるメソッド </summary>
 	void AddViewScore();
