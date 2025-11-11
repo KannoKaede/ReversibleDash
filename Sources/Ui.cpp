@@ -8,22 +8,22 @@
 /*UIManagerクラス---------------------------------------------------------------------------------------------------------*/
 
 // 使用する全てのボタンのインスタンスをここで用意：UIManager::SetUpの中に入れると起動時にクラッシュする
-Button titleButton(TITLE, 1, 1, VGet(50, 47, 0), 18, 6, Button::GAMESTART, "GameStart", LARGE, true);
-Button openStageSelectButton(TITLE, 2, 1, VGet(50, 67, 0), 18, 6, Button::OPENSTAGESELECT, "StageSelect", LARGE, true);
-Button quitButton(TITLE, 3, 1, VGet(50, 87, 0), 18, 6, Button::GAMEQUIT, "GameQuit", LARGE, true);
-Button stageSelect1(STAGESELECT, 1, 1, VGet(28, 41, 0), 9, 9, Button::SELECTSTAGE, "Stage.1", MEDIUM, false);
-Button stageSelect2(STAGESELECT, 1, 2, VGet(50, 41, 0), 9, 9, Button::SELECTSTAGE, "Stage.2", MEDIUM, false);
-Button stageSelect3(STAGESELECT, 1, 3, VGet(72, 41, 0), 9, 9, Button::SELECTSTAGE, "Stage.3", MEDIUM, false);
-Button stageSelect4(STAGESELECT, 2, 1, VGet(28, 74, 0), 9, 9, Button::SELECTSTAGE, "Stage.4", MEDIUM, false);
-Button stageSelect5(STAGESELECT, 2, 2, VGet(50, 74, 0), 9, 9, Button::SELECTSTAGE, "Stage.5", MEDIUM, false);
-Button stageSelect6(STAGESELECT, 2, 3, VGet(72, 74, 0), 9, 9, Button::SELECTSTAGE, "Stage.6", MEDIUM, false);
-Button returnTitle(STAGESELECT, 2, 4, VGet(90, 80, 0), 5, 5, Button::RETURNTITLE, "Back", MEDIUM, true);
-Button resumeGame(PAUSE, 1, 1, VGet(37, 63, 0), 10, 5, Button::RESUME, "Resume", LARGE, true);
-Button pauseGameExit(PAUSE, 1, 2, VGet(63, 63, 0), 10, 5, Button::GAMEEXIT, "Exit", LARGE, true);
-Button retryGame(GAMEOVER, 1, 1, VGet(37, 70, 0), 10, 5, Button::RETRY, "Retry", LARGE, true);
-Button gameOverGameExit(GAMEOVER, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "Exit", LARGE, true);
-Button nextGame(CLEAR, 1, 1, VGet(37, 70, 0), 10, 5, Button::NEXTSTAGE, "Next", LARGE, true);
-Button clearGameExit(CLEAR, 1, 2, VGet(63, 70, 0), 10, 5, Button::GAMEEXIT, "Exit", LARGE, true);
+Button titleButton({ TITLE, 1, 1 }, { { 50, 47 }, 18, 6 }, ButtonType::Start, "GameStart", LARGE);
+Button openStageSelectButton({ TITLE, 2, 1 }, { {50, 67}, 18, 6 }, ButtonType::StageSelect, "StageSelect", LARGE);
+Button quitButton({ TITLE, 3, 1 }, { {50, 87 }, 18, 6 }, ButtonType::Quit, "GameQuit", LARGE);
+Button stageSelect1({ STAGESELECT, 1, 1 }, { {28, 41}, 9, 9 }, ButtonType::PickStage, "Stage.1", MEDIUM);
+Button stageSelect2({ STAGESELECT, 1, 2 }, { { 50, 41 }, 9, 9 }, ButtonType::PickStage, "Stage.2", MEDIUM);
+Button stageSelect3({ STAGESELECT, 1, 3 }, { { 72, 41 }, 9, 9 }, ButtonType::PickStage, "Stage.3", MEDIUM);
+Button stageSelect4({ STAGESELECT, 2, 1 }, { {28, 74 }, 9, 9 }, ButtonType::PickStage, "Stage.4", MEDIUM);
+Button stageSelect5({ STAGESELECT, 2, 2 }, { {50, 74}, 9, 9 }, ButtonType::PickStage, "Stage.5", MEDIUM);
+Button stageSelect6({ STAGESELECT, 2, 3 }, { {72, 74}, 9, 9 }, ButtonType::PickStage, "Stage.6", MEDIUM);
+Button returnTitle({ STAGESELECT, 2, 4 }, { {90, 80}, 5, 5 }, ButtonType::ReturnTitle, "Back", MEDIUM);
+Button resumeGame({ PAUSE, 1, 1 }, { {37, 63}, 10, 5 }, ButtonType::Resume, "Resume", LARGE);
+Button pauseGameExit({ PAUSE, 1, 2 }, { {63, 63}, 10, 5 }, ButtonType::Exit, "Exit", LARGE);
+Button retryGame({ GAMEOVER, 1, 1 }, { {37, 70}, 10, 5 }, ButtonType::Retry, "Retry", LARGE);
+Button gameOverGameExit({ GAMEOVER, 1, 2 }, { {63, 70}, 10, 5 }, ButtonType::Exit, "Exit", LARGE);
+Button nextGame({ CLEAR, 1, 1 }, { {37, 70 }, 10, 5 }, ButtonType::Next, "Next", LARGE);
+Button clearGameExit({ CLEAR, 1, 2 }, { {63, 70}, 10, 5 }, ButtonType::Exit, "Exit", LARGE);
 
 UIManager uiManager;
 FadeManager fadeManager;
@@ -327,10 +327,10 @@ void ClearScene::Draw() {
 	// ステージ6(最後のステージ)の場合NextボタンをExitボタンに変更
 	if (base.GetStageNumber() >= 6) {
 		nextGame.SetDrawText("Exit");
-		nextGame.SetButtonType(nextGame.GAMEEXIT);
+		nextGame.SetButtonType(ButtonType::Exit);
 	}
 	else {
 		nextGame.SetDrawText("Next");
-		nextGame.SetButtonType(nextGame.NEXTSTAGE);
+		nextGame.SetButtonType(ButtonType::Next);
 	}
 }
