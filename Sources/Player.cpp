@@ -25,7 +25,7 @@ void Player::SetUp() {
 void Player::Move() {
 	// モデルの座標更新と描画を先に行う
 	MV1SetPosition(modelData[modelIndex].model, transform.position);
-	MV1SetRotationXYZ(modelData[modelIndex].model, isGravityBottom ? VGet(0, base.ChangeRadians(-90.0f), 0) : VGet(base.ChangeRadians(180), base.ChangeRadians(90), 0));
+	Rotation();
 	MV1DrawModel(modelData[modelIndex].model);
 	if (base.GetIsGameStop())return;
 	if (isGround) {	// 地面にいる場合は走るアニメーションを再生
@@ -42,6 +42,17 @@ void Player::Move() {
 	}
 }
 
+void Player::Rotation() {
+	// 回転し終わった時の目標を設定
+	VECTOR targetRot = isGravityBottom ? VGet(0, base.ChangeRadians(-90.0f), 0) : VGet(base.ChangeRadians(180), base.ChangeRadians(90), 0);
+
+	// 補間率を設定し適用する
+	float lerpRate = 0.1f;
+	transform.rotation.x += (targetRot.x - transform.rotation.x) * lerpRate;
+	transform.rotation.y += (targetRot.y - transform.rotation.y) * lerpRate;
+	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
+}
+
 int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
 void Player::Jump() {
 	if (base.GetIsGameStop())return;
@@ -51,7 +62,8 @@ void Player::Jump() {
 		// ジャンプ力を加えて地面との設置判定を無くす
 		jumpPower = isGravityBottom ? JUMP_POWER : -JUMP_POWER;
 		isGround = false;
-		scoreManager.AddScoreCalculate(moveSpeed);
+		isJumping = true;
+		scoreManager.AddScoreCalculate(jumpDis, moveSpeed);
 		pressedMomentTime = GetNowCount();	// 長押し時間を判定するために押したタイミングを保存
 	}
 	if (input.KeyPushing(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを押している間の処理
@@ -68,6 +80,7 @@ void Player::Jump() {
 		// まだ落下していなかったら落下を開始
 		isFall = true;
 		pressedMomentTime = 0;
+		jumpDis = 0;
 	}
 
 	if (isGround) {
@@ -75,7 +88,10 @@ void Player::Jump() {
 		transform.position.y = groundPosY;
 		jumpPower = 0;
 		isFall = false;
-		return;	// 設置している場合は落下処理に入らない
+		isJumping = false;
+	}
+	else if (!isJumping) {
+		isFall = true;
 	}
 	if (isFall) {	// 落下処理
 		jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
@@ -102,6 +118,7 @@ void Player::Initialization() {
 	isGravityBottom = true;
 	modelIndex = 0;
 	animePlayTime = 0;
+	jumpDis = 0;
 	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
 	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
 	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);

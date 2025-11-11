@@ -40,17 +40,20 @@ private:
 // 雲の情報をまとめたクラス
 class Cloud {
 public:
-	Cloud(int type, float drawPosX) :cloudHandle(type), height(-50), radius(120), position(VGet(drawPosX, 700, 250)) {}
+	Cloud(int type, float drawPosX, bool scoreAdd = false) :cloudHandle(type), height(-50), radius(120), position(VGet(drawPosX, 700, 250)), isScoreAdd(scoreAdd) {}
 	int GetCloudHandle() { return cloudHandle; }
 	float GetHeight() { return height; }
 	float GetRadius() { return radius; }
 	VECTOR GetPosition() { return position; }
+	bool GetIsScoreAdd() { return isScoreAdd; }
+
 	void SetCloudHandle(int handle) { cloudHandle = handle; }
 private:
 	int cloudHandle;
 	float height;
 	float radius;
 	VECTOR position;
+	bool isScoreAdd;
 };
 
 
@@ -72,7 +75,7 @@ public:
 	/// </summary>
 	/// <param name="player"> プレイヤーのインスタンス </param>
 	/// <returns> 衝突判定 </returns>
-	bool IsCollision(Player& player, VECTOR objPos, float height, float radius, bool isObstacles);
+	bool IsCollision(Player& player, VECTOR objPos, float height, float radius, bool isObstacles, bool isCloudScoreAdd);
 
 	/// <summary> ゴール後にクリア画面に遷移出来るか返すメソッド </summary>
 	/// <param name="playerPosX"> プレイヤーの座標X </param>
@@ -200,18 +203,18 @@ private:
 			Cloud(CloudRandom,7960),
 			Cloud(CloudRandom,8200),
 			Cloud(CloudRandom,8440),
-			Cloud(CloudRandom,8680),
+			Cloud(CloudRandom,8680,true),
 			// 隙間
 			Cloud(CloudRandom,9320),
 			Cloud(CloudRandom,9560),
 			Cloud(CloudRandom,9800),
 			Cloud(CloudRandom,10040),
 			Cloud(CloudRandom,10280),
-			Cloud(CloudRandom,10520),
+			Cloud(CloudRandom,10520,true),
 			// 隙間
 			Cloud(CloudRandom,11160),
 			Cloud(CloudRandom,11400),
-			Cloud(CloudRandom,11640),
+			Cloud(CloudRandom,11640,true),
 			// 隙間
 			Cloud(CloudRandom,11800),
 			Cloud(CloudRandom,12040),
@@ -220,7 +223,7 @@ private:
 			Cloud(CloudRandom,12760),
 			Cloud(CloudRandom,13000),
 			Cloud(CloudRandom,13240),
-			Cloud(CloudRandom,13480),
+			Cloud(CloudRandom,13480,true),
 		},
 		// ステージ2
 		{
@@ -230,39 +233,39 @@ private:
 			Cloud(CloudRandom,3160),
 			Cloud(CloudRandom,3400),
 			Cloud(CloudRandom,3640),
-			Cloud(CloudRandom,3880),
+			Cloud(CloudRandom,3880,true),
 			// 隙間
 			Cloud(CloudRandom,4520),
 			Cloud(CloudRandom,4760),
-			Cloud(CloudRandom,5000),
+			Cloud(CloudRandom,5000,true),
 			// 隙間
 			Cloud(CloudRandom,6360),
 			Cloud(CloudRandom,6500),
 			Cloud(CloudRandom,6740),
 			Cloud(CloudRandom,6980),
-			Cloud(CloudRandom,7220),
+			Cloud(CloudRandom,7220,true),
 			// 隙間
 			Cloud(CloudRandom,7860),
 			Cloud(CloudRandom,8100),
-			Cloud(CloudRandom,8340),
+			Cloud(CloudRandom,8340,true),
 			// 隙間
 			Cloud(CloudRandom,8980),
 			Cloud(CloudRandom,9220),
 			Cloud(CloudRandom,9460),
-			Cloud(CloudRandom,9700),
+			Cloud(CloudRandom,9700,true),
 			// 隙間
 			Cloud(CloudRandom,11000),
 			Cloud(CloudRandom,11240),
 			Cloud(CloudRandom,11480),
 			Cloud(CloudRandom,11720),
 			Cloud(CloudRandom,11960),
-			Cloud(CloudRandom,12200),
+			Cloud(CloudRandom,12200,true),
 			// 隙間
 			Cloud(CloudRandom,12840),
 			Cloud(CloudRandom,13080),
 			Cloud(CloudRandom,13320),
 			Cloud(CloudRandom,13560),
-			Cloud(CloudRandom,13800),
+			Cloud(CloudRandom,13800,true),
 		},
 		// ステージ3
 		{
@@ -271,23 +274,23 @@ private:
 			Cloud(CloudRandom,5980),
 			Cloud(CloudRandom,6220),
 			Cloud(CloudRandom,6460),
-			Cloud(CloudRandom,6700),
+			Cloud(CloudRandom,6700,true),
 			// 隙間
 			Cloud(CloudRandom,7340),
 			Cloud(CloudRandom,7580),
 			Cloud(CloudRandom,7820),
-			Cloud(CloudRandom,8060),
+			Cloud(CloudRandom,8060,true),
 			// 隙間
 			Cloud(CloudRandom,9200),
 			Cloud(CloudRandom,9440),
 			Cloud(CloudRandom,9680),
-			Cloud(CloudRandom,9920),
+			Cloud(CloudRandom,9920,true),
 			// 隙間
 			Cloud(CloudRandom,10540),
 			Cloud(CloudRandom,10780),
 			Cloud(CloudRandom,11020),
 			Cloud(CloudRandom,11260),
-			Cloud(CloudRandom,11500),
+			Cloud(CloudRandom,11500,true),
 		},
 		// ステージ4
 		{
@@ -296,23 +299,23 @@ private:
 		Cloud(CloudRandom,2980),
 		Cloud(CloudRandom,3220),
 		Cloud(CloudRandom,3460),
-		Cloud(CloudRandom,3700),
+		Cloud(CloudRandom,3700,true),
 		// 隙間
 		Cloud(CloudRandom,4340),
 		Cloud(CloudRandom,4580),
 		Cloud(CloudRandom,4820),
-		Cloud(CloudRandom,5060),
+		Cloud(CloudRandom,5060,true),
 		// 隙間
 		Cloud(CloudRandom,7500),
 		Cloud(CloudRandom,7740),
 		Cloud(CloudRandom,7980),
 		Cloud(CloudRandom,8220),
-		Cloud(CloudRandom,8460),
+		Cloud(CloudRandom,8460,true),
 		// 隙間
 		Cloud(CloudRandom,9100),
 		Cloud(CloudRandom,9340),
 		Cloud(CloudRandom,9580),
-		Cloud(CloudRandom,9820),
+		Cloud(CloudRandom,9820,true),
 		// 隙間
 		Cloud(CloudRandom,11320),
 		Cloud(CloudRandom,11560),
@@ -322,7 +325,7 @@ private:
 		Cloud(CloudRandom,12520),
 		Cloud(CloudRandom,12760),
 		Cloud(CloudRandom,13000),
-		Cloud(CloudRandom,13240),
+		Cloud(CloudRandom,13240,true),
 		},
 		// ステージ5
 		{
@@ -331,35 +334,35 @@ private:
 		Cloud(CloudRandom,3280),
 		Cloud(CloudRandom,3520),
 		Cloud(CloudRandom,3760),
-		Cloud(CloudRandom,4000),
+		Cloud(CloudRandom,4000,true),
 		// 隙間
 		Cloud(CloudRandom,4640),
 		Cloud(CloudRandom,4880),
 		Cloud(CloudRandom,5120),
-		Cloud(CloudRandom,5360),
+		Cloud(CloudRandom,5360,true),
 		// 隙間
 		Cloud(CloudRandom,6000),
 		Cloud(CloudRandom,6240),
 		Cloud(CloudRandom,6480),
 		Cloud(CloudRandom,6720),
 		Cloud(CloudRandom,6960),
-		Cloud(CloudRandom,7200),
+		Cloud(CloudRandom,7200,true),
 		// 隙間
 		Cloud(CloudRandom,8440),
 		Cloud(CloudRandom,8680),
-		Cloud(CloudRandom,8920),
+		Cloud(CloudRandom,8920,true),
 		// 隙間
 		Cloud(CloudRandom,9560),
 		Cloud(CloudRandom,9800),
 		Cloud(CloudRandom,10040),
 		Cloud(CloudRandom,10280),
-		Cloud(CloudRandom,10520),
+		Cloud(CloudRandom,10520,true),
 		// 隙間
 		Cloud(CloudRandom,11520),
 		Cloud(CloudRandom,11760),
 		Cloud(CloudRandom,12000),
 		Cloud(CloudRandom,12240),
-		Cloud(CloudRandom,12480),
+		Cloud(CloudRandom,12480,true),
 		// 隙間
 		Cloud(CloudRandom,13120),
 		Cloud(CloudRandom,13360),
@@ -367,7 +370,7 @@ private:
 		Cloud(CloudRandom,13840),
 		Cloud(CloudRandom,14080),
 		Cloud(CloudRandom,14320),
-		Cloud(CloudRandom,14560),
+		Cloud(CloudRandom,14560,true),
 		},
 		// ステージ6
 		{
@@ -378,28 +381,28 @@ private:
 		Cloud(CloudRandom,3460),
 		Cloud(CloudRandom,3700),
 		Cloud(CloudRandom,3940),
-		Cloud(CloudRandom,4180),
+		Cloud(CloudRandom,4180,true),
 		// 隙間
 		Cloud(CloudRandom,4820),
 		Cloud(CloudRandom,5060),
-		Cloud(CloudRandom,5300),
+		Cloud(CloudRandom,5300,true),
 		// 隙間
 		Cloud(CloudRandom,8300),
 		Cloud(CloudRandom,8540),
 		Cloud(CloudRandom,8780),
 		Cloud(CloudRandom,9020),
 		Cloud(CloudRandom,9260),
-		Cloud(CloudRandom,9500),
+		Cloud(CloudRandom,9500,true),
 		// 隙間
 		Cloud(CloudRandom,10140),
 		Cloud(CloudRandom,10380),
-		Cloud(CloudRandom,10620),
+		Cloud(CloudRandom,10620,true),
 		// 隙間
 		Cloud(CloudRandom,11260),
 		Cloud(CloudRandom,11500),
 		Cloud(CloudRandom,11740),
 		Cloud(CloudRandom,11980),
-		Cloud(CloudRandom,12020),
+		Cloud(CloudRandom,12020,true),
 		// 隙間
 		Cloud(CloudRandom,14980),
 		Cloud(CloudRandom,15220),
@@ -407,12 +410,12 @@ private:
 		Cloud(CloudRandom,15700),
 		Cloud(CloudRandom,15940),
 		Cloud(CloudRandom,16180),
-		Cloud(CloudRandom,16420),
+		Cloud(CloudRandom,16420,true),
 
 		Cloud(CloudRandom,17580),
 		Cloud(CloudRandom,17820),
 		Cloud(CloudRandom,18060),
-		Cloud(CloudRandom,18300),
+		Cloud(CloudRandom,18300,true),
 		},
 	};
 };

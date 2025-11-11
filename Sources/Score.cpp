@@ -3,13 +3,11 @@
 #include <fstream>
 #include "UI.h"
 
-float jumpDistance;
 ScoreManager scoreManager;
 
-void ScoreManager::AddScoreCalculate(float moveSpeed) {
-	if (uiManager.CheckScreen(INGAME) && jumpDistance < 400) {
-		score += (400 - (int)jumpDistance) * 7 * (int)moveSpeed;
-		jumpDistance = 0;
+void ScoreManager::AddScoreCalculate(float dis,float moveSpeed) {
+	if (uiManager.CheckScreen(INGAME) && dis < 400) {
+		score += (400 - (int)dis) * 7 * (int)moveSpeed;
 	}
 }
 

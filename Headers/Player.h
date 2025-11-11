@@ -26,6 +26,9 @@ public:
 	/// <summary> プレイヤーの移動メソッド </summary>
 	void Move();
 
+	/// <summary> プレイヤーの角度を滑らかに変更するメソッド </summary>
+	void Rotation();
+
 	/// <summary> プレイヤーのジャンプ処理メソッド </summary>
 	void Jump();
 
@@ -37,6 +40,10 @@ public:
 	/// <summary> プレイヤーのリセットメソッド </summary>
 	void Initialization();
 
+	bool CheckChangeJumpDis(float dis) {
+		return jumpDis == 0 || dis < jumpDis && 0 < dis;
+	}
+
 	// private変数を読み取り専用で渡すメソッド群
 	int GetModel()const { return modelData[modelIndex].model; }
 	VECTOR GetPosition()const { return transform.position; }
@@ -45,12 +52,14 @@ public:
 	float GetSpeed()const { return moveSpeed; }
 	int GetChangeSpeedCount()const { return changeSpeedCount; }
 	bool GetIsGravityBottom() { return isGravityBottom; }
+	float GetJumpDis() { return jumpDis; }
 
 	// private変数に値を書き込むメソッド群
 	void SetPosition(VECTOR pos) { transform.position = pos; }
 	void SetIsFall(bool state) { isFall = state; }
 	void SetIsGround(bool state) { isGround = state; }
 	void SetGroundPosY(float pos) { groundPosY = pos; }
+	void SetJumpDis(float distance) { jumpDis = distance; }
 private:
 	ModelData modelData[3] = {};
 
@@ -71,8 +80,10 @@ private:
 	int modelIndex = {};		// 使用するモデルアニメーション
 	bool isFall;		// 現在落下中か
 	bool isGround;	// 現在ジャンプ中か判定
+	bool isJumping;	// ジャンプしているか判定
 	bool isGravityBottom;	// 上下どちらの地面にいるか判定
 	float groundPosY;	// 接地した地面の座標Y
+	float jumpDis;	// ジャンプ時の障害物までの距離を求める
 
 	// アニメーション再生処理で使用
 	float animePlayTime;	// アニメーションの再生するフレームを設定する
