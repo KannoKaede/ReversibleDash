@@ -20,6 +20,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
+		printfDx("%d", GetColor(100, 100, 100));
 		input.CheckAllKey();	// 全キーの状態をチェック
 		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
@@ -65,61 +66,16 @@ void Base::SetUp() {
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 
-	// フォントサイズを設定した後、フォントをロードする
-	AddFontResourceExA("Resource/Fonts/KaqookanV2.ttf", FR_PRIVATE, NULL);
-	fontData[EXTRALARGE].size = screen.width / 18;
-	fontData[LARGE].size = screen.width / 30;
-	fontData[MEDIUM].size = screen.width / 60;
-	fontData[SMALL].size = screen.width / 70;
-	fontData[EXTRALARGE].handle = CreateFontToHandle("N4カクーカンV2", fontData[EXTRALARGE].size, 5, DX_FONTTYPE_ANTIALIASING);
-	fontData[LARGE].handle = CreateFontToHandle("N4カクーカンV2", fontData[LARGE].size, 3, DX_FONTTYPE_ANTIALIASING);
-	fontData[MEDIUM].handle = CreateFontToHandle("N4カクーカンV2", fontData[MEDIUM].size, 1, DX_FONTTYPE_ANTIALIASING);
-	fontData[SMALL].handle = CreateFontToHandle("N4カクーカンV2", fontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
+	
 
 	// その他、初期設定を行うものをここでまとめて行う
+	base.FontSetUp();
 	uiManager.SetUp();
 	audioManager.SetUp();
 	stageManager.SetUp();
 	player.SetUp();
 	cameraLight.SetUp();
 	scoreManager.LoadHighScore();
-	audioManager.PlayBGM(audioManager.OUTGAME_BGM);	// 最初にタイトルのBGMを流しておく
-
-	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
-	for (int i = 0; i < MV1GetMaterialNum(stageManager.GetCityHandle()); i++)	// ステージのモデル
-	{
-		MV1SetMaterialDifColor(stageManager.GetCityHandle(), i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
-		MV1SetMaterialAmbColor(stageManager.GetCityHandle(), i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
-		MV1SetMaterialSpcColor(stageManager.GetCityHandle(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-		MV1SetMaterialEmiColor(stageManager.GetCityHandle(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-		MV1SetMaterialSpcPower(stageManager.GetCityHandle(), i, 3.0f);
-	}
-	for (int i = 0; i < MV1GetMaterialNum(player.GetModel()); i++)	// プレイヤーのモデル
-	{
-		MV1SetMaterialDifColor(player.GetModel(), i, GetColorF(0.3f, 0.3f, 0.3f, 1.0f));
-		MV1SetMaterialAmbColor(player.GetModel(), i, GetColorF(1, 1, 1, 1));
-		MV1SetMaterialSpcColor(player.GetModel(), i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-		MV1SetMaterialEmiColor(player.GetModel(), i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-		MV1SetMaterialSpcPower(player.GetModel(), i, 3.0f);
-	}
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < MV1GetMaterialNum(stageManager.GetCarHandle(i)); j++) {
-			MV1SetMaterialDifColor(stageManager.GetCarHandle(i), j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
-			MV1SetMaterialAmbColor(stageManager.GetCarHandle(i), j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
-			MV1SetMaterialSpcColor(stageManager.GetCarHandle(i), j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-			MV1SetMaterialEmiColor(stageManager.GetCarHandle(i), j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-			MV1SetMaterialSpcPower(stageManager.GetCarHandle(i), j, 3.0f);
-		}
-	}
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < MV1GetMaterialNum(stageManager.GetCloudHandle(i)); j++) {
-			MV1SetMaterialDifColor(stageManager.GetCloudHandle(i), j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
-			MV1SetMaterialAmbColor(stageManager.GetCloudHandle(i), j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
-			MV1SetMaterialSpcColor(stageManager.GetCloudHandle(i), j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
-			MV1SetMaterialEmiColor(stageManager.GetCloudHandle(i), j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
-			MV1SetMaterialSpcPower(stageManager.GetCloudHandle(i), j, 3.0f);
-		}
-	}
 }
 
 void Base::Initialization() {

@@ -20,6 +20,18 @@ void Player::SetUp() {
 	modelData[1].anime = MV1AttachAnim(modelData[1].model, 1, -1);
 	modelData[2].model = MV1LoadModel("Resource/PlayerModels/Player_JumpDown.mv1");
 	modelData[2].anime = MV1AttachAnim(modelData[2].model, 1, -1);
+
+	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < MV1GetMaterialNum(modelData[i].model); j++)	// プレイヤーのモデル
+		{
+			MV1SetMaterialDifColor(modelData[i].model, j, GetColorF(0.3f, 0.3f, 0.3f, 1.0f));
+			MV1SetMaterialAmbColor(modelData[i].model, j, GetColorF(1, 1, 1, 1));
+			MV1SetMaterialSpcColor(modelData[i].model, j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+			MV1SetMaterialEmiColor(modelData[i].model, j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+			MV1SetMaterialSpcPower(modelData[i].model, j, 3.0f);
+		}
+	}
 }
 
 void Player::Move() {
@@ -56,7 +68,6 @@ void Player::Rotation() {
 int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
 void Player::Jump() {
 	if (base.GetIsGameStop())return;
-
 	// 入力制御
 	if (input.KeyDown(KEY_INPUT_SPACE) && isGround) {	// キーを押した最初の1フレームの処理
 		// ジャンプ力を加えて地面との設置判定を無くす
@@ -94,6 +105,7 @@ void Player::Jump() {
 		isFall = true;
 	}
 	if (isFall) {	// 落下処理
+		jumpDis = 0;
 		jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
 		// 落下アニメーションを再生
 		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - 70 - transform.position.y) < 100) {		//リファクタリング
