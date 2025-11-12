@@ -5,8 +5,8 @@
 
 ScoreManager scoreManager;
 
-void ScoreManager::AddScoreCalculate(float dis,float moveSpeed) {
-	if (uiManager.CheckScreen(INGAME) && dis < 500) {
+void ScoreManager::AddScoreCalculate(float dis, float moveSpeed) {
+	if (uiManager.CheckScreen(INGAME) && dis < 500 && dis != 0) {
 		float addScore = (500.0f - dis) * moveSpeed * 4.7f;
 		score += (int)addScore;
 	}

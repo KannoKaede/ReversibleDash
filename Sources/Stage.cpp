@@ -123,7 +123,7 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	// 車の判定
 	else {
 		float objLeftDis = base.ClampNumF((objPos.x - radius) - playerPos.x,0,500);
-		if (collisionX && collisionY) return true;	// 車の中にプレイヤーが侵入したら
+		if (collisionX && collisionY) return false;	// 車の中にプレイヤーが侵入したら
 		else if (!collisionX && collisionY && player.CheckChangeJumpDis(objLeftDis)) {
 			player.SetJumpDis(objLeftDis);
 		}
