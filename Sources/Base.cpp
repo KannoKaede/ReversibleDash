@@ -1,5 +1,6 @@
 ﻿#include "Main.h"
 #include "UI.h"
+#include <random>
 Base base;
 
 void Base::SetScreenSize() {
@@ -22,36 +23,36 @@ void Base::FontSetUp() {
 	fontData[SMALL].handle = CreateFontToHandle("ちはやチョーク", fontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
 }
 
-float Base::ClampNumF(float num, float min, float max) {
-	if (num < min) return min;
-	else if (num > max) return max;
-	else return num;
+float Base::ClampNumF(float _num, float _min, float _max)const {
+	if (_num < _min) return _min;
+	else if (_num > _max) return _max;
+	else return _num;
 }
 
-int Base::ClampNumI(int num, int min, int max) {
-	if (num < min) return min;
-	else if (num > max) return max;
-	else return num;
+int Base::ClampNumI(int _num, int _min, int _max)const {
+	if (_num < _min) return _min;
+	else if (_num > _max) return _max;
+	else return _num;
 }
 
-float Base::ScreenDrawPosF(int screenSize, float drawPosPercent) {
+float Base::ScreenDrawPosF(int _screenSize, float _drawPosPct) {
 	// 画面サイズに描画したい位置の％をかけて100で割ることで描画座標を求める
-	return screenSize * drawPosPercent / 100;
+	return _screenSize * _drawPosPct / 100;
 }
 
-int Base::ScreenDrawPosI(int screenSize, float drawPosPercent) {
+int Base::ScreenDrawPosI(int _screenSize, float _drawPosPercent) {
 	// 画面サイズに描画したい位置の％をかけて100で割ることで描画座標を求める
-	return(int)(screenSize * drawPosPercent / 100);
+	return(int)(_screenSize * _drawPosPercent / 100);
 }
 
-int Base::TextDrawCenterPosX(float left, float right, std::string text, int font) {
+int Base::TextDrawCenterPosX(float _left, float _right, const std::string& _text, int _font) {
 	// 左右の差を求め、描画する文字列の幅を引いたものを2で割り余白を計算したのちに左端の座標を足すことで中央の座標を求める
-	return (int)(((right - left) - GetDrawFormatStringWidthToHandle(font, const_cast<char*>(text.c_str()))) / 2 + left);
+	return (int)(((_right - _left) - GetDrawFormatStringWidthToHandle(_font, const_cast<char*>(_text.c_str()))) / 2 + _left);
 }
 
-int Base::TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text) {
+int Base::TextDrawCenterPosY(float _top, float _bottom, int _fontSize, const std::string& _text) {
 	// 上下の差を求め、フォントサイズを引いたものを2で割り余白を計算したのちに上部の座標を足すことで中央の座標を求める
-	return (int)(((bottom - top) - fontSize) / 2 + top);
+	return (int)(((_bottom - _top) - _fontSize) / 2 + _top);
 }
 
 bool Base::IsDrawInGame() {
@@ -59,7 +60,8 @@ bool Base::IsDrawInGame() {
 	return uiManager.CheckScreen(INGAME) || uiManager.CheckScreen(PAUSE) || uiManager.CheckScreen(GAMEOVER) || uiManager.CheckScreen(CLEAR);
 }
 
-constexpr float Base::ChangeRadians(float num) {
-	// 度数法をラジアンに変換
-	return num * DX_PI_F / 180;
+int Base::Random(int _min, int _max) {
+	static std::mt19937 rng(std::random_device{}());  // 乱数の種を初期化
+	std::uniform_int_distribution<int> dist(_min, _max);	// 指定の値の乱数を作成
+	return dist(rng);
 }

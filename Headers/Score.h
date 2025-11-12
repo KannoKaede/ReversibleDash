@@ -5,38 +5,37 @@
 class ScoreManager {
 public:
 	/// <summary> コンストラクタ </summary>
-	ScoreManager() :viewScore(), score(), highScore() {}
+	ScoreManager() :viewScore(), score(), highScore{} {}
 
-	/// <summary> 加算するスコアを計算するメソッド </summary>
-	/// <param name="moveSpeed"> プレイヤーの移動速度 </param>
-	void AddScoreCalculate(float dis,float moveSpeed);
+	/// <summary> 加算するスコアを計算 </summary>
+	void	AddScoreCalculate(float _jumpDis, float _moveSpeed);
 
-	/// <summary> 実スコアと表示スコアが一致するまで表示スコアに値を加算し続けるメソッド </summary>
-	void AddViewScore();
+	/// <summary> 実スコアと表示スコアが一致するまで表示スコアに値を加算し続ける </summary>
+	void	AddViewScore();
 
-	/// <summary> スコアがハイスコアを更新しているか確認するメソッド </summary>
-	void CheckHighScore();
+	/// <summary> スコアがハイスコアを更新しているか確認 </summary>
+	void	CheckHighScore();
 
-	/// <summary> ハイスコアをテキストファイルからロードするメソッド </summary>
-	void LoadHighScore();
+	/// <summary> ハイスコアをテキストファイルからロード </summary>
+	void	LoadHighScore();
 
-	/// <summary> ハイスコアをテキストファイルにセーブするメソッド </summary>
-	void SaveHighScore();
+	/// <summary> ハイスコアをテキストファイルにセーブ </summary>
+	void	SaveHighScore();
 
-	// private変数を読み取り専用で渡すメソッド群
-	int GetViewScore(){ return viewScore; }
-	int GetScore() { return score; }
-	int GetHighScore(int num) { return highScore[num]; }
+	/// <summary> スコアをリセットする </summary>
+	void	Initialization();
 
-	void SetScore(int num) { score = num; }
-	void SetViewScore(int num) { viewScore = num; }
-
-	// 定数群
-	const std::vector<int> scoreSteps = { 200, 100, 10 };	// ViewSore加算する値
+	/// <summary> 表示スコアを返す </summary>
+	int		GetViewScore()const			{ return viewScore; }
+	/// <summary> 実スコアを返す </summary>
+	int		GetScore()const				{ return score; }
+	/// <summary> ステージのハイスコアを返す </summary>
+	int		GetHighScore(int _stageNumber)const	{ return highScore[_stageNumber]; }
 private:
-	int viewScore;	// ゲーム画面表示スコア
-	int score;	// 内部保存スコア
-	int highScore[MAX_STAGE_NUM];	// ハイスコア
+	int		viewScore;					// ゲーム画面表示スコア
+	int		score;						// 内部保存スコア
+	int		highScore[MAX_STAGE_NUM];	// ハイスコア
+	inline static const std::vector<int> scoreSteps = { 200, 100, 10 };	// ViewSoreに加算する値
 };
 
 extern ScoreManager scoreManager;

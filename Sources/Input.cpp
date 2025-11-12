@@ -9,16 +9,16 @@ void Input::CheckAllKey() {
 	GetHitKeyStateAll(currentKey);
 }
 
-bool Input::KeyDown(const int key) {
+bool Input::KeyDown(int _keyName)const {
 	// キーを押し込んだ瞬間を検出
-	return pastKey[key] == 0 && currentKey[key] == 1;
+	return pastKey[_keyName] == 0 && currentKey[_keyName] == 1;
 }
-bool Input::KeyPushing(const int key) {
+bool Input::KeyPushing(int _keyName)const {
 	// キーを押し続けている状態を検知
-	return pastKey[key] == 1 && currentKey[key] == 1;
+	return pastKey[_keyName] == 1 && currentKey[_keyName] == 1;
 }
-bool Input::KeyUp(const int key) {
+bool Input::KeyUp(int _keyName)const {
 	// キーを離した瞬間を検知
-	return pastKey[key] == 1 && currentKey[key] == 0;
+	return pastKey[_keyName] == 1 && currentKey[_keyName] == 0;
 }
 

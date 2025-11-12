@@ -5,13 +5,6 @@
 #include "Stage.h"
 #include "UI.h"
 
-Player::Player(VECTOR startPos, VECTOR startRot, VECTOR startScale, float startSpeed) {
-	transform.position = startPos;
-	transform.rotation = startRot;
-	transform.scale = startScale;
-	moveSpeed = startSpeed;
-}
-
 void Player::SetUp() {
 	// モデルの読み込みとアニメーションの設定
 	modelData[0].model = MV1LoadModel("Resource/PlayerModels/Player_Run.mv1");
@@ -136,16 +129,16 @@ void Player::Initialization() {
 	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 
-void Player::PlayAnimation(ModelData player, bool isLoop) {
-	if (animePastModel != player.model) {	// モデルが変わったら再生時間をリセット
+void Player::PlayAnimation(ModelData _modelData, bool _isLoop) {
+	if (animePastModel != _modelData.model) {	// モデルが変わったら再生時間をリセット
 		animePlayTime = 0;
-		animePastModel = player.model;
+		animePastModel = _modelData.model;
 	}
 	// アニメーションのそう再生時間を取得し、それを超えるまでアニメーションを進める
 	animePlayTotalTime = MV1GetAttachAnimTotalTime(modelData[modelIndex].model, modelData[modelIndex].anime);
 	animePlayTime += 0.7f;
 
 	// ループする場合は最初に戻し、しない場合は最後のフレームで止める
-	if (animePlayTime >= animePlayTotalTime)isLoop ? animePlayTime = 0.0f : animePlayTime = animePlayTotalTime;
+	if (animePlayTime >= animePlayTotalTime)_isLoop ? animePlayTime = 0.0f : animePlayTime = animePlayTotalTime;
 	MV1SetAttachAnimTime(modelData[modelIndex].model, modelData[modelIndex].anime, animePlayTime);
 }

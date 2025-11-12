@@ -221,8 +221,8 @@ void FadeManager::ChangeScene() {
 	uiManager.SetCurrentScreen(uiManager.GetNextScreen());	// 描画するUIを変更する
 
 	// ボタンの座標を初期化
-	buttonManager.SetButtonMovePos(START_BUTTON_POS);
-	buttonManager.SetButtonPos(START_BUTTON_POS);
+	buttonManager.SetButtonMovePos(buttonManager.START_BUTTON_POS);
+	buttonManager.SetButtonPos(buttonManager.START_BUTTON_POS);
 }
 
 void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
@@ -324,12 +324,12 @@ void ClearScene::Draw() {
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
 
 	// ステージ6(最後のステージ)の場合NextボタンをExitボタンに変更
-	if (base.GetStageNumber() >= 6) {
+	/*if (base.GetStageNumber() >= 6) {
 		nextBtn.SetDrawText("Exit");
 		nextBtn.SetButtonType(ButtonType::Exit);
 	}
 	else {
 		nextBtn.SetDrawText("Next");
 		nextBtn.SetButtonType(ButtonType::Next);
-	}
+	}*/
 }

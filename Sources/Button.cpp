@@ -36,11 +36,11 @@ void Button::Draw()const {
 	uiManager.DrawStringCenter((float)boxLeft, (float)boxTop, (float)boxRight, (float)boxBottom, drawText, fontType);
 }
 
-void ButtonManager::ButtonMovement() {
+void ButtonManager::UpdateButtonSelection() {
 	// 現在の画面に属しているボタンを探す
 	for (auto* btn : buttonArray) {
 		// 属しているボタンのみを描画する
-		if (uiManager.CheckScreen(btn->GetBelongScreen())) {
+		if (uiManager.CheckScreen(btn->GetScreen())) {
 			btn->Draw();
 			btn->SetButtonColor(COLOR_LIGHTGRAY);	// 1度色を非選択状態の色に変更
 		}
@@ -72,7 +72,7 @@ void ButtonManager::ButtonMovement() {
 	buttonPos = buttonMovePos;	// ボタンの座標を更新
 
 	// 選択されているボタンの色を最後に変更する
-	SelectGetButtonArray()->SetButtonColor(COLOR_MINTGREEN);
+	GetSelectButton()->SetButtonColor(COLOR_MINTGREEN);
 }
 
 void ButtonManager::ButtonPressed() {
@@ -80,7 +80,7 @@ void ButtonManager::ButtonPressed() {
 
 	if (input.KeyDown(KEY_INPUT_SPACE) || input.KeyDown(KEY_INPUT_RETURN)) {
 		audioManager.PlaySE(audioManager.BUTTON_SELECT);	// ボタン選択音を再生
-		Button* selected = SelectGetButtonArray();
+		Button* selected = GetSelectButton();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
 			// フェード処理を挟み、インゲームに遷移するボタン群
@@ -98,7 +98,7 @@ void ButtonManager::ButtonPressed() {
 				base.SetStageNumber(base.GetStageNumber() + 1);
 			// ボタンの座標を利用して指定のステージに移動
 			if (selected->GetButtonType() == ButtonType::PickStage)
-				base.SetStageNumber((selected->GetColumNum() - 1) * 3 + selected->GetRowNum());
+				base.SetStageNumber((selected->GetColumnNum() - 1) * 3 + selected->GetRowNum());
 			break;
 		case ButtonType::Resume:	// ポーズ・ゲーム再開ボタン
 			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
@@ -120,10 +120,10 @@ void ButtonManager::ButtonPressed() {
 	}
 }
 
-Button* ButtonManager::SelectGetButtonArray() {
+Button* ButtonManager::GetSelectButton()const {
 	for (auto* btn : buttonArray) {
 		// 属している画面、ボタンの座標が一致するボタンを返す
-		if (btn->GetColumNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && uiManager.CheckScreen(btn->GetBelongScreen()))
+		if (btn->GetColumnNum() == (int)buttonPos.y && btn->GetRowNum() == (int)buttonPos.x && uiManager.CheckScreen(btn->GetScreen()))
 			return btn;
 	}
 	return nullptr;

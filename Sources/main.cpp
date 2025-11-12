@@ -36,10 +36,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			}
 		}
 		
-		audioManager.AudioPlayControl();
+		audioManager.PlayBGMControl();
 		uiManager.DrawUI(player);	//	UIを描画
 		if (!uiManager.CheckScreen(INGAME)) {
-			buttonManager.ButtonMovement();	//  ボタンの移動
+			buttonManager.UpdateButtonSelection();	//  ボタンの移動
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
 		else {
@@ -83,8 +83,7 @@ void Base::Initialization() {
 	player.Initialization();
 	cameraLight.Initialization();
 	stageManager.Initialization();
-	scoreManager.SetScore(0);
-	scoreManager.SetViewScore(0);
+	scoreManager.Initialization();
 }
 
 void Base::CleanUp() {

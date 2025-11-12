@@ -8,14 +8,14 @@ void CameraLight::SetUp() {
 	SetLightDirection(VGet(0, -0.7f, 0.3f));
 }
 
-void CameraLight::CameraMove(Player& player) {
+void CameraLight::CameraMove(const Player& _player) {
 	SetCameraPositionAndTarget_UpVecY(cameraPos, cameraLookPos);	// カメラの位置と注視点を設定
 	if (base.GetIsGameStop())return;	// ゲームが止まっているときは移動処理に進まない
 
 	// 加速ポイントを四回踏むまでカメラを移動させる
-	if (player.GetChangeSpeedCount() <= 4) {
-		cameraPos.x += player.GetSpeed();
-		cameraLookPos.x += player.GetSpeed();
+	if (_player.GetChangeSpeedCount() <= 4) {
+		cameraPos.x += _player.GetSpeed();
+		cameraLookPos.x += _player.GetSpeed();
 	}
 }
 void CameraLight::Initialization() {
