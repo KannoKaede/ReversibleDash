@@ -19,7 +19,7 @@ void AudioManager::SetUp() {
 	ChangeVolumeSoundMem(50, se[JINGLE_CLEAR]);
 }
 
-void AudioManager::PlaySE(SeType seHandle) {
+void AudioManager::PlaySE(SeType seHandle)const {
 	PlaySoundMem(se[seHandle], DX_PLAYTYPE_BACK);
 }
 
@@ -37,25 +37,21 @@ void AudioManager::StopBGM() {
 	pastBgmType = BGM_MAX_NUM;	// 使用していないBGMナンバーに初期化
 }
 
-void AudioManager::AudioPlayControl() {
-	if (!fadeManager.GetIsFading()  ) {
-		switch (uiManager.GetCurrentScreen()) {
-			case TITLE:
-			case STAGESELECT:
-				PlayBGM(OUTGAME_BGM);
-				break;
-			case INGAME:
-				if(!uiManager.GetIsStartCountDown())
-				PlayBGM(INGAME_BGM);
-				break;
-			case PAUSE:
-			case GAMEOVER:
-			case CLEAR:
-				StopBGM();
-				break;
+void AudioManager::PlayBGMControl(){
+	if (!fadeManager.GetIsFading()) {
+		if (uiManager.CheckScreen(TITLE)||uiManager.CheckScreen(STAGESELECT)) {
+			PlayBGM(OUTGAME_BGM);
+		}
+		// スタートカウントダウンが終了したタイミングで再生
+		else if (uiManager.CheckScreen(INGAME) && !uiManager.GetIsStartCountDown()) {
+			PlayBGM(INGAME_BGM);
+		}
+		// 上記シーン以外ならBGMを停止
+		else {
+			StopBGM();
 		}
 	}
-	else {
+	else {	// フェード中もBGMを停止
 		StopBGM();
 	}
 }

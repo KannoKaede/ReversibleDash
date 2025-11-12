@@ -7,10 +7,7 @@ const int COLOR_MINTGREEN = GetColor(230, 200, 50);  // 選択中のボタンの
 const int COLOR_LIGHTGRAY = GetColor(185, 185, 185);    // 非選択時のボタンの色
 const int COLOR_BLACK = GetColor(0, 0, 0);   // テキストで使用する色
 const int COLOR_WHITE = GetColor(255, 255, 255);   // テキストで使用する色
-struct ScreenSize {
-	int width;				// 画面の幅
-	int height;				// 画面の高さ
-};
+
 // フォントの種類と数を定義
 enum FONT_TYPE {
 	EXTRALARGE,				// 見出し用
@@ -19,91 +16,88 @@ enum FONT_TYPE {
 	SMALL,					// 操作説明用
 	FONT_TYPE_NUM			// フォントの種類
 };
+
+// 画面サイズの情報をまとめた構造体
+struct ScreenSize {
+	int width;				// 画面の幅
+	int height;				// 画面の高さ
+};
+
 // フォントデータを格納する構造体
 struct FontData {
-	int handle;			// フォントデータ
-	int size;			// フォントサイズ
+	int handle;				// フォントデータ
+	int size;				// フォントサイズ
 };
 struct VECTOR2 {
-	float x;
-	float y;
+	float x;				// 横座標
+	float y;				// 縦座標
 };
 
 class Base {
 public:
-	Base() :screen(), fontData(), stageNumber(0), isGameStop(true) {}	// コンストラクタ
+	Base() :screen(), fontData{}, stageNumber(), isGameStop(true) {}	// コンストラクタ
 
-	void SetScreenSize();
+	/// <summary> プロジェクト全体の初期設定を行う </summary>
 	void SetUp();
+
+	/// <summary> フォントの初期設定を行う </summary>
 	void FontSetUp();
+
+	/// <summary> ゲームの画面サイズを設定する </summary>
+	void SetScreenSize();
+
+	/// <summary> プロヘクト全体のリセット処理を行う </summary>
 	void Initialization();
+
+	/// <summary> exeを閉じる際にメモリの解放等を行う </summary>
 	void CleanUp();
 
-	/// <summary> 値を指定の範囲にint型で収めて返すメソッド </summary>
-	/// <param name="num"> 指定の値に収めたい変数 </param>
-	/// <param name="min"> 収める際の最小値 </param>
-	/// <param name="max"> 収める際の最大値 </param>
-	/// <returns> 指定の範囲に収められた値 </returns>
-	int ClampNumI(int num, int min, int max);
+	/// <summary> 値を指定の範囲にint型で収めて返す </summary>
+	int ClampNumI(int _num, int _min, int _max)const;
 
-	/// <summary> 値を指定の範囲にfloat型で収めて返すメソッド </summary>
-	/// <param name="num"> 指定の値に収めたい変数 </param>
-	/// <param name="min"> 収める際の最小値 </param>
-	/// <param name="max"> 収める際の最大値 </param>
-	/// <returns> 指定の範囲に収められた値 </returns>
-	float ClampNumF(float num, float min, float max);
+	/// <summary> 値を指定の範囲にfloat型で収めて返す </summary>
+	float ClampNumF(float _num, float _min, float _max)const;
 
-	/// <summary> 描画座標をint型で返すメソッド </summary>
-	/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
-	/// <param name="drawPosPercent"> 描画したい場所（％） </param>
-	/// <returns> スクリーン描画座標 </returns>
-	int ScreenDrawPosI(int screenSize, float drawPosPercent);
+	/// <summary> 描画座標をint型で返す </summary>
+	int ScreenDrawPosI(int _screenSize, float _drawPosPct);
 
-	/// <summary> 描画座標をfloat型で返すメソッド </summary>
-	/// <param name="screenSize"> ウィンドウサイズ（縦横どちらか） </param>
-	/// <param name="drawPosPercent"> 描画したい場所（％） </param>
-	/// <returns> スクリーン描画座標 </returns>
-	float ScreenDrawPosF(int screenSize, float drawPosPercent);
+	/// <summary> 描画座標をfloat型で返す </summary>
+	float ScreenDrawPosF(int _screenSize, float _drawPosPct);
 
-	/// <summary> テキストを左右中央に配置するための座標を返すメソッド </summary>
-	/// <param name="left"> 収めたい枠の左端座標 </param>
-	/// <param name="right"> 収めたい枠の右端座標 </param>
-	/// <param name="text"> 表示するテキスト </param>
-	/// <param name="font"> 使用するフォント </param>
-	/// <returns> 左右中央に配置するための座標X </returns>
-	int TextDrawCenterPosX(float left, float right, std::string text, int font);
+	/// <summary> テキストを左右中央に配置するための座標を返す</summary>
+	int TextDrawCenterPosX(float _left, float _right, const std::string& _text, int _font);
 
-	/// <summary> テキストを上下秋桜に配置するための座標を返すメソッド </summary>
-	/// <param name="top"> 収めたい枠の上部座標 </param>
-	/// <param name="bottom"> 収めたい枠の下部座標 </param>
-	/// <param name="fontSize"> 使用するフォントのサイズ </param>
-	/// <param name="text"> 表示するテキスト </param>
-	/// <returns> 上下中央に配置するための座標Y </returns>
-	int TextDrawCenterPosY(float top, float bottom, int fontSize, std::string text);
+	/// <summary> テキストを上下中央に配置するための座標を返す </summary>
+	int TextDrawCenterPosY(float _top, float _bottom, int _fontSize, const std::string& _text);
 
-	/// <summary> インゲームのステージやプレイヤーを表示するかのフラグを返すメソッド </summary>
-	/// <returns> インゲームを描画するかのフラグ </returns>
+	/// <summary> インゲームのステージを描画するかを返す </summary>
 	bool IsDrawInGame();
 
-	/// <summary> 度数法をラジアンに変換して返すメソッド </summary>
-	/// <param name="num"> 度数法での角度 </param>
-	/// <returns> ラジアンに変換された角度 </returns>
-	constexpr float ChangeRadians(float num);
+	/// <summary> 度数法をラジアンに変換して返す </summary>
+	constexpr float ChangeRadians(float _num) { return _num * DX_PI_F / 180; }
 
-	// private変数を読み取り専用で渡すメソッド群
-	ScreenSize GetScreen() { return screen; }
-	FontData GetFontData(int fontType) { return fontData[fontType]; }
-	int GetStageNumber() { return stageNumber; }
-	bool GetIsGameStop() { return isGameStop; }
+	/// <summary> 乱数を生成 </summary>
+	int Random(int _min, int _max);
 
-	// private変数に値を書き込むメソッド
-	void SetStageNumber(int num) { stageNumber = num; }
-	void SetIsGameStop(bool _isGameStop) { isGameStop = _isGameStop; }
+	/// <summary> 画面サイズを返す </summary>
+	ScreenSize GetScreen()const					{ return screen; }
+	/// <summary> フォントデータを返す </summary>
+	FontData GetFontData(int _fontType)const	{ return fontData[_fontType]; }
+	/// <summary> 現在のステージ番号を返す </summary>
+	int GetStageNumber()const					{ return stageNumber; }
+	/// <summary> 現在ゲームが止まっているかを返す </summary>
+	bool GetIsGameStop()const					{ return isGameStop; }
+
+
+	/// <summary> 現在のステージ番号を設定 </summary>
+	void SetStageNumber(int _stageNumber)		{ stageNumber = _stageNumber; }
+	/// <summary> ゲームの停止フラグを設定 </summary>
+	void SetIsGameStop(bool _isGameStop)		{ isGameStop = _isGameStop; }
 private:
-	ScreenSize screen;	// 画面サイズ情報
-	FontData fontData[FONT_TYPE_NUM];	// フォント情報
-	int stageNumber;	// ステージ番号
-	bool isGameStop;	// ゲームが停止しているかのフラグ
+	ScreenSize	screen;						// 画面サイズ情報
+	FontData	fontData[FONT_TYPE_NUM];	// フォント情報
+	int			stageNumber;				// ステージ番号
+	bool		isGameStop;					// ゲームが停止しているかのフラグ
 };
 
 extern Base base;

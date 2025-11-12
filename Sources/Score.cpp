@@ -5,9 +5,9 @@
 
 ScoreManager scoreManager;
 
-void ScoreManager::AddScoreCalculate(float dis,float moveSpeed) {
-	if (uiManager.CheckScreen(INGAME) && dis < 500) {
-		float addScore = (500.0f - dis) * moveSpeed * 4.7f;
+void ScoreManager::AddScoreCalculate(float _jumpDis,float _moveSpeed) {
+	if (uiManager.CheckScreen(INGAME) && _jumpDis < 500 && _jumpDis != 0) {
+		float addScore = (500.0f - _jumpDis) * _moveSpeed * 4.7f;
 		score += (int)addScore;
 	}
 }
@@ -30,7 +30,8 @@ void ScoreManager::AddViewScore() {
 
 void ScoreManager::CheckHighScore() {
 	// ステージのハイスコアより高い場合は更新する
-	if (highScore[base.GetStageNumber()] < score) highScore[base.GetStageNumber()] = score;
+	int stageNum = base.GetStageNumber();
+	if (highScore[stageNum] < score) highScore[stageNum] = score;
 }
 
 void ScoreManager::LoadHighScore() {
@@ -55,4 +56,9 @@ void ScoreManager::SaveHighScore() {
 	}
 
 	file.close();
+}
+
+void ScoreManager::Initialization() {
+	viewScore = 0;
+	score = 0;
 }

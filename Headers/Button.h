@@ -2,7 +2,7 @@
 #include "UI.h"		// 画面の状態を取得用
 #include <vector>
 
-// ボタンの処理を分ける
+/// <summary> ボタンの押下時の処理を設定 </summary>
 enum class ButtonType {
 	Start,			// ゲーム開始
 	StageSelect,	// ステージセレクトを開く
@@ -15,91 +15,123 @@ enum class ButtonType {
 	ReturnTitle,	// タイトルへ戻る
 };
 
-// ボタンの属している画面、ボタンマップの座標を格納する構造体
+/// <summary> ボタンの属している画面、ボタンマップの座標を格納する構造体 </summary>
 struct ButtonLocation {
-	SCREEN_TYPE screen;	// 属している画面
-	int columnNum;		// ボタンマップの座標Y
-	int rowNum;			// ボタンマップの座標X
+	SCREEN_TYPE		screen;		// 属している画面
+	int				columnNum;	// ボタンマップの座標Y
+	int				rowNum;		// ボタンマップの座標X
 };
 
-// ボタンの中央座標と縦横の長さを格納する構造体 
+/// <summary> ボタンの中央座標と縦横の長さを格納する構造体 </summary>
 struct ButtonArea {
-	VECTOR2 position;	// ボタンの座標(%)
-	float width;		// ボタンの幅(%)
-	float height;		// ボタンの高さ(%)
+	VECTOR2			position;	// ボタンの座標(%)
+	float			width;		// ボタンの幅(%)
+	float			height;		// ボタンの高さ(%)
 };
 
 class Button {
 public:
-	/// <summary> コンストラクタ </summary>
-	/// <param name="_location"> ボタンが属している画面、ボタンマップの座標 </param>
-	/// <param name="_area"> ボタンの中心座標(%)、ボタンの幅高さ(%) </param>
-	/// <param name="_buttonType"> ボタン押下時の処理を選択 </param>
-	/// <param name="_drawText"> ボタン中央に表示するテキスト </param>
-	/// <param name="_fontType"> 使用するフォントの種類 </param>
+	/// <summary> コンストラクタ：描画、識別に必要な情報を初期化する </summary>
 	Button(ButtonLocation _location, ButtonArea _area, ButtonType _buttonType, std::string _drawText, int _fontType);
 
-	/// <summary> ボタンの描画メソッド </summary>
-	void Draw()const;
+	/// <summary> ボタンの描画 </summary>
+	void			Draw()const;
 
-	// private変数を読み取り専用で返すメソッド群
-	ButtonType GetButtonType()const { return buttonType; };
-	SCREEN_TYPE GetBelongScreen()const { return location.screen; };
-	int GetColumNum()const { return location.columnNum; };
-	int GetRowNum()const { return location.rowNum; };
-	int GetFont()const { return fontType; }
 
-	// private変数に書き込みを行うメソッド群
-	void SetDrawText(std::string text) { drawText = text; }
-	void SetButtonColor(int changeColor) { buttonColor = changeColor; }
-	void SetButtonType(ButtonType type) { buttonType = type; }
-	void SetFont(int handle) { fontType = handle; }
+	/// <summary> ボタンの種類を返す </summary>
+	ButtonType		GetButtonType()const { return buttonType; }
+	/// <summary> 所属する画面を返す </summary>
+	SCREEN_TYPE		GetScreen()const { return location.screen; }
+	/// <summary> ボタン列番号を返す </summary>
+	int				GetColumnNum()const { return location.columnNum; }
+	/// <summary> ボタンの行番号を返す </summary>
+	int				GetRowNum()const { return location.rowNum; }
+	/// <summary> フォントの種類を返す </summary>
+	int				GetFontType()const { return fontType; }
 
+
+	/// <summary> 表示テキストを設定 </summary>
+	void			SetDrawText(const std::string _drawText) { drawText = _drawText; }
+	/// <summary> ボタンの色を設定 </summary>
+	void			SetButtonColor(const int _buttonColor) { buttonColor = _buttonColor; }
 private:
-	ButtonLocation location;	// 属する画面、ボタンマップの座標
-	ButtonArea area;			// 描画座標、幅高さ(%)
-	ButtonType buttonType;		// 押下時の処理設定
-	std::string drawText;		// 表示するテキスト
-	int fontType;				// 使用するフォントの種類
-	int buttonColor = 0;		// ボタンの色
+	ButtonLocation	location;		// 属する画面、ボタンマップの座標
+	ButtonArea		area;			// 描画座標、幅高さ(%)
+	ButtonType		buttonType;		// 押下時の処理設定
+	std::string		drawText;		// 表示するテキスト
+	int				fontType;		// 使用するフォントの種類
+	int				buttonColor;	// ボタンの色
 };
-
-
-constexpr int BUTTON_NUM_X = 6;					// ボタンマップXのサイズ
-constexpr int BUTTON_NUM_Y = 5;					// ボタンマップYのサイズ
-constexpr int BUTTON_NUM_SCREEN = 5;			// ボタンが存在する画面の数
-constexpr VECTOR2 START_BUTTON_POS = { 1, 1 };	// 画面表示時に最初に選択するボタンの座標
 
 class ButtonManager {
 public:
-	ButtonManager() :buttonArray() {}
-	
-	/// <summary> どのボタンを選択しているかを返すメソッド </summary>
-	/// <returns> 選択中のボタンのインスタンス </returns>
-	Button* SelectGetButtonArray();
+	/// <summary> コンストラクタ </summary>
+	ButtonManager() : buttonMovePos(START_BUTTON_POS), buttonPos(START_BUTTON_POS), buttonArray() {}
 
-	/// <summary> ボタンの移動処理を行うメソッド </summary>
-	void ButtonMovement();
+	/// <summary> ボタンの移動処理を行う </summary>
+	void			UpdateButtonSelection();
 
-	/// <summary> ボタンの押下処理を行うメソッド </summary>
-	void ButtonPressed();
+	/// <summary> ボタンの押下処理を行う </summary>
+	void			ButtonPressed();
 
-	void SetButtonArray(Button* button) { buttonArray.push_back(button); }
-	void SetButtonMovePos(VECTOR2 pos) { buttonMovePos = pos; }
-	void SetButtonPos(VECTOR2 pos) { buttonPos = pos; }
+	/// <summary> 現在選択されているボタンを返す </summary>
+	Button* GetSelectButton()const;
 
-	int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
-	{ {0,0,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,1,0,0,0,0}, {0,0,0,0,0,0} }, // TITLE
-	{ {0,0,0,0,0,0}, {0,1,1,1,0,0}, {0,1,1,1,1,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // STAGESELECT
-	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // PAUSE
-	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }, // GAMEOVER
-	{ {0,0,0,0,0,0}, {0,1,1,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {0,0,0,0,0,0} }  // STAGECLEAR
-	};    // ボタンの配置マップ
+	/// <summary> 配列の末尾にボタンを登録 </summary>
+	void			SetButtonArray(Button* _button) { buttonArray.push_back(_button); }
+	/// <summary> ボタンの移動座標を設定 </summary>
+	void			SetButtonMovePos(const VECTOR2 _buttonMovePos) { buttonMovePos = _buttonMovePos; }
+	/// <summary> ボタンの座標を設定 </summary>
+	void			SetButtonPos(const VECTOR2 _buttonPos) { buttonPos = _buttonPos; }
+
+
+	static constexpr VECTOR2 START_BUTTON_POS = { 1, 1 };	// 画面表示時に最初に選択するボタンの座標
 private:
-	VECTOR2 buttonMovePos = START_BUTTON_POS;    // ボタンの移動座標
-	VECTOR2 buttonPos = START_BUTTON_POS;    // ボタンの選択位置
-	std::vector<Button*> buttonArray;    // ボタンの配列
+	VECTOR2					buttonMovePos;	// ボタンの移動座標
+	VECTOR2					buttonPos;		// ボタンの選択位置
+	std::vector<Button*>	buttonArray;    // ボタンの配列
 
+	static constexpr int	BUTTON_NUM_X = 6;					// ボタンマップXのサイズ
+	static constexpr int	BUTTON_NUM_Y = 5;					// ボタンマップYのサイズ
+	static constexpr int	BUTTON_NUM_SCREEN = 5;			// ボタンが存在する画面の数
+	// ボタンのマップ情報：1 = ボタンがある　0 = ボタンが無い
+	static constexpr int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
+	{ // TITLE
+		{0,0,0,0,0,0},
+		{0,1,0,0,0,0},
+		{0,1,0,0,0,0},
+		{0,1,0,0,0,0},
+		{0,0,0,0,0,0}
+		},
+	{ // STAGESELECT
+		{0,0,0,0,0,0},
+		{0,1,1,1,0,0},
+		{0,1,1,1,1,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0}
+	},
+	{ // PAUSE
+		{0,0,0,0,0,0},
+		{0,1,1,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0}
+	},
+	{ // GAMEOVER
+		{0,0,0,0,0,0},
+		{0,1,1,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0}
+	},
+	{  // STAGECLEAR
+		{0,0,0,0,0,0},
+		{0,1,1,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0}
+	}
+	};
 };
 
 extern ButtonManager buttonManager;
