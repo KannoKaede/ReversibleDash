@@ -4,13 +4,13 @@
 
 constexpr float BOTTOM_GROUND = 40.0f;	// 下側の地面の座標
 constexpr float TOP_GROUND = 840.0f;	// 上側の地面の座標
-constexpr float FIRST_SPEED = 10.0f;		// スタート時の速度
+constexpr float FIRST_SPEED = 7.0f;		// スタート時の速度
 constexpr float GRAVITY = 0.7f;			// 重力
 constexpr int JUMP_LOCK_TIME = 370;		// ジャンプ長押しが出来る時間
 constexpr float JUMP_POWER = 10;		// ジャンプ力
-const VECTOR START_PLAYER_POS = VGet(0, BOTTOM_GROUND, 250);
-const VECTOR START_PLAYER_ROT = VGet(0, base.ChangeRadians(-90.0f), 0);
-const VECTOR START_PLAYER_SCALE = VGet(30, 100, 0);
+constexpr VECTOR START_PLAYER_POS = { 0, BOTTOM_GROUND, 250 };
+const VECTOR START_PLAYER_ROT = { 0, base.ChangeRadians(-90.0f), 0 };
+constexpr VECTOR START_PLAYER_SCALE = { 30, 100, 0 };
 
 class Player {
 public:
@@ -41,7 +41,7 @@ public:
 	void Initialization();
 
 	bool CheckChangeJumpDis(float dis) {
-		return jumpDis == 0 || dis < jumpDis && 0 < dis;
+		return jumpDis == 0 || dis < jumpDis;
 	}
 
 	// private変数を読み取り専用で渡すメソッド群

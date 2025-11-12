@@ -3,10 +3,10 @@
 #include <string>
 
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
-const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの色
-const int COLOR_LIGHTGRAY = GetColor(200, 200, 200);    // 非選択時のボタンの色
+const int COLOR_MINTGREEN = GetColor(230, 200, 50);  // 選択中のボタンの色
+const int COLOR_LIGHTGRAY = GetColor(185, 185, 185);    // 非選択時のボタンの色
 const int COLOR_BLACK = GetColor(0, 0, 0);   // テキストで使用する色
-
+const int COLOR_WHITE = GetColor(255, 255, 255);   // テキストで使用する色
 struct ScreenSize {
 	int width;				// 画面の幅
 	int height;				// 画面の高さ
@@ -35,6 +35,7 @@ public:
 
 	void SetScreenSize();
 	void SetUp();
+	void FontSetUp();
 	void Initialization();
 	void CleanUp();
 
@@ -108,7 +109,4 @@ private:
 extern Base base;
 
 // タイトル画面　Escapeを押したらゲーム説明画面を表示
-// ボタン　形をカプセル型に変更
-// フォント　丸っぽい感じに変更
 // ジャンプゲージの実装
-// ボタンの色をスイカゲームのボタンと同じに

@@ -9,6 +9,18 @@ void Base::SetScreenSize() {
 	ChangeWindowMode(TRUE);
 	SetGraphMode(screen.width, screen.height, 32);
 }
+void Base::FontSetUp() {
+	// フォントサイズを設定した後、フォントをロードする
+	AddFontResourceExA("Resource/Fonts/ちはやチョーク.ttf", FR_PRIVATE, NULL);
+	fontData[EXTRALARGE].size = screen.width / 12;
+	fontData[LARGE].size = screen.width / 25;
+	fontData[MEDIUM].size = screen.width / 50;
+	fontData[SMALL].size = screen.width / 60;
+	fontData[EXTRALARGE].handle = CreateFontToHandle("ちはやチョーク", fontData[EXTRALARGE].size, 5, DX_FONTTYPE_ANTIALIASING);
+	fontData[LARGE].handle = CreateFontToHandle("ちはやチョーク", fontData[LARGE].size, 3, DX_FONTTYPE_ANTIALIASING);
+	fontData[MEDIUM].handle = CreateFontToHandle("ちはやチョーク", fontData[MEDIUM].size, 1, DX_FONTTYPE_ANTIALIASING);
+	fontData[SMALL].handle = CreateFontToHandle("ちはやチョーク", fontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
+}
 
 float Base::ClampNumF(float num, float min, float max) {
 	if (num < min) return min;
@@ -23,12 +35,12 @@ int Base::ClampNumI(int num, int min, int max) {
 }
 
 float Base::ScreenDrawPosF(int screenSize, float drawPosPercent) {
-	// 画面サイズに描画したい一の％をかけて100で割ることで描画座標を求める
+	// 画面サイズに描画したい位置の％をかけて100で割ることで描画座標を求める
 	return screenSize * drawPosPercent / 100;
 }
 
 int Base::ScreenDrawPosI(int screenSize, float drawPosPercent) {
-	// 画面サイズに描画したい一の％をかけて100で割ることで描画座標を求める
+	// 画面サイズに描画したい位置の％をかけて100で割ることで描画座標を求める
 	return(int)(screenSize * drawPosPercent / 100);
 }
 

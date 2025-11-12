@@ -33,6 +33,33 @@ void StageManager::SetUp() {
 		}
 	}
 
+	// モデルの光の当たり方を設定：DXライブラリの初期設定のままだと暗すぎるので明るくする
+	for (int i = 0; i < MV1GetMaterialNum(cityHandle); i++)	// ステージのモデル
+	{
+		MV1SetMaterialDifColor(cityHandle, i, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+		MV1SetMaterialAmbColor(cityHandle, i, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+		MV1SetMaterialSpcColor(cityHandle, i, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+		MV1SetMaterialEmiColor(cityHandle, i, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+		MV1SetMaterialSpcPower(cityHandle, i, 3.0f);
+	}
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < MV1GetMaterialNum(carHandle[i]); j++) {
+			MV1SetMaterialDifColor(carHandle[i], j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+			MV1SetMaterialAmbColor(carHandle[i], j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+			MV1SetMaterialSpcColor(carHandle[i], j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+			MV1SetMaterialEmiColor(carHandle[i], j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+			MV1SetMaterialSpcPower(carHandle[i], j, 3.0f);
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < MV1GetMaterialNum(cloudHandle[i]); j++) {
+			MV1SetMaterialDifColor(cloudHandle[i], j, GetColorF(0.8f, 0.8f, 0.8f, 1.0f));
+			MV1SetMaterialAmbColor(cloudHandle[i], j, GetColorF(0.9f, 0.9f, 0.9f, 0.9f));
+			MV1SetMaterialSpcColor(cloudHandle[i], j, GetColorF(0.2f, 0.2f, 0.2f, 0.2f));
+			MV1SetMaterialEmiColor(cloudHandle[i], j, GetColorF(0.3f, 0.3f, 0.3f, 0.0f));
+			MV1SetMaterialSpcPower(cloudHandle[i], j, 3.0f);
+		}
+	}
 }
 
 
@@ -41,7 +68,7 @@ void StageManager::Draw(Player& player) {
 	bool test = false;
 	// 背景ステージの描画と衝突判定の設定
 	MV1DrawModel(cityHandle);
-	if(IsCollision(player, VGet(12000, 0, 0), 40, 20000, false, false))test = true;	// リファクタリング：ステージを全部作り終わったら定数に変更
+	if (IsCollision(player, VGet(12000, 0, 0), 40, 20000, false, false))test = true;	// リファクタリング：ステージを全部作り終わったら定数に変更
 	// 車の描画
 	if (!base.GetIsGameStop()) carMoveX += -7;	// 車を左に移動させていく
 	for (int i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
@@ -82,7 +109,7 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 		// プレイヤーがobj.xの範囲内にいてobj.yの範囲内にもいる場合設置判定を有効にする
 		if (collisionX && collisionY) {
 			player.SetGroundPosY(objPos.y + height);	// 足場となる座標を保存
-			float objRightDis = (objPos.x + radius) - playerPos.x;
+			float objRightDis = base.ClampNumF((objPos.x + radius) - playerPos.x, 0, 500);
 			if (isCloudScoreAdd && player.CheckChangeJumpDis(objRightDis)) {
 				player.SetJumpDis(objRightDis);
 			}
@@ -95,12 +122,10 @@ bool StageManager::IsCollision(Player& player, VECTOR objPos, float height, floa
 	}
 	// 車の判定
 	else {
+		float objLeftDis = base.ClampNumF((objPos.x - radius) - playerPos.x,0,500);
 		if (collisionX && collisionY) return true;	// 車の中にプレイヤーが侵入したら
-		else if (!collisionX && collisionY) {
-			float objLeftDis = (objPos.x - radius) - playerPos.x;
-			if (player.CheckChangeJumpDis(objLeftDis)) {
-				player.SetJumpDis(objLeftDis);
-			}
+		else if (!collisionX && collisionY && player.CheckChangeJumpDis(objLeftDis)) {
+			player.SetJumpDis(objLeftDis);
 		}
 	}
 	return false;

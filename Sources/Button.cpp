@@ -15,28 +15,40 @@ Button::Button(ButtonLocation _location, ButtonArea _area, ButtonType _buttonTyp
 }
 
 void Button::Draw()const {
-	// ボタンの上下左右の座標を計算
-	int boxRight = base.ScreenDrawPosI(base.GetScreen().width, (area.position.x + area.width));
-	int boxLeft = base.ScreenDrawPosI(base.GetScreen().width, (area.position.x - area.width));
-	int  boxTop = base.ScreenDrawPosI(base.GetScreen().height, (area.position.y + area.height));
-	int  boxBottom = base.ScreenDrawPosI(base.GetScreen().height, (area.position.y - area.height));
+	// ボタンの中心座標と幅高さをスクリーン座標として計算する
+	int boxCenterPosX = base.ScreenDrawPosI(base.GetScreen().width, area.position.x);
+	int boxCenterPosY = base.ScreenDrawPosI(base.GetScreen().height, area.position.y);
+	int boxWidth = base.ScreenDrawPosI(base.GetScreen().width, area.width);
+	int boxHeight = base.ScreenDrawPosI(base.GetScreen().height, area.height);
 
-	DrawBox(boxLeft, boxTop, boxRight, boxBottom, buttonColor, TRUE);	// ボタン：長方形を描画
+	// ボタンの左右上下の座標を計算する
+	int boxRight = boxCenterPosX + boxWidth;
+	int boxLeft = boxCenterPosX - boxWidth;
+	int  boxBottom = boxCenterPosY + boxHeight;
+	int boxTop = boxCenterPosY - boxHeight;
 
-	// 上で計算した座標を使用してテキストを中央に描画
+	// 図形を描画する
+	DrawBox(boxLeft, boxTop, boxRight, boxBottom, buttonColor, TRUE);						// 中央の長方形
+	DrawCircleAA((float)boxRight, (float)boxCenterPosY, (float)boxHeight, 64, buttonColor);	// 右の円
+	DrawCircleAA((float)boxLeft, (float)boxCenterPosY, (float)boxHeight, 64, buttonColor);	// 左の円
+
+	// 長方形の中央にテキストを描画する
 	uiManager.DrawStringCenter((float)boxLeft, (float)boxTop, (float)boxRight, (float)boxBottom, drawText, fontType);
 }
 
 void ButtonManager::ButtonMovement() {
-	// 現在の画面に属しているボタンのみ描画する：色をすべて非選択状態に設定する
+	// 現在の画面に属しているボタンを探す
 	for (auto* btn : buttonArray) {
+		// 属しているボタンのみを描画する
 		if (uiManager.CheckScreen(btn->GetBelongScreen())) {
 			btn->Draw();
-			btn->SetButtonColor(COLOR_LIGHTGRAY);
+			btn->SetButtonColor(COLOR_LIGHTGRAY);	// 1度色を非選択状態の色に変更
 		}
 	}
-	// フェード中にボタンを移動できないようにする
+
+	// フェード中はボタンを移動させない
 	if (!fadeManager.GetIsFading()) {
+		// ボタン座標移動処理
 		if (input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_W)) buttonMovePos.y += -1;
 		if (input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_S)) buttonMovePos.y += 1;
 		if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) buttonMovePos.x += -1;
@@ -47,32 +59,31 @@ void ButtonManager::ButtonMovement() {
 	buttonMovePos.x = base.ClampNumF(buttonMovePos.x, 0, BUTTON_NUM_X - 1);
 	buttonMovePos.y = base.ClampNumF(buttonMovePos.y, 0, BUTTON_NUM_Y - 1);
 
-	// ボタンを押しているかのフラグを立てる：画面を変えた際にボタンのボタンの座標がずれてビープ音が鳴るのを防ぐ
-	bool isMoveInput = input.KeyDown(KEY_INPUT_UP) || input.KeyDown(KEY_INPUT_DOWN) || input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_W) || input.KeyDown(KEY_INPUT_S) || input.KeyDown(KEY_INPUT_A) || input.KeyDown(KEY_INPUT_D);
-	if (buttonMap[uiManager.GetCurrentScreen()][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {	// 移動先にボタンが無い場合はビープ音を鳴らして移動前の座標に戻す
-		if (isMoveInput)audioManager.PlaySE(audioManager.BUTTON_BEEP);
+	// 移動先にボタンが存在しない(0)の場合は移動前の座標に戻した後、ビープ音を再生
+	if (buttonMap[uiManager.GetCurrentScreen()][(int)buttonMovePos.y][(int)buttonMovePos.x] == 0) {
 		buttonMovePos = buttonPos;
+		audioManager.PlaySE(audioManager.BUTTON_BEEP);
 	}
-	else if (buttonPos.x != buttonMovePos.x || buttonPos.y != buttonMovePos.y) {	// 移動先にボタンがある、かつボタンの座標が変わっている場合は移動音を鳴らす
+	// 移動先にボタンが存在し、ボタン座標を動かしていた場合ボタン移動音を再生
+	else if (buttonPos.x != buttonMovePos.x || buttonPos.y != buttonMovePos.y) {
 		audioManager.PlaySE(audioManager.BUTTON_MOVE);
 	}
+
 	buttonPos = buttonMovePos;	// ボタンの座標を更新
 
-	// 選択されているボタンの色を最後に変更
-	Button* selected = SelectGetButtonArray();
-	if (selected != nullptr) {
-		selected->SetButtonColor(COLOR_MINTGREEN);
-	}
+	// 選択されているボタンの色を最後に変更する
+	SelectGetButtonArray()->SetButtonColor(COLOR_MINTGREEN);
 }
 
 void ButtonManager::ButtonPressed() {
 	if (fadeManager.GetIsFading()) return;
+
 	if (input.KeyDown(KEY_INPUT_SPACE) || input.KeyDown(KEY_INPUT_RETURN)) {
-		audioManager.PlaySE(audioManager.BUTTON_SELECT);	// 押されたら選択音を鳴らす
+		audioManager.PlaySE(audioManager.BUTTON_SELECT);	// ボタン選択音を再生
 		Button* selected = SelectGetButtonArray();
 		switch (selected->GetButtonType())	// ボタンごとに処理を分岐
 		{
-			// フェード処理を挟むかつインゲームに遷移するボタンをまとめた
+			// フェード処理を挟み、インゲームに遷移するボタン群
 		case ButtonType::Start:
 		case ButtonType::Retry:
 		case ButtonType::Next:
@@ -89,20 +100,20 @@ void ButtonManager::ButtonPressed() {
 			if (selected->GetButtonType() == ButtonType::PickStage)
 				base.SetStageNumber((selected->GetColumNum() - 1) * 3 + selected->GetRowNum());
 			break;
-		case ButtonType::Resume:
+		case ButtonType::Resume:	// ポーズ・ゲーム再開ボタン
 			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
 			uiManager.SetIsStartCountDown(true);
 			break;
-		case ButtonType::StageSelect:
+		case ButtonType::StageSelect:	// ステージセレクト画面に移動するボタン
 			fadeManager.ChangeUIState(SCREEN_TYPE::STAGESELECT, fadeManager.NOTFADE);
 			break;
-		case ButtonType::Quit:
+		case ButtonType::Quit:	// exeを落とすボタン
 			DxLib_End();
 			break;
-		case ButtonType::ReturnTitle:
+		case ButtonType::ReturnTitle:	// ステージセレクトからタイトルに戻るボタン
 			fadeManager.ChangeUIState(TITLE, fadeManager.NOTFADE);
 			break;
-		case ButtonType::Exit:
+		case ButtonType::Exit:	// ゲームからタイトルに戻るボタン
 			fadeManager.ChangeUIState(TITLE, fadeManager.FADEOUT);
 			break;
 		}
