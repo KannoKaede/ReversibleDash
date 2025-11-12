@@ -135,9 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Font Include="Resource\KaqookanV2.ttf" />
-  </ItemGroup>
-  <ItemGroup>
     <Media Include="Resource\Audios\BGM_InGame.mp3" />
     <Media Include="Resource\Audios\BGM_Title.mp3" />
     <Media Include="Resource\Audios\JINGLE_Clear.mp3" />
@@ -187,6 +184,9 @@
     <ClInclude Include="Headers\Score.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\Fonts\ちはやチョーク.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
