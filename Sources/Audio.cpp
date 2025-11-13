@@ -39,7 +39,7 @@ void AudioManager::StopBGM() {
 
 void AudioManager::PlayBGMControl(){
 	if (!fadeManager.GetIsFading()) {
-		if (uiManager.CheckScreen(TITLE)||uiManager.CheckScreen(STAGESELECT)) {
+		if (uiManager.CheckScreen(TITLE)||uiManager.CheckScreen(STAGESELECT) || uiManager.CheckScreen(EXPLANATION)) {
 			PlayBGM(OUTGAME_BGM);
 		}
 		// スタートカウントダウンが終了したタイミングで再生

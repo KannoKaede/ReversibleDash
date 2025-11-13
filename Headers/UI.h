@@ -12,7 +12,8 @@ enum SCREEN_TYPE	// 画面の状態を定義
 	STAGECLEAR,		// ステージクリア（最後のステージ意外）
 	GAMECLEAR,		// ステージクリア（最後のステージ）
 	BUTTON_NUM,		// ボタンがある画面の数
-	INGAME			// ゲーム中
+	INGAME,			// ゲーム中
+	EXPLANATION		// ゲームの仕様等を開設する画面
 };
 
 enum FADE_STATE {	// フェードの状態を定義
@@ -69,6 +70,15 @@ class ClearScene {
 public:
 	/// <summary> クリアのUIを描画 </summary>
 	void Draw();
+};
+
+// ゲームの仕様等の説明の描画処理を行うクラス
+class  ExceptionScene {
+public:
+	/// <summary> ゲームの仕様を描画 </summary>
+	void Draw();
+private:
+	int currentPage;	// 表示しているページ
 };
 
 
@@ -141,6 +151,7 @@ private:
 	InGameScene				inGameScene;
 	GameOverScene			gameOverScene;
 	ClearScene				clearScene;
+	ExceptionScene			exceptionScene;
 
 	int						startTime = 0;		// 待機を開始したタイミングを保持
 	int						waitTime = 0;		// 何秒待機するかの値

@@ -20,7 +20,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
-		printfDx("%f", player.GetPosition().x);
 		input.CheckAllKey();	// 全キーの状態をチェック
 		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
@@ -38,12 +37,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		
 		audioManager.PlayBGMControl();
 		uiManager.DrawUI(player);	//	UIを描画
-		if (!uiManager.CheckScreen(INGAME)) {
+		if (uiManager.GetCurrentScreen()<SCREEN_TYPE::BUTTON_NUM) {
 			buttonManager.UpdateButtonSelection();	//  ボタンの移動
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
 		else {
-			if (!uiManager.GetIsStartCountDown() && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, NOTFADE);
+			
 		}
 		fadeManager.DrawFadeController();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
