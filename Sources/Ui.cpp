@@ -38,7 +38,7 @@ void UIManager::SetUp() {
 	GetGraphSize(keySpace.image, &keySpace.width, &keySpace.height);
 }
 
-void UIManager::DrawUI(Player player) {
+void UIManager::DrawUI(Player& _player) {
 	switch (currentScreen)
 	{
 	case TITLE:
@@ -48,7 +48,7 @@ void UIManager::DrawUI(Player player) {
 		stageSelectScene.Draw();
 		break;
 	case PAUSE:
-		pauseScene.Draw(player);
+		pauseScene.Draw(_player);
 		break;
 	case GAMEOVER:
 		gameOverScene.Draw();
@@ -57,7 +57,7 @@ void UIManager::DrawUI(Player player) {
 		clearScene.Draw();
 		break;
 	case INGAME:
-		inGameScene.Draw(player);
+		inGameScene.Draw(_player);
 		break;
 	default:
 		break;
@@ -255,7 +255,7 @@ void StageSelectScene::Draw() {
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
 }
 
-void PauseScene::Draw(Player player) {
+void PauseScene::Draw(Player& _player) {
 	// 背景枠の描画
 	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, 25), base.ScreenDrawPosI(base.GetScreen().height, 25),
 		base.ScreenDrawPosI(base.GetScreen().width, 75), base.ScreenDrawPosI(base.GetScreen().height, 75), COLOR_WHITEGRAY, TRUE);
@@ -268,10 +268,10 @@ void PauseScene::Draw(Player player) {
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
 
-	uiManager.DrawProgressRateBar(player, 50, 97, 96.5f);	// 進捗率バーの描画
+	uiManager.DrawProgressRateBar(_player, 50, 97, 96.5f);	// 進捗率バーの描画
 }
 
-void InGameScene::Draw(Player player) {
+void InGameScene::Draw(Player& _player) {
 	uiManager.DrawString(1, 0, 95.7f, "SCORE : " + std::to_string(scoreManager.GetViewScore()), base.GetFontData(MEDIUM).handle);	// スコアの描画
 	uiManager.DrawString(1, 0, 1, "STAGE" + std::to_string(base.GetStageNumber()), base.GetFontData(MEDIUM).handle);	// 現在遊んでいるステージがどこか描画
 	uiManager.DrawStartCountDown();	// スタートカウントダウンの描画
@@ -282,7 +282,7 @@ void InGameScene::Draw(Player player) {
 	uiManager.DrawString(23.5f, 0, 95.7f, "Pause", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5, 0, 95.7f, "Jump", base.GetFontData(SMALL).handle);
 
-	uiManager.DrawProgressRateBar(player, 50, 97, 96.5f);	// 進捗率バーの描画
+	uiManager.DrawProgressRateBar(_player, 50, 97, 96.5f);	// 進捗率バーの描画
 }
 
 void GameOverScene::Draw() {

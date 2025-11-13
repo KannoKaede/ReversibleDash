@@ -107,7 +107,7 @@ void Player::Jump() {
 		}
 		// 画面上部からはみ出たらゲームオーバー
 		if (transform.position.y > 1500) {
-			fadeManager.ChangeUIState(GAMEOVER, fadeManager.NOTFADE);
+			fadeManager.ChangeUIState(GAMEOVER, NOTFADE);
 			audioManager.PlaySE(audioManager.JINGLE_GAMEOVER);
 		}
 	}

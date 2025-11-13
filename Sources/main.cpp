@@ -8,7 +8,7 @@
 #include "Stage.h"
 #include "UI.h"
 
-Player player(START_PLAYER_POS, START_PLAYER_ROT, START_PLAYER_SCALE, FIRST_SPEED);
+Player player(START_PLAYER_POS, START_PLAYER_ROT, PLAYER_SCALE, FIRST_SPEED);
 CameraLight cameraLight;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -20,7 +20,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
-		printfDx("%d", GetColor(100, 100, 100));
+		printfDx("%f", player.GetPosition().x);
 		input.CheckAllKey();	// 全キーの状態をチェック
 		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
@@ -31,7 +31,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			scoreManager.AddViewScore();
 			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
 				scoreManager.CheckHighScore();
-				fadeManager.ChangeUIState(CLEAR, fadeManager.NOTFADE);
+				fadeManager.ChangeUIState(CLEAR, NOTFADE);
 				audioManager.PlaySE(audioManager.JINGLE_CLEAR);
 			}
 		}
@@ -43,7 +43,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
 		else {
-			if (!uiManager.GetIsStartCountDown() && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, fadeManager.NOTFADE);
+			if (!uiManager.GetIsStartCountDown() && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, NOTFADE);
 		}
 		fadeManager.DrawFadeController();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
