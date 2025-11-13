@@ -133,6 +133,13 @@ void StageManager::CarsSetUp() {
 		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 8500));
 		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 10000));
 		carArray[6].push_back(Car(LargeCarModelRandom(), L_CAR_HEIGHT, L_CAR_RADIUS, 12000));
+		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 15000));
+		carArray[6].push_back(Car(LargeCarModelRandom(), L_CAR_HEIGHT, L_CAR_RADIUS, 18000));
+		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 19200));
+		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 20400));
+		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 24000));
+		carArray[6].push_back(Car(SmallCarModelRandom(), S_CAR_HEIGHT, S_CAR_RADIUS, 26000));
+		carArray[6].push_back(Car(LargeCarModelRandom(), L_CAR_HEIGHT, L_CAR_RADIUS, 29000));
 	}
 }
 
@@ -367,11 +374,30 @@ void StageManager::CloudsSetUp() {	// メモ　小じゃん隙間　600
 		cloudArray[6].push_back(Cloud(CloudModelRandom(), 6240));
 		cloudArray[6].push_back(Cloud(CloudModelRandom(), 6480));
 		cloudArray[6].push_back(Cloud(CloudModelRandom(), 6720));
-		cloudArray[6].push_back(Cloud(CloudModelRandom(), 6960));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 6960, true));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 8640));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 8880));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 9120));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 9360));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 9600));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 9840));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 10080, true));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 10680));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 10920));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 11160));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 11400));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 11640));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 11880, true));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 15960));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 16200));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 16440));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 16680));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 16920));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 17160));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 17400));
+		cloudArray[6].push_back(Cloud(CloudModelRandom(), 17640, true));
 	}
 }
-
-
 
 void StageManager::Draw(Player& _player) {
 	bool test = false;
@@ -432,7 +458,7 @@ bool StageManager::IsCollision(Player& _player, const VECTOR& _objPos, float _he
 	// 車の判定
 	else {
 		float objLeftDis = base.ClampNumF((_objPos.x - _radius) - playerPos.x, 0, 500);
-		if (collisionX && collisionY) return true;	// 車の中にプレイヤーが侵入したら
+		if (collisionX && collisionY) return false;	// 車の中にプレイヤーが侵入したら
 		else if (!collisionX && collisionY && _player.CheckChangeJumpDis(objLeftDis)) {
 			_player.SetJumpDis(objLeftDis);
 		}

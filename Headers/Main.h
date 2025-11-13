@@ -1,6 +1,11 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include <string>
+// メモ
+// 学校でスカイボックス作る
+// エフェクト作れそうなら作る（加速した際、走っている、着地したとき）
+// スタートカウントダウンボイスを実装
+
 
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
 const int COLOR_MINTGREEN = GetColor(230, 200, 50);  // 選択中のボタンの色

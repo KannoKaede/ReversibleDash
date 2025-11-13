@@ -15,25 +15,21 @@ Button::Button(ButtonLocation _location, ButtonArea _area, ButtonType _buttonTyp
 }
 
 void Button::Draw()const {
-	// ボタンの中心座標と幅高さをスクリーン座標として計算する
-	int boxCenterPosX = base.ScreenDrawPosI(base.GetScreen().width, area.position.x);
-	int boxCenterPosY = base.ScreenDrawPosI(base.GetScreen().height, area.position.y);
-	int boxWidth = base.ScreenDrawPosI(base.GetScreen().width, area.width);
-	int boxHeight = base.ScreenDrawPosI(base.GetScreen().height, area.height);
+	// ボタンの左右上下の%で表す座標を求める
+	float leftPct = area.position.x - area.width;
+	float topPct = area.position.y - area.height;
+	float rightPct = area.position.x + area.width;
+	float bottomPct = area.position.y + area.height;
+	// ボタン背景枠を描画
+	uiManager.DrawRoundRect(leftPct, topPct, rightPct, bottomPct, area.height * 0.5f, buttonColor);
 
 	// ボタンの左右上下の座標を計算する
-	int boxRight = boxCenterPosX + boxWidth;
-	int boxLeft = boxCenterPosX - boxWidth;
-	int  boxBottom = boxCenterPosY + boxHeight;
-	int boxTop = boxCenterPosY - boxHeight;
+	float boxLeft = base.ScreenDrawPosF(base.GetScreen().width, leftPct);
+	float boxTop = base.ScreenDrawPosF(base.GetScreen().height, topPct);
+	float boxRight = base.ScreenDrawPosF(base.GetScreen().width, rightPct);
+	float  boxBottom = base.ScreenDrawPosF(base.GetScreen().height, bottomPct);
 
-	// 図形を描画する
-	DrawBox(boxLeft, boxTop, boxRight, boxBottom, buttonColor, TRUE);						// 中央の長方形
-	DrawCircleAA((float)boxRight, (float)boxCenterPosY, (float)boxHeight, 64, buttonColor);	// 右の円
-	DrawCircleAA((float)boxLeft, (float)boxCenterPosY, (float)boxHeight, 64, buttonColor);	// 左の円
-
-	// 長方形の中央にテキストを描画する
-	uiManager.DrawStringCenter((float)boxLeft, (float)boxTop, (float)boxRight, (float)boxBottom, drawText, fontType);
+	uiManager.DrawStringCenter(boxLeft, boxTop, boxRight, boxBottom, drawText, fontType);
 }
 
 void ButtonManager::UpdateButtonSelection() {

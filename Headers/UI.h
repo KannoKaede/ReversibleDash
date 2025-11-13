@@ -92,18 +92,21 @@ public:
 	/// <param name="fontType"> 使用するフォントの配列の要素数 </param>
 	void			DrawStringCenter(float left, float top, float right, float bottom, std::string text, int fontType);
 
-	/// <summary> テキストを描画：rightをleftの値より小さくしたらleftの位置で描画する。大きい場合は指定の枠の左右中央に描画 </summary>
+	/// <summary> テキストを描画：RightをLeftの値より小さくしたらLeftの位置で描画する。大きい場合は指定の枠の左右中央に描画 </summary>
 	void			DrawString(float leftPct, float rightPct, float heightPct, std::string text, int font);
 
 	/// <summary> 画像を描画 </summary>
 	void			DrawImage(float leftPct, float topPct, ImageData image);
+
+	/// <summary> 角を丸くした長方形を描画 </summary>
+	void			DrawRoundRect(float _topPct, float _bottomPct, float _leftPct, float _rightPct, float _radiusPct, int _color);
 
 	/// <summary> 現在の画面が指定の画面と等しいかを返す </summary>
 	bool			CheckScreen(SCREEN_TYPE screen)			{ return currentScreen == screen; }
 
 	/// <summary> WASDの画像を返す </summary>
 	ImageData		GetImageWASD()							{ return keyWASD; }
-	/// <summary> Spabeの画像を返す </summary>
+	/// <summary> Spaceの画像を返す </summary>
 	ImageData		GetImageSpace()							{ return keySpace; }
 	/// <summary> Escapeの画像を返す </summary>
 	ImageData		GetImageEscape()						{ return keyEscape; }
