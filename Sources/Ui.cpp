@@ -22,8 +22,9 @@ Button resumeBtn		({ PAUSE,		1, 1 },	{ { 39, 63 },  7, 4 },	ButtonType::Resume,	
 Button pauseExitBtn		({ PAUSE,		1, 2 },	{ { 61, 63 },  7, 4 },	ButtonType::Exit,			"Exit",			LARGE);
 Button retryBtn			({ GAMEOVER,	1, 1 },	{ { 37, 70 },  8, 4 },	ButtonType::Retry,			"Retry",		LARGE);
 Button gameOverExitBtn	({ GAMEOVER,	1, 2 },	{ { 63, 70 },  8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
-Button nextBtn			({ CLEAR,		1, 1 },	{ { 37, 70 },  8, 4 },	ButtonType::Next,			"Next",			LARGE);
-Button clearExitBtn		({ CLEAR,		1, 2 },	{ { 63, 70 },  8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
+Button nextBtn			({ STAGECLEAR,	1, 1 },	{ { 37, 70 },  8, 4 },	ButtonType::Next,			"Next",			LARGE);
+Button stageClearExitBtn({ STAGECLEAR,	1, 2 },	{ { 63, 70 },  8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
+Button gameClearExitBtn ({ GAMECLEAR,	1, 1 },	{ { 50, 70 },  8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
 
 UIManager uiManager;
 FadeManager fadeManager;
@@ -53,7 +54,8 @@ void UIManager::DrawUI(Player& _player) {
 	case GAMEOVER:
 		gameOverScene.Draw();
 		break;
-	case CLEAR:
+	case STAGECLEAR:
+	case GAMECLEAR:
 		clearScene.Draw();
 		break;
 	case INGAME:

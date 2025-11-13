@@ -57,7 +57,7 @@ int Base::TextDrawCenterPosY(float _top, float _bottom, int _fontSize, const std
 
 bool Base::IsDrawInGame() {
 	// ステージを裏で描画する画面を返す
-	return uiManager.CheckScreen(INGAME) || uiManager.CheckScreen(PAUSE) || uiManager.CheckScreen(GAMEOVER) || uiManager.CheckScreen(CLEAR);
+	return uiManager.CheckScreen(INGAME) || uiManager.CheckScreen(PAUSE) || uiManager.CheckScreen(GAMEOVER) || uiManager.CheckScreen(STAGECLEAR) || uiManager.CheckScreen(GAMECLEAR);
 }
 
 int Base::Random(int _min, int _max) {
