@@ -9,7 +9,9 @@ enum SCREEN_TYPE	// 画面の状態を定義
 	STAGESELECT,	// ステージセレクト
 	PAUSE,			// ポーズ
 	GAMEOVER,		// ゲームオーバー
-	CLEAR,			// クリア
+	STAGECLEAR,		// ステージクリア（最後のステージ意外）
+	GAMECLEAR,		// ステージクリア（最後のステージ）
+	BUTTON_NUM,		// ボタンがある画面の数
 	INGAME			// ゲーム中
 };
 

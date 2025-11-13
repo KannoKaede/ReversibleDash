@@ -31,7 +31,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			scoreManager.AddViewScore();
 			if (!base.GetIsGameStop() && stageManager.IsClear(player.GetPosition().x)) {
 				scoreManager.CheckHighScore();
-				fadeManager.ChangeUIState(CLEAR, NOTFADE);
+				fadeManager.ChangeUIState(base.GetStageNumber() == 6 ? GAMECLEAR : STAGECLEAR, NOTFADE);
 				audioManager.PlaySE(audioManager.JINGLE_CLEAR);
 			}
 		}
