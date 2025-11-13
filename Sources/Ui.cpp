@@ -8,22 +8,22 @@
 /*UIManagerクラス---------------------------------------------------------------------------------------------------------*/
 
 // 使用する全てのボタンのインスタンスをここで用意：UIManager::SetUpの中に入れると起動時にクラッシュする
-Button startBtn			({ TITLE,		1, 1 },	{ { 50, 47 }, 12, 4 },	ButtonType::Start,			"GameStart",	LARGE);
-Button stageSelectBtn	({ TITLE,		2, 1 },	{ { 50, 65 }, 12, 4 },	ButtonType::StageSelect,	"StageSelect",	LARGE);
-Button quitBtn			({ TITLE,		3, 1 },	{ { 50, 83 }, 12, 4 },	ButtonType::Quit,			"GameQuit",		LARGE);
-Button pickStage1Btn	({ STAGESELECT, 1, 1 },	{ { 28, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.1",			MEDIUM);
-Button pickStage2Btn	({ STAGESELECT, 1, 2 },	{ { 50, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.2",			MEDIUM);
-Button pickStage3Btn	({ STAGESELECT, 1, 3 },	{ { 72, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.3",			MEDIUM);
-Button pickStage4Btn	({ STAGESELECT, 2, 1 },	{ { 28, 77 },  5, 6 },	ButtonType::PickStage,		"Lv.4",			MEDIUM);
-Button pickStage5Btn	({ STAGESELECT, 2, 2 },	{ { 50, 77 },  5, 6 },	ButtonType::PickStage,		"Lv.5",			MEDIUM);
-Button pickStage6Btn	({ STAGESELECT, 2, 3 },	{ { 72, 77 },  5, 6 },	ButtonType::PickStage,		"Lv.6",			MEDIUM);
-Button returnTitleBtn	({ STAGESELECT, 2, 4 },	{ { 90, 79 },  3, 4 },	ButtonType::ReturnTitle,	"Back",			MEDIUM);
-Button resumeBtn		({ PAUSE,		1, 1 },	{ { 39, 63 }, 7, 4 },	ButtonType::Resume,			"Resume",		LARGE);
-Button pauseExitBtn		({ PAUSE,		1, 2 },	{ { 61, 63 }, 7, 4 },	ButtonType::Exit,			"Exit",			LARGE);
-Button retryBtn			({ GAMEOVER,	1, 1 },	{ { 37, 70 }, 8, 4 },	ButtonType::Retry,			"Retry",		LARGE);
-Button gameOverExitBtn	({ GAMEOVER,	1, 2 },	{ { 63, 70 }, 8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
-Button nextBtn			({ CLEAR,		1, 1 },	{ { 37, 70 }, 8, 4 },	ButtonType::Next,			"Next",			LARGE);
-Button clearExitBtn		({ CLEAR,		1, 2 },	{ { 63, 70 }, 8, 4 },	ButtonType::Exit,			"Exit",			LARGE);
+Button startBtn			({ TITLE,		1, 1 },	{ { 50, 47 }, 12, 2 },	ButtonType::Start,			"GameStart",	LARGE);
+Button stageSelectBtn	({ TITLE,		2, 1 },	{ { 50, 65 }, 12, 2 },	ButtonType::StageSelect,	"StageSelect",	LARGE);
+Button quitBtn			({ TITLE,		3, 1 },	{ { 50, 83 }, 12, 2 },	ButtonType::Quit,			"GameQuit",		LARGE);
+Button pickStage1Btn	({ STAGESELECT, 1, 1 },	{ { 28, 48 },  5, 3 },	ButtonType::PickStage,		"Lv.1",			MEDIUM);
+Button pickStage2Btn	({ STAGESELECT, 1, 2 },	{ { 50, 48 },  5, 3 },	ButtonType::PickStage,		"Lv.2",			MEDIUM);
+Button pickStage3Btn	({ STAGESELECT, 1, 3 },	{ { 72, 48 },  5, 3 },	ButtonType::PickStage,		"Lv.3",			MEDIUM);
+Button pickStage4Btn	({ STAGESELECT, 2, 1 },	{ { 28, 77 },  5, 3 },	ButtonType::PickStage,		"Lv.4",			MEDIUM);
+Button pickStage5Btn	({ STAGESELECT, 2, 2 },	{ { 50, 77 },  5, 3 },	ButtonType::PickStage,		"Lv.5",			MEDIUM);
+Button pickStage6Btn	({ STAGESELECT, 2, 3 },	{ { 72, 77 },  5, 3 },	ButtonType::PickStage,		"Lv.6",			MEDIUM);
+Button returnTitleBtn	({ STAGESELECT, 2, 4 },	{ { 90, 79 },  3, 2 },	ButtonType::ReturnTitle,	"Back",			MEDIUM);
+Button resumeBtn		({ PAUSE,		1, 1 },	{ { 39, 63 },  7, 2 },	ButtonType::Resume,			"Resume",		LARGE);
+Button pauseExitBtn		({ PAUSE,		1, 2 },	{ { 61, 63 },  7, 2 },	ButtonType::Exit,			"Exit",			LARGE);
+Button retryBtn			({ GAMEOVER,	1, 1 },	{ { 37, 70 },  8, 2 },	ButtonType::Retry,			"Retry",		LARGE);
+Button gameOverExitBtn	({ GAMEOVER,	1, 2 },	{ { 63, 70 },  8, 2 },	ButtonType::Exit,			"Exit",			LARGE);
+Button nextBtn			({ CLEAR,		1, 1 },	{ { 37, 70 },  8, 2 },	ButtonType::Next,			"Next",			LARGE);
+Button clearExitBtn		({ CLEAR,		1, 2 },	{ { 63, 70 },  8, 2 },	ButtonType::Exit,			"Exit",			LARGE);
 
 UIManager uiManager;
 FadeManager fadeManager;
@@ -165,6 +165,28 @@ void UIManager::DrawImage(float leftPct, float topPct, ImageData image) {
 	DrawExtendGraph(x1, y1, x2, y2, image.image, TRUE);
 }
 
+void UIManager::DrawRoundRect(float _leftPct, float _topPct, float _rightPct, float _bottomPct, float _radiusPct,int _color) {
+	// 画面描画座標を計算
+	int leftPos = base.ScreenDrawPosI(base.GetScreen().width, _leftPct);
+	int rightPos = base.ScreenDrawPosI(base.GetScreen().width, _rightPct);
+	int topPos = base.ScreenDrawPosI(base.GetScreen().height, _topPct);
+	int bottomPos = base.ScreenDrawPosI(base.GetScreen().height, _bottomPct);
+	int radius = base.ScreenDrawPosI(base.GetScreen().width, _radiusPct);
+
+	// 図形を描画
+	DrawBox(leftPos, topPos, rightPos, bottomPos, _color, TRUE);	// 中央長方形
+	// 角を丸くするために円を描画
+	DrawCircleAA((float)leftPos, (float)topPos, (float)radius, 64, _color);
+	DrawCircleAA((float)rightPos, (float)topPos, (float)radius, 64, _color);
+	DrawCircleAA((float)leftPos, (float)bottomPos, (float)radius, 64, _color);
+	DrawCircleAA((float)rightPos, (float)bottomPos, (float)radius, 64, _color);
+	// はみ出た円を埋めるように長方形を描画 : 1ずらすことで上で描画した円とのずれがなくなる
+	DrawBox(leftPos - radius - 1, topPos, leftPos, bottomPos, _color, TRUE);
+	DrawBox(rightPos + radius + 1, topPos, rightPos, bottomPos, _color, TRUE);
+	DrawBox(leftPos, topPos - radius - 1, rightPos, topPos, _color, TRUE);
+	DrawBox(leftPos, bottomPos, rightPos, bottomPos + radius + 1, _color, TRUE);
+}
+
 /*FadeManagerクラス---------------------------------------------------------------------------------------------------------*/
 
 void FadeManager::DrawFadeController() {
@@ -257,9 +279,7 @@ void StageSelectScene::Draw() {
 
 void PauseScene::Draw(Player& _player) {
 	// 背景枠の描画
-	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, 25), base.ScreenDrawPosI(base.GetScreen().height, 25),
-		base.ScreenDrawPosI(base.GetScreen().width, 75), base.ScreenDrawPosI(base.GetScreen().height, 75), COLOR_WHITEGRAY, TRUE);
-
+	uiManager.DrawRoundRect(30, 30, 70, 70, 5,COLOR_WHITEGRAY);
 	uiManager.DrawString(0, 100, 32, "PAUSE", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// 操作説明の描画
@@ -287,9 +307,7 @@ void InGameScene::Draw(Player& _player) {
 
 void GameOverScene::Draw() {
 	// 背景枠の描画
-	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, 23), base.ScreenDrawPosI(base.GetScreen().height, 18),
-		base.ScreenDrawPosI(base.GetScreen().width, 77), base.ScreenDrawPosI(base.GetScreen().height, 82), COLOR_WHITEGRAY, TRUE);
-
+	uiManager.DrawRoundRect(28, 23, 72, 77, 5, COLOR_WHITEGRAY);
 	uiManager.DrawString(0, 100, 25, "GAMEOVER", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// スコアの描画
@@ -305,8 +323,7 @@ void GameOverScene::Draw() {
 
 void ClearScene::Draw() {
 	// 背景枠の描画
-	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, 23), base.ScreenDrawPosI(base.GetScreen().height, 18),
-		base.ScreenDrawPosI(base.GetScreen().width, 77), base.ScreenDrawPosI(base.GetScreen().height, 82), COLOR_WHITEGRAY, TRUE);
+	uiManager.DrawRoundRect(28, 23, 72, 77, 5, COLOR_WHITEGRAY);
 	uiManager.DrawString(0, 100, 25, "STAGE CLEAR", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	//スコアの描画
@@ -322,14 +339,4 @@ void ClearScene::Draw() {
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
-
-	// ステージ6(最後のステージ)の場合NextボタンをExitボタンに変更
-	/*if (base.GetStageNumber() >= 6) {
-		nextBtn.SetDrawText("Exit");
-		nextBtn.SetButtonType(ButtonType::Exit);
-	}
-	else {
-		nextBtn.SetDrawText("Next");
-		nextBtn.SetButtonType(ButtonType::Next);
-	}*/
 }
