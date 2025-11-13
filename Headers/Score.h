@@ -35,7 +35,7 @@ private:
 	int		viewScore;					// ゲーム画面表示スコア
 	int		score;						// 内部保存スコア
 	int		highScore[MAX_STAGE_NUM];	// ハイスコア
-	inline static const std::vector<int> scoreSteps = { 200, 100, 10 };	// ViewSoreに加算する値
+	const std::vector<int> scoreSteps = { 200, 100, 10 };	// ViewSoreに加算する値
 };
 
 extern ScoreManager scoreManager;

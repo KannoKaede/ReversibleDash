@@ -120,7 +120,7 @@ private:
 	static constexpr float L_CAR_HEIGHT = 220;														// 車(大)の高さ
 	static constexpr float L_CAR_RADIUS = 320;														// 車(大)の半径
 	static constexpr float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };		// ステージごとのステージ背景の描画開始座標Z
-	static constexpr float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,14800,14000,15000,14500,30000 };	// ゴール座標
+	static constexpr float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,17000,14000,15000,14500,30000 };	// ゴール座標
 	static constexpr float CLEAR_CHANGE_DIS = 1500;													// ゴール後にクリア画面に移動するまでに必要な距離
 };
 extern StageManager stageManager;

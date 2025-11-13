@@ -15,6 +15,11 @@ struct Transform {
 	VECTOR scale;		// 衝突判定時に使用するプレイヤーの大きさ
 };
 
+static constexpr float	BOTTOM_GROUND = 40.0f;										// 下側の地面の座標
+static constexpr VECTOR START_PLAYER_POS = { 0, BOTTOM_GROUND, 250 };				// スタート時のプレイヤー座標
+static constexpr VECTOR START_PLAYER_ROT = { 0, base.ChangeRadians(-90.0f), 0 };	// スタート時のプレイヤー角度
+static constexpr VECTOR PLAYER_SCALE = { 30, 100, 0 };						// プレイヤーのサイズ（半径、高さ）
+static constexpr float	FIRST_SPEED = 7.0f;											// スタート時の速度
 
 class Player {
 public:
@@ -94,13 +99,8 @@ private:
 	int			animePastModel = 0;			// 前回再生していたアニメーションモデルを保存
 	float		animePlayTotalTime = 0;		// 再生しているアニメーションのそう再生時間を保存
 
-	static constexpr float BOTTOM_GROUND = 40.0f;	// 下側の地面の座標
-	static constexpr float TOP_GROUND = 840.0f;	// 上側の地面の座標
-	static constexpr float FIRST_SPEED = 7.0f;		// スタート時の速度
-	static constexpr float GRAVITY = 0.7f;			// 重力
-	static constexpr int JUMP_LOCK_TIME = 370;		// ジャンプ長押しが出来る時間
-	static constexpr float JUMP_POWER = 10;		// ジャンプ力
-	static constexpr VECTOR START_PLAYER_POS = { 0, BOTTOM_GROUND, 250 };
-	static constexpr VECTOR START_PLAYER_ROT = { 0, base.ChangeRadians(-90.0f), 0 };
-	static constexpr VECTOR START_PLAYER_SCALE = { 30, 100, 0 };
+	static constexpr float	TOP_GROUND = 840.0f;	// 上側の地面の座標
+	static constexpr float	GRAVITY = 0.7f;			// 重力
+	static constexpr int	JUMP_LOCK_TIME = 370;	// ジャンプ長押しが出来る時間
+	static constexpr float	JUMP_POWER = 10;		// ジャンプ力
 };

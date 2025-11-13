@@ -88,7 +88,7 @@ void ButtonManager::ButtonPressed() {
 		case ButtonType::Retry:
 		case ButtonType::Next:
 		case ButtonType::PickStage:
-			fadeManager.ChangeUIState(INGAME, fadeManager.FADEOUT);
+			fadeManager.ChangeUIState(INGAME, FADEOUT);
 			uiManager.SetIsStartCountDown(true);
 			// ステージ1に移動
 			if (selected->GetButtonType() == ButtonType::Start)
@@ -101,20 +101,20 @@ void ButtonManager::ButtonPressed() {
 				base.SetStageNumber((selected->GetColumnNum() - 1) * 3 + selected->GetRowNum());
 			break;
 		case ButtonType::Resume:	// ポーズ・ゲーム再開ボタン
-			fadeManager.ChangeUIState(INGAME, fadeManager.NOTFADE);
+			fadeManager.ChangeUIState(INGAME, NOTFADE);
 			uiManager.SetIsStartCountDown(true);
 			break;
 		case ButtonType::StageSelect:	// ステージセレクト画面に移動するボタン
-			fadeManager.ChangeUIState(SCREEN_TYPE::STAGESELECT, fadeManager.NOTFADE);
+			fadeManager.ChangeUIState(SCREEN_TYPE::STAGESELECT, NOTFADE);
 			break;
 		case ButtonType::Quit:	// exeを落とすボタン
 			DxLib_End();
 			break;
 		case ButtonType::ReturnTitle:	// ステージセレクトからタイトルに戻るボタン
-			fadeManager.ChangeUIState(TITLE, fadeManager.NOTFADE);
+			fadeManager.ChangeUIState(TITLE, NOTFADE);
 			break;
 		case ButtonType::Exit:	// ゲームからタイトルに戻るボタン
-			fadeManager.ChangeUIState(TITLE, fadeManager.FADEOUT);
+			fadeManager.ChangeUIState(TITLE, FADEOUT);
 			break;
 		}
 	}
