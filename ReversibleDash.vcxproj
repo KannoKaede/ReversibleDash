@@ -147,11 +147,6 @@
     <Media Include="Resource\Audios\SE_ButtonSelect.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\EnterKey.png" />
-    <Image Include="Resource\Images\EscapeKey.png" />
-    <Image Include="Resource\Images\WASD.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
     <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1" />
     <None Include="Resource\PlayerAnimations\Player_Run.mv1" />
@@ -187,6 +182,19 @@
     <ClInclude Include="Headers\Score.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Images\Explanations\Cloud.png" />
+    <Image Include="Resource\Images\Explanations\JumpGauge.png" />
+    <Image Include="Resource\Images\Explanations\LargeCar.png" />
+    <Image Include="Resource\Images\Explanations\PlayerJump.png" />
+    <Image Include="Resource\Images\Explanations\ProgressBar.png" />
+    <Image Include="Resource\Images\Explanations\ScoreCar.png" />
+    <Image Include="Resource\Images\Explanations\ScoreCloud.png" />
+    <Image Include="Resource\Images\Explanations\SmallCar.png" />
+    <Image Include="Resource\Images\Keys\EscapeKey.png" />
+    <Image Include="Resource\Images\Keys\SpaceKey.png" />
+    <Image Include="Resource\Images\Keys\WASD.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
