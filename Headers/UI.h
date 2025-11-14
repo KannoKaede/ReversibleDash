@@ -90,15 +90,17 @@ public:
 	/// <summary> コンストラクタではできない初期化処理を行うメソッド </summary>
 	void			SetUp();
 
-	/// <summary> 画面にあったUIを描画するメソッド </summary>
+	/// <summary> 画面にあったUIを描画する </summary>
 	/// <param name="player"> プレイヤーのインスタンス </param>
 	void			DrawUI(Player& _player);
 
 	void			DrawStartCountDown();
 
-	/// <summary> ゲーム進捗率を描画するメソッド </summary>
+	/// <summary> ゲーム進捗率を描画する </summary>
 	void			DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightPct);
 
+	/// <summary>  ジャンプボタンを押している時間をゲージで描画する </summary>
+	void			DrawJumpPct(int _pressedJump);
 
 	/// <summary> テキストを中央に描画するメソッド </summary>
 	/// <param name="fontType"> 使用するフォントの配列の要素数 </param>

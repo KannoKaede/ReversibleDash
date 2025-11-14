@@ -61,6 +61,7 @@ void UIManager::DrawUI(Player& _player) {
 		break;
 	case INGAME:
 		inGameScene.Draw(_player);
+		DrawJumpPct(_player.GetPressedJump());
 		if (!isStartCountDown && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, NOTFADE);
 		break;
 	case EXPLANATION:
@@ -130,6 +131,21 @@ void UIManager::DrawProgressRateBar(const Player& player, float startPct, float 
 	// プレイヤーの丸が通った後を緑に染める四角を描画
 	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, startPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct - 1),
 		base.ScreenDrawPosI(base.GetScreen().width, startPct + playerPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct + 1), COLOR_MINTGREEN, TRUE);
+}
+
+void UIManager::DrawJumpPct(int _pressedJump) {
+	ScreenSize screen = base.GetScreen();
+	// ゲージ枠の描画
+	DrawRoundRect(0.9f, 59.9f, 3.1f, 90.1f, 1, COLOR_BLACK);
+	DrawRoundRect(1, 60, 3, 90, 1, COLOR_WHITEGRAY);
+
+	// ゲージ内側の描画座標を計算する
+	float drawLength = 87.4f - 60.2f;													// ゲージの長さを求める
+	float drawPct = base.ClampNumF((float(_pressedJump) / (float)JUMP_LOCK_TIME),0,1);	// 長押し時間を0～1で求める
+	if (drawPct > 0.96f)drawPct = 1;													// ある程度押していたらゲージをマックスまで伸ばす：ズレ防止
+	float drawPos = base.ClampNumF(87 - (drawLength * drawPct), 60.2f, 89.8);			// 求めた%を元にゲージの頂点描画座標を計算する
+
+	DrawRoundRect(1.2f, drawPos, 2.8f, 89.8f, 1, COLOR_MINTGREEN);						// ゲージ内側を描画する
 }
 
 void UIManager::DrawStringCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
@@ -341,8 +357,8 @@ void ExceptionScene::Draw() {
 	ScreenSize  screen = base.GetScreen();	// 描画用に一時的に取得
 	if (input.KeyDown(KEY_INPUT_ESCAPE)) currentPage = 0;	// 開いた際にページを初期化する
 	// ページの操作処理
-	if (input.KeyDown(KEY_INPUT_LEFT)) currentPage = base.ClampNumI(--currentPage, 0, 2);
-	if (input.KeyDown(KEY_INPUT_RIGHT)) currentPage = base.ClampNumI(++currentPage, 0, 2);
+	if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) currentPage = base.ClampNumI(--currentPage, 0, 2);
+	if (input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_D)) currentPage = base.ClampNumI(++currentPage, 0, 2);
 	uiManager.DrawString(0, 100, 5, "Exception", base.GetFontData(EXTRALARGE).handle);	// 見出し
 	DrawBox(base.ScreenDrawPosI(screen.width, 5), base.ScreenDrawPosI(screen.height, 33), base.ScreenDrawPosI(screen.width, 95), base.ScreenDrawPosI(screen.height, 93), COLOR_WHITE, TRUE);
 
@@ -355,37 +371,36 @@ void ExceptionScene::Draw() {
 	uiManager.DrawString(35, 65, 25, "Object", base.GetFontData(LARGE).handle);
 	uiManager.DrawString(65, 95, 25, "Score", base.GetFontData(LARGE).handle);
 
+
+	if (currentPage != 0) {
+		// 左矢印
+		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 26.5f),
+			base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 31.5f),
+			base.ScreenDrawPosF(screen.width, 1), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
+	}
+	if (currentPage != 2) {
+		// 右矢印
+		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 26.5f),
+			base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 31.5f),
+			base.ScreenDrawPosF(screen.width, 99), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
+	}
 	//表示しているページに応じて表示する説明を変更する
 	switch (currentPage)
 	{
 	case 0:
 		uiManager.DrawString(0, 100, 50, "ジャンプのしようをかく", base.GetFontData(LARGE).handle);
-		// 右矢印
-		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 26.5f),
-			base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 31.5f),
-			base.ScreenDrawPosF(screen.width, 99), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
 		break;
 	case 1:
 		uiManager.DrawString(0, 100, 50, "くるま、くものしようをかく", base.GetFontData(LARGE).handle);
-		// 右矢印
-		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 26.5f),
-			base.ScreenDrawPosF(screen.width, 96), base.ScreenDrawPosF(screen.height, 31.5f),
-			base.ScreenDrawPosF(screen.width, 99), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
-		// 左矢印
-		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 26.5f),
-			base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 31.5f),
-			base.ScreenDrawPosF(screen.width, 1), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
 		break;
 	case 2:
 		uiManager.DrawString(0, 100, 50, "スコアのしようをかく", base.GetFontData(LARGE).handle);
-		// 左矢印
-		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 26.5f),
-			base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 31.5f),
-			base.ScreenDrawPosF(screen.width, 1), base.ScreenDrawPosF(screen.height, 29), COLOR_WHITE, TRUE);
 		break;
 	}
 	
 	// 操作説明の描画
 	uiManager.DrawImage(1.3f, 1.7f, uiManager.GetImageEscape());
+	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawString(4, 0, 2, "Title", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
 }

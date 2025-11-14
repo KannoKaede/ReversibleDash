@@ -68,7 +68,7 @@ void ButtonManager::UpdateButtonSelection() {
 	buttonPos = buttonMovePos;	// ボタンの座標を更新
 
 	// 選択されているボタンの色を最後に変更する
-	GetSelectButton()->SetButtonColor(COLOR_MINTGREEN);
+	GetSelectButton()->SetButtonColor(COLOR_ORANGE);
 }
 
 void ButtonManager::ButtonPressed() {
