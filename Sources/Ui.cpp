@@ -31,12 +31,28 @@ FadeManager fadeManager;
 
 void UIManager::SetUp() {
 	// 使用する画像のロードとサイズ取得を行う
-	keyWASD = { LoadGraph("Resource/Images/WASD.png") };
+	keyWASD = { LoadGraph("Resource/Images/Keys/WASD.png") };
 	GetGraphSize(keyWASD.image, &keyWASD.width, &keyWASD.height);
-	keyEscape = { LoadGraph("Resource/Images/EscapeKey.png") };
+	keyEscape = { LoadGraph("Resource/Images/Keys/EscapeKey.png") };
 	GetGraphSize(keyEscape.image, &keyEscape.width, &keyEscape.height);
-	keySpace = { LoadGraph("Resource/Images/SpaceKey.png") };
+	keySpace = { LoadGraph("Resource/Images/Keys/SpaceKey.png") };
 	GetGraphSize(keySpace.image, &keySpace.width, &keySpace.height);
+	explanations[0] = { LoadGraph("Resource/Images/Explanations/0_PlayerJump.png") };
+	GetGraphSize(explanations[0].image, &explanations[0].width, &explanations[0].height);
+	explanations[1] = { LoadGraph("Resource/Images/Explanations/0_JumpGauge.png") };
+	GetGraphSize(explanations[1].image, &explanations[1].width, &explanations[1].height);
+	explanations[2] = { LoadGraph("Resource/Images/Explanations/1_SmallCar.png") };
+	GetGraphSize(explanations[2].image, &explanations[2].width, &explanations[2].height);
+	explanations[3] = { LoadGraph("Resource/Images/Explanations/1_LargeCar.png") };
+	GetGraphSize(explanations[3].image, &explanations[3].width, &explanations[3].height);
+	explanations[4] = { LoadGraph("Resource/Images/Explanations/1_Cloud.png") };
+	GetGraphSize(explanations[4].image, &explanations[4].width, &explanations[4].height);
+	explanations[5] = { LoadGraph("Resource/Images/Explanations/1_ProgressBar.png") };
+	GetGraphSize(explanations[5].image, &explanations[5].width, &explanations[5].height);
+	explanations[6] = { LoadGraph("Resource/Images/Explanations/2_ScoreCar.png") };
+	GetGraphSize(explanations[6].image, &explanations[6].width, &explanations[6].height);
+	explanations[7] = { LoadGraph("Resource/Images/Explanations/2_ScoreCloud.png") };
+	GetGraphSize(explanations[7].image, &explanations[7].width, &explanations[7].height);
 }
 
 void UIManager::DrawUI(Player& _player) {
@@ -44,7 +60,10 @@ void UIManager::DrawUI(Player& _player) {
 	{
 	case TITLE:
 		titleScene.Draw();
-		if (input.KeyDown(KEY_INPUT_ESCAPE)) fadeManager.ChangeUIState(EXPLANATION, NOTFADE);
+		if (input.KeyDown(KEY_INPUT_ESCAPE)) {
+			fadeManager.ChangeUIState(EXPLANATION, NOTFADE);
+			uiManager.explanationScene.SetCurrentPage(0);
+		}
 		break;
 	case STAGESELECT:
 		stageSelectScene.Draw();
@@ -65,7 +84,7 @@ void UIManager::DrawUI(Player& _player) {
 		if (!isStartCountDown && input.KeyDown(KEY_INPUT_ESCAPE))  fadeManager.ChangeUIState(PAUSE, NOTFADE);
 		break;
 	case EXPLANATION:
-		exceptionScene.Draw();
+		explanationScene.Draw();
 		if (input.KeyDown(KEY_INPUT_ESCAPE)) fadeManager.ChangeUIState(TITLE, NOTFADE);
 		break;
 	}
@@ -143,7 +162,7 @@ void UIManager::DrawJumpPct(int _pressedJump) {
 	float drawLength = 87.4f - 60.2f;													// ゲージの長さを求める
 	float drawPct = base.ClampNumF((float(_pressedJump) / (float)JUMP_LOCK_TIME),0,1);	// 長押し時間を0～1で求める
 	if (drawPct > 0.96f)drawPct = 1;													// ある程度押していたらゲージをマックスまで伸ばす：ズレ防止
-	float drawPos = base.ClampNumF(87 - (drawLength * drawPct), 60.2f, 89.8);			// 求めた%を元にゲージの頂点描画座標を計算する
+	float drawPos = base.ClampNumF(87 - (drawLength * drawPct), 60.2f, 89.8f);			// 求めた%を元にゲージの頂点描画座標を計算する
 
 	DrawRoundRect(1.2f, drawPos, 2.8f, 89.8f, 1, COLOR_MINTGREEN);						// ゲージ内側を描画する
 }
@@ -353,9 +372,8 @@ void ClearScene::Draw() {
 	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
 }
 
-void ExceptionScene::Draw() {
+void ExplanationScene::Draw() {
 	ScreenSize  screen = base.GetScreen();	// 描画用に一時的に取得
-	if (input.KeyDown(KEY_INPUT_ESCAPE)) currentPage = 0;	// 開いた際にページを初期化する
 	// ページの操作処理
 	if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) currentPage = base.ClampNumI(--currentPage, 0, 2);
 	if (input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_D)) currentPage = base.ClampNumI(++currentPage, 0, 2);
@@ -389,12 +407,20 @@ void ExceptionScene::Draw() {
 	{
 	case 0:
 		uiManager.DrawString(0, 100, 50, "ジャンプのしようをかく", base.GetFontData(LARGE).handle);
+		uiManager.DrawImage(15, 40, uiManager.GetExplanations(0));
+		uiManager.DrawImage(17.5f, 65, uiManager.GetExplanations(1));
 		break;
 	case 1:
 		uiManager.DrawString(0, 100, 50, "くるま、くものしようをかく", base.GetFontData(LARGE).handle);
+		uiManager.DrawImage(13, 44, uiManager.GetExplanations(2));
+		uiManager.DrawImage(25.5f, 38, uiManager.GetExplanations(3));
+		uiManager.DrawImage(68, 40, uiManager.GetExplanations(4));
+		uiManager.DrawImage(35, 75, uiManager.GetExplanations(5));
 		break;
 	case 2:
 		uiManager.DrawString(0, 100, 50, "スコアのしようをかく", base.GetFontData(LARGE).handle);
+		uiManager.DrawImage(19, 38, uiManager.GetExplanations(6));
+		uiManager.DrawImage(54, 38, uiManager.GetExplanations(7));
 		break;
 	}
 	

@@ -73,10 +73,13 @@ public:
 };
 
 // ゲームの仕様等の説明の描画処理を行うクラス
-class  ExceptionScene {
+class  ExplanationScene {
 public:
 	/// <summary> ゲームの仕様を描画 </summary>
 	void Draw();
+	
+	/// <summary> 表示するページを設定 </summary>
+	void SetCurrentPage(int _currentPage) { currentPage = _currentPage; }
 private:
 	int currentPage;	// 表示しているページ
 };
@@ -124,6 +127,8 @@ public:
 	ImageData		GetImageSpace()							{ return keySpace; }
 	/// <summary> Escapeの画像を返す </summary>
 	ImageData		GetImageEscape()						{ return keyEscape; }
+	/// <summary> 説明に使用する画像を返す </summary>
+	ImageData		GetExplanations(int number)				{ return explanations[number]; }
 	/// <summary> 現在の画面の状態を返す </summary>
 	SCREEN_TYPE		GetCurrentScreen()						{ return currentScreen; }
 	/// <summary> 次の画面の状態を返す </summary>
@@ -145,6 +150,7 @@ private:
 	ImageData				keyWASD;
 	ImageData				keySpace;
 	ImageData				keyEscape;
+	ImageData				explanations[8];
 
 	// 描画するシーン群
 	TitleScene				titleScene;
@@ -153,7 +159,7 @@ private:
 	InGameScene				inGameScene;
 	GameOverScene			gameOverScene;
 	ClearScene				clearScene;
-	ExceptionScene			exceptionScene;
+	ExplanationScene		explanationScene;
 
 	int						startTime = 0;		// 待機を開始したタイミングを保持
 	int						waitTime = 0;		// 何秒待機するかの値
