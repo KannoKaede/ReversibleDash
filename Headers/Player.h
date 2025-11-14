@@ -20,6 +20,7 @@ static constexpr VECTOR START_PLAYER_POS = { 0, BOTTOM_GROUND, 250 };				// ス�
 static constexpr VECTOR START_PLAYER_ROT = { 0, base.ChangeRadians(-90.0f), 0 };	// スタート時のプレイヤー角度
 static constexpr VECTOR PLAYER_SCALE = { 30, 100, 0 };						// プレイヤーのサイズ（半径、高さ）
 static constexpr float	FIRST_SPEED = 7.0f;											// スタート時の速度
+static constexpr int	JUMP_LOCK_TIME = 370;	// ジャンプ長押しが出来る時間
 
 class Player {
 public:
@@ -64,6 +65,7 @@ public:
 	bool	GetIsGravityBottom()			{ return isGravityBottom; }
 	/// <summary> オブジェクトとプレイヤーの距離を返す </summary>
 	float	GetJumpDis()const				{ return jumpDis; }
+	int		GetPressedJump()const			{ return pressedJump; }
 
 	/// <summary> 座標を設定 </summary>
 	void	SetPosition(VECTOR _position)	{ transform.position = _position; }
@@ -84,7 +86,9 @@ private:
 	int			changeSpeedCount = 1;		// 移動速度の変更回数を格納するカウンタ
 
 	// ジャンプ、落下処理で使用
-	int			pressedMomentTime = 0;
+
+	int			pressedJump = 0;			// Spaceを押している時間を取得
+	int			pressedMomentTime = 0;		// Spaceを押した瞬間の時間を取得
 	float		jumpPower = 0;				// 実際のジャンプ力を入れる変数
 	int			modelIndex = 0;				// 使用するモデルアニメーション
 	bool		isFall = false;				// 現在落下中か
@@ -101,6 +105,5 @@ private:
 
 	static constexpr float	TOP_GROUND = 840.0f;	// 上側の地面の座標
 	static constexpr float	GRAVITY = 0.7f;			// 重力
-	static constexpr int	JUMP_LOCK_TIME = 370;	// ジャンプ長押しが出来る時間
 	static constexpr float	JUMP_POWER = 10;		// ジャンプ力
 };

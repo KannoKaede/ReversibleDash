@@ -58,7 +58,6 @@ void Player::Rotation() {
 	MV1SetRotationXYZ(modelData[modelIndex].model, transform.rotation);
 }
 
-int pressedMomentTime;	// Spaceを押した瞬間の時間を取得
 void Player::Jump() {
 	if (base.GetIsGameStop())return;
 	// 入力制御
@@ -79,6 +78,9 @@ void Player::Jump() {
 			pressedMomentTime = 0;
 			isGravityBottom = !isGravityBottom;	// 重力を反対側にする
 		}
+		else {
+			pressedJump = JUMP_LOCK_TIME - (pressedMomentTime + JUMP_LOCK_TIME - GetNowCount());
+		}
 	}
 	if (input.KeyUp(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを離したときの処理
 		// まだ落下していなかったら落下を開始
@@ -93,6 +95,7 @@ void Player::Jump() {
 		jumpPower = 0;
 		isFall = false;
 		isJumping = false;
+		pressedJump = 0;
 	}
 	else if (!isJumping) {
 		isFall = true;
@@ -119,6 +122,7 @@ void Player::Initialization() {
 	transform.position = START_PLAYER_POS;
 	moveSpeed = FIRST_SPEED;
 	jumpPower = 0;
+	pressedJump = 0;
 	changeSpeedCount = 1;
 	isGravityBottom = true;
 	modelIndex = 0;

@@ -8,7 +8,8 @@
 
 
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
-const int COLOR_MINTGREEN = GetColor(230, 200, 50);  // 選択中のボタンの色
+const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの色
+const int COLOR_ORANGE = GetColor(230, 200, 50);  // 選択中のボタンの色
 const int COLOR_LIGHTGRAY = GetColor(185, 185, 185);    // 非選択時のボタンの色
 const int COLOR_BLACK = GetColor(0, 0, 0);   // テキストで使用する色
 const int COLOR_WHITE = GetColor(255, 255, 255);   // テキストで使用する色
