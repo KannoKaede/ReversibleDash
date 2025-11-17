@@ -21,7 +21,7 @@ void Button::Draw()const {
 	float rightPct = area.position.x + area.width;
 	float bottomPct = area.position.y + area.height;
 	// ボタン背景枠を描画
-	uiManager.DrawRoundRect(leftPct, topPct, rightPct, bottomPct, area.height * 0.5f, buttonColor);
+	uiManager.DrawRoundRect(leftPct, topPct, rightPct, bottomPct, area.height * 0.5f, buttonColor,ANGLE_NONE);
 
 	// ボタンの左右上下の座標を計算する
 	float boxLeft = base.ScreenDrawPosF(base.GetScreen().width, leftPct);

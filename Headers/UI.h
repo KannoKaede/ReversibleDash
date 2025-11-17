@@ -21,7 +21,19 @@ enum FADE_STATE {	// フェードの状態を定義
 	FADEIN,		// フェードイン
 	FADEWAIT,	// フェード待機
 	NOTFADE,	// 画面切り替え
-	NONE,	// 何もしない
+	FADE_NONE,	// 何もしない
+};
+
+enum ROUNDRECT_ANGLE {	// 角の丸い長方形の中で角が丸くない部分を定義
+	ANGLE_NONE,
+	LEFTTOP,
+	LEFTBOTTOM,
+	RIGHTTOP,
+	RIGHTBOTTOM,
+	LEFTRIGHTTOP,
+	RIGHTTOP_LEFTRIGHTBOTTOM,
+	LEFTTOP_LEFTRIGHTBOTTOM,
+	ANGLE_ALL
 };
 
 struct ImageData {	// 画像データ構造体
@@ -94,9 +106,9 @@ public:
 	void			SetUp();
 
 	/// <summary> 画面にあったUIを描画する </summary>
-	/// <param name="player"> プレイヤーのインスタンス </param>
 	void			DrawUI(Player& _player);
 
+	/// <summary> ゲーム開始のカウントダウンを描画する </summary>
 	void			DrawStartCountDown();
 
 	/// <summary> ゲーム進捗率を描画する </summary>
@@ -116,7 +128,8 @@ public:
 	void			DrawImage(float leftPct, float topPct, ImageData image);
 
 	/// <summary> 角を丸くした長方形を描画 </summary>
-	void			DrawRoundRect(float _topPct, float _bottomPct, float _leftPct, float _rightPct, float _radiusPct, int _color);
+	/// <param name="_angle"> 角を丸くしない箇所を指定 </param>
+	void			DrawRoundRect(float _topPct, float _bottomPct, float _leftPct, float _rightPct, float _radiusPct, int _color, ROUNDRECT_ANGLE _angle);
 
 	/// <summary> 現在の画面が指定の画面と等しいかを返す </summary>
 	bool			CheckScreen(SCREEN_TYPE screen)			{ return currentScreen == screen; }
@@ -162,17 +175,14 @@ private:
 	ExplanationScene		explanationScene;
 
 	int						startTime = 0;		// 待機を開始したタイミングを保持
-	int						waitTime = 0;		// 何秒待機するかの値
 	int						drawCount = 0;		// 描画する文字のカウント
-
-	int						textFadeSpeed = 0;	// 文字のalpha値を変更するための変数
-	bool					isFadeStart = true;	// 文字のフェードが始めか終わりかの判定
+	bool					isFadeOut = true;	// 文字のフェードが始めか終わりかの判定
 	bool					isStartCountDown = true;	// スタートカウントダウンの描画が終了しているか
 
 
-	static constexpr int	START_WAITTIME[2] = { 1000,1000 };	// 待機時間
+	static constexpr int	WAITTIME[2] = { 1000,200 };	// 待機時間
 	const std::string		DRAW_TEXT[2] = {"READY..." ,"GO!!!"};	// 描画する文字
-	static constexpr int	TEXT_FADE_SPEED[2][2] = { { 30,-5 }, { 30,-10 } };	// 文字をフェードさせるスピード
+	static constexpr int	TEXT_FADE_SPEED[2] = { 30,-5 };	// 文字をフェードさせるスピード
 };
 
 extern UIManager uiManager;
@@ -192,7 +202,8 @@ public:
 	/// <summary> フェード処理を行う </summary>
 	void DrawFade(int _fadeSpeed);
 
-	void DrawTextFade(std::string _text, int _font, int _value);
+	/// <summary> テキストのフェード処理を行う </summary>
+	void DrawTextFade(std::string _text, int _fontType, int _value);
 
 	/// <summary> 画面切り替えをする際に座標やデータを初期化 </summary>
 	void ChangeScene();
