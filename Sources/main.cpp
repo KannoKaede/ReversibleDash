@@ -79,6 +79,8 @@ void Base::SetUp() {
 
 void Base::Initialization() {
 	// 座標やスコア等をリセットする
+	// 座標やスコア等をリセットする
+	stageNumber = nextStageNumber;
 	player.Initialization();
 	cameraLight.Initialization();
 	stageManager.Initialization();
@@ -89,7 +91,7 @@ void Base::CleanUp() {
 	scoreManager.SaveHighScore();
 	// フォントデータを削除
 	for (int i = 0; i < FONT_TYPE_NUM; i++) {
-		DeleteFontToHandle(fontData[i].handle);
+		DeleteFontToHandle(chihaya_FontData[i].handle);
 	}
 	RemoveFontResourceExA("", FR_PRIVATE, NULL);
 }

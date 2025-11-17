@@ -12,27 +12,30 @@ void Base::SetScreenSize() {
 }
 void Base::FontSetUp() {
 	// フォントサイズを設定した後、フォントをロードする
+	AddFontResourceExA("Resource/Fonts/meiryo.ttc", FR_PRIVATE, NULL);
 	AddFontResourceExA("Resource/Fonts/ちはやチョーク.ttf", FR_PRIVATE, NULL);
-	fontData[EXTRALARGE].size = screen.width / 12;
-	fontData[LARGE].size = screen.width / 25;
-	fontData[MEDIUM].size = screen.width / 50;
-	fontData[SMALL].size = screen.width / 60;
-	fontData[EXTRALARGE].handle = CreateFontToHandle("ちはやチョーク", fontData[EXTRALARGE].size, 5, DX_FONTTYPE_ANTIALIASING);
-	fontData[LARGE].handle = CreateFontToHandle("ちはやチョーク", fontData[LARGE].size, 3, DX_FONTTYPE_ANTIALIASING);
-	fontData[MEDIUM].handle = CreateFontToHandle("ちはやチョーク", fontData[MEDIUM].size, 1, DX_FONTTYPE_ANTIALIASING);
-	fontData[SMALL].handle = CreateFontToHandle("ちはやチョーク", fontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
+	chihaya_FontData[EXTRALARGE].size = screen.width / 12;
+	chihaya_FontData[LARGE].size = screen.width / 25;
+	chihaya_FontData[MEDIUM].size = screen.width / 50;
+	chihaya_FontData[SMALL].size = screen.width / 60;
+	meiryo_FontData.size = screen.width / 60;
+	chihaya_FontData[EXTRALARGE].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[EXTRALARGE].size, 5, DX_FONTTYPE_ANTIALIASING);
+	chihaya_FontData[LARGE].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[LARGE].size, 3, DX_FONTTYPE_ANTIALIASING);
+	chihaya_FontData[MEDIUM].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[MEDIUM].size, 1, DX_FONTTYPE_ANTIALIASING);
+	chihaya_FontData[SMALL].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
+	meiryo_FontData.handle = CreateFontToHandle("メイリオ", meiryo_FontData.size, 1, DX_FONTTYPE_ANTIALIASING);
 }
 
 float Base::ClampNumF(float _num, float _min, float _max)const {
 	if (_num < _min) return _min;
 	else if (_num > _max) return _max;
-	else return _num;
+	return _num;
 }
 
 int Base::ClampNumI(int _num, int _min, int _max)const {
 	if (_num < _min) return _min;
 	else if (_num > _max) return _max;
-	else return _num;
+	return _num;
 }
 
 float Base::ScreenDrawPosF(int _screenSize, float _drawPosPct) {

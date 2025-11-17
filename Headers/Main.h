@@ -2,8 +2,6 @@
 #include "DxLib.h"
 #include <string>
 // メモ
-// 学校でスカイボックス作る
-// エフェクト作れそうなら作る（加速した際、走っている、着地したとき）
 // スタートカウントダウンボイスを実装
 
 
@@ -41,7 +39,7 @@ struct VECTOR2 {
 
 class Base {
 public:
-	Base() :screen(), fontData{}, stageNumber(), isGameStop(true) {}	// コンストラクタ
+	Base() :screen(), chihaya_FontData{}, stageNumber(), isGameStop(true) {}	// コンストラクタ
 
 	/// <summary> プロジェクト全体の初期設定を行う </summary>
 	void SetUp();
@@ -87,8 +85,10 @@ public:
 
 	/// <summary> 画面サイズを返す </summary>
 	ScreenSize GetScreen()const					{ return screen; }
-	/// <summary> フォントデータを返す </summary>
-	FontData GetFontData(int _fontType)const	{ return fontData[_fontType]; }
+	/// <summary> ちはやチョークのフォントデータを返す </summary>
+	FontData GetChihayaFontData(int _fontType)const	{ return chihaya_FontData[_fontType]; }
+	/// <summary> メイリオのフォントデータを返す </summary>
+	FontData GetMeiryoFontData()const { return meiryo_FontData; }
 	/// <summary> 現在のステージ番号を返す </summary>
 	int GetStageNumber()const					{ return stageNumber; }
 	/// <summary> 現在ゲームが止まっているかを返す </summary>
@@ -99,9 +99,12 @@ public:
 	void SetStageNumber(int _stageNumber)		{ stageNumber = _stageNumber; }
 	/// <summary> ゲームの停止フラグを設定 </summary>
 	void SetIsGameStop(bool _isGameStop)		{ isGameStop = _isGameStop; }
+
+	int nextStageNumber;					// 次に遷移するステージ番号を設定
 private:
 	ScreenSize	screen;						// 画面サイズ情報
-	FontData	fontData[FONT_TYPE_NUM];	// フォント情報
+	FontData	chihaya_FontData[FONT_TYPE_NUM];	// フォント情報
+	FontData	meiryo_FontData;
 	int			stageNumber;				// ステージ番号
 	bool		isGameStop;					// ゲームが停止しているかのフラグ
 };

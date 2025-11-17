@@ -88,13 +88,13 @@ void ButtonManager::ButtonPressed() {
 			uiManager.SetIsStartCountDown(true);
 			// ステージ1に移動
 			if (selected->GetButtonType() == ButtonType::Start)
-				base.SetStageNumber(1);
+				base.nextStageNumber = 1;
 			// 次のステージに移動
 			if (selected->GetButtonType() == ButtonType::Next)
-				base.SetStageNumber(base.GetStageNumber() + 1);
+				base.nextStageNumber = base.GetStageNumber() + 1;
 			// ボタンの座標を利用して指定のステージに移動
 			if (selected->GetButtonType() == ButtonType::PickStage)
-				base.SetStageNumber((selected->GetColumnNum() - 1) * 3 + selected->GetRowNum());
+				base.nextStageNumber = (selected->GetColumnNum() - 1) * 3 + selected->GetRowNum();
 			break;
 		case ButtonType::Resume:	// ポーズ・ゲーム再開ボタン
 			fadeManager.ChangeUIState(INGAME, NOTFADE);

@@ -181,10 +181,10 @@ void UIManager::DrawJumpPct(int _pressedJump) {
 
 void UIManager::DrawStringCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
 
-	int drawPosX = base.TextDrawCenterPosX(left, right, text, base.GetFontData(fontType).handle);	// 左右中央を計算
-	int drawPosY = base.TextDrawCenterPosY(top, bottom, base.GetFontData(fontType).size, text);	// 上下中央を計算
+	int drawPosX = base.TextDrawCenterPosX(left, right, text, base.GetChihayaFontData(fontType).handle);	// 左右中央を計算
+	int drawPosY = base.TextDrawCenterPosY(top, bottom, base.GetChihayaFontData(fontType).size, text);	// 上下中央を計算
 	// 左右上下中央に文字を描画
-	DrawStringToHandle(drawPosX, drawPosY, text.c_str(), COLOR_BLACK, base.GetFontData(fontType).handle);
+	DrawStringToHandle(drawPosX, drawPosY, text.c_str(), COLOR_BLACK, base.GetChihayaFontData(fontType).handle);
 }
 
 void UIManager::DrawString(float leftPct, float rightPct, float heightPct, std::string text, int font) {
@@ -288,7 +288,7 @@ void FadeManager::DrawFade(int fadeSpeed)
 }
 
 void FadeManager::DrawTextFade(std::string _text, int _fontType, int _value) {
-	int font = base.GetFontData(_fontType).handle;
+	int font = base.GetChihayaFontData(_fontType).handle;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alphaValue);
 	alphaValue = base.ClampNumI(alphaValue + _value, 0, 255);
 	uiManager.DrawString(0, 100, 45, _text, font);
@@ -313,52 +313,52 @@ void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 /*描画内容をまとめたクラス---------------------------------------------------------------------------------------------------------*/
 
 void TitleScene::Draw() {
-	uiManager.DrawString(0, 100, 16, "ReversibleDash", base.GetFontData(EXTRALARGE).handle);	// タイトルの描画
-	uiManager.DrawString(83, 0, 95, "Ver 0.7.00.00", base.GetFontData(MEDIUM).handle);	// バージョンの描画
+	uiManager.DrawString(0, 100, 16, "ReversibleDash", base.GetChihayaFontData(EXTRALARGE).handle);	// タイトルの描画
+	uiManager.DrawString(83, 0, 95, "Ver 0.7.00.00", base.GetChihayaFontData(MEDIUM).handle);	// バージョンの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 	uiManager.DrawImage(1.3f, 1.7f, uiManager.GetImageEscape());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(4, 0, 2, "Explanation", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(4, 0, 2, "Explanation", base.GetChihayaFontData(SMALL).handle);
 }
 
 void StageSelectScene::Draw() {
-	uiManager.DrawString(0, 100, 16, "STAGESELECT", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
+	uiManager.DrawString(0, 100, 16, "STAGESELECT", base.GetChihayaFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetChihayaFontData(SMALL).handle);
 }
 
 void PauseScene::Draw(Player& _player) {
 	// 背景枠の描画
 	uiManager.DrawRoundRect(25, 25, 75, 75, 5,COLOR_WHITEGRAY, ANGLE_NONE);
-	uiManager.DrawString(0, 100, 32, "PAUSE", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
+	uiManager.DrawString(0, 100, 32, "PAUSE", base.GetChihayaFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetChihayaFontData(SMALL).handle);
 
 	uiManager.DrawProgressRateBar(_player, 50, 97, 96.5f);	// 進捗率バーの描画
 }
 
 void InGameScene::Draw(Player& _player) {
-	uiManager.DrawString(1, 0, 95.7f, "SCORE : " + std::to_string(scoreManager.GetViewScore()), base.GetFontData(MEDIUM).handle);	// スコアの描画
-	uiManager.DrawString(1, 0, 1, "STAGE" + std::to_string(base.GetStageNumber()), base.GetFontData(MEDIUM).handle);	// 現在遊んでいるステージがどこか描画
+	uiManager.DrawString(1, 0, 95.7f, "SCORE : " + std::to_string(scoreManager.GetViewScore()), base.GetChihayaFontData(MEDIUM).handle);	// スコアの描画
+	uiManager.DrawString(1, 0, 1, "STAGE" + std::to_string(base.GetStageNumber()), base.GetChihayaFontData(MEDIUM).handle);	// 現在遊んでいるステージがどこか描画
 	uiManager.DrawStartCountDown();	// スタートカウントダウンの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(21, 95, uiManager.GetImageEscape());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Pause", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5, 0, 95.7f, "Jump", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Pause", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5, 0, 95.7f, "Jump", base.GetChihayaFontData(SMALL).handle);
 
 	uiManager.DrawProgressRateBar(_player, 50, 97, 96.5f);	// 進捗率バーの描画
 	uiManager.DrawJumpPct(_player.GetPressedJump());	// ジャンプゲージの描画
@@ -367,37 +367,37 @@ void InGameScene::Draw(Player& _player) {
 void GameOverScene::Draw() {
 	// 背景枠の描画
 	uiManager.DrawRoundRect(23, 18, 77, 82, 5, COLOR_WHITEGRAY, ANGLE_NONE);
-	uiManager.DrawString(0, 100, 25, "GAMEOVER", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
+	uiManager.DrawString(0, 100, 25, "GAMEOVER", base.GetChihayaFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	// スコアの描画
-	uiManager.DrawString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 43, "SCORE", base.GetChihayaFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetChihayaFontData(LARGE).handle);
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetChihayaFontData(SMALL).handle);
 }
 
 void ClearScene::Draw() {
 	// 背景枠の描画
 	uiManager.DrawRoundRect(23, 18, 77, 82, 5, COLOR_WHITEGRAY, ANGLE_NONE);
-	uiManager.DrawString(0, 100, 25, "STAGE CLEAR", base.GetFontData(EXTRALARGE).handle);	// 見出しの描画
+	uiManager.DrawString(0, 100, 25, "STAGE CLEAR", base.GetChihayaFontData(EXTRALARGE).handle);	// 見出しの描画
 
 	//スコアの描画
-	uiManager.DrawString(27, 47, 43, "SCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 43, "SCORE", base.GetChihayaFontData(LARGE).handle);
+	uiManager.DrawString(27, 47, 51, std::to_string(scoreManager.GetScore()), base.GetChihayaFontData(LARGE).handle);
 
 	// ハイスコアの描画
-	uiManager.DrawString(53, 73, 43, "HIGHSCORE", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(53, 73, 51, std::to_string(scoreManager.GetHighScore(base.GetStageNumber())), base.GetFontData(LARGE).handle);
+	uiManager.DrawString(53, 73, 43, "HIGHSCORE", base.GetChihayaFontData(LARGE).handle);
+	uiManager.DrawString(53, 73, 51, std::to_string(scoreManager.GetHighScore(base.GetStageNumber())), base.GetChihayaFontData(LARGE).handle);
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
 	uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(37.5f, 0, 95.7f, "Select", base.GetChihayaFontData(SMALL).handle);
 }
 
 void ExplanationScene::Draw() {
@@ -405,7 +405,7 @@ void ExplanationScene::Draw() {
 	// ページの操作処理
 	if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) currentPage = base.ClampNumI(--currentPage, 0, 2);
 	if (input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_D)) currentPage = base.ClampNumI(++currentPage, 0, 2);
-	uiManager.DrawString(0, 100, 5, "Exception", base.GetFontData(EXTRALARGE).handle);	// 見出し
+	uiManager.DrawString(0, 100, 5, "Exception", base.GetChihayaFontData(EXTRALARGE).handle);	// 見出し
 	uiManager.DrawRoundRect(5, 33, 95, 93, 5, COLOR_WHITE,LEFTRIGHTTOP);
 
 	// 選択してるページを強調表示する
@@ -413,9 +413,9 @@ void ExplanationScene::Draw() {
 	uiManager.DrawRoundRect(35, 25, 65, 33, 5, currentPage == 1 ? COLOR_WHITE : COLOR_LIGHTGRAY, ANGLE_ALL);
 	uiManager.DrawRoundRect(65, 25, 95, 33, 5, currentPage == 2 ? COLOR_WHITE : COLOR_LIGHTGRAY, LEFTTOP_LEFTRIGHTBOTTOM);
 	// 上のボックスの中にテキストを表示
-	uiManager.DrawString(5, 35, 25, "Player", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(35, 65, 25, "Object", base.GetFontData(LARGE).handle);
-	uiManager.DrawString(65, 95, 25, "Score", base.GetFontData(LARGE).handle);
+	uiManager.DrawString(5, 35, 25, "Player", base.GetChihayaFontData(LARGE).handle);
+	uiManager.DrawString(35, 65, 25, "Stage", base.GetChihayaFontData(LARGE).handle);
+	uiManager.DrawString(65, 95, 25, "Score", base.GetChihayaFontData(LARGE).handle);
 
 
 	if (currentPage != 0) {
@@ -435,27 +435,31 @@ void ExplanationScene::Draw() {
 	switch (currentPage)
 	{
 	case 0:
-		uiManager.DrawString(0, 100, 50, "ジャンプのしようをかく", base.GetFontData(LARGE).handle);
-		uiManager.DrawImage(15, 40, uiManager.GetExplanations(0));
-		uiManager.DrawImage(17.5f, 65, uiManager.GetExplanations(1));
+		uiManager.DrawString(25, 0, 46, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle);
+		uiManager.DrawString(31, 0, 63, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと反対側の地面に落下する。", base.GetMeiryoFontData().handle);
+		uiManager.DrawString(25, 0, 80, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。中央の緑の円がプレイヤーの位置、\n右側の灰色の円がゴールの位置を示している。", base.GetMeiryoFontData().handle);
+		uiManager.DrawImage(13, 38, uiManager.GetExplanations(0));	// プレイヤージャンプ画像
+		uiManager.DrawImage(85, 50, uiManager.GetExplanations(1));	// ジャンプゲージ画像
+		uiManager.DrawImage(13, 76, uiManager.GetExplanations(5));	// ステージ進捗率画像
 		break;
 	case 1:
-		uiManager.DrawString(0, 100, 50, "くるま、くものしようをかく", base.GetFontData(LARGE).handle);
-		uiManager.DrawImage(13, 44, uiManager.GetExplanations(2));
-		uiManager.DrawImage(25.5f, 38, uiManager.GetExplanations(3));
-		uiManager.DrawImage(68, 40, uiManager.GetExplanations(4));
-		uiManager.DrawImage(35, 75, uiManager.GetExplanations(5));
+		uiManager.DrawString(28, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetMeiryoFontData().handle);
+		uiManager.DrawString(38, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetMeiryoFontData().handle);
+		uiManager.DrawString(39, 0, 81, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetMeiryoFontData().handle);
+		uiManager.DrawImage(13, 39, uiManager.GetExplanations(4));	// 雲画像
+		uiManager.DrawImage(75, 57, uiManager.GetExplanations(2));	// 小型車画像
+		uiManager.DrawImage(13, 72, uiManager.GetExplanations(3));	// 大型車画像
 		break;
 	case 2:
-		uiManager.DrawString(0, 100, 50, "スコアのしようをかく", base.GetFontData(LARGE).handle);
-		uiManager.DrawImage(19, 38, uiManager.GetExplanations(6));
-		uiManager.DrawImage(54, 38, uiManager.GetExplanations(7));
+		uiManager.DrawString(0, 100, 80, "ギリギリでジャンプするほどスコアが沢山もらえる。\n欲張ってGAMEOVERになったら元も子もない。", base.GetMeiryoFontData().handle);
+		uiManager.DrawImage(19, 38, uiManager.GetExplanations(6));	// 車ジャンプ画像
+		uiManager.DrawImage(54, 38, uiManager.GetExplanations(7));	// 雲ジャンプ画像
 		break;
 	}
 	
 	// 操作説明の描画
 	uiManager.DrawImage(1.3f, 1.7f, uiManager.GetImageEscape());
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
-	uiManager.DrawString(4, 0, 2, "Title", base.GetFontData(SMALL).handle);
-	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetFontData(SMALL).handle);
+	uiManager.DrawString(4, 0, 2, "Title", base.GetChihayaFontData(SMALL).handle);
+	uiManager.DrawString(23.5f, 0, 95.7f, "Move", base.GetChihayaFontData(SMALL).handle);
 }
