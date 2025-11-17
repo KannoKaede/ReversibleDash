@@ -63,6 +63,12 @@
     <Media Include="Resource\Audios\JINGLE_Clear.mp3">
       <Filter>リソース ファイル\Audios</Filter>
     </Media>
+    <Media Include="Resource\Audios\SE_Go.mp3">
+      <Filter>リソース ファイル\Audios</Filter>
+    </Media>
+    <Media Include="Resource\Audios\SE_Ready.mp3">
+      <Filter>リソース ファイル\Audios</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1">
@@ -100,6 +106,9 @@
     </None>
     <None Include="Resource\Stage\SmallCar\SmallCar_4.mv1">
       <Filter>リソース ファイル\Stages\SmallCar</Filter>
+    </None>
+    <None Include="Resource\Fonts\meiryo.ttc">
+      <Filter>リソース ファイル\Fonts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

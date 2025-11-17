@@ -145,8 +145,11 @@
     <Media Include="Resource\Audios\SE_ButtonBeep.mp3" />
     <Media Include="Resource\Audios\SE_ButtonMove.mp3" />
     <Media Include="Resource\Audios\SE_ButtonSelect.mp3" />
+    <Media Include="Resource\Audios\SE_Go.mp3" />
+    <Media Include="Resource\Audios\SE_Ready.mp3" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resource\Fonts\meiryo.ttc" />
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1" />
     <None Include="Resource\PlayerAnimations\Player_JumpUp.mv1" />
     <None Include="Resource\PlayerAnimations\Player_Run.mv1" />
