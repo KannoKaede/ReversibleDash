@@ -115,10 +115,10 @@ private:
 	std::vector<Car>		carArray[MAX_STAGE_NUM];	// ステージごとの車のインスタンス
 	std::vector<Cloud>		cloudArray[MAX_STAGE_NUM];	// ステージごとの雲のインスタンス
 
-	static constexpr float S_CAR_HEIGHT = 110;														// 車(小)の高さ
-	static constexpr float S_CAR_RADIUS = 130;														// 車(小)の半径
-	static constexpr float L_CAR_HEIGHT = 220;														// 車(大)の高さ
-	static constexpr float L_CAR_RADIUS = 320;														// 車(大)の半径
+	static constexpr float S_CAR_HEIGHT = 100;														// 車(小)の高さ
+	static constexpr float S_CAR_RADIUS = 120;														// 車(小)の半径
+	static constexpr float L_CAR_HEIGHT = 210;														// 車(大)の高さ
+	static constexpr float L_CAR_RADIUS = 310;														// 車(大)の半径
 	static constexpr float CITY_POS_Z[MAX_STAGE_NUM] = { 0,32100,24100,16100,12100,6100,100 };		// ステージごとのステージ背景の描画開始座標Z
 	static constexpr float GOAL_POS_X[MAX_STAGE_NUM] = { 0,14000,17000,14000,15000,14500,18000 };	// ゴール座標
 	static constexpr float CLEAR_CHANGE_DIS = 1500;													// ゴール後にクリア画面に移動するまでに必要な距離

@@ -98,6 +98,9 @@ private:
 	float		groundPosY = 0;				// 接地した地面の座標Y
 	float		jumpDis = 0;				// ジャンプ時の障害物までの距離を求める
 
+	int playerCarModel = {};
+	Transform playerCar = {};
+
 	// アニメーション再生処理で使用
 	float		animePlayTime = 0;			// アニメーションの再生するフレームを設定する
 	int			animePastModel = 0;			// 前回再生していたアニメーションモデルを保存
@@ -106,4 +109,5 @@ private:
 	static constexpr float	TOP_GROUND = 840.0f;	// 上側の地面の座標
 	static constexpr float	GRAVITY = 0.7f;			// 重力
 	static constexpr float	JUMP_POWER = 10;		// ジャンプ力
+
 };
