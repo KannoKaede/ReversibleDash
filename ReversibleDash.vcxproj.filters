@@ -211,5 +211,11 @@
     <Image Include="Resource\Images\Explanations\ScoreCloud.png">
       <Filter>リソース ファイル\Images\Explanations</Filter>
     </Image>
+    <Image Include="Resource\Images\CarWindow.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
+    <Image Include="Resource\Images\TitleCarWindow.png">
+      <Filter>リソース ファイル\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>
