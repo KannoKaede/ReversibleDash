@@ -187,6 +187,7 @@
     <ClInclude Include="Headers\UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Images\CarWindow.png" />
     <Image Include="Resource\Images\Explanations\Cloud.png" />
     <Image Include="Resource\Images\Explanations\JumpGauge.png" />
     <Image Include="Resource\Images\Explanations\LargeCar.png" />
@@ -198,6 +199,7 @@
     <Image Include="Resource\Images\Keys\EscapeKey.png" />
     <Image Include="Resource\Images\Keys\SpaceKey.png" />
     <Image Include="Resource\Images\Keys\WASD.png" />
+    <Image Include="Resource\Images\TitleCarWindow.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
