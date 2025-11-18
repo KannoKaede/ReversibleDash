@@ -122,7 +122,7 @@ public:
 	void			DrawStringCenter(float left, float top, float right, float bottom, std::string text, int fontType);
 
 	/// <summary> テキストを描画：RightをLeftの値より小さくしたらLeftの位置で描画する。大きい場合は指定の枠の左右中央に描画 </summary>
-	void			DrawString(float leftPct, float rightPct, float heightPct, std::string text, int font);
+	void			DrawString(float _leftPct, float _rightPct, float _heightPct, std::string _text, int _font, int _color);
 
 	/// <summary> 画像を描画 </summary>
 	void			DrawImage(float leftPct, float topPct, ImageData image);
@@ -135,19 +135,21 @@ public:
 	bool			CheckScreen(SCREEN_TYPE screen)			{ return currentScreen == screen; }
 
 	/// <summary> WASDの画像を返す </summary>
-	ImageData		GetImageWASD()							{ return keyWASD; }
+	ImageData		GetImageWASD()const						{ return keyWASD; }
 	/// <summary> Spaceの画像を返す </summary>
-	ImageData		GetImageSpace()							{ return keySpace; }
+	ImageData		GetImageSpace()const					{ return keySpace; }
 	/// <summary> Escapeの画像を返す </summary>
-	ImageData		GetImageEscape()						{ return keyEscape; }
+	ImageData		GetImageEscape()const					{ return keyEscape; }
 	/// <summary> 説明に使用する画像を返す </summary>
 	ImageData		GetExplanations(int number)				{ return explanations[number]; }
+	/// <summary> 車の窓の画像を返す </summary>
+	ImageData		GetCarWindow()const						{ return carWindow; }
 	/// <summary> 現在の画面の状態を返す </summary>
-	SCREEN_TYPE		GetCurrentScreen()						{ return currentScreen; }
+	SCREEN_TYPE		GetCurrentScreen()const					{ return currentScreen; }
 	/// <summary> 次の画面の状態を返す </summary>
-	SCREEN_TYPE		GetNextScreen()							{ return nextScreen; }
+	SCREEN_TYPE		GetNextScreen()const					{ return nextScreen; }
 	/// <summary> 現在スタートカウントダウンを行っているか返す </summary>
-	bool			GetIsStartCountDown()					{ return isStartCountDown; }
+	bool			GetIsStartCountDown()const				{ return isStartCountDown; }
 
 	/// <summary> 現在の画面情報を設定 </summary>
 	void			SetCurrentScreen(SCREEN_TYPE current)	{ currentScreen = current; }
@@ -164,6 +166,7 @@ private:
 	ImageData				keySpace;
 	ImageData				keyEscape;
 	ImageData				explanations[8];
+	ImageData				carWindow;
 
 	// 描画するシーン群
 	TitleScene				titleScene;

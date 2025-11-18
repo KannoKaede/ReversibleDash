@@ -21,5 +21,5 @@ void CameraLight::CameraMove(const Player& _player) {
 void CameraLight::Initialization() {
 	// 位置と注視点を初期化
 	cameraPos = START_CAMERA_POS;
-	cameraLookPos.x = START_CAMERA_POS.x;
+	cameraLookPos.x = START_CAMERA_LOOKPOS.x;
 }
