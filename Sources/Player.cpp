@@ -42,7 +42,7 @@ void Player::Move() {
 	// 速度変更処理：ゴール地点の1/4ごとに速度を上げていく
 	float speedUpPos = stageManager.GetGoalPosition(base.GetStageNumber()) / 4;
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
-		moveSpeed = changeSpeedCount >= 3 ? FIRST_SPEED * 2 : FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
+		moveSpeed = FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
 	}
 }
@@ -109,7 +109,7 @@ void Player::Jump() {
 			PlayAnimation(modelData[modelIndex], false);
 		}
 		// 画面上部からはみ出たらゲームオーバー
-		if (transform.position.y > 1500) {
+		if (transform.position.y > 1700) {
 			fadeManager.ChangeUIState(GAMEOVER, NOTFADE);
 			audioManager.PlaySE(audioManager.JINGLE_GAMEOVER);
 		}
