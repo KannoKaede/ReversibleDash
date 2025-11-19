@@ -11,6 +11,8 @@ void AudioManager::SetUp() {
 	se[BUTTON_SELECT] = LoadSoundMem("Resource/Audios/SE_ButtonSelect.mp3");
 	se[JINGLE_CLEAR] = LoadSoundMem("Resource/Audios/JINGLE_Clear.mp3");
 	se[JINGLE_GAMEOVER] = LoadSoundMem("Resource/Audios/JINGLE_GameOver.mp3");
+	se[UI_READY] = LoadSoundMem("Resource/Audios/SE_Ready.mp3");
+	se[UI_GO] = LoadSoundMem("Resource/Audios/SE_Go.mp3");
 	bgm[OUTGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_Title.mp3");
 	bgm[INGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_InGame.mp3");
 	// 音量設定
