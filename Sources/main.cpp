@@ -20,6 +20,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
+
+		// 空を描画 : Zバッファを一時的に無効にして一番後ろに書き込む
+		SetWriteZBuffer3D(FALSE);
+		uiManager.DrawImage(0, 0, uiManager.GetSkyImage());
+		SetWriteZBuffer3D(TRUE);
 		input.CheckAllKey();	// 全キーの状態をチェック
 		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
@@ -60,11 +65,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 void Base::SetUp() {
 	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定
 	SetMouseDispFlag(FALSE);	// マウスを非表示
-
-	// Zバッファを有効にする、正確な奥行き関係に基づいた描画を行うために使用
-	SetUseZBuffer3D(TRUE);
-	SetWriteZBuffer3D(TRUE);
-
 	
 
 	// その他、初期設定を行うものをここでまとめて行う

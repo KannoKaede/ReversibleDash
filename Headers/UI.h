@@ -145,7 +145,9 @@ public:
 	/// <summary> 車の窓の画像を返す </summary>
 	ImageData		GetCarWindow()const						{ return carWindow; }
 	/// <summary> タイトル背景画像を返す </summary>
-	ImageData		GetTitleCarWindow()const { return titleCarWindow; }
+	ImageData		GetTitleCarWindow()const				{ return titleCarWindow; }
+	/// <summary> 空の画像を返す </summary>
+	ImageData		GetSkyImage()const						{ return skyImage; }
 	/// <summary> 現在の画面の状態を返す </summary>
 	SCREEN_TYPE		GetCurrentScreen()const					{ return currentScreen; }
 	/// <summary> 次の画面の状態を返す </summary>
@@ -170,6 +172,7 @@ private:
 	ImageData				explanations[8];
 	ImageData				carWindow;
 	ImageData				titleCarWindow;
+	ImageData				skyImage;
 
 	// 描画するシーン群
 	TitleScene				titleScene;
