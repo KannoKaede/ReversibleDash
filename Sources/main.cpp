@@ -7,6 +7,7 @@
 #include "Score.h"
 #include "Stage.h"
 #include "UI.h"
+#include "Effect.h"
 
 Player player(START_PLAYER_POS, START_PLAYER_ROT, PLAYER_SCALE, FIRST_SPEED);
 CameraLight cameraLight;
@@ -20,7 +21,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	while (ProcessMessage() == 0)
 	{
 		ClearDrawScreen();	// 画面をクリア
-
+		effect.Update(player.GetPosition());
 		// 空を描画 : Zバッファを一時的に無効にして一番後ろに書き込む
 		SetWriteZBuffer3D(FALSE);
 		uiManager.DrawImage(0, 0, uiManager.GetSkyImage());

@@ -4,6 +4,7 @@
 #include "Score.h"
 #include "Stage.h"
 #include "UI.h"
+#include "Effect.h"
 
 void Player::SetUp() {
 	// モデルの読み込みとアニメーションの設定
@@ -44,6 +45,7 @@ void Player::Move() {
 	if (transform.position.x > speedUpPos * changeSpeedCount && changeSpeedCount <= 4) {
 		moveSpeed = FIRST_SPEED * (1 + 0.3f * changeSpeedCount);
 		changeSpeedCount++;
+		effect.PlayEffect();
 	}
 }
 
