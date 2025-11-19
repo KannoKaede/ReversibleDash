@@ -100,7 +100,7 @@ private:
 class UIManager {
 public:
 	/// <summary> コンストラクタ </summary>
-	UIManager() :currentScreen(), nextScreen(), keyWASD(), keySpace(), keyEscape() {}
+	UIManager() :currentScreen(), nextScreen(), keyWASD(), keySpace(), keyEscape(), explanations{}, carWindow(),titleCarWindow() {}
 
 	/// <summary> コンストラクタではできない初期化処理を行うメソッド </summary>
 	void			SetUp();
