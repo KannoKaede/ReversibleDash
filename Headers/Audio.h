@@ -13,6 +13,8 @@ public:
 		BUTTON_SELECT,		// ボタン選択
 		JINGLE_CLEAR,		// クリアジングル
 		JINGLE_GAMEOVER,	// ゲームオーバージングル
+		UI_READY,
+		UI_GO,
 		SE_MAX_NUM			// SEの種類の最大数
 	};
 

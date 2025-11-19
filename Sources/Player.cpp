@@ -104,12 +104,12 @@ void Player::Jump() {
 		jumpDis = 0;
 		jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
 		// 落下アニメーションを再生
-		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - 70 - transform.position.y) < 100) {		//リファクタリング
+		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - transform.position.y) < 100) {		//リファクタリング
 			modelIndex = 2;
 			PlayAnimation(modelData[modelIndex], false);
 		}
 		// 画面上部からはみ出たらゲームオーバー
-		if (transform.position.y > 1700) {
+		if (transform.position.y > 3000) {
 			fadeManager.ChangeUIState(GAMEOVER, NOTFADE);
 			audioManager.PlaySE(audioManager.JINGLE_GAMEOVER);
 		}

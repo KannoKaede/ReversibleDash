@@ -106,7 +106,7 @@ private:
 	int			animePastModel = 0;			// 前回再生していたアニメーションモデルを保存
 	float		animePlayTotalTime = 0;		// 再生しているアニメーションのそう再生時間を保存
 
-	static constexpr float	TOP_GROUND = 840.0f;	// 上側の地面の座標
+	static constexpr float	TOP_GROUND = 770.0f;	// 上側の地面の座標
 	static constexpr float	GRAVITY = 0.7f;			// 重力
 	static constexpr float	JUMP_POWER = 10;		// ジャンプ力
 
