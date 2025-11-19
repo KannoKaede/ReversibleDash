@@ -138,7 +138,6 @@ void UIManager::DrawStartCountDown() {
 	if (startTime + WAITTIME[drawCount] > GetNowCount())  return;
 
 	if (fadeManager.GetAlphaValue() == 0) {	// α値が0ならフェードインするようにフェード速度を設定する
-
 		// フェードアウトから0になった場合は一度処理を抜けて次のテキストの描画に移る
 		if (isFadeOut) {
 			startTime = 0;	// 最初の待機に戻るために初期化
@@ -148,10 +147,10 @@ void UIManager::DrawStartCountDown() {
 	}
 	else if (fadeManager.GetAlphaValue() == 255) {	// 文字が完全に描画出来たらフェードアウトするように切り替える
 		isFadeOut = true;	// フェードアウト処理を行っている状態に切り替える
-		audioManager.PlaySE(audioManager.UI_READY);
+
+		audioManager.PlaySE(drawCount == 0 ? audioManager.UI_READY : audioManager.UI_GO);
 		if (drawCount == 1) {
 			base.SetIsGameStop(false);	// 最後のテキスト描画時の場合ゲームの停止を解除する
-			audioManager.PlaySE(audioManager.UI_GO);
 		}
 	}
 }
