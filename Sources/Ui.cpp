@@ -66,6 +66,9 @@ void UIManager::SetUp() {
 	GetGraphSize(carWindow.image, &carWindow.width, &carWindow.height);
 	titleCarWindow.image = LoadGraph("Resource/Images/titleCarWindow.png");
 	GetGraphSize(titleCarWindow.image, &titleCarWindow.width, &titleCarWindow.height);
+
+	skyImage.image = LoadGraph("Resource/Images/SkyImage.png");
+	GetGraphSize(skyImage.image, &skyImage.width, &skyImage.height);
 }
 
 void UIManager::DrawUI(Player& _player) {

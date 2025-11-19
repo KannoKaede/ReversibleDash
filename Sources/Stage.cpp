@@ -400,8 +400,6 @@ void StageManager::CloudsSetUp() {	// メモ　小じゃん隙間　600
 }
 
 void StageManager::Draw(Player& _player) {
-	VECTOR playerPos = _player.GetPosition();
-	DrawGraph3D(playerPos. x , playerPos.y, playerPos.z + 2000, uiManager.GetTitleCarWindow().image, TRUE);
 	bool test = false;
 	// 背景ステージの描画と衝突判定の設定
 	MV1DrawModel(cityHandle);
