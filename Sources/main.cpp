@@ -23,9 +23,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();	// 画面をクリア
 		effect.Update(player.GetPosition());
 		// 空を描画 : Zバッファを一時的に無効にして一番後ろに書き込む
-		SetWriteZBuffer3D(FALSE);
-		uiManager.DrawImage(0, 0, uiManager.GetSkyImage());
-		SetWriteZBuffer3D(TRUE);
+		if (base.IsDrawInGame()) {
+			SetWriteZBuffer3D(FALSE);
+			uiManager.DrawImage(0, 0, uiManager.GetSkyImage());
+			SetWriteZBuffer3D(TRUE);
+		}
 		input.CheckAllKey();	// 全キーの状態をチェック
 		if (base.IsDrawInGame()) {
 			// カメラ、ライト、プレイヤーの描画
@@ -66,7 +68,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 void Base::SetUp() {
 	SetBackgroundColor(160, 216, 239);	// 背景色を空色に設定
 	SetMouseDispFlag(FALSE);	// マウスを非表示
-	
+	SetBackgroundColor(0, 0, 0);
 
 	// その他、初期設定を行うものをここでまとめて行う
 	base.FontSetUp();

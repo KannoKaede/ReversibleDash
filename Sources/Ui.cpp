@@ -10,9 +10,9 @@
 
 // 使用する全てのボタンのインスタンスをここで用意
 // ({ 描画画面, ボタンマップY, ボタンマップX }, { 画面描画座標(中心), ボタンの長さの半分, ボタンのt傘の半分 }, ボタンの処理を設定, 描画テキスト, 描画テキストで使用するフォント)
-Button startBtn			({ TITLE,		1, 1 },	{ { 50, 47 }, 12, 4 },	ButtonType::Start,			"GameStart",	LARGE);
-Button stageSelectBtn	({ TITLE,		2, 1 },	{ { 50, 65 }, 12, 4 },	ButtonType::StageSelect,	"StageSelect",	LARGE);
-Button quitBtn			({ TITLE,		3, 1 },	{ { 50, 83 }, 12, 4 },	ButtonType::Quit,			"GameQuit",		LARGE);
+Button startBtn			({ TITLE,		1, 1 },	{ { 50, 43 }, 12, 4 },	ButtonType::Start,			"GameStart",	LARGE);
+Button stageSelectBtn	({ TITLE,		2, 1 },	{ { 50, 61 }, 12, 4 },	ButtonType::StageSelect,	"StageSelect",	LARGE);
+Button quitBtn			({ TITLE,		3, 1 },	{ { 50, 79 }, 12, 4 },	ButtonType::Quit,			"GameQuit",		LARGE);
 Button pickStage1Btn	({ STAGESELECT, 1, 1 },	{ { 28, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.1",			MEDIUM);
 Button pickStage2Btn	({ STAGESELECT, 1, 2 },	{ { 50, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.2",			MEDIUM);
 Button pickStage3Btn	({ STAGESELECT, 1, 3 },	{ { 72, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.3",			MEDIUM);
@@ -35,7 +35,7 @@ FadeManager fadeManager;
 void UIManager::SetUp() {
 	// LoadGraph → 画像ファイルをメモリにロードするメソッド(画像ファイルの相対パス)
 	// GetGraphSize → 画像ファイルから画像サイズ(ピクセル数)を取得するメソッド
-
+	
 	// キー画像のロード、サイズ取得
 	keyWASD.image = LoadGraph("Resource/Images/Keys/WASD.png");
 	GetGraphSize(keyWASD.image, &keyWASD.width, &keyWASD.height);
@@ -64,7 +64,7 @@ void UIManager::SetUp() {
 
 	carWindow.image = LoadGraph("Resource/Images/CarWindow.png");
 	GetGraphSize(carWindow.image, &carWindow.width, &carWindow.height);
-	titleCarWindow.image = LoadGraph("Resource/Images/titleCarWindow.png");
+	titleCarWindow.image = LoadGraph("Resource/Images/TitleCarWindow.png");
 	GetGraphSize(titleCarWindow.image, &titleCarWindow.width, &titleCarWindow.height);
 
 	skyImage.image = LoadGraph("Resource/Images/SkyImage.png");
@@ -76,8 +76,9 @@ void UIManager::DrawUI(Player& _player) {
 	// ○○Scene.Draw() → ボタンを除くUIを描画するメソッド
 	// fadeManager.ChangeUIState() → 第一引数 : どの画面に遷移するか指定, 第二引数, フェード処理を行うか指定
 
-	if (base.IsDrawInGame())uiManager.DrawImage(0, 0, uiManager.GetCarWindow());
-	else uiManager.DrawImage(0, 0, uiManager.GetTitleCarWindow());
+	if (base.IsDrawInGame())DrawImage(0, 0, carWindow);
+	else DrawImage(0, 0, titleCarWindow);
+
 	switch (currentScreen) {
 	case TITLE:
 		titleScene.Draw();
@@ -325,7 +326,7 @@ void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 /*描画内容をまとめたクラス---------------------------------------------------------------------------------------------------------*/
 
 void TitleScene::Draw() {
-	uiManager.DrawString(0, 100, 16, "ReversibleDash", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// タイトルの描画
+	uiManager.DrawString(0, 100, 5, "ReversibleDash", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// タイトルの描画
 	uiManager.DrawString(83, 0, 95, "Ver 1.0.00.01", base.GetChihayaFontData(MEDIUM).handle, COLOR_WHITE);	// バージョンの描画
 
 	// 操作説明の描画
@@ -338,7 +339,7 @@ void TitleScene::Draw() {
 }
 
 void StageSelectScene::Draw() {
-	uiManager.DrawString(0, 100, 16, "STAGESELECT", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// 見出しの描画
+	uiManager.DrawString(0, 100, 5, "STAGESELECT", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// 見出しの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());

@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include <string>
-// メモ
-// スタートカウントダウンボイスを実装
-
 
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
 const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの色
