@@ -419,18 +419,17 @@ void ExplanationScene::Draw() {
 	if (input.KeyDown(KEY_INPUT_LEFT) || input.KeyDown(KEY_INPUT_A)) currentPage = base.ClampNumI(--currentPage, 0, 2);
 	if (input.KeyDown(KEY_INPUT_RIGHT) || input.KeyDown(KEY_INPUT_D)) currentPage = base.ClampNumI(++currentPage, 0, 2);
 	uiManager.DrawString(0, 100, 5, "Exception", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// 見出し
-	uiManager.DrawRoundRect(5, 33, 95, 93, 5, COLOR_WHITE,LEFTRIGHTTOP);
 
 	// 選択してるページを強調表示する
-	uiManager.DrawRoundRect(5, 25, 35, 33, 5, currentPage == 0 ? COLOR_WHITE : COLOR_LIGHTGRAY, RIGHTTOP_LEFTRIGHTBOTTOM);
-	uiManager.DrawRoundRect(35, 25, 65, 33, 5, currentPage == 1 ? COLOR_WHITE : COLOR_LIGHTGRAY, ANGLE_ALL);
-	uiManager.DrawRoundRect(65, 25, 95, 33, 5, currentPage == 2 ? COLOR_WHITE : COLOR_LIGHTGRAY, LEFTTOP_LEFTRIGHTBOTTOM);
+	uiManager.DrawRoundRect(5, 25, 35, 40, 5, currentPage == 0 ? COLOR_WHITE : COLOR_LIGHTGRAY, RIGHTTOP_LEFTRIGHTBOTTOM);
+	uiManager.DrawRoundRect(35, 25, 65, 40, 5, currentPage == 1 ? COLOR_WHITE : COLOR_LIGHTGRAY, ANGLE_ALL);
+	uiManager.DrawRoundRect(65, 25, 95, 40, 5, currentPage == 2 ? COLOR_WHITE : COLOR_LIGHTGRAY, LEFTTOP_LEFTRIGHTBOTTOM);
 	// 上のボックスの中にテキストを表示
 	uiManager.DrawString(5, 35, 25, "Player", base.GetChihayaFontData(LARGE).handle, COLOR_BLACK);
 	uiManager.DrawString(35, 65, 25, "Stage", base.GetChihayaFontData(LARGE).handle, COLOR_BLACK);
 	uiManager.DrawString(65, 95, 25, "Score", base.GetChihayaFontData(LARGE).handle, COLOR_BLACK);
 
-
+	uiManager.DrawRoundRect(5, 33, 95, 93, 5, COLOR_WHITE, LEFTRIGHTTOP);
 	if (currentPage != 0) {
 		// 左矢印
 		DrawTriangleAA(base.ScreenDrawPosF(screen.width, 4), base.ScreenDrawPosF(screen.height, 28.5f),
@@ -448,19 +447,19 @@ void ExplanationScene::Draw() {
 	switch (currentPage)
 	{
 	case 0:
-		uiManager.DrawString(25, 0, 46, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(31, 0, 63, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと反対側の地面に落下する。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(25, 0, 59, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(25, 0, 41, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと反対側の地面に落下する。", base.GetMeiryoFontData().handle, COLOR_BLACK);
 		uiManager.DrawString(25, 0, 80, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。中央の緑の円がプレイヤーの位置、\n右側の灰色の円がゴールの位置を示している。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawImage(13, 38, uiManager.GetExplanations(0));	// プレイヤージャンプ画像
-		uiManager.DrawImage(85, 50, uiManager.GetExplanations(1));	// ジャンプゲージ画像
-		uiManager.DrawImage(13, 76, uiManager.GetExplanations(5));	// ステージ進捗率画像
+		uiManager.DrawImage(13, 50, uiManager.GetExplanations(0));	// プレイヤージャンプ画像
+		uiManager.DrawImage(13, 68, uiManager.GetExplanations(1));	// ジャンプゲージ画像
+		uiManager.DrawImage(6, 35, uiManager.GetExplanations(5));	// ステージ進捗率画像
 		break;
 	case 1:
-		uiManager.DrawString(28, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(38, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(39, 0, 81, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawImage(13, 39, uiManager.GetExplanations(4));	// 雲画像
-		uiManager.DrawImage(75, 57, uiManager.GetExplanations(2));	// 小型車画像
+		uiManager.DrawString(39, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(39, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(39, 0, 78, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawImage(20, 39, uiManager.GetExplanations(4));	// 雲画像
+		uiManager.DrawImage(20, 57, uiManager.GetExplanations(2));	// 小型車画像
 		uiManager.DrawImage(13, 72, uiManager.GetExplanations(3));	// 大型車画像
 		break;
 	case 2:
