@@ -12,7 +12,7 @@ void Base::SetScreenSize() {
 }
 void Base::FontSetUp() {
 	// フォントサイズを設定した後、フォントをロードする
-	AddFontResourceExA("Resource/Fonts/meiryo.ttc", FR_PRIVATE, NULL);
+	AddFontResourceExA("Resource/Fonts/全員集合！ポップ体ver3.ttf", FR_PRIVATE, NULL);
 	AddFontResourceExA("Resource/Fonts/ちはやチョーク.ttf", FR_PRIVATE, NULL);
 	chihaya_FontData[EXTRALARGE].size = screen.width / 12;
 	chihaya_FontData[LARGE].size = screen.width / 25;
@@ -23,7 +23,7 @@ void Base::FontSetUp() {
 	chihaya_FontData[LARGE].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[LARGE].size, 3, DX_FONTTYPE_ANTIALIASING);
 	chihaya_FontData[MEDIUM].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[MEDIUM].size, 1, DX_FONTTYPE_ANTIALIASING);
 	chihaya_FontData[SMALL].handle = CreateFontToHandle("ちはやチョーク", chihaya_FontData[SMALL].size, 1, DX_FONTTYPE_ANTIALIASING);
-	meiryo_FontData.handle = CreateFontToHandle("メイリオ", meiryo_FontData.size, 1, DX_FONTTYPE_ANTIALIASING);
+	meiryo_FontData.handle = CreateFontToHandle("全員集合！ポップ体ver3", meiryo_FontData.size, 3, DX_FONTTYPE_ANTIALIASING);
 }
 
 float Base::ClampNumF(float _num, float _min, float _max)const {
