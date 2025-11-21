@@ -2,6 +2,11 @@
 #include "DxLib.h"
 #include <string>
 
+//IsFallにしたときに地面との距離を保存。
+//その後落下中毎フレーム地面との距離がどれくらい減ったかを％で出す
+//Resource/Images/UIsの中に画像を用意したのでJumpGaugeとProgressBarはその二つの画像を使用して描画
+//明日用のメモ　イメージ図はペイント内に書いてある
+
 const int COLOR_WHITEGRAY = GetColor(230, 230, 230);	// 背景ボックスで使用する色
 const int COLOR_MINTGREEN = GetColor(0, 255, 128);  // 選択中のボタンの色
 const int COLOR_ORANGE = GetColor(230, 200, 50);  // 選択中のボタンの色

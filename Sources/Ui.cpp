@@ -62,9 +62,9 @@ void UIManager::SetUp() {
 	explanations[7].image = LoadGraph("Resource/Images/Explanations/2_ScoreCloud.png");
 	GetGraphSize(explanations[7].image, &explanations[7].width, &explanations[7].height);
 
-	carWindow.image = LoadGraph("Resource/Images/CarWindow.png");
+	carWindow.image = LoadGraph("Resource/Images/UIs/CarWindow.png");
 	GetGraphSize(carWindow.image, &carWindow.width, &carWindow.height);
-	titleCarWindow.image = LoadGraph("Resource/Images/TitleCarWindow.png");
+	titleCarWindow.image = LoadGraph("Resource/Images/UIs/TitleCarWindow.png");
 	GetGraphSize(titleCarWindow.image, &titleCarWindow.width, &titleCarWindow.height);
 
 	skyImage.image = LoadGraph("Resource/Images/SkyImage.png");
