@@ -115,7 +115,7 @@ public:
 	void			DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightPct);
 
 	/// <summary>  ジャンプボタンを押している時間をゲージで描画する </summary>
-	void			DrawJumpPct(int _pressedJump);
+	void			DrawJumpPct(int _pressedJump, float _jumpHeightPct, bool _isFall);
 
 	/// <summary> テキストを中央に描画するメソッド </summary>
 	/// <param name="fontType"> 使用するフォントの配列の要素数 </param>

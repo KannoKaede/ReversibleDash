@@ -172,22 +172,25 @@ void UIManager::DrawProgressRateBar(const Player& player, float startPct, float 
 	float playerPct = startPct + (endPct - startPct) * progressPct;	// バー左端と右端の長さに進んだ割合をかけてバー上でのプレイヤーの座標を取得
 	DrawRoundRect(startPct, heightPct - 0.5f, endPct, heightPct + 0.5f, 0.5f, COLOR_LIGHTGRAY, ANGLE_NONE);	// ゲージ枠の描画
 	DrawRoundRect(startPct, heightPct - 0.5f, playerPct, heightPct + 0.5f, 0.5f, COLOR_MINTGREEN, ANGLE_NONE);	// ゲージ内側の描画
-	DrawImage(playerPct - 2, heightPct - 5, runImage[count % 20 < 10 ? 0 : 1]);	// 走っている画像を交互に描画してアニメーションさせる
+	DrawImage(playerPct - 1, heightPct - 5, runImage[count % 20 < 10 ? 0 : 1]);	// 走っている画像を交互に描画してアニメーションさせる
 }
 
-void UIManager::DrawJumpPct(int _pressedJump) {
+void UIManager::DrawJumpPct(int _pressedJump, float _jumpHeightPct, bool _isFall) {
 	ScreenSize screen = base.GetScreen();
 	// ゲージ枠の描画
-	DrawRoundRect(0.9f, 59.9f, 3.1f, 90.1f, 1, COLOR_BLACK, ANGLE_NONE);
-	DrawRoundRect(1, 60, 3, 90, 1, COLOR_WHITEGRAY, ANGLE_NONE);
+	DrawRoundRect(0.9f, 59.8f, 3.1f, 90.2f, 0.5f, COLOR_BLACK, ANGLE_NONE);
+	DrawRoundRect(1, 60, 3, 90, 0.5f, COLOR_WHITEGRAY, ANGLE_NONE);
 
 	// ゲージ内側の描画座標を計算する
-	float drawLength = 87.4f - 60.2f;													// ゲージの長さを求める
-	float drawPct = base.ClampNumF((float(_pressedJump) / (float)JUMP_LOCK_TIME),0,1);	// 長押し時間を0～1で求める
+	const float drawLength = 90 - 60;													// ゲージの長さを求める
+	float pressedPct = base.ClampNumF((float(_pressedJump) / (float)JUMP_LOCK_TIME),0,1);	// 長押し時間を0～1で求める
+	float drawPct = _isFall ? pressedPct * _jumpHeightPct : pressedPct;
 	if (drawPct > 0.96f)drawPct = 1;													// ある程度押していたらゲージをマックスまで伸ばす：ズレ防止
-	float drawPos = base.ClampNumF(87 - (drawLength * drawPct), 60.2f, 89.8f);			// 求めた%を元にゲージの頂点描画座標を計算する
+	float drawPosPct = base.ClampNumF(90 - (drawLength * drawPct), 60, 90);			// 求めた%を元にゲージの頂点描画座標を計算する
 
-	DrawRoundRect(1.2f, drawPos, 2.8f, 89.8f, 1, COLOR_MINTGREEN, ANGLE_NONE);						// ゲージ内側を描画する
+	DrawRoundRect(1, drawPosPct, 3, 90, 0.5f, COLOR_MINTGREEN, ANGLE_NONE);						// ゲージ内側を描画する
+	DrawImage(1, drawPct != 0 ? drawPosPct - 2 : drawPosPct -  5.5f, jumpImage[drawPct != 0]);
+
 }
 
 void UIManager::DrawStringCenter(float left, float top, float right, float bottom, std::string text, int fontType) {
@@ -372,7 +375,7 @@ void InGameScene::Draw(Player& _player) {
 	uiManager.DrawString(37.5, 0, 95.7f, "Jump", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 
 	uiManager.DrawProgressRateBar(_player, 50, 97, 98);	// 進捗率バーの描画
-	uiManager.DrawJumpPct(_player.GetPressedJump());	// ジャンプゲージの描画
+	uiManager.DrawJumpPct(_player.GetPressedJump(),_player.GetJumpHeightPct(), _player.GetIsFall());	// ジャンプゲージの描画
 }
 
 void GameOverScene::Draw() {

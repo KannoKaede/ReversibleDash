@@ -79,6 +79,8 @@ void Player::Jump() {
 			isFall = true;
 			pressedMomentTime = 0;
 			isGravityBottom = !isGravityBottom;	// 重力を反対側にする
+			jumpMaxHeight = transform.position.y;
+			jumpHeightPct = 1;
 		}
 		else {
 			pressedJump = JUMP_LOCK_TIME - (pressedMomentTime + JUMP_LOCK_TIME - GetNowCount());
@@ -89,6 +91,8 @@ void Player::Jump() {
 		isFall = true;
 		pressedMomentTime = 0;
 		jumpDis = 0;
+		jumpMaxHeight = transform.position.y;
+		jumpHeightPct = 1;
 	}
 
 	if (isGround) {
@@ -98,6 +102,8 @@ void Player::Jump() {
 		isFall = false;
 		isJumping = false;
 		pressedJump = 0;
+		jumpMaxHeight = 0;
+		jumpHeightPct = 0;
 	}
 	else if (!isJumping) {
 		isFall = true;
@@ -105,13 +111,20 @@ void Player::Jump() {
 	if (isFall) {	// 落下処理
 		jumpDis = 0;
 		jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
+		// ジャンプゲージ用の変数を更新
+		if (isGravityBottom) {
+			jumpHeightPct = base.ClampNumF((transform.position.y - BOTTOM_GROUND) / (jumpMaxHeight - BOTTOM_GROUND), 0, 1);
+		}
+		else {
+			jumpHeightPct = base.ClampNumF((TOP_GROUND - transform.position.y) / (TOP_GROUND - jumpMaxHeight), 0, 1);
+		}
 		// 落下アニメーションを再生
 		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - transform.position.y) < 100) {		//リファクタリング
 			modelIndex = 2;
 			PlayAnimation(modelData[modelIndex], false);
 		}
 		// 画面上部からはみ出たらゲームオーバー
-		if (transform.position.y > 3000) {
+		if (transform.position.y > 2500) {
 			fadeManager.ChangeUIState(GAMEOVER, NOTFADE);
 			audioManager.PlaySE(audioManager.JINGLE_GAMEOVER);
 		}
