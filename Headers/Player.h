@@ -62,10 +62,15 @@ public:
 	/// <summary> 何回加速したかを返す </summary>
 	int		GetChangeSpeedCount()const		{ return changeSpeedCount; }
 	/// <summary> 落下方向が下かを返す </summary>
-	bool	GetIsGravityBottom()			{ return isGravityBottom; }
+	bool	GetIsGravityBottom()const		{ return isGravityBottom; }
+	/// <summary> プレイヤー落下中かを返す </summary>
+	bool	GetIsFall()const  				{ return isFall; }
 	/// <summary> オブジェクトとプレイヤーの距離を返す </summary>
 	float	GetJumpDis()const				{ return jumpDis; }
+	/// <summary> ジャンプボタンを押し込んでいる時間を計測 </summary>
 	int		GetPressedJump()const			{ return pressedJump; }
+	/// <summary> ジャンプ落下時の地面までの距離を割合で返す </summary>
+	float	GetJumpHeightPct()const			{ return jumpHeightPct; }
 
 	/// <summary> 座標を設定 </summary>
 	void	SetPosition(VECTOR _position)	{ transform.position = _position; }
@@ -88,6 +93,8 @@ private:
 	// ジャンプ、落下処理で使用
 
 	int			pressedJump = 0;			// Spaceを押している時間を取得
+	float		jumpMaxHeight = 0;			// ジャンプ時の最高到達点を格納
+	float		jumpHeightPct = 0;			// ジャンプ中の地面との距離をの割合で保存
 	int			pressedMomentTime = 0;		// Spaceを押した瞬間の時間を取得
 	float		jumpPower = 0;				// 実際のジャンプ力を入れる変数
 	int			modelIndex = 0;				// 使用するモデルアニメーション
