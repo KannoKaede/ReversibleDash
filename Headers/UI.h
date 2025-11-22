@@ -173,6 +173,8 @@ private:
 	ImageData				carWindow;
 	ImageData				titleCarWindow;
 	ImageData				skyImage;
+	ImageData				runImage[2];
+	ImageData				jumpImage[2];
 
 	// 描画するシーン群
 	TitleScene				titleScene;

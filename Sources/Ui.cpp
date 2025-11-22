@@ -69,6 +69,15 @@ void UIManager::SetUp() {
 
 	skyImage.image = LoadGraph("Resource/Images/SkyImage.png");
 	GetGraphSize(skyImage.image, &skyImage.width, &skyImage.height);
+
+	runImage[0].image = LoadGraph("Resource/Images/UIs/Run1.png");
+	GetGraphSize(runImage[0].image, &runImage[0].width, &runImage[0].height);
+	runImage[1].image = LoadGraph("Resource/Images/UIs/Run2.png");
+	GetGraphSize(runImage[1].image, &runImage[1].width, &runImage[1].height);
+	jumpImage[0].image = LoadGraph("Resource/Images/UIs/Jump1.png");
+	GetGraphSize(jumpImage[0].image, &jumpImage[0].width, &jumpImage[0].height);
+	jumpImage[1].image = LoadGraph("Resource/Images/UIs/Jump2.png");
+	GetGraphSize(jumpImage[1].image, &jumpImage[1].width, &jumpImage[1].height);
 }
 
 void UIManager::DrawUI(Player& _player) {
@@ -157,24 +166,13 @@ void UIManager::DrawStartCountDown() {
 }
 
 void UIManager::DrawProgressRateBar(const Player& player, float startPct, float endPct, float heightPct) {
+	static int count;	// 画像を切り替えるために使用するカウント変数
+	if (!base.GetIsGameStop())count++;
 	float progressPct = base.ClampNumF(player.GetPosition().x / stageManager.GetGoalPosition(base.GetStageNumber()), 0, 1);	// スタートから進んだ割合を求める
-	float playerPct = (endPct - startPct) * progressPct;	// バー左端と右端の長さに進んだ割合をかけてバー上でのプレイヤーの座標を取得
-
-	// バー背景の長方形を描画
-	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, startPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct - 1),
-		base.ScreenDrawPosI(base.GetScreen().width, endPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct + 1), COLOR_LIGHTGRAY, TRUE);
-	// バー背景左端の丸を描画
-	DrawCircleAA(base.ScreenDrawPosF(base.GetScreen().width, startPct), base.ScreenDrawPosF(base.GetScreen().height, heightPct),
-		base.ScreenDrawPosF(base.GetScreen().width, 0.8f), 64, COLOR_MINTGREEN, TRUE);
-	// バー背景右端の丸を描画
-	DrawCircleAA(base.ScreenDrawPosF(base.GetScreen().width, endPct), base.ScreenDrawPosF(base.GetScreen().height, heightPct),
-		base.ScreenDrawPosF(base.GetScreen().width, 0.8f), 64, COLOR_LIGHTGRAY, TRUE);
-	// プレイヤーの位置を表す丸を描画する
-	DrawCircleAA(base.ScreenDrawPosF(base.GetScreen().width, startPct + playerPct), base.ScreenDrawPosF(base.GetScreen().height, heightPct),
-		base.ScreenDrawPosF(base.GetScreen().width, 0.8f), 64, COLOR_MINTGREEN, TRUE);	// プレイヤー座標
-	// プレイヤーの丸が通った後を緑に染める四角を描画
-	DrawBox(base.ScreenDrawPosI(base.GetScreen().width, startPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct - 1),
-		base.ScreenDrawPosI(base.GetScreen().width, startPct + playerPct), base.ScreenDrawPosI(base.GetScreen().height, heightPct + 1), COLOR_MINTGREEN, TRUE);
+	float playerPct = startPct + (endPct - startPct) * progressPct;	// バー左端と右端の長さに進んだ割合をかけてバー上でのプレイヤーの座標を取得
+	DrawRoundRect(startPct, heightPct - 0.5f, endPct, heightPct + 0.5f, 0.5f, COLOR_LIGHTGRAY, ANGLE_NONE);	// ゲージ枠の描画
+	DrawRoundRect(startPct, heightPct - 0.5f, playerPct, heightPct + 0.5f, 0.5f, COLOR_MINTGREEN, ANGLE_NONE);	// ゲージ内側の描画
+	DrawImage(playerPct - 2, heightPct - 5, runImage[count % 20 < 10 ? 0 : 1]);	// 走っている画像を交互に描画してアニメーションさせる
 }
 
 void UIManager::DrawJumpPct(int _pressedJump) {
@@ -373,7 +371,7 @@ void InGameScene::Draw(Player& _player) {
 	uiManager.DrawString(23.5f, 0, 95.7f, "Pause", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 	uiManager.DrawString(37.5, 0, 95.7f, "Jump", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 
-	uiManager.DrawProgressRateBar(_player, 50, 97, 96.5f);	// 進捗率バーの描画
+	uiManager.DrawProgressRateBar(_player, 50, 97, 98);	// 進捗率バーの描画
 	uiManager.DrawJumpPct(_player.GetPressedJump());	// ジャンプゲージの描画
 }
 
