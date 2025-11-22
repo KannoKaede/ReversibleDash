@@ -45,22 +45,18 @@ void UIManager::SetUp() {
 	GetGraphSize(keySpace.image, &keySpace.width, &keySpace.height);
 
 	// ゲーム説明画像のロード、サイズ取得
-	explanations[0].image = LoadGraph("Resource/Images/Explanations/0_PlayerJump.png");
+	explanations[0].image = LoadGraph("Resource/Images/Explanations/0_GameImage.png");
 	GetGraphSize(explanations[0].image, &explanations[0].width, &explanations[0].height);
-	explanations[1].image = LoadGraph("Resource/Images/Explanations/0_JumpGauge.png");
+	explanations[1].image = LoadGraph("Resource/Images/Explanations/1_Cloud.png");
 	GetGraphSize(explanations[1].image, &explanations[1].width, &explanations[1].height);
 	explanations[2].image = LoadGraph("Resource/Images/Explanations/1_SmallCar.png");
 	GetGraphSize(explanations[2].image, &explanations[2].width, &explanations[2].height);
 	explanations[3].image = LoadGraph("Resource/Images/Explanations/1_LargeCar.png");
 	GetGraphSize(explanations[3].image, &explanations[3].width, &explanations[3].height);
-	explanations[4].image = LoadGraph("Resource/Images/Explanations/1_Cloud.png");
+	explanations[4].image = LoadGraph("Resource/Images/Explanations/2_ScoreCar.png");
 	GetGraphSize(explanations[4].image, &explanations[4].width, &explanations[4].height);
-	explanations[5].image = LoadGraph("Resource/Images/Explanations/1_ProgressBar.png");
+	explanations[5].image = LoadGraph("Resource/Images/Explanations/2_ScoreCloud.png");
 	GetGraphSize(explanations[5].image, &explanations[5].width, &explanations[5].height);
-	explanations[6].image = LoadGraph("Resource/Images/Explanations/2_ScoreCar.png");
-	GetGraphSize(explanations[6].image, &explanations[6].width, &explanations[6].height);
-	explanations[7].image = LoadGraph("Resource/Images/Explanations/2_ScoreCloud.png");
-	GetGraphSize(explanations[7].image, &explanations[7].width, &explanations[7].height);
 
 	carWindow.image = LoadGraph("Resource/Images/UIs/CarWindow.png");
 	GetGraphSize(carWindow.image, &carWindow.width, &carWindow.height);
@@ -448,25 +444,23 @@ void ExplanationScene::Draw() {
 	switch (currentPage)
 	{
 	case 0:
-		uiManager.DrawString(25, 0, 59, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(25, 0, 41, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと反対側の地面に落下する。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(25, 0, 80, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。中央の緑の円がプレイヤーの位置、\n右側の灰色の円がゴールの位置を示している。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawImage(13, 50, uiManager.GetExplanations(0));	// プレイヤージャンプ画像
-		uiManager.DrawImage(13, 68, uiManager.GetExplanations(1));	// ジャンプゲージ画像
-		uiManager.DrawImage(6, 35, uiManager.GetExplanations(5));	// ステージ進捗率画像
+		uiManager.DrawString(44, 0, 39, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(44, 0, 56, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと\n反対側の地面に落下する。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(44, 0, 77, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。\n走っている少年の画像がどれくらい進んでいるか表している。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawImage(6, 35, uiManager.GetExplanations(0));	// ゲーム画面
 		break;
 	case 1:
 		uiManager.DrawString(39, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetMeiryoFontData().handle, COLOR_BLACK);
 		uiManager.DrawString(39, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
 		uiManager.DrawString(39, 0, 78, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawImage(20, 39, uiManager.GetExplanations(4));	// 雲画像
-		uiManager.DrawImage(20, 57, uiManager.GetExplanations(2));	// 小型車画像
-		uiManager.DrawImage(13, 72, uiManager.GetExplanations(3));	// 大型車画像
+		uiManager.DrawImage(17, 39, uiManager.GetExplanations(1));	// 雲画像
+		uiManager.DrawImage(17, 57, uiManager.GetExplanations(2));	// 小型車画像
+		uiManager.DrawImage(11, 72, uiManager.GetExplanations(3));	// 大型車画像
 		break;
 	case 2:
 		uiManager.DrawString(0, 100, 80, "ギリギリでジャンプするほどスコアが沢山もらえる。\n欲張ってGAMEOVERになったら元も子もない。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawImage(19, 38, uiManager.GetExplanations(6));	// 車ジャンプ画像
-		uiManager.DrawImage(54, 38, uiManager.GetExplanations(7));	// 雲ジャンプ画像
+		uiManager.DrawImage(19, 38, uiManager.GetExplanations(4));	// 車ジャンプ画像
+		uiManager.DrawImage(54, 38, uiManager.GetExplanations(5));	// 雲ジャンプ画像
 		break;
 	}
 	
