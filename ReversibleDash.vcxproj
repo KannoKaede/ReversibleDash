@@ -168,7 +168,6 @@
     <ClCompile Include="Sources\Base.cpp" />
     <ClCompile Include="Sources\Button.cpp" />
     <ClCompile Include="Sources\CameraLight.cpp" />
-    <ClCompile Include="Sources\Effect.cpp" />
     <ClCompile Include="Sources\Input.cpp" />
     <ClCompile Include="Sources\Main.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
@@ -180,7 +179,6 @@
     <ClInclude Include="Headers\Audio.h" />
     <ClInclude Include="Headers\Button.h" />
     <ClInclude Include="Headers\CameraLight.h" />
-    <ClInclude Include="Headers\Effect.h" />
     <ClInclude Include="Headers\Input.h" />
     <ClInclude Include="Headers\Main.h" />
     <ClInclude Include="Headers\Player.h" />
@@ -189,19 +187,22 @@
     <ClInclude Include="Headers\UI.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\CarWindow.png" />
-    <Image Include="Resource\Images\Explanations\Cloud.png" />
-    <Image Include="Resource\Images\Explanations\JumpGauge.png" />
-    <Image Include="Resource\Images\Explanations\LargeCar.png" />
-    <Image Include="Resource\Images\Explanations\PlayerJump.png" />
-    <Image Include="Resource\Images\Explanations\ProgressBar.png" />
-    <Image Include="Resource\Images\Explanations\ScoreCar.png" />
-    <Image Include="Resource\Images\Explanations\ScoreCloud.png" />
-    <Image Include="Resource\Images\Explanations\SmallCar.png" />
+    <Image Include="Resource\Images\Explanations\0_GameImage.png" />
+    <Image Include="Resource\Images\Explanations\1_Cloud.png" />
+    <Image Include="Resource\Images\Explanations\1_LargeCar.png" />
+    <Image Include="Resource\Images\Explanations\1_SmallCar.png" />
+    <Image Include="Resource\Images\Explanations\2_ScoreCar.png" />
+    <Image Include="Resource\Images\Explanations\2_ScoreCloud.png" />
     <Image Include="Resource\Images\Keys\EscapeKey.png" />
     <Image Include="Resource\Images\Keys\SpaceKey.png" />
     <Image Include="Resource\Images\Keys\WASD.png" />
-    <Image Include="Resource\Images\TitleCarWindow.png" />
+    <Image Include="Resource\Images\SkyImage.png" />
+    <Image Include="Resource\Images\UIs\CarWindow.png" />
+    <Image Include="Resource\Images\UIs\Jump1.png" />
+    <Image Include="Resource\Images\UIs\Jump2.png" />
+    <Image Include="Resource\Images\UIs\Run1.png" />
+    <Image Include="Resource\Images\UIs\Run2.png" />
+    <Image Include="Resource\Images\UIs\TitleCarWindow.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
