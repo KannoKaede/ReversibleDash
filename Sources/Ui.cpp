@@ -324,7 +324,7 @@ void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 
 void TitleScene::Draw() {
 	uiManager.DrawString(0, 100, 5, "ReversibleDash", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// タイトルの描画
-	uiManager.DrawString(83, 0, 95, "Ver 1.0.00.01", base.GetChihayaFontData(MEDIUM).handle, COLOR_WHITE);	// バージョンの描画
+	uiManager.DrawString(83, 0, 95, "Ver 1.0.01.00", base.GetChihayaFontData(MEDIUM).handle, COLOR_WHITE);	// バージョンの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
