@@ -382,7 +382,7 @@ void StoryScene::Draw() {
 	if (startTime + WAIT_TIME > GetNowCount()) return;
 
 	// 表示内容更新処理
-	if (input.KeyDown(KEY_INPUT_SPACE) && textAddCount > textLength[storyNumber]) {
+	if (input.KeyDown(KEY_INPUT_SPACE)) {
 		if (storyNumber == 2) {	// 最後のストーリーだった場合処理を抜けてタイトルに遷移
 			fadeManager.ChangeUIState(TITLE, FADEOUT);
 			storyNumber = -1;
