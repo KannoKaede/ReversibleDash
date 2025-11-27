@@ -40,6 +40,9 @@
     <Filter Include="リソース ファイル\Images\Explanations">
       <UniqueIdentifier>{11f6cfb6-04cb-45ca-ad12-7ee1c0dcacb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Images\UIs">
+      <UniqueIdentifier>{f3650ea4-0582-4dac-8189-59f721d17deb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\Audios\BGM_InGame.mp3">
@@ -187,44 +190,50 @@
     <Image Include="Resource\Images\Keys\EscapeKey.png">
       <Filter>リソース ファイル\Images\Keys</Filter>
     </Image>
-    <Image Include="Resource\Images\Explanations\0_GameImage.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\Explanations\1_Cloud.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\Explanations\1_LargeCar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\Explanations\1_SmallCar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\Explanations\2_ScoreCar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\Explanations\2_ScoreCloud.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Resource\Images\SkyImage.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
     <Image Include="Resource\Images\UIs\CarWindow.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
     </Image>
     <Image Include="Resource\Images\UIs\Jump1.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
     </Image>
     <Image Include="Resource\Images\UIs\Jump2.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
     </Image>
     <Image Include="Resource\Images\UIs\Run1.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
     </Image>
     <Image Include="Resource\Images\UIs\Run2.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\0_GameImage.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\1_Cloud.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\1_LargeCar.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\1_SmallCar.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\2_ScoreCar.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
+    </Image>
+    <Image Include="Resource\Images\Explanations\2_ScoreCloud.png">
+      <Filter>リソース ファイル\Images\Explanations</Filter>
     </Image>
     <Image Include="Resource\Images\UIs\TitleCarWindow.png">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Images\UIs</Filter>
+    </Image>
+    <Image Include="Resource\Images\UIs\TitleMovie_1.png">
+      <Filter>リソース ファイル\Images\UIs</Filter>
+    </Image>
+    <Image Include="Resource\Images\UIs\TitleMovie_2.png">
+      <Filter>リソース ファイル\Images\UIs</Filter>
+    </Image>
+    <Image Include="Resource\Images\SkyImage.png">
+      <Filter>リソース ファイル\Images</Filter>
     </Image>
   </ItemGroup>
 </Project>
