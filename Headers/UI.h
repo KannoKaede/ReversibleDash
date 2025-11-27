@@ -45,6 +45,7 @@ struct ImageData {	// 画像データ構造体
 
 class StoryScene {
 public:
+	StoryScene() :storyNumber(), nextStoryNumber(), drawText(), drawCount(), textAddCount(), startTime() {};
 	void Draw();
 private:
 	int storyNumber;
