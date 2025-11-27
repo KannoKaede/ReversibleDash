@@ -90,7 +90,7 @@ public:
 	/// <summary> ちはやチョークのフォントデータを返す </summary>
 	FontData GetChihayaFontData(int _fontType)const	{ return chihaya_FontData[_fontType]; }
 	/// <summary> メイリオのフォントデータを返す </summary>
-	FontData GetMeiryoFontData()const { return meiryo_FontData; }
+	FontData GetJapaneseFontData()const { return japanese_FontData; }
 	/// <summary> 現在のステージ番号を返す </summary>
 	int GetStageNumber()const					{ return stageNumber; }
 	/// <summary> 現在ゲームが止まっているかを返す </summary>
@@ -106,7 +106,7 @@ public:
 private:
 	ScreenSize	screen;						// 画面サイズ情報
 	FontData	chihaya_FontData[FONT_TYPE_NUM];	// フォント情報
-	FontData	meiryo_FontData;
+	FontData	japanese_FontData;
 	int			stageNumber;				// ステージ番号
 	bool		isGameStop;					// ゲームが停止しているかのフラグ
 };
