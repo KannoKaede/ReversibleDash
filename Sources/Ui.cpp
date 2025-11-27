@@ -86,7 +86,7 @@ void UIManager::DrawUI(Player& _player) {
 	// fadeManager.ChangeUIState() → 第一引数 : どの画面に遷移するか指定, 第二引数, フェード処理を行うか指定
 
 	if (base.IsDrawInGame())DrawImage(0, 0, carWindow);
-	else if(uiManager.CheckScreen(TITLE)) DrawImage(0, 0, titleCarWindow);
+	else if(!uiManager.CheckScreen(STORY)) DrawImage(0, 0, titleCarWindow);
 
 	switch (currentScreen) {
 	case STORY:
