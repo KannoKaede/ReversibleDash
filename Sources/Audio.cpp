@@ -16,15 +16,15 @@ void AudioManager::SetUp() {
 	bgm[OUTGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_Title.mp3");
 	bgm[INGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_InGame.mp3");
 	// 音量設定
-	ChangeVolumeSoundMem(80, se[BUTTON_MOVE]);
-	ChangeVolumeSoundMem(80, se[BUTTON_BEEP]);
-	ChangeVolumeSoundMem(80, se[BUTTON_SELECT]);
-	ChangeVolumeSoundMem(40, se[JINGLE_CLEAR]);
-	ChangeVolumeSoundMem(40, se[JINGLE_GAMEOVER]);
-	ChangeVolumeSoundMem(40, se[UI_READY]);
-	ChangeVolumeSoundMem(40, se[UI_GO]);
-	ChangeVolumeSoundMem(30, bgm[OUTGAME_BGM]);
-	ChangeVolumeSoundMem(30, bgm[INGAME_BGM]);
+	ChangeVolumeSoundMem(200, se[BUTTON_MOVE]);
+	ChangeVolumeSoundMem(200, se[BUTTON_BEEP]);
+	ChangeVolumeSoundMem(200, se[BUTTON_SELECT]);
+	ChangeVolumeSoundMem(100, se[JINGLE_CLEAR]);
+	ChangeVolumeSoundMem(100, se[JINGLE_GAMEOVER]);
+	ChangeVolumeSoundMem(100, se[UI_READY]);
+	ChangeVolumeSoundMem(100, se[UI_GO]);
+	ChangeVolumeSoundMem(100, bgm[OUTGAME_BGM]);
+	ChangeVolumeSoundMem(100, bgm[INGAME_BGM]);
 }
 
 void AudioManager::PlaySE(SeType seHandle)const {

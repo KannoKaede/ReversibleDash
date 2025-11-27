@@ -203,6 +203,8 @@
     <Image Include="Resource\Images\UIs\Run1.png" />
     <Image Include="Resource\Images\UIs\Run2.png" />
     <Image Include="Resource\Images\UIs\TitleCarWindow.png" />
+    <Image Include="Resource\Images\UIs\TitleMovie_1.png" />
+    <Image Include="Resource\Images\UIs\TitleMovie_2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
