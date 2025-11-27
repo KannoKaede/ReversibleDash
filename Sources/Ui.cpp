@@ -10,7 +10,7 @@
 
 // 使用する全てのボタンのインスタンスをここで用意
 // ({ 描画画面, ボタンマップY, ボタンマップX }, { 画面描画座標(中心), ボタンの長さの半分, ボタンのt傘の半分 }, ボタンの処理を設定, 描画テキスト, 描画テキストで使用するフォント)
-Button startBtn			({ TITLE,		1, 1 },	{ { 50, 43 }, 12, 4 },	ButtonType::Start,			"GameStart",	LARGE);
+Button startBtn			({ TITLE,		1, 1 },	{ { 50, 43 }, 12, 4 },	ButtonType::Start,			"ArcadeMode",	LARGE);
 Button stageSelectBtn	({ TITLE,		2, 1 },	{ { 50, 61 }, 12, 4 },	ButtonType::StageSelect,	"StageSelect",	LARGE);
 Button quitBtn			({ TITLE,		3, 1 },	{ { 50, 79 }, 12, 4 },	ButtonType::Quit,			"GameQuit",		LARGE);
 Button pickStage1Btn	({ STAGESELECT, 1, 1 },	{ { 28, 48 },  5, 6 },	ButtonType::PickStage,		"Lv.1",			MEDIUM);
@@ -62,6 +62,10 @@ void UIManager::SetUp() {
 	GetGraphSize(carWindow.image, &carWindow.width, &carWindow.height);
 	titleCarWindow.image = LoadGraph("Resource/Images/UIs/TitleCarWindow.png");
 	GetGraphSize(titleCarWindow.image, &titleCarWindow.width, &titleCarWindow.height);
+	storyImage_1.image = LoadGraph("Resource/Images/UIs/TitleMovie_1.png");
+	GetGraphSize(storyImage_1.image, &storyImage_1.width, &storyImage_1.height);
+	storyImage_2.image = LoadGraph("Resource/Images/UIs/TitleMovie_2.png");
+	GetGraphSize(storyImage_2.image, &storyImage_2.width, &storyImage_2.height);
 
 	skyImage.image = LoadGraph("Resource/Images/SkyImage.png");
 	GetGraphSize(skyImage.image, &skyImage.width, &skyImage.height);
@@ -82,9 +86,12 @@ void UIManager::DrawUI(Player& _player) {
 	// fadeManager.ChangeUIState() → 第一引数 : どの画面に遷移するか指定, 第二引数, フェード処理を行うか指定
 
 	if (base.IsDrawInGame())DrawImage(0, 0, carWindow);
-	else DrawImage(0, 0, titleCarWindow);
+	else if(uiManager.CheckScreen(TITLE)) DrawImage(0, 0, titleCarWindow);
 
 	switch (currentScreen) {
+	case STORY:
+		storyScene.Draw();
+		break;
 	case TITLE:
 		titleScene.Draw();
 		if (input.KeyDown(KEY_INPUT_ESCAPE)) {
@@ -207,7 +214,6 @@ void UIManager::DrawString(float _leftPct, float _rightPct, float _heightPct, st
 	int drawPosY = base.ScreenDrawPosI(base.GetScreen().height, _heightPct);	// 描画座標Yを計算
 	// 文字を描画
 	DrawStringToHandle(drawPosX, drawPosY, _text.c_str(), _color, _font);
-	DrawStringToHandle(drawPosX, drawPosY, _text.c_str(), _color, _font);
 }
 
 void UIManager::DrawImage(float leftPct, float topPct, ImageData image) {
@@ -250,6 +256,29 @@ void UIManager::DrawRoundRect(float _leftPct, float _topPct, float _rightPct, fl
 	// 右下の角をか配らせる
 	if (_angle == RIGHTBOTTOM || _angle == LEFTTOP_LEFTRIGHTBOTTOM || _angle == RIGHTTOP_LEFTRIGHTBOTTOM || _angle == ANGLE_ALL)
 		DrawBoxAA(centerPosX, centerPosY, rightPos, bottomPos, _color, TRUE);
+}
+
+std::string UIManager::WStringToString (std::wstring oWString)
+{
+	// wstring → SJIS
+	int iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str()
+		, -1, (char*)NULL, 0, NULL, NULL);
+
+	// バッファの取得
+	CHAR* cpMultiByte = new CHAR[iBufferSize];
+
+	// wstring → SJIS
+	WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str(), -1, cpMultiByte
+		, iBufferSize, NULL, NULL);
+
+	// stringの生成
+	std::string oRet(cpMultiByte, cpMultiByte + iBufferSize - 1);
+
+	// バッファの破棄
+	delete[] cpMultiByte;
+
+	// 変換結果を返す
+	return(oRet);
 }
 
 /*FadeManagerクラス---------------------------------------------------------------------------------------------------------*/
@@ -322,9 +351,68 @@ void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 
 /*描画内容をまとめたクラス---------------------------------------------------------------------------------------------------------*/
 
+void StoryScene::Draw() {
+	// 描画
+	switch (storyNumber) {
+	case 0:
+		uiManager.DrawImage(0, 0, uiManager.GetStoryImage_1());
+		uiManager.DrawString(55, 0, 84, drawText, base.GetJapaneseFontData().handle, COLOR_WHITE);
+		break;
+	case 1:
+		uiManager.DrawImage(0, 0, uiManager.GetStoryImage_2());
+		uiManager.DrawString(55, 0, 84, drawText, base.GetJapaneseFontData().handle, COLOR_WHITE);
+		break;
+	case 2:
+		uiManager.DrawImage(0, 0, uiManager.GetTitleCarWindow());
+		uiManager.DrawString(55, 0, 84, drawText, base.GetJapaneseFontData().handle, COLOR_WHITE);
+		break;
+	}
+	if (textAddCount > textLength[storyNumber]) {
+		uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
+		if(storyNumber ==2||storyNumber == -1)
+			uiManager.DrawString(37.5f, 0, 95.7f, "PlayGame", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
+		else
+			uiManager.DrawString(37.5f, 0, 95.7f, "Next", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
+	}
+
+	// 表示するストーリーを切り替えた際に待機時間を作る
+	if (fadeManager.GetFadeState() == FADEWAIT)storyNumber = nextStoryNumber;
+	if (fadeManager.GetIsFading()) return;
+	if (startTime == 0) startTime = GetNowCount();
+	if (startTime + WAIT_TIME > GetNowCount()) return;
+
+	// 表示内容更新処理
+	if (input.KeyDown(KEY_INPUT_SPACE) && textAddCount > textLength[storyNumber]) {
+		if (storyNumber == 2) {	// 最後のストーリーだった場合処理を抜けてタイトルに遷移
+			fadeManager.ChangeUIState(TITLE, FADEOUT);
+			storyNumber = -1;
+			return;
+		}
+		else // フェードを挟み、次のストーリーを表示
+			fadeManager.ChangeUIState(STORY, FADEOUT);
+
+		// 次の文字を描画するために変数を全て初期化する
+		drawText = "";
+		drawCount = 0;
+		textAddCount = 0;
+		nextStoryNumber++;
+		startTime = 0;
+		return;
+	}
+
+	// 文字を一文字ずつ追加していく処理
+	drawCount++;
+	if (drawCount > 6 ) {	// 文字の定義が存在する間文字を追加する
+		textAddCount = base.ClampNumI(textAddCount+1,0,255);	// 追加した文字数をカウント
+		drawCount = 0;
+	}
+	// 描画する文字を一文字ずつ画面に表示する：元の変数がwstringのためstringに変換する関数をかませる
+	drawText = uiManager.WStringToString(DRAW_TEXT[storyNumber].substr(0, textAddCount));
+}
+
 void TitleScene::Draw() {
 	uiManager.DrawString(0, 100, 5, "ReversibleDash", base.GetChihayaFontData(EXTRALARGE).handle, COLOR_WHITE);	// タイトルの描画
-	uiManager.DrawString(83, 0, 95, "Ver 1.0.01.00", base.GetChihayaFontData(MEDIUM).handle, COLOR_WHITE);	// バージョンの描画
+	uiManager.DrawString(83, 0, 95, "Ver 1.0.02.00", base.GetChihayaFontData(MEDIUM).handle, COLOR_WHITE);	// バージョンの描画
 
 	// 操作説明の描画
 	uiManager.DrawImage(20, 95, uiManager.GetImageWASD());
@@ -444,21 +532,21 @@ void ExplanationScene::Draw() {
 	switch (currentPage)
 	{
 	case 0:
-		uiManager.DrawString(44, 0, 39, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(44, 0, 56, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと\n反対側の地面に落下する。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(44, 0, 77, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。\n走っている少年の画像がどれくらい進んでいるか表している。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(44, 0, 39, "移動は強制横スクロールで自動で動く。\n\"Spaceキー\"を押し込むことでジャンプすることが出来る。", base.GetJapaneseFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(44, 0, 56, "画面左下にあるゲージ\nこのゲージはジャンプの押し込み時間を表している。\nこのゲージが満タンになるまで押し込むと\n反対側の地面に落下する。", base.GetJapaneseFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(44, 0, 77, "画面右下にあるゲージ\nこのゲージはステージ進捗率を表している。\n走っている少年の画像がどれくらい進んでいるか表している。", base.GetJapaneseFontData().handle, COLOR_BLACK);
 		uiManager.DrawImage(6, 35, uiManager.GetExplanations(0));	// ゲーム画面
 		break;
 	case 1:
-		uiManager.DrawString(39, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(39, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
-		uiManager.DrawString(39, 0, 78, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(39, 0, 42, "画面上部に配置されている雲。\n下の地面と同様、足場として使える。\n下の地面と違ってずっと繋がってはいないので注意。", base.GetJapaneseFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(39, 0, 60, "画面下部の道路を走っている小型車。\n当たらないようにジャンプして避けてほしい。", base.GetJapaneseFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(39, 0, 78, "画面下部の道路を走っている大型車。\n普通のジャンプでは避けられないので画面上部に逃げてほしい。", base.GetJapaneseFontData().handle, COLOR_BLACK);
 		uiManager.DrawImage(17, 39, uiManager.GetExplanations(1));	// 雲画像
 		uiManager.DrawImage(17, 57, uiManager.GetExplanations(2));	// 小型車画像
 		uiManager.DrawImage(11, 72, uiManager.GetExplanations(3));	// 大型車画像
 		break;
 	case 2:
-		uiManager.DrawString(0, 100, 80, "ギリギリでジャンプするほどスコアが沢山もらえる。\n欲張ってGAMEOVERになったら元も子もない。", base.GetMeiryoFontData().handle, COLOR_BLACK);
+		uiManager.DrawString(0, 100, 80, "ギリギリでジャンプするほどスコアが沢山もらえる。\n欲張ってGAMEOVERになったら元も子もない。", base.GetJapaneseFontData().handle, COLOR_BLACK);
 		uiManager.DrawImage(19, 38, uiManager.GetExplanations(4));	// 車ジャンプ画像
 		uiManager.DrawImage(54, 38, uiManager.GetExplanations(5));	// 雲ジャンプ画像
 		break;

@@ -13,7 +13,8 @@ enum SCREEN_TYPE	// 画面の状態を定義
 	GAMECLEAR,		// ステージクリア（最後のステージ）
 	BUTTON_NUM,		// ボタンがある画面の数
 	INGAME,			// ゲーム中
-	EXPLANATION		// ゲームの仕様等を開設する画面
+	EXPLANATION,	// ゲームの仕様等を開設する画面
+	STORY			// ゲーム起動時のストーリー
 };
 
 enum FADE_STATE {	// フェードの状態を定義
@@ -40,6 +41,26 @@ struct ImageData {	// 画像データ構造体
 	int image;	// 画像ハンドル
 	int width;	// 画像の幅
 	int height;	// 画像の高さ
+};
+
+class StoryScene {
+public:
+	void Draw();
+private:
+	int storyNumber;
+	int nextStoryNumber;
+	std::string drawText;
+	int drawCount;
+	int textAddCount;
+	int startTime;
+
+	static constexpr int WAIT_TIME = 400;
+	static constexpr int textLength[3] = { 80,95,110 };
+
+	const std::wstring DRAW_TEXT[3] = {
+		L"ティミー：ドライブ暇だなぁ.....　　　　　\nティミー：ママなんか楽しい遊びない？　　　　　\nマミー　：対向車を避ける遊びでもしてなさい　　　　　\n",
+		L"ティミー：それってどんな遊び？　　　　　\nマミー　：自分が対向車線に居る想像をして\n　　　　　ジャンプして避ける遊びよ　　　　　\nティミー：その遊び楽しそう！やってみるね　　　　　\n",
+		L"マミー　：ママも昔遊んでいたのよね。\n　　　　　どう？楽しい？　　　　　\nティミー：マミー！これ凄い楽しいよ！\n　　　　　雲に乗って避けるのも楽しい！　　　　　\nマミー　：ティミーが楽しんでくれて私も嬉しいわ"};
 };
 
 // タイトルシーンの描画処理を行うクラス
@@ -100,7 +121,7 @@ private:
 class UIManager {
 public:
 	/// <summary> コンストラクタ </summary>
-	UIManager() :currentScreen(), nextScreen(), keyWASD(), keySpace(), keyEscape(), explanations{}, carWindow(),titleCarWindow() {}
+	UIManager() :currentScreen(STORY), nextScreen(STORY), keyWASD(), keySpace(), keyEscape(), explanations{}, carWindow(),titleCarWindow() {}
 
 	/// <summary> コンストラクタではできない初期化処理を行うメソッド </summary>
 	void			SetUp();
@@ -131,6 +152,10 @@ public:
 	/// <param name="_angle"> 角を丸くしない箇所を指定 </param>
 	void			DrawRoundRect(float _topPct, float _bottomPct, float _leftPct, float _rightPct, float _radiusPct, int _color, ROUNDRECT_ANGLE _angle);
 
+	/// <summary> 文字を1文字ずつ描画するために一文字ずつ文字を代入する </summary>
+/// <param name="oWString"> 代入したい元の文字 </param>
+	std::string WStringToString(std::wstring oWString);
+
 	/// <summary> 現在の画面が指定の画面と等しいかを返す </summary>
 	bool			CheckScreen(SCREEN_TYPE screen)			{ return currentScreen == screen; }
 
@@ -146,6 +171,10 @@ public:
 	ImageData		GetCarWindow()const						{ return carWindow; }
 	/// <summary> タイトル背景画像を返す </summary>
 	ImageData		GetTitleCarWindow()const				{ return titleCarWindow; }
+	/// <summary> ストーリー背景画像を返す </summary>
+	ImageData		GetStoryImage_1()const					{ return storyImage_1; }
+	/// <summary> ストーリー背景画像を返す </summary>
+	ImageData		GetStoryImage_2()const					{ return storyImage_2; }
 	/// <summary> 空の画像を返す </summary>
 	ImageData		GetSkyImage()const						{ return skyImage; }
 	/// <summary> 現在の画面の状態を返す </summary>
@@ -172,11 +201,14 @@ private:
 	ImageData				explanations[8];
 	ImageData				carWindow;
 	ImageData				titleCarWindow;
+	ImageData				storyImage_1;
+	ImageData				storyImage_2;
 	ImageData				skyImage;
 	ImageData				runImage[2];
 	ImageData				jumpImage[2];
 
 	// 描画するシーン群
+	StoryScene				storyScene;
 	TitleScene				titleScene;
 	StageSelectScene		stageSelectScene;
 	PauseScene				pauseScene;
@@ -219,10 +251,11 @@ public:
 	/// <summary> 画面切り替えをする際に座標やデータを初期化 </summary>
 	void ChangeScene();
 
+	FADE_STATE GetFadeState()const		{ return fadeState; }
 	/// <summary> フェード中かを返す </summary>
-	bool GetIsFading()	{ return isFading; }
+	bool		GetIsFading()const		{ return isFading; }
 	/// <summary> 現在のα値を返す </summary>
-	int GetAlphaValue() { return alphaValue; }
+	int			GetAlphaValue()const	{ return alphaValue; }
 private:
 	FADE_STATE	fadeState;			// 現在のフェードの状態
 	bool		isFading;			// フェード中か判定
