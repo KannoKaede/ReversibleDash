@@ -13,9 +13,10 @@ public:
 		BUTTON_SELECT,		// ボタン選択
 		JINGLE_CLEAR,		// クリアジングル
 		JINGLE_GAMEOVER,	// ゲームオーバージングル
-		UI_READY,
-		UI_GO,
-		SE_MAX_NUM			// SEの種類の最大数
+		UI_READY,			// UIのReady音声
+		UI_GO,				// UIのGo音声
+		TEXT_DRAW,			// 文字描画効果音
+		SE_MAX_NUM,			// SEの種類の最大数
 	};
 
 	// BGMの種類の定義
