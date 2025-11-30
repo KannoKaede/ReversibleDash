@@ -13,6 +13,7 @@ void AudioManager::SetUp() {
 	se[JINGLE_GAMEOVER] = LoadSoundMem("Resource/Audios/JINGLE_GameOver.mp3");
 	se[UI_READY] = LoadSoundMem("Resource/Audios/SE_Ready.mp3");
 	se[UI_GO] = LoadSoundMem("Resource/Audios/SE_Go.mp3");
+	se[TEXT_DRAW] = LoadSoundMem("Resource/Audios/SE_TextDraw.mp3");
 	bgm[OUTGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_Title.mp3");
 	bgm[INGAME_BGM] = LoadSoundMem("Resource/Audios/BGM_InGame.mp3");
 	// 音量設定
@@ -23,6 +24,7 @@ void AudioManager::SetUp() {
 	ChangeVolumeSoundMem(100, se[JINGLE_GAMEOVER]);
 	ChangeVolumeSoundMem(100, se[UI_READY]);
 	ChangeVolumeSoundMem(100, se[UI_GO]);
+	ChangeVolumeSoundMem(80, se[TEXT_DRAW]);
 	ChangeVolumeSoundMem(100, bgm[OUTGAME_BGM]);
 	ChangeVolumeSoundMem(100, bgm[INGAME_BGM]);
 }

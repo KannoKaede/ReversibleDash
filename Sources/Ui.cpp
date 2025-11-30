@@ -367,14 +367,14 @@ void StoryScene::Draw() {
 		uiManager.DrawString(55, 0, 84, drawText, base.GetJapaneseFontData().handle, COLOR_WHITE);
 		break;
 	}
-	if (textAddCount > textLength[storyNumber]) {
+	if (textAddCount >= TEXT_LENGTH[storyNumber]) {
 		uiManager.DrawImage(32, 95, uiManager.GetImageSpace());
 		if(storyNumber ==2||storyNumber == -1)
 			uiManager.DrawString(37.5f, 0, 95.7f, "PlayGame", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 		else
 			uiManager.DrawString(37.5f, 0, 95.7f, "Next", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 	}
-
+	printfDx("%d", textAddCount);
 	// 表示するストーリーを切り替えた際に待機時間を作る
 	if (fadeManager.GetFadeState() == FADEWAIT)storyNumber = nextStoryNumber;
 	if (fadeManager.GetIsFading()) return;
@@ -383,6 +383,7 @@ void StoryScene::Draw() {
 
 	// 表示内容更新処理
 	if (input.KeyDown(KEY_INPUT_SPACE)) {
+		audioManager.PlaySE(audioManager.BUTTON_SELECT);
 		if (storyNumber == 2) {	// 最後のストーリーだった場合処理を抜けてタイトルに遷移
 			fadeManager.ChangeUIState(TITLE, FADEOUT);
 			storyNumber = -1;
@@ -402,8 +403,12 @@ void StoryScene::Draw() {
 
 	// 文字を一文字ずつ追加していく処理
 	drawCount++;
-	if (drawCount > 6 ) {	// 文字の定義が存在する間文字を追加する
-		textAddCount = base.ClampNumI(textAddCount+1,0,255);	// 追加した文字数をカウント
+	if (drawCount > 6) {	// 文字の定義が存在する間文字を追加する
+		textAddCount = base.ClampNumI(textAddCount+1,0,TEXT_LENGTH[storyNumber]);	// 追加した文字数をカウント
+		wchar_t text = DRAW_TEXT[storyNumber][textAddCount];
+		if (text != L'　' && text != L'\n' && textAddCount < TEXT_LENGTH[storyNumber] - 5) {
+			audioManager.PlaySE(audioManager.TEXT_DRAW);
+		}
 		drawCount = 0;
 	}
 	// 描画する文字を一文字ずつ画面に表示する：元の変数がwstringのためstringに変換する関数をかませる

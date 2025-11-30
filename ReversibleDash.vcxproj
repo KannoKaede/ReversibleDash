@@ -147,6 +147,7 @@
     <Media Include="Resource\Audios\SE_ButtonSelect.mp3" />
     <Media Include="Resource\Audios\SE_Go.mp3" />
     <Media Include="Resource\Audios\SE_Ready.mp3" />
+    <Media Include="Resource\Audios\SE_TextDraw.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Fonts\meiryo.ttc" />
