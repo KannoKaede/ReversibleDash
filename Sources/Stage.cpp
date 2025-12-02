@@ -403,7 +403,7 @@ void StageManager::Draw(Player& _player) {
 	bool test = false;
 	// 背景ステージの描画と衝突判定の設定
 	MV1DrawModel(cityHandle);
-	if (IsCollision(_player, VGet(12000, 0, 0), 40, 20000, false, false))test = true;	// リファクタリング：ステージを全部作り終わったら定数に変更
+	if (IsCollision(_player, VGet(12000, 0, 0), 40, 20000, false, false))test = true;	// 地面の衝突判定：接地判定を有効にする
 	// 車の描画
 	if (!base.GetIsGameStop()) carMoveX += -7;	// 車を左に移動させていく
 	for (int i = 0; i < carArray[base.GetStageNumber()].size(); i++) {
