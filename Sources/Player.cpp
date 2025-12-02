@@ -117,7 +117,7 @@ void Player::Jump() {
 			jumpHeightPct = base.ClampNumF((TOP_GROUND - transform.position.y) / (TOP_GROUND - jumpMaxHeight), 0, 1);
 		}
 		// 落下アニメーションを再生
-		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - transform.position.y) < 100) {		//リファクタリング
+		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - transform.position.y) < 100) {
 			modelIndex = 2;
 			PlayAnimation(modelData[modelIndex], false);
 		}
