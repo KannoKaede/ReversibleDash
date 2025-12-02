@@ -93,7 +93,7 @@ private:
 
 	static constexpr int	BUTTON_NUM_X = 6;					// ボタンマップXのサイズ
 	static constexpr int	BUTTON_NUM_Y = 5;					// ボタンマップYのサイズ
-	static constexpr int	BUTTON_NUM_SCREEN = 5;			// ボタンが存在する画面の数
+	static constexpr int	BUTTON_NUM_SCREEN = 6;			// ボタンが存在する画面の数
 	// ボタンのマップ情報：1 = ボタンがある　0 = ボタンが無い
 	static constexpr int buttonMap[BUTTON_NUM_SCREEN][BUTTON_NUM_Y][BUTTON_NUM_X] = {
 	{ // TITLE
@@ -130,8 +130,14 @@ private:
 		{0,0,0,0,0,0},
 		{0,0,0,0,0,0},
 		{0,0,0,0,0,0}
+	},
+	{ // STAGECLEAR
+		{0,0,0,0,0,0},
+		{0,1,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0},
+		{0,0,0,0,0,0}
 	}
 	};
 };
-
 extern ButtonManager buttonManager;

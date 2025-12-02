@@ -160,8 +160,8 @@ void UIManager::DrawStartCountDown() {
 	}
 	else if (fadeManager.GetAlphaValue() == 255) {	// 文字が完全に描画出来たらフェードアウトするように切り替える
 		isFadeOut = true;	// フェードアウト処理を行っている状態に切り替える
-
 		audioManager.PlaySE(drawCount == 0 ? audioManager.UI_READY : audioManager.UI_GO);
+
 		if (drawCount == 1) {
 			base.SetIsGameStop(false);	// 最後のテキスト描画時の場合ゲームの停止を解除する
 		}
@@ -374,7 +374,6 @@ void StoryScene::Draw() {
 		else
 			uiManager.DrawString(37.5f, 0, 95.7f, "Next", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
 	}
-	printfDx("%d", textAddCount);
 	// 表示するストーリーを切り替えた際に待機時間を作る
 	if (fadeManager.GetFadeState() == FADEWAIT)storyNumber = nextStoryNumber;
 	if (fadeManager.GetIsFading()) return;
@@ -382,7 +381,7 @@ void StoryScene::Draw() {
 	if (startTime + WAIT_TIME > GetNowCount()) return;
 
 	// 表示内容更新処理
-	if (input.KeyDown(KEY_INPUT_SPACE)) {
+	if (input.KeyDown(KEY_INPUT_SPACE)&&textAddCount >= TEXT_LENGTH[storyNumber]) {
 		audioManager.PlaySE(audioManager.BUTTON_SELECT);
 		if (storyNumber == 2) {	// 最後のストーリーだった場合処理を抜けてタイトルに遷移
 			fadeManager.ChangeUIState(TITLE, FADEOUT);
