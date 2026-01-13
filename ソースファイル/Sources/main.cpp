@@ -47,9 +47,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			buttonManager.UpdateButtonSelection();	//  ボタンの移動
 			buttonManager.ButtonPressed();	// ボタンが押されたときの処理
 		}
-		else {
-			
-		}
+
 		fadeManager.DrawFadeController();	// フェード処理：UIより後に処理を行わないとUIがフェードの前に出てきてしまう
 
 		ScreenFlip();

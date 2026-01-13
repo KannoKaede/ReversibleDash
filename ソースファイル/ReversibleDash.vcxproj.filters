@@ -72,6 +72,7 @@
     <Media Include="Resource\Audios\SE_Ready.mp3">
       <Filter>リソース ファイル\Audios</Filter>
     </Media>
+    <Media Include="Resource\Audios\SE_TextDraw.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\PlayerAnimations\Player_JumpDown.mv1">

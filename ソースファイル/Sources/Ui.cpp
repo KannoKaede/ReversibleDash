@@ -352,7 +352,6 @@ void FadeManager::ChangeUIState(SCREEN_TYPE screen, FADE_STATE fade) {
 /*描画内容をまとめたクラス---------------------------------------------------------------------------------------------------------*/
 
 void StoryScene::Draw() {
-	printfDx("%d",textAddCount);
 	// 描画
 	switch (storyNumber) {
 	case 0:

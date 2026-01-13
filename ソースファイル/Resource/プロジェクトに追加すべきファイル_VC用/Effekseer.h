@@ -896,20 +896,6 @@ struct Gradient
 	}
 };
 
-/**
-	@brief	A type of node
-*/
-enum class EffectNodeType : int32_t
-{
-	Root = -1,
-	NoneType = 0,
-	Sprite = 2,
-	Ribbon = 3,
-	Ring = 4,
-	Model = 5,
-	Track = 6,
-};
-
 enum class TextureColorType : int32_t
 {
 	Color,
@@ -3676,8 +3662,7 @@ struct EffectBasicRenderParameter
 */
 struct EffectModelParameter
 {
-	int32_t ModelIndex;
-	CullingType Culling;
+	bool Lighting;
 };
 
 /**
@@ -3701,14 +3686,9 @@ public:
 	virtual Effect* GetEffect() const = 0;
 
 	/**
-		@brief	Get the type of this node
-	*/
-	virtual EffectNodeType GetType() const = 0;
-
-	/**
-		@brief
-		\~English	Get a generation in the node tree. The generation increases by 1 as it moves a child node.
-		\~Japanese	ノードツリーの世代を取得する。世代は子のノードになるにしたがって1増える。
+	@brief
+	\~English	Get a generation in the node tree. The generation increases by 1 as it moves a child node.
+	\~Japanese	ノードツリーの世代を取得する。世代は子のノードになるにしたがって1増える。
 	*/
 	virtual int GetGeneration() const = 0;
 

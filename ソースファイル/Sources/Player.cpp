@@ -80,9 +80,7 @@ void Player::Jump() {
 			jumpMaxHeight = transform.position.y;
 			jumpHeightPct = 1;
 		}
-		else {
 			pressedJump = JUMP_LOCK_TIME - (pressedMomentTime + JUMP_LOCK_TIME - GetNowCount());
-		}
 	}
 	if (input.KeyUp(KEY_INPUT_SPACE) && !isGround && !isFall) {	// キーを離したときの処理
 		// まだ落下していなかったら落下を開始
@@ -110,12 +108,11 @@ void Player::Jump() {
 		jumpDis = 0;
 		jumpPower -= isGravityBottom ? GRAVITY : -GRAVITY;	// ジャンプパワーにグラビティを加算し続け加速しながら落下していく
 		// ジャンプゲージ用の変数を更新
-		if (isGravityBottom) {
-			jumpHeightPct = base.ClampNumF((transform.position.y - BOTTOM_GROUND) / (jumpMaxHeight - BOTTOM_GROUND), 0, 1);
-		}
-		else {
-			jumpHeightPct = base.ClampNumF((TOP_GROUND - transform.position.y) / (TOP_GROUND - jumpMaxHeight), 0, 1);
-		}
+		uiManager.DrawString(37.5f, 0, 95.7f, "PlayGame", base.GetChihayaFontData(SMALL).handle, COLOR_WHITE);
+		jumpHeightPct = isGravityBottom ? 
+			base.ClampNumF((transform.position.y - BOTTOM_GROUND) / (jumpMaxHeight - BOTTOM_GROUND), 0, 1):
+			base.ClampNumF((TOP_GROUND - transform.position.y) / (TOP_GROUND - jumpMaxHeight), 0, 1);
+
 		// 落下アニメーションを再生
 		if (fabsf(BOTTOM_GROUND - transform.position.y) < 100 || fabsf(TOP_GROUND - transform.position.y) < 100) {
 			modelIndex = 2;

@@ -56,7 +56,8 @@ private:
 	int startTime;
 
 	static constexpr int WAIT_TIME = 400;
-	static constexpr int TEXT_LENGTH[3] = { 80,96,115 };
+	static constexpr int TEXT_LENGTH[3] = { 0,0,0 };
+	//static constexpr int TEXT_LENGTH[3] = { 80,96,115 };
 
 	const std::wstring DRAW_TEXT[3] = {
 		L"ティミー：ドライブ暇だなぁ.....　　　　　\nティミー：マミーなんか楽しい遊びない？　　　　　\nマミー　：対向車を避ける遊びでもしてなさい　　　　　　　　　　\n",
