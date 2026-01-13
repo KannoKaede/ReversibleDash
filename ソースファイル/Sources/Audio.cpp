@@ -51,17 +51,16 @@ void AudioManager::PlayBGMControl(){
 	if (!fadeManager.GetIsFading()) {
 		if (uiManager.CheckScreen(TITLE)||uiManager.CheckScreen(STAGESELECT) || uiManager.CheckScreen(EXPLANATION)) {
 			PlayBGM(OUTGAME_BGM);
+			return;
 		}
 		// スタートカウントダウンが終了したタイミングで再生
 		else if (uiManager.CheckScreen(INGAME) && !uiManager.GetIsStartCountDown()) {
 			PlayBGM(INGAME_BGM);
+			return;
 		}
 		// 上記シーン以外ならBGMを停止
-		else {
-			StopBGM();
-		}
-	}
-	else {	// フェード中もBGMを停止
 		StopBGM();
 	}
+	// フェード中もBGMを停止
+	StopBGM();
 }
